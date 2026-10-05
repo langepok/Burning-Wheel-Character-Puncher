@@ -23,7 +23,8 @@ Scope:
 - requirements/restrictions for included lifepaths;
 - Leads and setting transitions;
 - age accumulation;
-- reversible selection history.
+- reversible selection history;
+- setting-qualified UI labels for duplicate lifepath names.
 
 Implementation order:
 
@@ -33,7 +34,7 @@ Implementation order:
 4. regression tests;
 5. minimal UI showing the flow and explanations.
 
-**Exit condition:** a player can select a legal short lifepath history across the supported settings, see why alternatives are unavailable, and undo without changing derived results incorrectly.
+**Exit condition:** a player can select a legal short lifepath history across the supported settings, see why alternatives are unavailable, distinguish duplicate-name variants, and undo without changing derived results incorrectly.
 
 ## M2 — Stats
 
@@ -73,15 +74,16 @@ Scope:
 
 Audit rules before implementing each subsystem.
 
-## M5 — Complete Character Burner data
+## M5 — Complete Character Burner data and additional stocks
 
 - Full audited Human lifepath data.
 - Expand beyond the temporary Peasant/Villager/City/Professional Soldier slice.
 - Data validation and coverage checks.
-- Additional stocks only after Human flow is stable.
+- Add additional stocks only after Human flow is stable.
+- Use at least one additional stock (for example Dwarf or Orc when audited) as an architectural validation that new stock/settings can be registered without redesigning the generic engine/UI.
 - Save/load format with versioning if useful.
 
-**Exit condition:** Character Burner is useful as a standalone training tool and not merely a prototype.
+**Exit condition:** Character Burner is useful as a standalone training tool and adding another audited stock is primarily a content/rules-extension task, not a rewrite of Human-specific application code.
 
 ## M6 — Equipment
 
@@ -118,9 +120,25 @@ AI must choose within the same rules engine as the player. It must not bypass le
 
 - Range and Cover
 - Duel of Wits
-- additional character stocks
+- broader additional-stock coverage
 - scenario/tutorial authoring
 - replayable combat examples
 - difficulty-adjustable AI and teaching hints
 
 These remain out of scope until the preceding foundations are stable.
+
+## Final long-term milestone — Content packs and in-app authoring
+
+This is intentionally the last major roadmap goal, not a near-term requirement.
+
+Desired capabilities:
+
+- create/edit custom stocks;
+- create/edit settings and subsettings;
+- create/edit lifepaths and their structured grants/requirements/Leads;
+- validate custom content with the same catalog validation pipeline as built-in content;
+- import/export versioned content packs;
+- load built-in and user-authored content through the same registry/rules engine;
+- clearly distinguish official audited BWGR content from user-authored/custom content.
+
+The architecture should avoid blocking this future, but no current milestone should be delayed by building a speculative editor or plugin system early.

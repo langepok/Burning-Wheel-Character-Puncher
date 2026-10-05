@@ -20,12 +20,16 @@ Rule reference / verified game data
           React UI
 ```
 
+The first implementation is Human-only, but the architecture is not. Human is the first content pack exercised by the generic catalog/rules/state boundaries.
+
 ## Proposed source layout
 
 ```text
 src/
   data/
+    catalog/
     lifepaths/
+    settings/
     skills/
     traits/
     stocks/
@@ -58,8 +62,9 @@ This is a target shape, not a requirement to create empty directories before cod
 
 Declarative facts needed by the engine, for example:
 
-- lifepath identity and display name;
-- setting;
+- stock identity;
+- setting/subsetting identity and UI qualifier;
+- lifepath variant/family identity and exact source name;
 - years;
 - Leads;
 - skill/trait/resource/stat grants;
@@ -119,29 +124,131 @@ React is responsible for:
 
 React components must not contain authoritative conditions such as `if (lifepaths.length > 0) disableBorn` except as a direct rendering of a domain result.
 
+## Content/catalog boundary
+
+The catalog is a first-class domain input. Generic engine code should receive a catalog/registry rather than importing Human data directly.
+
+A representative direction is:
+
+```ts
+interface StockDefinition {
+  id: StockId;
+  displayName: string;
+}
+
+interface SettingDefinition {
+  id: SettingId;
+  stockId: StockId;
+  sourceName: string;
+  uiQualifier: string;
+  kind: 'setting' | 'subsetting';
+}
+
+interface LifepathDefinition {
+  variantId: LifepathVariantId;
+  familyId: LifepathFamilyId;
+  stockId: StockId;
+  settingId: SettingId;
+  sourceName: string;
+  isBorn: boolean;
+  // audited grants / Leads / requirements / source metadata
+}
+
+interface GameCatalog {
+  stocks: ReadonlyMap<StockId, StockDefinition>;
+  settings: ReadonlyMap<SettingId, SettingDefinition>;
+  lifepaths: ReadonlyMap<LifepathVariantId, LifepathDefinition>;
+}
+```
+
+Exact TypeScript types may change as #9–#11 implement the audited data. The architectural constraint is stable: `human`, `peasant`, `villager`, etc. are data ids, not assumptions embedded into generic engine control flow.
+
+### Extending to new stocks/settings
+
+Adding Dwarf, Orc or other supported stock content should mainly involve:
+
+1. registering stock/setting/content definitions;
+2. adding audited lifepath/skill/trait data;
+3. adding explicit predicate/special-rule capabilities only where RAW genuinely requires them;
+4. adding tests proving the new content works through the same generic engine.
+
+Do not create parallel "Human engine", "Dwarf engine", etc. unless source rules eventually demonstrate truly irreducible stock-specific workflows. Prefer shared rule primitives plus explicit stock/content metadata.
+
+The near-term project does **not** need a dynamic plugin runtime or a general-purpose scripting language. Avoid both extremes: do not hard-code Human assumptions, but also do not build speculative infrastructure that current rules do not require.
+
+## Lifepath identity and display labels
+
+Lifepath identity, printed name and UI label are separate concepts.
+
+- `variantId` identifies one concrete row in one setting/subsetting.
+- `familyId` identifies the conceptual lifepath for cross-setting repeat behavior when audited as the same path.
+- `sourceName` preserves the exact printed row name.
+- the UI may derive a qualified label for clarity.
+
+For duplicate printed names across settings, presentation should add the setting qualifier:
+
+```text
+Peasant Conscript
+Villager Conscript
+Villager Apprentice
+City Apprentice
+Soldier Runner
+```
+
+A helper/selector such as this is preferable to baking decorated labels into rules data:
+
+```ts
+getLifepathDisplayLabel(lifepath, catalog)
+```
+
+If `sourceName` is unique in the relevant catalog/UI context, it can be shown unchanged. If it collides across settings/subsettings, prefix it with the setting's concise `uiQualifier`.
+
+Rules, save data, repeat counting and requirements must use ids/families, never parse the human-readable label.
+
 ## Lifepath model direction
 
 A likely starting shape is:
 
 ```ts
 interface Lifepath {
-  id: LifepathId;
-  name: string;
+  variantId: LifepathVariantId;
+  familyId: LifepathFamilyId;
+  sourceName: string;
   stockId: StockId;
   settingId: SettingId;
   isBorn: boolean;
   years: number;
-  leads: SettingId[];
-  requirements: Requirement[];
-  restrictions: Restriction[];
-  resourcePoints: number;
-  statBonuses: StatBonus[];
-  skillGrants: SkillGrant[];
-  traitGrants: TraitGrant[];
+  leads: LeadDefinition[];
+  requirements: RequirementNode[];
+  restrictions: RestrictionNode[];
+  resourceGrant: ResourceGrant;
+  statGrant: StatGrant;
+  skillPointGrant: SkillPointGrant;
+  traitPointGrant: number;
 }
 ```
 
-This schema is intentionally provisional. Do not lock it until the Character Burner rules/data audit confirms that it can represent real special cases without ad-hoc UI logic.
+This schema is intentionally provisional. Do not lock it until #9 implements the real audited records and tests show it can represent special cases without ad-hoc UI logic.
+
+## Future custom content
+
+Long-term in-app authoring should reuse the same content representation and validation path as built-in data.
+
+That means today's records should be serializable/versionable where practical, with stable ids and structured predicates rather than arbitrary code closures. This is a direction, not a requirement to build a rules DSL or editor now.
+
+A future flow may look like:
+
+```text
+Built-in or user-authored content pack
+              ↓
+      schema/content validation
+              ↓
+           catalog registry
+              ↓
+      same rules engine and UI
+```
+
+The editor/import/export layer is intentionally deferred until the base game simulator is mature.
 
 ## Commands and rollback
 
@@ -170,10 +277,12 @@ For point-bearing actions, exact inverse operations are preferred over reconstru
 - no Born lifepath is legal after a first lifepath exists;
 - age equals lifepath years plus Lead years represented by the chosen path history;
 - available options are a deterministic function of build + catalog;
-- UI serialization does not alter domain meaning.
+- UI serialization does not alter domain meaning;
+- adding a stock/setting catalog does not require changing generic Human-independent rules merely to make its records discoverable;
+- display-label qualification never changes variant/family identity.
 
 ## Dependency policy
 
 Start small. Add a dependency only when it removes meaningful complexity or risk.
 
-Do not add a backend, database, auth, global state library or rules DSL during bootstrap without a concrete need and a recorded decision.
+Do not add a backend, database, auth, global state library, plugin runtime or rules DSL during bootstrap without a concrete need and a recorded decision.

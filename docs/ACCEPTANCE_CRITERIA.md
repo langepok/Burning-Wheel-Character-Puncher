@@ -8,6 +8,7 @@ These criteria define the behavior contract for the current Character Burner v2 
 - Rulebook PDF is not committed.
 - No production rules implementation is accepted without corresponding tests.
 - Rules, state and React UI are separated by module boundaries.
+- Generic catalog/rules/state boundaries do not assume Human is the only stock or that the temporary four Human settings are the universe of content.
 
 ### Issue #2 — Technical bootstrap
 
@@ -66,7 +67,7 @@ After the Born path:
 
 - requirements based only on already-known history (position, prior lifepath, occurrence count, current setting, etc.) are evaluated by domain rules at selection time;
 - the engine has a separate whole-build validation concept rather than assuming every rule can be expressed as a local UI enable/disable check;
-- **Human Elder/Augur-style timing remains unresolved** where table wording refers to starting/final character state; production behavior for these cases must not be guessed before the interpretation is recorded.
+- rare final/starting-age requirements such as Human Elder are shown clearly in the lifepath description and checked during whole-build validation, without a dedicated pending-status UX, per D-012.
 
 ### Leads
 
@@ -88,13 +89,41 @@ At all times:
 
 Selecting/removing paths or Leads updates the value deterministically. A select → undo round trip returns the previous age exactly.
 
+### Lifepath identity and display
+
+Production records preserve separate concepts for:
+
+- concrete setting-specific variant identity;
+- audited cross-setting family identity;
+- exact printed/source name;
+- UI display label.
+
+When the same printed lifepath name occurs in multiple settings/subsettings, the user-facing picker/history qualifies the duplicate with its setting context, for example `Peasant Conscript` vs `Villager Conscript`.
+
+Qualification is presentation-only:
+
+- it must not alter `variantId`, `familyId`, requirements, repeat counting or save identity;
+- code must not recover domain identity by parsing the decorated label;
+- unique names may remain unqualified when context is already clear.
+
 ### Selected lifepath display
 
 The selected-history UI shows:
 
 - ordered lifepaths;
+- setting-qualified labels where duplicate names would otherwise be ambiguous;
 - accumulated age prominently enough to be read without inspecting debug state;
 - Lead transitions when they contribute age or setting change.
+
+### Catalog extensibility
+
+The first Human slice must enter the rules engine through generic stock/setting/catalog interfaces.
+
+Acceptance boundary:
+
+- no core legality/selection function requires a hard-coded list of the four temporary Human settings merely to discover catalog content;
+- adding another audited stock/setting later should not require replacing the Human engine with a new parallel engine;
+- stock-specific exceptions may add explicit predicate/special-rule capabilities, but ordinary discovery/identity/selection plumbing remains shared.
 
 ## Phase CB-2 — Stats
 
@@ -171,7 +200,9 @@ Before a Character Burner PR is complete, relevant tests should cover:
 | Leads | Lead adds one year once and changes setting |
 | Age | total matches lifepaths + Leads |
 | Requirements | unmet immediate requirement returns explicit rejection |
-| Deferred requirement | unresolved final-state timing is not silently guessed |
+| Final-age requirement | condition is visible and whole-build validation catches an invalid final age |
+| Duplicate display | duplicate source names render setting-qualified labels without changing domain identity |
+| Catalog modularity | generic engine/catalog discovery does not depend on a hard-coded Human setting list |
 | Skill root | opening exponent matches root calculation |
 | Skill cost | standard open and +1 costs are correct |
 | Required skill | ordered fallback to next listed skill works |
