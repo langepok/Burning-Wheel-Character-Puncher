@@ -1,5 +1,5 @@
 import { semanticTags } from './types';
-import type { CatalogContent, GameCatalog, RequirementNode, SourceReference } from './types';
+import type { CatalogContent, Fraction, GameCatalog, RequirementNode, SourceReference } from './types';
 
 function index<T>(records: readonly T[], idOf: (record: T) => string, label: string): Map<string, T> {
   const result = new Map<string, T>();
@@ -33,6 +33,10 @@ export function validateCatalog(catalog: GameCatalog): string[] {
     check(Number.isSafeInteger(value) && value >= minimum, `Invalid ${label}: ${value}`);
   const signedInteger = (value: number, label: string) =>
     check(Number.isSafeInteger(value), `Invalid ${label}: ${value}`);
+  const fraction = (value: Fraction, label: string) => {
+    integer(value?.numerator, `${label} fraction numerator`);
+    integer(value?.denominator, `${label} fraction denominator`, 1);
+  };
   const nonempty = (value: string, label: string) => check(value.trim().length > 0, `Empty ${label}`);
   const unique = (values: readonly unknown[], label: string) =>
     check(new Set(values).size === values.length, `Duplicate ${label}`);
@@ -156,8 +160,10 @@ export function validateCatalog(catalog: GameCatalog): string[] {
       settingRef(rule.husbandSettingId, row.stockId, label);
       check(['ordinary-only', 'ordinary-and-general', 'unspecified'].includes(rule.skillPointScope),
         `Invalid ${label} inherited skill-point scope`);
-      check(rule.skillFraction === 0.5 && rule.skillRounding === 'down' && rule.resourceFraction === 0.5,
+      check(rule.skillRounding === 'down',
         `Invalid ${label} Wife-derived grant`);
+      fraction(rule.skillFraction, `${label} skill`);
+      fraction(rule.resourceFraction, `${label} resource`);
       source(rule.source, `${label} special rule`);
     }
     switch (row.resourceGrant.kind) {

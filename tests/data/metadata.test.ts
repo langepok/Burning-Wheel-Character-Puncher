@@ -45,7 +45,8 @@ describe('special grants and metadata', () => {
     expect(lp.specialRules).toHaveLength(1);
     expect(lp.specialRules[0]).toEqual({
       id: `${id}.husband-grants`, kind: 'wifeDerivedGrant', husbandSettingId: setting,
-      skillPointScope: scope, skillFraction: 0.5, skillRounding: 'down', resourceFraction: 0.5,
+      skillPointScope: scope, skillFraction: { numerator: 1, denominator: 2 }, skillRounding: 'down',
+      resourceFraction: { numerator: 1, denominator: 2 },
       source: { ...lp.source, section },
     });
     expect(lp.skillPointGrant).toEqual({ ordinary: 2, general: 0 });

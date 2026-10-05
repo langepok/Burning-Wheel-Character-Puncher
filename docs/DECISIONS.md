@@ -217,6 +217,9 @@ Unspecified is not false or ordinary-only. Later skill-allocation work must
 resolve or surface it before applying the grant. This preserves a source gap;
 it does not establish a new Burning Wheel rule.
 
+Skill and resource fractions share an exact serializable numerator/denominator
+type and validation. This representation implies no resource-rounding policy.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:

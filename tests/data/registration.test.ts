@@ -9,6 +9,27 @@ function replaceRow(id: string, patch: Partial<LifepathDefinition>): CatalogCont
 }
 
 describe('stock-independent catalog registration', () => {
+  it.each([2, 4])('registers and serializes a synthetic 1/%i resource fraction', denominator => {
+    const content: CatalogContent = {
+      ...syntheticContent,
+      lifepaths: syntheticContent.lifepaths.map(row => ({
+        ...row,
+        resourceGrant: { kind: 'wifeDerived', base: 0, specialRuleId: 'test.derived-grant' },
+        specialRules: [{
+          id: 'test.derived-grant', kind: 'wifeDerivedGrant', husbandSettingId: 'test.setting',
+          skillPointScope: 'unspecified', skillFraction: { numerator: 1, denominator: 2 }, skillRounding: 'down',
+          resourceFraction: { numerator: 1, denominator }, source: row.source,
+        }],
+      })),
+    };
+    const catalog = createCatalog(content);
+    const grant = catalog.lifepaths.get('test.variant')!.specialRules[0]!;
+    expect(grant.resourceFraction).toEqual({ numerator: 1, denominator });
+    expect(JSON.parse(JSON.stringify(grant)).resourceFraction).toEqual({ numerator: 1, denominator });
+    expect(grant).not.toHaveProperty('resourceRounding');
+    expect(catalog.lifepaths.size).toBe(1);
+  });
+
   it('works with only non-Human content, and when registered alongside Human', () => {
     for (const packs of [[syntheticContent], [humanContent, syntheticContent]]) {
       const before = JSON.stringify(packs);
@@ -62,6 +83,28 @@ describe('stock-independent catalog registration', () => {
 });
 
 describe('catalog integrity failures', () => {
+  it.each([
+    ['zero denominator', { numerator: 1, denominator: 0 }],
+    ['negative denominator', { numerator: 1, denominator: -2 }],
+    ['negative numerator', { numerator: -1, denominator: 2 }],
+    ['fractional numerator', { numerator: 0.5, denominator: 2 }],
+    ['fractional denominator', { numerator: 1, denominator: 2.5 }],
+    ['unsafe numerator', { numerator: Number.MAX_SAFE_INTEGER + 1, denominator: 2 }],
+    ['unsafe denominator', { numerator: 1, denominator: Number.MAX_SAFE_INTEGER + 1 }],
+    ['non-finite numerator', { numerator: NaN, denominator: 2 }],
+    ['non-finite denominator', { numerator: 1, denominator: Infinity }],
+    ['missing denominator', { numerator: 1 }],
+    ['legacy decimal', 0.5],
+    ['null fraction', null],
+  ])('rejects invalid skill and resource fractions: %s', (_label, invalidFraction) => {
+    const wife = humanContent.lifepaths.find(row => row.variantId === 'human.peasant.country-wife')!;
+    for (const field of ['resourceFraction', 'skillFraction']) {
+      expect(() => createCatalog(replaceRow(wife.variantId, {
+        specialRules: [{ ...wife.specialRules[0], [field]: invalidFraction }] as unknown as LifepathDefinition['specialRules'],
+      }))).toThrow(/fraction/);
+    }
+  });
+
   it.each(['stocks', 'settings', 'families', 'skills', 'lifepaths'] as const)('rejects duplicate %s ids', key => {
     const invalid = { ...humanContent, [key]: [...humanContent[key], humanContent[key][0]] } as CatalogContent;
     expect(() => createCatalog(invalid)).toThrow(/duplicate/);

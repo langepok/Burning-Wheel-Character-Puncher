@@ -398,9 +398,9 @@ export const peasantLifepaths: readonly LifepathDefinition[] = [
         kind: 'wifeDerivedGrant',
         husbandSettingId: 'human.peasant',
         skillPointScope: 'unspecified',
-        skillFraction: 0.5,
+        skillFraction: { numerator: 1, denominator: 2 },
         skillRounding: 'down',
-        resourceFraction: 0.5,
+        resourceFraction: { numerator: 1, denominator: 2 },
         source: {
           document: 'docs/audits/CB-006_PEASANT_CATALOG.md',
           section: 'Country Wife special rule',

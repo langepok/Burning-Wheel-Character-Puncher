@@ -919,9 +919,9 @@ export const villagerLifepaths: readonly LifepathDefinition[] = [
         kind: 'wifeDerivedGrant',
         husbandSettingId: 'human.villager',
         skillPointScope: 'ordinary-and-general',
-        skillFraction: 0.5,
+        skillFraction: { numerator: 1, denominator: 2 },
         skillRounding: 'down',
-        resourceFraction: 0.5,
+        resourceFraction: { numerator: 1, denominator: 2 },
         source: {
           document: 'docs/audits/CB-006_VILLAGER_CATALOG.md',
           section: 'Village Wife special rule',

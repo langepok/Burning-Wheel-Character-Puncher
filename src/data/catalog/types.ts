@@ -74,14 +74,21 @@ export type RequirementNode =
 
 export type DerivedSkillPointScope = 'ordinary-only' | 'ordinary-and-general' | 'unspecified';
 
+/** Exact serializable ratio; validation requires a nonnegative safe-integer
+ * numerator and a positive safe-integer denominator. No rounding is implied. */
+export interface Fraction {
+  readonly numerator: number;
+  readonly denominator: number;
+}
+
 export interface WifeDerivedGrant {
   readonly id: string;
   readonly kind: 'wifeDerivedGrant';
   readonly husbandSettingId: SettingId;
   readonly skillPointScope: DerivedSkillPointScope;
-  readonly skillFraction: 0.5;
+  readonly skillFraction: Fraction;
   readonly skillRounding: 'down';
-  readonly resourceFraction: 0.5;
+  readonly resourceFraction: Fraction;
   // No resource-rounding policy is supplied by these catalog audit notes.
   readonly source: SourceReference;
 }

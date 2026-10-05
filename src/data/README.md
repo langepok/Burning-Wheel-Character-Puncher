@@ -44,9 +44,10 @@ CB-013). Empty `knownEntries` means no entries transcribed here, not an empty
 printed skill list. Skill references have no invented costs, roots or exponents;
 full skill and trait lists remain outside Issue #9.
 
-Wife resources retain the fixed base plus a linked derived-grant rule. Skill
-halving explicitly rounds down; resource metadata retains the audited fraction
-without adding a rounding calculation. Per the Issue #9 resolution, Country
+Wife resources retain the fixed base plus a linked derived-grant rule. Skill and
+resource fractions share exact `{ numerator, denominator }` integers (for example
+1/2 or 1/4) and validation. Skill halving explicitly rounds down; resource metadata
+adds no rounding calculation. Per the Issue #9 resolution, Country
 Wife's inherited skill-point scope is `unspecified`; Village Wife's is
 `ordinary-and-general`. The former must never be read as ordinary-only/false.
 Later skill allocation must resolve or surface that ambiguity before applying
