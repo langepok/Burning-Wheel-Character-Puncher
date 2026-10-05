@@ -16,18 +16,30 @@ These criteria define the behavior contract for the current Character Burner v2 
 Given a new human build with zero lifepaths selected:
 
 - **Born Peasant** is available.
+- **Village Born** is available.
 - **City Born** is available.
 - No non-Born lifepath is selectable as the first lifepath.
 - No other Born option is exposed in this temporary slice unless the scope decision is revised.
 
-> The Peasant + City restriction is a temporary product decision. The first-lifepath-must-be-Born rule is RAW.
+> The Peasant + Villager + City starting restriction is a temporary product decision. The first-lifepath-must-be-Born rule is RAW.
+
+### Supported first-slice settings
+
+The initial playable data/rules slice includes:
+
+- **Peasant Setting**;
+- **Villager Setting**;
+- **City Dweller Setting**;
+- **Professional Soldier Subsetting**.
+
+Professional Soldier is included as a reachable supported area through legal Leads/requirements; it is not exposed as an invented Born starting option.
 
 ### Born exclusivity
 
 After any first lifepath is selected:
 
 - no Born lifepath is legal;
-- no later selection, Lead or setting transition may make Born Peasant, City Born, Village Born or another Born lifepath legal again;
+- no later selection, Lead or setting transition may make Born Peasant, Village Born, City Born or another Born lifepath legal again;
 - a rules result for a rejected Born path exposes a stable reason such as `BORN_LIFEPATH_NOT_FIRST`.
 
 ### Current-setting choices
@@ -41,13 +53,15 @@ After the Born path:
 
 ### Leads
 
-When a supported lifepath permits a Lead to another setting:
+When a supported lifepath permits a Lead to another supported setting:
 
 - the engine can represent taking that Lead;
 - the current setting changes according to the selected Lead;
 - the transition adds one year to age exactly once;
 - undoing that transition removes exactly that year;
 - remaining in the current setting does not add a Lead year.
+
+If a Lead points outside the temporary supported slice, the engine must represent that as unsupported product scope rather than pretending the Lead is illegal under RAW.
 
 ### Age
 
@@ -132,8 +146,10 @@ Before a Character Burner PR is complete, relevant tests should cover:
 | Area | Required regression |
 | --- | --- |
 | Born selection | Born legal only at index 0 |
-| Temporary starts | Born Peasant and City Born both available initially |
-| Born reappearance | Village Born/other Born never becomes legal later |
+| Temporary starts | Born Peasant, Village Born and City Born all available initially |
+| Born reappearance | No Born path becomes legal later |
+| Supported scope | Peasant, Villager, City Dweller and Professional Soldier transitions behave according to audited data |
+| Unsupported Leads | out-of-scope destination is distinguished from RAW illegality |
 | Leads | Lead adds one year once and changes setting |
 | Age | total matches lifepaths + Leads |
 | Requirements | unmet requirement returns explicit rejection |
