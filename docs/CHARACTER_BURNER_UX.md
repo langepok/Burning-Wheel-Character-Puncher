@@ -321,7 +321,7 @@ The `×` removes the manually added candidate from the working list.
 
 Skills that appear because the character's lifepaths grant access to them are **not** removable with this `×`; their availability is derived from character history. They may be unopened, opened, advanced, or closed, but the UI must not pretend that the lifepath stopped granting access to them.
 
-For an already opened manually added skill, `−` handles advancement rollback and closing as normal, while `×` remains the separate action meaning `remove this manually selected skill from my working list` once the product permits that state safely.
+For a manually added skill that has already been opened, ordinary `−` controls first remove purchased advances and can close the skill. The `×` action is conceptually `remove this manually selected skill from my working list`; if the skill is still purchased when `×` is used, the implementation must not silently discard spent points. Exact behavior for that edge case (for example disabling `×` until closed, or combining removal with explicit rollback) should be decided when implementing the command model.
 
 ### Viewing skill details from the catalog
 
