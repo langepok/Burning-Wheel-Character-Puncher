@@ -32,7 +32,7 @@ Do not present a UX decision as a Burning Wheel rule.
 
 Keep these layers separate:
 
-- `data/`: declarative game data such as lifepaths, settings, skill metadata and requirements;
+- `data/`: declarative game data such as stocks, settings, lifepaths, skill metadata and requirements;
 - `rules/`: pure rules evaluation and calculations;
 - `character/` or `state/`: character state, commands/transactions and rollback;
 - `ui/`: React presentation and interaction;
@@ -59,6 +59,31 @@ Requirements, restrictions, Leads, years, skill points, trait points, stat bonus
 
 The temporary human slice covers Peasant, Villager, City Dweller and Professional Soldier data/rules, but the schema and rules engine must not assume those are the only settings that can ever exist.
 
+## Content modularity
+
+Human is the first implemented content, not the architecture itself.
+
+Generic catalog/rules/state code must not require special knowledge of `human`, Peasant, Villager, City Dweller or Professional Soldier merely to enumerate/select content. Stocks, settings/subsettings and lifepaths need stable ids and must enter the engine through catalog/registry abstractions.
+
+When later Dwarf, Orc or other stocks are added, prefer adding validated content plus narrowly scoped rule capabilities over creating parallel stock-specific engines or rewriting existing Human code.
+
+Do not build a speculative plugin runtime or general-purpose rules language yet. Preserve extension points without front-loading infrastructure that current audited rules do not require.
+
+Long-term, built-in and user-authored content should be able to pass through the same validation/catalog pipeline. Prefer serializable/versionable declarative data structures where practical.
+
+## Lifepath identity and display
+
+Keep these concepts separate:
+
+- concrete `variantId` for a setting-specific row;
+- conceptual `familyId` where audited repeat identity crosses settings;
+- exact printed/source name;
+- human-readable UI label.
+
+If a printed lifepath name appears in more than one setting/subsetting, qualify the UI label by setting (for example `Peasant Conscript` vs `Villager Conscript`). Do not change the canonical printed name in source data merely to achieve UI clarity.
+
+Rules, requirements, save data and repeat accounting must use ids/families and must never infer identity by parsing a decorated display label.
+
 ## Regression safety
 
 Before a substantial implementation change:
@@ -82,6 +107,7 @@ Until explicitly revised:
 - The supported first-slice lifepath area includes **Peasant**, **Villager**, **City Dweller** and **Professional Soldier**.
 - Professional Soldier is a reachable supported subsetting, not an invented Born option.
 - Selecting or navigating later lifepaths must never cause any Born lifepath to become eligible again.
+- Duplicate lifepath names are setting-qualified in presentation while preserving canonical source names and ids.
 - Selected lifepaths show accumulated age.
 - Mental and physical stat pools are visually distinguishable.
 - Skill opening uses the correct root stat(s) and opening exponent.
@@ -109,7 +135,9 @@ At minimum, rules work should have unit tests for:
 - skill root/opening calculation;
 - skill opening/advancement costs;
 - exact rollback/refunds;
-- restrictions and requirements as they are introduced.
+- restrictions and requirements as they are introduced;
+- variant/family identity where same-name paths exist across settings;
+- stock/setting registration boundaries as additional content is introduced.
 
 Prefer table-driven tests for lifepath data and boundary cases.
 
@@ -118,6 +146,8 @@ Prefer table-driven tests for lifepath data and boundary cases.
 The UI should explain rule outcomes rather than duplicate them.
 
 When an option is disabled, prefer exposing a machine-readable reason code from the rules layer and mapping that to human-readable text in the UI.
+
+Display-label helpers/selectors may decorate duplicate names for clarity, but UI strings are never authoritative domain identity.
 
 Do not make unrelated layout or styling changes in a rules bug-fix PR.
 
@@ -142,4 +172,4 @@ Unless a decision changes it:
 - Vite
 - Vitest
 
-Do not add a backend, database, authentication system or heavyweight state library without a demonstrated need and a recorded decision.
+Do not add a backend, database, authentication system, heavyweight state library, plugin runtime or rules DSL without a demonstrated need and a recorded decision.
