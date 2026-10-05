@@ -115,6 +115,51 @@ The audited Law of Diminishing Returns states that these grants are halved but d
 
 Implementation should use an explicit helper/test for this rule rather than relying on incidental JavaScript rounding behavior.
 
+## D-014 — Duplicate lifepath names are qualified by setting in the UI
+
+**Status:** Accepted — UX decision
+
+When the same printed lifepath name exists in more than one setting/subsetting, the application presents a setting-qualified label so users can distinguish the variants at a glance.
+
+Examples:
+
+- `Peasant Conscript` vs `Villager Conscript`;
+- `Villager Apprentice` vs `City Apprentice` where those variants exist;
+- equivalent qualification for duplicate Runner, Sailor, Journeyman, Armorer and other repeated names.
+
+This is a presentation decision, not a rules change. Production data must preserve the exact printed/source name separately from its UI label. `variantId`, `familyId`, setting identity and rules behavior must never be derived from the decorated display string.
+
+Preferred implementation: keep `sourceName` (or equivalent) canonical and derive a display label from setting metadata plus the source name whenever a collision exists. A setting may expose a concise UI qualifier such as `Peasant`, `Villager`, `City` or `Soldier` without changing its canonical setting id/name.
+
+## D-015 — Core architecture must support additional stocks and settings without redesign
+
+**Status:** Accepted — architecture decision
+
+The Human first slice is implementation order, not an architectural boundary. Core catalog, rules and character-state abstractions must be capable of loading additional stocks/settings (for example Dwarves, Orcs and later supported Burning Wheel stocks) without rewriting the generic engine or React application structure.
+
+Consequences:
+
+- generic domain code must not assume `human` or hard-code the four temporary Human settings;
+- stock, setting/subsetting and lifepath identities are explicit data, not TypeScript branches scattered through the UI;
+- the rules engine consumes catalogs/registries through generic interfaces;
+- stock-specific or setting-specific exceptions are represented as explicit data/predicate/special-rule capabilities rather than hidden Human-specific conditionals;
+- adding a new supported stock should primarily mean adding validated content plus narrowly scoped rules extensions, not refactoring existing Human logic;
+- tests should protect this boundary as the project grows.
+
+The current implementation does **not** need a plugin framework or general-purpose rules DSL yet. We only preserve clean extension points so later content does not force a rewrite.
+
+## D-016 — In-app custom content authoring is a long-term final milestone
+
+**Status:** Accepted — product direction, deferred
+
+In the long term, the application should be able to define/import/export custom stocks, settings and lifepaths through the application itself, rather than requiring source-code edits for every content pack.
+
+This is deliberately deferred until the core Character Burner, equipment and training simulators are stable. Near-term implementation must not build an editor prematurely.
+
+However, data formats introduced now should avoid needless obstacles to that future goal: prefer serializable, validated, versionable declarative content records with stable ids over code-only structures where practical.
+
+A future authoring system should be able to reuse the same validation/catalog pipeline as built-in content rather than creating a second rules path.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:
