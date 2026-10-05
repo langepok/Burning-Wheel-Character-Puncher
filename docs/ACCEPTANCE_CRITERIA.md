@@ -21,6 +21,20 @@ These criteria define the behavior contract for the current Character Burner v2 
 
 ## Phase CB-1 — Lifepath selection slice
 
+### Issue #9 — Catalog foundation
+
+- Register exactly 19 Peasant and 41 Villager variants through stock-independent catalog interfaces.
+- Preserve audited source names, variant/family identities, grants, Leads, requirement trees and source references.
+- Validate duplicate ids and dangling stock, setting, family and skill-metadata references; named prerequisites outside this slice remain reference-only definitions, not invented lifepaths.
+- Qualify duplicate source names using setting metadata without mutating identity or inferring semantic tags.
+- Encode exactly the Peasant/Villager semantic memberships in CB-013.
+- Preserve M+P versus M/P, ordinary versus General points, numeric zero trait grants, and Wife-derived resource/skill payloads.
+- Derived resource fractions use exact serializable numerator/denominator values; registration supports both 1/2 and 1/4 without setting-specific branches or an inferred resource-rounding policy.
+- Skill and resource fractions share that exact representation and validation; Country/Village Wife retain half skills rounded down and their distinct inherited skill-point scopes.
+- Country Wife's inherited skill-point scope is explicitly `unspecified`, never ordinary-only/false; Village Wife's is `ordinary-and-general`, per Issue #9's resolution.
+- Data tests compare all 60 rows to the audited tables and exercise invalid references, special payloads, requirement precedence, and synthetic non-Human registration.
+- No selection rules, grant calculations or UI are added in this issue.
+
 ### Starting state
 
 Given a new human build with zero lifepaths selected:
