@@ -2,11 +2,19 @@
 
 This document contains concise implementation-oriented paraphrases of rules verified against **Burning Wheel Gold Revised**. It is not a replacement for the rulebook.
 
+## Interpretation discipline
+
+**Project decision:** when RAW leaves a small implication unstated but the surrounding rules, terminology and fictional meaning strongly constrain the intended result, the project may adopt the narrowest reasonable interpretation and label it explicitly as **project interpretation**.
+
+This is not permission to invent convenience rules. If multiple materially different readings remain plausible, the issue stays **OPEN** until resolved. See `docs/DECISIONS.md` D-010.
+
+The book itself sometimes instructs readers to use common sense in context-sensitive adjudication, but this project does not treat that as a blanket license to replace explicit rules with intuition.
+
 ## Lifepaths and settings
 
 **RAW:** A character's first lifepath must be a **Born** lifepath. Choosing it establishes the character's starting setting. After that, lifepaths in the current setting may be chosen in any order unless a requirement or restriction says otherwise. See *Character Burner → Choose Lifepaths → Born / Born Setting* (book p. 85).
 
-**Project interpretation:** A character has exactly one Born lifepath, at index 0. The source explicitly requires the first path to be Born and describes Born as birth/childhood, but the audited passage does not separately state a universal “Born paths may never be repeated later” sentence. The project therefore records Born-only-once as an explicit accepted interpretation rather than overstating the wording of RAW.
+**Project interpretation:** A character has exactly one Born lifepath, at index 0. The source explicitly requires the first path to be Born and describes Born as birth/childhood, but the audited passage does not separately state a universal “Born paths may never be repeated later” sentence. The project therefore records Born-only-once as an explicit accepted interpretation rather than overstating the wording of RAW. See `docs/DECISIONS.md` D-011.
 
 **Implementation consequence:** once any lifepath is selected, every Born lifepath evaluates illegal with a stable reason such as `BORN_LIFEPATH_NOT_FIRST`.
 
@@ -34,7 +42,7 @@ See `docs/DECISIONS.md` and `docs/audits/CB-001_FIRST_HUMAN_SLICE.md`.
 
 **Implementation consequence:** lifepath grants cannot be modeled as a single unconditional fixed payload if repeat support is implemented. The effective grant depends on how many times that path has already been taken.
 
-**OPEN:** the audited repetition passage says certain later grants are halved but does not, in the extracted text, resolve rounding for odd values. Verify before implementing those calculations.
+**OPEN:** the audited repetition passage says certain later grants are halved but does not, in the extracted text, resolve rounding for odd values. Other Burning Wheel subsystems explicitly say when to round up or down, so this project will not infer a repeat-grant rounding rule without a source or explicit interpretation.
 
 ## Age and stat pools
 
@@ -46,11 +54,15 @@ See `docs/DECISIONS.md` and `docs/audits/CB-001_FIRST_HUMAN_SLICE.md`.
 
 ## Lifepath requirements and restrictions
 
-**RAW:** A lifepath with a requirement may only be taken when that requirement is met. The Human tables also contain explicit restrictions on position, repetition, age, total lifepath count, gender and other conditions. See *Requirements* (book p. 85) and the individual lifepath entries.
+**RAW:** A lifepath with a requirement may only be taken when that requirement is met. The general Character Burner guidance explicitly says requirements must be met before taking the path. See *Requirements* (book p. 85).
 
-**Implementation consequence:** requirements are structured predicates, not display text. The first supported Human tables already require position checks, one-time limits, any-of prior paths, category/tag requirements, counted prior paths, age/final-build checks and prior-lifepath-metadata checks.
+**RAW:** The Human tables contain explicit restrictions on position, repetition, age, total lifepath count, gender and other conditions.
 
-**Implementation consequence:** some restrictions refer to final character state (for example final starting age or maximum total lifepaths). A rules API should distinguish immediate next-choice legality from whole-build validation.
+**Implementation consequence:** requirements are structured predicates, not display text. The first supported Human tables already require position checks, one-time limits, any-of prior paths, category/tag requirements, counted prior paths and prior-lifepath-metadata checks.
+
+**OPEN — timing of final-state wording:** some Human entries are phrased in terms of the character's starting/final state rather than only prior history. Human **Elder** says the character must start play over 50, while the general rule says requirements are met before the path is taken. **Augur** includes a condition on the character having no more than three lifepaths total. These wordings create a genuine timing question for an interactive builder. Do not silently convert them into either “current-history only” or “final-build only” checks until the interpretation is resolved.
+
+**Implementation recommendation:** keep `canSelectNext()` and `validateBuild()` as separate concepts even if some currently audited requirements ultimately resolve at selection time. This avoids forcing global validation concerns into component code and gives the trainer a place to report deferred/pending constraints if an interpretation requires them.
 
 ## Lifepath skill lists
 
@@ -96,7 +108,7 @@ See `docs/DECISIONS.md` and `docs/audits/CB-001_FIRST_HUMAN_SLICE.md`.
 - exact rounding of halved repeat grants when odd;
 - complete manually verified data transcription for all lifepaths in the four supported areas;
 - curated semantic category membership for requirements such as horse-related/guard/priest/sorcerous;
-- timing/UX for final-starting-age requirements;
+- timing of Human Elder/Augur-style requirements whose wording references starting/final build state;
 - special wife-lifepath skill/resource effects for later milestones;
 - age-chart data for Human stats;
 - gray/white shade edge cases if exposed in v2.
