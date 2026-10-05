@@ -42,6 +42,8 @@ After any first lifepath is selected:
 - no later selection, Lead or setting transition may make Born Peasant, Village Born, City Born or another Born lifepath legal again;
 - a rules result for a rejected Born path exposes a stable reason such as `BORN_LIFEPATH_NOT_FIRST`.
 
+> Born-only-once is an accepted **project interpretation** recorded in `docs/DECISIONS.md` D-011. Do not mislabel it as a separate literal sentence from RAW.
+
 ### Current-setting choices
 
 After the Born path:
@@ -50,6 +52,12 @@ After the Born path:
 - requirements/restrictions are evaluated outside React;
 - unavailable paths can expose a structured reason for the UI;
 - the UI does not duplicate the legality calculation.
+
+### Requirement timing
+
+- requirements based only on already-known history (position, prior lifepath, occurrence count, current setting, etc.) are evaluated by domain rules at selection time;
+- the engine has a separate whole-build validation concept rather than assuming every rule can be expressed as a local UI enable/disable check;
+- **Human Elder/Augur-style timing remains unresolved** where table wording refers to starting/final character state; production behavior for these cases must not be guessed before the interpretation is recorded.
 
 ### Leads
 
@@ -145,14 +153,16 @@ Before a Character Burner PR is complete, relevant tests should cover:
 
 | Area | Required regression |
 | --- | --- |
-| Born selection | Born legal only at index 0 |
+| Born selection | first lifepath must be Born |
+| Born exclusivity | accepted interpretation: Born legal only at index 0 |
 | Temporary starts | Born Peasant, Village Born and City Born all available initially |
 | Born reappearance | No Born path becomes legal later |
 | Supported scope | Peasant, Villager, City Dweller and Professional Soldier transitions behave according to audited data |
 | Unsupported Leads | out-of-scope destination is distinguished from RAW illegality |
 | Leads | Lead adds one year once and changes setting |
 | Age | total matches lifepaths + Leads |
-| Requirements | unmet requirement returns explicit rejection |
+| Requirements | unmet immediate requirement returns explicit rejection |
+| Deferred requirement | unresolved final-state timing is not silently guessed |
 | Skill root | opening exponent matches root calculation |
 | Skill cost | standard open and +1 costs are correct |
 | Required skill | ordered fallback to next listed skill works |
@@ -163,7 +173,7 @@ Before a Character Burner PR is complete, relevant tests should cover:
 
 A Character Burner feature is done only when:
 
-1. behavior is supported by RAW or an explicit documented project decision;
+1. behavior is supported by RAW or an explicit documented project decision/interpretation;
 2. acceptance criteria are satisfied;
 3. domain tests pass;
 4. regression coverage exists for the bug/edge case being addressed;

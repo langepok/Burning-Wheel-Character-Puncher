@@ -2,15 +2,39 @@
 
 This document contains concise implementation-oriented paraphrases of rules verified against **Burning Wheel Gold Revised**. It is not a replacement for the rulebook.
 
+## Interpretation discipline
+
+**Project decision:** when RAW leaves a small implication unstated but the surrounding rules, terminology and fictional meaning strongly constrain the intended result, the project may adopt the narrowest reasonable interpretation and label it explicitly as **project interpretation**.
+
+This is not permission to invent convenience rules. If multiple materially different readings remain plausible, the issue stays **OPEN** until resolved. See `docs/DECISIONS.md` D-010.
+
+The book itself sometimes instructs readers to use common sense in context-sensitive adjudication, but this project does not treat that as a blanket license to replace explicit rules with intuition.
+
 ## Lifepaths and settings
 
 **RAW:** A character's first lifepath must be a **Born** lifepath. Choosing it establishes the character's starting setting. After that, lifepaths in the current setting may be chosen in any order unless a requirement or restriction says otherwise. See *Character Burner → Choose Lifepaths → Born / Born Setting* (book p. 85).
 
-**Implementation consequence:** `isBorn` is not just another requirement. Once any lifepath is selected, every Born lifepath must evaluate illegal unless a future source explicitly establishes an exception.
+**Project interpretation:** A character has exactly one Born lifepath, at index 0. The source explicitly requires the first path to be Born and describes Born as birth/childhood, but the audited passage does not separately state a universal “Born paths may never be repeated later” sentence. The project therefore records Born-only-once as an explicit accepted interpretation rather than overstating the wording of RAW. See `docs/DECISIONS.md` D-011.
 
-**RAW:** Moving from one setting to another happens through **Leads**. Taking a Lead adds one year to starting age. A player may remain in the current setting instead. See *Leads: Moving to a New Setting* (book p. 86).
+**Implementation consequence:** once any lifepath is selected, every Born lifepath evaluates illegal with a stable reason such as `BORN_LIFEPATH_NOT_FIRST`.
+
+**RAW:** Moving from one setting to another happens through **Leads**. Taking a Lead adds one year to starting age. A player may remain in the current setting instead. Once in the destination setting, lifepaths there may be chosen subject to requirements/restrictions. See *Leads: Moving to a New Setting* (book p. 86).
 
 **Implementation consequence:** age must include both lifepath years and Lead years; setting transition history needs to be representable independently of UI navigation.
+
+**Data note:** Human tables use shortened/variant destination names such as `Village`/`Villager`, `City`/`City Dweller`, and `Soldier` for the Professional Soldier subsetting. Data import should normalize these to canonical setting ids rather than create duplicate settings.
+
+**Data note:** Some Lead entries are predicates such as `Any` or `Any except ...`, so Leads cannot be represented only as a fixed array of destination strings.
+
+## Current product scope
+
+**Project decision:** the first playable Human slice exposes **Born Peasant**, **Village Born**, and **City Born** as initial choices.
+
+**Project decision:** the supported first-slice lifepath areas are **Peasant**, **Villager**, **City Dweller**, and **Professional Soldier**. Professional Soldier is supported as a reachable subsetting; no Soldier Born path is invented.
+
+**Project decision:** a RAW-legal Lead to an unimplemented destination is reported as out of product scope, not as illegal under Burning Wheel rules.
+
+See `docs/DECISIONS.md` and `docs/audits/CB-001_FIRST_HUMAN_SLICE.md`.
 
 ## Repeating lifepaths
 
@@ -18,11 +42,29 @@ This document contains concise implementation-oriented paraphrases of rules veri
 
 **Implementation consequence:** lifepath grants cannot be modeled as a single unconditional fixed payload if repeat support is implemented. The effective grant depends on how many times that path has already been taken.
 
+**Project interpretation:** when a repeated-lifepath grant is halved and produces a fraction, round **up**. The Law of Diminishing Returns does not specify the rounding direction in the audited paragraph, so this is explicitly a project interpretation rather than RAW. See `docs/DECISIONS.md` D-013.
+
+Examples: 5 → 3, 7 → 4.
+
 ## Age and stat pools
 
 **RAW:** Starting age is the sum of lifepath Time plus one year for each Lead taken. See *Age* (book p. 87).
 
 **RAW:** Starting mental and physical stat pools come from the stock's age chart, then lifepath stat bonuses are added. Mental points are spent on Will and Perception; physical points are spent on Agility, Speed, Power and Forte. See *Stats → Age Chart / Mental and Physical Pools / Divide* (book pp. 87–88).
+
+**Data note:** `+M/P` is a player choice of one pool while `+M, P` grants both. These cannot be flattened into the same fixed delta.
+
+## Lifepath requirements and restrictions
+
+**RAW:** A lifepath with a requirement may only be taken when that requirement is met. The general Character Burner guidance explicitly says requirements must be met before taking the path. See *Requirements* (book p. 85).
+
+**RAW:** The Human tables contain explicit restrictions on position, repetition, age, total lifepath count, gender and other conditions.
+
+**Implementation consequence:** requirements are structured predicates, not display text. The first supported Human tables already require position checks, one-time limits, any-of prior paths, category/tag requirements, counted prior paths and prior-lifepath-metadata checks.
+
+**Project UX/implementation decision:** rare restrictions phrased in terms of final/starting age, such as Human Elder, do not receive a dedicated intermediate legality status in the first implementation. Show the condition clearly in the lifepath description and verify it during whole-build validation. See `docs/DECISIONS.md` D-012.
+
+**Implementation recommendation:** keep `canSelectNext()` and `validateBuild()` as separate concepts. Immediate historical legality belongs in the former; whole-build constraints belong in the latter.
 
 ## Lifepath skill lists
 
@@ -32,6 +74,8 @@ This document contains concise implementation-oriented paraphrases of rules veri
 
 **Implementation consequence:** required-skill resolution depends on the ordered history of selected lifepaths and on already-open skills.
 
+**Data note:** some lifepaths grant both ordinary skill points and General points. Store them as separate pools/grants.
+
 ## Opening and advancing skills during character burning
 
 **RAW:** A standard skill costs **1 skill point to open**. Its starting exponent is half its root stat, rounded down. If the skill has two roots, use half the average of the roots, rounded down. See *Opening Skills: Roots* (book p. 89).
@@ -40,7 +84,7 @@ This document contains concise implementation-oriented paraphrases of rules veri
 
 **RAW:** Advancing a skill during character burning costs **1 point per exponent increase**: one point adds one die. See *Advancing a Skill* (book p. 90).
 
-**RAW:** General skill points can open or advance any skill not barred by restrictions. Lifepath skill points can only open/advance skills from the character's lifepath-derived skill list. A skill opened using general points cannot then be advanced using regular lifepath skill points. See *Spending General Skill Points* (book p. 90).
+**RAW:** General skill points can open or advance any skill not barred by restrictions. Lifepath skill points can only open/advance skills from the character's lifepath-derived skill list. A skill opened using General points cannot then be advanced using regular lifepath skill points. See *Spending General Skill Points* (book p. 90).
 
 **Implementation consequence:** skill purchase history must track which pool paid for opening and advancement. A single undifferentiated `spentSkillPoints` number is insufficient for exact rollback.
 
@@ -52,18 +96,20 @@ This document contains concise implementation-oriented paraphrases of rules veri
 
 ## Known implementation-sensitive distinctions
 
-- **Rule:** first lifepath must be Born.
-- **Project decision:** the temporary v2 slice exposes only Born Peasant and City Born as starting choices.
-- **Rule:** Leads add years and permit setting changes.
+- **RAW:** first lifepath must be Born.
+- **Project interpretation:** Born lifepaths are legal only at index 0 and never reappear later.
+- **Product scope:** temporary starts are Born Peasant, Village Born and City Born; supported areas are Peasant, Villager, City Dweller and Professional Soldier.
+- **RAW:** Leads add years and permit setting changes.
+- **Product behavior:** RAW-legal but unimplemented Lead destinations are shown as out of scope, not illegal.
+- **Project interpretation:** odd halved grants from repeated lifepaths round up.
+- **UX decision:** final-age requirements are described on the lifepath and checked during whole-build validation without a special pending-status UX.
 - **UX decision:** how Leads are visualized as a graph or transition UI.
-- **Rule:** standard skill open = 1 point; exponent based on root.
+- **RAW:** standard skill open = 1 point; exponent based on root.
 - **UX decision:** use +1 / -1 controls and a large exponent display.
 
-## Items still requiring audit before implementation
+## Items still requiring audit before dependent implementation
 
-- complete Human lifepath dataset and all restrictions/requirements;
-- precise representation of all Lead naming variants and subset/settings terminology;
-- all special skill opening costs and restricted skills relevant to the temporary human slice;
-- age-chart data for the supported stock(s);
-- trait/resource rules needed by later Character Burner milestones;
+- complete manually verified data transcription for all lifepaths in the four supported areas;
+- curated semantic category membership for requirements such as horse-related/guard/priest/sorcerous;
+- special wife-lifepath skill/resource effects for later milestones;
 - gray/white shade edge cases if exposed in v2.
