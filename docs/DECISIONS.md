@@ -22,11 +22,15 @@ Rules evaluation and calculations must be framework-independent. React component
 
 Lifepaths, settings, Leads, requirements, restrictions and point grants are represented declaratively wherever practical. Special cases should be explicit and testable rather than hidden in component conditionals.
 
-## D-004 — Current temporary starting scope is Peasant + City
+## D-004 — Current temporary human scope is Peasant + Villager + City + Professional Soldier
 
 **Status:** Accepted — temporary scope
 
-The first playable human slice exposes **Born Peasant** and **City Born** as initial choices. This is a product-scope decision, not a claim that these are the only legal human Born lifepaths in Burning Wheel.
+The first playable human slice exposes **Born Peasant**, **Village Born** and **City Born** as initial choices.
+
+The supported lifepath area for this slice includes the **Peasant Setting**, **Villager Setting**, **City Dweller Setting** and **Professional Soldier Subsetting**, including legal transitions among them where supported by Leads and requirements.
+
+Professional Soldier is included as a supported reachable area; this is not a claim that it has its own Born lifepath. Likewise, this temporary scope is a product decision, not a claim that these are the only legal human Born lifepaths or settings in Burning Wheel.
 
 This decision expires when the full human lifepath data audit is implemented.
 
