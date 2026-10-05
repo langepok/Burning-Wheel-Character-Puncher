@@ -17,58 +17,25 @@ Born-only-once is the first accepted example: RAW requires the first lifepath to
 
 The rulebook does use “use common sense” in some context-sensitive adjudication, but those occurrences are local instructions rather than a universal replacement for written rules. The repository therefore treats common-sense reasoning as an interpretation discipline, not as RAW text that licenses arbitrary simplification.
 
-## 2. Final-starting-age requirements — stronger source evidence
+## 2. Final-starting-age requirements — resolved as lightweight UX
 
-There is a real tension that should be resolved deliberately.
+There is a source tension worth documenting:
 
-### General requirement rule
+- Character Burner p. 85 says lifepath requirements must be met before the path is taken.
+- Character Burner p. 87 calculates starting age after the lifepath sequence is finished.
+- Human `Elder` (p. 166) requires the character to start the game over 50.
+- Human `Thinker` (p. 198) says starting age **will be** 36 or older, which is explicitly forward-looking.
 
-Character Burner p. 85 says lifepath requirements must be met before the path is taken.
+The project does not consider this niche case important enough to justify a special intermediate legality state in the UI.
 
-### Starting age is calculated after lifepath selection
+Decision D-012:
 
-Character Burner p. 87 instructs players to total lifepath Time and Lead years **after they are finished choosing lifepaths** to obtain starting age.
+- show the final/start-age condition clearly in the lifepath description;
+- keep the selection UI simple;
+- verify the condition during whole-build validation;
+- do not add a dedicated `LEGAL_WITH_PENDING_REQUIREMENT` status solely for these rare cases.
 
-### Human Elder
-
-Peasant Setting, p. 166:
-
-- `Elder` has a requirement that the character **start the game over 50 years old**.
-
-This wording describes start-of-play state rather than merely the age accumulated before clicking Elder.
-
-### Human Thinker (outside current playable scope, useful as interpretation evidence)
-
-Outcast Subsetting, p. 198:
-
-- `Thinker` is restricted so it can only be taken if the character's **starting age will be 36 years or older**.
-
-The phrase “will be” is explicitly forward-looking and is strong evidence that at least some age restrictions are intended to reason about the completed burn, not just current partial history.
-
-### Current audit conclusion
-
-The strongest implementation reading is:
-
-1. keep immediate historical requirements in `canSelectNext()`;
-2. allow rules that explicitly reference **starting/final age** to exist as pending whole-build constraints;
-3. expose the pending requirement to the player rather than silently treating the path as fully valid;
-4. enforce it in `validateBuild()` before the burn is considered complete.
-
-This is not yet promoted to a durable project decision because the general p. 85 wording (“meet requirements before taking the path”) creates enough tension that the project should explicitly accept the interpretation first.
-
-Proposed reason/status model:
-
-```ts
-type RuleStatus =
-  | 'LEGAL'
-  | 'LEGAL_WITH_PENDING_REQUIREMENT'
-  | 'LEGAL_BUT_OUT_OF_SCOPE'
-  | 'ILLEGAL_BY_RULE';
-```
-
-Example pending reason:
-
-`FINAL_STARTING_AGE_NOT_YET_SATISFIED`
+This is a UX/implementation decision, not a claim that the wording ambiguity has disappeared from RAW.
 
 ## 3. Human starting stat pools — verified
 
@@ -97,17 +64,19 @@ Implementation notes:
 
 This resolves the earlier “Human age-chart data” audit item for the printed 01–100 ranges, but does not yet implement Phase CB-2.
 
-## 4. Repeat-grant rounding remains OPEN
+## 4. Repeat-grant rounding — resolved by project interpretation
 
 The Law of Diminishing Returns says some third/fourth-occurrence grants are halved, but the audited paragraph does not state how odd point totals are rounded.
 
-This gap should **not** be filled merely by a generic rounding assumption. Burning Wheel explicitly states rounding direction when it matters in many other places. Within the same Human lifepath chapter, wife lifepaths explicitly say when half skill points are rounded down, while other fractional costs elsewhere explicitly round up.
+Other Burning Wheel rules often specify rounding direction explicitly, so this is not labeled RAW.
 
-Therefore:
+Decision D-013:
 
-- do not encode `floor(points / 2)` or `ceil(points / 2)` for repeated lifepath grants yet;
-- keep the repeated-grant calculation blocked on a verified source or an explicit project interpretation;
-- repeating a lifepath may still be represented in history, but M1 tests should avoid asserting odd-value repeated grants until resolved.
+- when a repeated-lifepath grant is halved and produces a fraction, **round up**;
+- examples: 5 → 3, 7 → 4;
+- encode this explicitly and test it rather than relying on incidental language/runtime behavior.
+
+Rationale: repeatedly taking the same lifepath is already subject to diminishing returns; the project chooses the player-favorable reading where the book is silent.
 
 ## 5. Setting categories vs semantic categories in requirements
 
@@ -172,13 +141,13 @@ Resolved or sufficiently specified for implementation planning:
 - Lead years and out-of-scope distinction;
 - distinction between setting-backed and semantic category requirements;
 - basic requirement algebra;
+- final/start-age UX handling;
+- repeat-grant rounding interpretation;
 - Human starting stat pools for ages 01–100;
 - standard skill opening/advancement rules and point-source provenance.
 
 Still OPEN before dependent production behavior:
 
-- final/start-of-play requirement timing (Elder/Thinker-style wording) — interpretation proposed above;
-- odd-value rounding for repeated-lifepath half grants;
 - manually audited membership for semantic tags such as `horse-related`, `guard`, `priest`, and `sorcerous`;
 - dynamic wife-lifepath effects when Skills/Resources milestones are implemented;
 - complete manual transcription/validation of all records in the four supported areas.
