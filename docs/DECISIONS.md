@@ -86,13 +86,41 @@ The rulebook explicitly requires the first lifepath to be Born and describes tha
 
 Recommended rules-engine rejection reason: `BORN_LIFEPATH_NOT_FIRST`.
 
+## D-012 — Final-age requirements stay lightweight in the UI
+
+**Status:** Accepted — UX/implementation decision
+
+Rare requirements phrased in terms of the character's final/starting age, such as Human Elder, do not justify a special intermediate legality state in the first implementation.
+
+The product should:
+
+- show the age requirement clearly in the lifepath description;
+- allow the builder to remain simple rather than introducing a dedicated `LEGAL_WITH_PENDING_REQUIREMENT` status solely for this niche case;
+- verify the requirement when final build validity is checked.
+
+This decision is about product complexity and presentation. It does not change the wording of the underlying rule.
+
+## D-013 — Round halved repeated-lifepath grants up
+
+**Status:** Accepted — project interpretation
+
+When the Law of Diminishing Returns grants **half** of a point pool from a repeated lifepath and the original value is odd, round the halved result **up**.
+
+Examples:
+
+- 5 skill points → 3;
+- 7 resource points → 4.
+
+The audited Law of Diminishing Returns states that these grants are halved but does not specify a rounding direction. This project intentionally chooses round-up as a favorable, simple interpretation for an already inefficient character-building choice. This must be labeled as a project interpretation, not RAW.
+
+Implementation should use an explicit helper/test for this rule rather than relying on incidental JavaScript rounding behavior.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:
 
 - final domain schema for Lifepath requirements and restrictions;
 - representation of Leads and setting transitions;
-- timing of requirements whose wording refers to final/start-of-play state (for example Human Elder's starting-age condition);
 - state-management approach beyond plain React/local domain state;
 - persistence format and save/load versioning;
 - exact strategy for importing the complete human lifepath/skill dataset;
