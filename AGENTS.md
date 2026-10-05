@@ -34,7 +34,7 @@ Keep these layers separate:
 
 - `data/`: declarative game data such as stocks, settings, lifepaths, skill metadata and requirements;
 - `rules/`: pure rules evaluation and calculations;
-- `character/` or `state/`: character state, commands/transactions and rollback;
+- `character/` or `state/`: character state, commands/transactions, enforcement mode and rollback;
 - `ui/`: React presentation and interaction;
 - `tests/`: behavior and regression coverage.
 
@@ -44,9 +44,9 @@ Prefer functions of the form:
 
 ```ts
 canChooseLifepath(character, lifepath, catalog)
-applyLifepath(character, lifepath, catalog)
+applyLifepath(character, lifepath, catalog, mode)
 calculateAge(character)
-openSkill(character, skill, pointSource)
+openSkill(character, skill, pointSource, mode)
 ```
 
 rather than component-local conditionals.
@@ -84,6 +84,35 @@ If a printed lifepath name appears in more than one setting/subsetting, qualify 
 
 Rules, requirements, save data and repeat accounting must use ids/families and must never infer identity by parsing a decorated display label.
 
+## Semantic lifepath categories
+
+Broad requirements such as `any guard lifepath`, `any Acolyte LP`, `any priest lifepath` or `having to do with horses` use explicit curated semantic metadata.
+
+Do not infer membership at runtime from substrings, display labels or arbitrary skill-name checks.
+
+Per D-017, once a lifepath is deliberately tagged as a member of a RAW semantic category, do not add a second generic “does this career transition feel plausible?” blocker. The player may justify unusual life histories in the fiction.
+
+Current accepted first-slice interpretation fixtures include:
+
+- `Failed Acolyte` → `acolyte`;
+- `Guard Captain` → `guard`;
+- both Groom variants, Farrier, Saddler and Cavalryman → `horse-related`.
+
+See Issue #13 / the corresponding audit note for unresolved categories.
+
+## Rules enforcement and Free Creation
+
+Normal rules evaluation and the policy that blocks actions are separate concerns.
+
+The project has two intended build modes:
+
+- `rules` — illegal actions are rejected according to RAW plus accepted interpretations;
+- `free` — the same rules may evaluate/report violations, but the user may deliberately apply otherwise-illegal choices.
+
+Do not create a separate sandbox rules engine. Do not make RAW data conditional on mode. Prefer a command/enforcement policy boundary so Free Creation can bypass blocking without erasing explanations or weakening normal-mode tests.
+
+As subsystems are implemented, Free Creation is expected to permit otherwise-illegal lifepath ordering/repeats, unmet requirements, unrestricted loaded skills/traits and point/stat overrides. Truly user-authored unknown content remains part of the later custom-content milestone.
+
 ## Regression safety
 
 Before a substantial implementation change:
@@ -101,18 +130,19 @@ Do not solve a failing test by weakening the assertion unless the documented exp
 
 Until explicitly revised:
 
-- The first lifepath must be a Born lifepath.
-- Born lifepaths are never legal after the first selection.
-- The temporary implementation exposes **Born Peasant**, **Village Born** and **City Born** as initial branches.
+- The first lifepath must be a Born lifepath in rules-enforced mode.
+- Born lifepaths are never rules-legal after the first selection.
+- Free Creation may deliberately bypass Born/order/requirement restrictions without changing the rules evaluation.
+- The temporary implementation exposes **Born Peasant**, **Village Born** and **City Born** as initial rules-mode branches.
 - The supported first-slice lifepath area includes **Peasant**, **Villager**, **City Dweller** and **Professional Soldier**.
 - Professional Soldier is a reachable supported subsetting, not an invented Born option.
-- Selecting or navigating later lifepaths must never cause any Born lifepath to become eligible again.
+- Selecting or navigating later lifepaths must never cause any Born lifepath to become rules-legal again.
 - Duplicate lifepath names are setting-qualified in presentation while preserving canonical source names and ids.
 - Selected lifepaths show accumulated age.
 - Mental and physical stat pools are visually distinguishable.
-- Skill opening uses the correct root stat(s) and opening exponent.
-- Standard skill opening and exponent advancement use the correct character-burning point costs.
-- Required lifepath skills are enforced.
+- Skill opening uses the correct root stat(s) and opening exponent in rules mode.
+- Standard skill opening and exponent advancement use the correct character-burning point costs in rules mode.
+- Required lifepath skills are enforced in rules mode.
 - Skill controls use clear `+1` / `-1` interaction and a prominent current exponent.
 - Undo/reset returns exactly the points actually spent, from the correct point pool/source.
 
@@ -124,18 +154,22 @@ For character-burning purchases, prefer explicit transactions/deltas over recomp
 
 A rollback must be the exact inverse of the committed action. Track enough provenance to know which pool paid for an opening or advancement (for example lifepath skill points vs general skill points).
 
+Free Creation overrides must also be reversible; do not lose mode/provenance merely because an action bypassed normal legality.
+
 ## Testing expectations
 
 At minimum, rules work should have unit tests for:
 
 - legal and illegal lifepath selection;
-- Born-only-first behavior;
+- Born-only-first behavior in rules mode;
+- Free Creation bypass while preserving violation evaluation;
 - Leads and age accumulation;
 - point-pool accounting;
 - skill root/opening calculation;
 - skill opening/advancement costs;
 - exact rollback/refunds;
 - restrictions and requirements as they are introduced;
+- semantic-tag fixtures without runtime fuzzy matching;
 - variant/family identity where same-name paths exist across settings;
 - stock/setting registration boundaries as additional content is introduced.
 
@@ -146,6 +180,8 @@ Prefer table-driven tests for lifepath data and boundary cases.
 The UI should explain rule outcomes rather than duplicate them.
 
 When an option is disabled, prefer exposing a machine-readable reason code from the rules layer and mapping that to human-readable text in the UI.
+
+In Free Creation, an otherwise-illegal option may remain actionable while displaying the same reason as a warning rather than a blocker.
 
 Display-label helpers/selectors may decorate duplicate names for clarity, but UI strings are never authoritative domain identity.
 

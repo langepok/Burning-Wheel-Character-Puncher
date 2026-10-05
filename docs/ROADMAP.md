@@ -24,7 +24,9 @@ Scope:
 - Leads and setting transitions;
 - age accumulation;
 - reversible selection history;
-- setting-qualified UI labels for duplicate lifepath names.
+- setting-qualified UI labels for duplicate lifepath names;
+- semantic category predicates from curated tags;
+- the first **Free Creation** enforcement-mode slice: rules may still evaluate/explain an illegal lifepath action, but sandbox mode may allow it instead of blocking it.
 
 Implementation order:
 
@@ -32,9 +34,10 @@ Implementation order:
 2. pure lifepath legality rules;
 3. age/Lead calculations;
 4. regression tests;
-5. minimal UI showing the flow and explanations.
+5. rules-vs-free enforcement policy at the character command boundary;
+6. minimal UI showing the flow, explanations and mode selection.
 
-**Exit condition:** a player can select a legal short lifepath history across the supported settings, see why alternatives are unavailable, distinguish duplicate-name variants, and undo without changing derived results incorrectly.
+**Exit condition:** a player can select a legal short lifepath history across the supported settings, see why alternatives are unavailable, distinguish duplicate-name variants, undo without changing derived results incorrectly, and deliberately switch to Free Creation when they want to ignore lifepath restrictions.
 
 ## M2 — Stats
 
@@ -44,9 +47,10 @@ Scope:
 - lifepath stat bonuses;
 - mental vs physical pools;
 - allocation and exact refunds;
-- visual distinction between mental and physical stats.
+- visual distinction between mental and physical stats;
+- extend Free Creation so stat limits/budgets can be bypassed deliberately without changing normal-mode calculations.
 
-**Exit condition:** stat allocation is rules-correct, reversible and independently tested.
+**Exit condition:** stat allocation is rules-correct and reversible in normal mode, while sandbox overrides are explicit and isolated from RAW validity.
 
 ## M3 — Skills
 
@@ -59,9 +63,10 @@ Scope:
 - standard/special opening costs;
 - opening exponent calculation;
 - +1 / -1 character-burning advancement;
-- exact provenance and rollback.
+- exact provenance and rollback;
+- extend Free Creation so any loaded skill can be selected/adjusted without the normal eligibility or point-budget gates.
 
-**Exit condition:** known refund bugs from the old prototype are impossible under regression tests.
+**Exit condition:** known refund bugs from the old prototype are impossible under regression tests, and free-mode skill overrides do not weaken normal-mode tests.
 
 ## M4 — Traits and resources
 
@@ -70,7 +75,8 @@ Scope:
 - required and optional lifepath traits;
 - trait point accounting;
 - resource points;
-- gear/relationships/affiliations/reputations as required by Character Burner completion.
+- gear/relationships/affiliations/reputations as required by Character Burner completion;
+- extend Free Creation to corresponding eligibility/budget restrictions as those editors are implemented.
 
 Audit rules before implementing each subsystem.
 
@@ -81,7 +87,7 @@ Audit rules before implementing each subsystem.
 - Data validation and coverage checks.
 - Add additional stocks only after Human flow is stable.
 - Use at least one additional stock (for example Dwarf or Orc when audited) as an architectural validation that new stock/settings can be registered without redesigning the generic engine/UI.
-- Save/load format with versioning if useful.
+- Save/load format with versioning if useful; preserve whether a build uses normal or Free Creation mode.
 
 **Exit condition:** Character Burner is useful as a standalone training tool and adding another audited stock is primarily a content/rules-extension task, not a rewrite of Human-specific application code.
 
@@ -139,6 +145,7 @@ Desired capabilities:
 - validate custom content with the same catalog validation pipeline as built-in content;
 - import/export versioned content packs;
 - load built-in and user-authored content through the same registry/rules engine;
-- clearly distinguish official audited BWGR content from user-authored/custom content.
+- clearly distinguish official audited BWGR content from user-authored/custom content;
+- use Free Creation with built-in or custom content through the same enforcement-policy layer.
 
 The architecture should avoid blocking this future, but no current milestone should be delayed by building a speculative editor or plugin system early.
