@@ -221,13 +221,206 @@ The shade indicator has three states:
 
 The letter is displayed inside a corresponding black/gray/white visual marker with sufficient contrast/accessibility.
 
-Normal starting stats/skills use black shade unless RAW or later supported rules say otherwise. In Free Creation, clicking the shade control cycles:
+Black shade is the ordinary/default presentation. In **Rules mode**, shade controls must still be capable of exposing rules-legal shade shifting during character burning when the catalog/rules layer says it is available and any required approval has been acknowledged. Do not hard-code Rules mode as permanently black, and do not expose white shade merely because the UI can display it unless the rules layer actually permits it.
+
+In **Free Creation**, clicking the shade control cycles:
 
 `B → G → W → B`.
 
-Stats and skills use the same shade-control interaction. Physical and mental stats remain visually distinguishable from each other.
+Stats and skills use the same visual language for shade, though exact editing permissions may differ by rules context. Physical and mental stats remain visually distinguishable from each other.
 
 Skill exponents remain prominent and keep the accepted `+1 / -1` adjustment controls. Point accounting and rollback continue to require exact provenance.
+
+## Skills panel
+
+The Skills tab should remain compact and focused on the character rather than becoming a permanently visible dump of the complete Burning Wheel skill list.
+
+### Skill point pools are also controls
+
+Display the current ordinary and General skill-point pools prominently near the top of the Skills panel. The pool indicators are also clickable controls for choosing the current source of skill-point spending.
+
+Conceptually:
+
+```text
+[ Ordinary  8 / 14 ]    [ General  3 / 4 ]
+       ACTIVE
+```
+
+Behavior:
+
+- **Ordinary** is the default active pool;
+- clicking `General` makes General points the active spending source;
+- clicking `Ordinary` switches back;
+- the product does not silently spend General points merely because an ordinary purchase is unavailable;
+- if an attempted action cannot legally use the active pool, explain why and offer the user a clear way to switch pools;
+- rules constraints on which pool may open or advance a particular skill remain the responsibility of the rules layer.
+
+This default reflects the expected player workflow: ordinary points are normally spent on lifepath-accessible skills, while General points are commonly conserved for skills outside the character's lifepath access. This is a UX default, not a new rule restriction.
+
+### Skill row interaction
+
+A normal exponent-bearing skill uses the simple interaction already accepted for the Character Burner:
+
+```text
+Sword   [B] 4    [−] [+]
+```
+
+The controls should do the least surprising thing:
+
+- `+` opens an unopened selected skill when legal, or advances an already opened skill;
+- `−` removes the most recent purchased advancement;
+- once the skill is back at its opening exponent, the next `−` **closes the skill** and refunds its opening cost;
+- no separate `Close skill` button or confirmation is required for this normal editing flow;
+- each refund must use purchase provenance so the exact ordinary/General point originally spent is returned.
+
+The implementation must not infer refunds only from the current exponent. Internally, opening and each advancement must retain enough provenance to reverse the exact transaction.
+
+Do **not** introduce a special color language merely to indicate `opened but never advanced` in the first implementation. That information may be shown in expanded details (for example `Opened at B2; no advances purchased`) without adding another persistent color semantic to an already information-dense interface.
+
+### Required skills during editing
+
+Required skills should be visually identifiable, but they are not forcibly pinned open by the UI.
+
+A user may close a required skill while editing. Doing so leaves the character in an incomplete/invalid intermediate state and produces a clear unresolved requirement warning. Final validation in Rules mode must catch the missing required skill.
+
+This keeps editing reversible and avoids making the interface fight the user while still teaching the requirement.
+
+## Adding skills manually
+
+The complete skill catalog should **not** be rendered inline beneath the character's current skills. Instead, expose a clear control such as:
+
+```text
+[ + Add skill ]
+```
+
+This opens a dedicated searchable skill-catalog dialog/panel.
+
+### Add Skill dialog
+
+The dialog should provide:
+
+- a search field;
+- useful filters such as **root stat/root combination** and, where helpful, canonical Skill Type;
+- a compact result list;
+- access to a skill's concise description and structured metadata before adding it;
+- an `Add` action.
+
+Clicking `Add` does **not** open/purchase the skill. It adds that skill to the character's working Skills list as a candidate. The user then uses the ordinary `+` control on the character sheet to open it and spend the appropriate point.
+
+Therefore:
+
+`add to working list ≠ open/purchase skill`.
+
+A manually added but unopened skill may look conceptually like:
+
+```text
+Foreign Languages    —    [+] [×]
+```
+
+The `×` removes the manually added candidate from the working list.
+
+Skills that appear because the character's lifepaths grant access to them are **not** removable with this `×`; their availability is derived from character history. They may be unopened, opened, advanced, or closed, but the UI must not pretend that the lifepath stopped granting access to them.
+
+For an already opened manually added skill, `−` handles advancement rollback and closing as normal, while `×` remains the separate action meaning `remove this manually selected skill from my working list` once the product permits that state safely.
+
+### Viewing skill details from the catalog
+
+A user should not have to add a skill merely to learn what it does.
+
+The Add Skill dialog should expose a details view containing the structured information that is useful during selection, such as:
+
+- name;
+- root(s);
+- Skill Type;
+- tools/tool requirement;
+- character-burning restrictions;
+- FoRK suggestions;
+- special opening/advancement or roll behavior where relevant;
+- concise public description;
+- source page/section reference.
+
+The details view may be an expandable card or a side pane inside the catalog dialog. Exact presentation is deferred to prototype testing.
+
+## Skill catalog content model and descriptions
+
+The product should build the **complete skill catalog as a data layer before the final Skills UI is wired to it**. Character Burner UI, future roll builders and later combat training should all consume the same catalog rather than maintaining separate skill records.
+
+The public repository/application should use:
+
+- structured mechanical fields;
+- concise project-written summaries;
+- page/section references back to BWGR.
+
+Do not require long verbatim rulebook descriptions in the public data set.
+
+The architecture should allow an optional **full-text content pack** to supply licensed or otherwise permitted extended descriptions later without forking the application or rules engine. The public/core application and a future full-text pack must use the same stable skill IDs.
+
+Mechanically significant information must never exist only inside prose descriptions. Roots, restrictions, special opening rules, Training status, open-ended behavior, FoRK metadata and other executable mechanics remain structured data whether or not a full-text pack is installed.
+
+The rules engine must not depend on the presence of full descriptions.
+
+## Roll builder and FoRK selection
+
+Future testing/combat UI should use a reusable **roll builder** rather than immediately rolling an opaque final dice number.
+
+Pressing a skill/action `Roll` control should open a compact roll menu/dialog that explains how the pool is assembled and lets the user choose applicable optional contributors.
+
+Conceptually:
+
+```text
+ROLL — BRAWLING
+
+Base
+Brawling B4                         4D
+
+Suggested FoRKs
+☐ Boxing B3                       +1D
+☐ Knives B4                       +1D
+
+Other owned skills
+[ + Add contextual FoRK ]
+
+Advantages / disadvantages
+...
+
+Artha
+...
+
+TOTAL                              6D
+
+[ ROLL ]
+```
+
+### Suggested versus contextual FoRKs
+
+The Skill List's printed `FoRKs:` entries are represented as **suggestions**, not a complete automatic whitelist.
+
+The roll builder should therefore distinguish:
+
+- **Suggested FoRKs** — directly represented by structured source FoRK metadata or another clearly defined catalog rule;
+- **Other owned skills / contextual FoRKs** — skills the player proposes because they fit the current fictional situation.
+
+The UI may mark contextual additions as manual/situational rather than claiming the rules engine proved them applicable. The GM/table remains the arbiter where RAW requires contextual judgment.
+
+The catalog's FoRK model must support both direct skill references and broader source concepts such as `appropriate weapon skill` or `any appropriate craftsman skill`; the UI must not rely on parsing English description strings at roll time.
+
+### Preserve roll contributors
+
+Do not flatten every modifier immediately into one anonymous integer.
+
+The roll builder should preserve the source and behavior of contributors such as:
+
+- base ability dice;
+- FoRK dice;
+- help;
+- stance/position/weapon advantages;
+- wounds or obstacle modifiers;
+- Artha;
+- special dice with distinct roll behavior.
+
+This is important both for training/explanations and because some FoRKs or other dice can have special behavior. The UI should be able to explain why the final pool has the size it does and, when relevant, which dice behave differently.
+
+Exact roll-builder scope is deferred until the core skill catalog and generic test/roll rules are audited, but the data/UI architecture must not make this contributor-based model difficult later.
 
 ## UI state versus character/rules state
 
@@ -238,21 +431,27 @@ Presentation state must stay separate from rules/domain state. Examples of UI st
 - selected detail density;
 - open lower tab;
 - map exploration mode;
-- pinned lifepaths and future pin notes.
+- pinned lifepaths and future pin notes;
+- currently active skill-point pool;
+- Add Skill dialog filters/search state.
 
-Some planning metadata such as pins may be saved with a character for convenience, but none of it participates in rules legality.
+Some planning metadata such as pins or manually added skill candidates may be saved with a character for convenience, but none of it by itself changes rules legality or grants a purchased ability.
 
-## Deferred/non-goals for the first map implementation
+## Deferred/non-goals for the first map/skills implementation
 
 Do not require the first implementation to include:
 
 - mobile layout;
-- fuzzy/typo-tolerant search;
+- fuzzy/typo-tolerant lifepath search;
 - complete route planning before the rules engine exists;
 - reachability-depth heatmaps;
 - pin notes;
 - a full custom-stock layout editor;
 - automatic resolution of every rare special rule;
-- fixed final shortcut assignments before prototype testing.
+- fixed final shortcut assignments before prototype testing;
+- long verbatim skill descriptions in the public repository;
+- a licensed/full-text skill content pack;
+- automatic adjudication of every contextual FoRK;
+- the final combat roll-builder before the underlying test/combat rules are audited.
 
-These decisions keep the initial implementation ambitious where it materially improves character planning, while avoiding work whose value has not yet been demonstrated.
+These decisions keep the initial implementation ambitious where it materially improves character planning and training, while avoiding work whose value or rules basis has not yet been demonstrated.
