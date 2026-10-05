@@ -199,6 +199,24 @@ Preferred architecture is an explicit enforcement policy such as `rules` vs `fre
 
 The near-term Free Creation mode operates on content available in the loaded catalog. Truly user-authored stocks/lifepaths/skills belong to the later D-016 content-authoring milestone and should then flow through the same sandbox mode.
 
+## D-019 — Catalog foundation and explicit unresolved grant metadata
+
+**Status:** Accepted — implementation decision for Issue #9
+
+Content packs register stocks, settings, families, skill references and lifepath
+variants through one stock-independent typed catalog API. Registration validates
+ids and references; it does not evaluate character legality. Referenced families
+and settings outside the loaded slice are explicitly reference-only definitions,
+not fabricated lifepath rows. Incomplete skill-list metadata is marked partial.
+
+Wife-derived skill-point scope is a three-way value: `ordinary-only`,
+`ordinary-and-general`, or `unspecified`. Per the
+[Issue #9 resolution](https://github.com/langepok/Burning-Wheel-Character-Puncher/issues/9#issuecomment-5994214609),
+Country Wife uses `unspecified`, and Village Wife uses `ordinary-and-general`.
+Unspecified is not false or ordinary-only. Later skill-allocation work must
+resolve or surface it before applying the grant. This preserves a source gap;
+it does not establish a new Burning Wheel rule.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:
