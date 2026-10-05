@@ -13,10 +13,13 @@ The previous single-file HTML prototype is treated only as a historical UX refer
 The first implementation target is deliberately narrow:
 
 - human characters only;
-- temporary Peasant and City starting branches;
+- temporary starting Born choices: **Born Peasant**, **Village Born**, **City Born**;
+- supported first-slice lifepath areas: **Peasant**, **Villager**, **City Dweller**, **Professional Soldier**;
 - lifepath selection and legality;
 - accumulated age and Leads;
 - then stats, skills, traits and resources in separate milestones.
+
+Professional Soldier is included as a reachable supported area, not as an invented Born option.
 
 ## Project principles
 
