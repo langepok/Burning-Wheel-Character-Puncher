@@ -57,7 +57,7 @@ Do not hard-code individual lifepath behavior in UI components when the behavior
 
 Requirements, restrictions, Leads, years, skill points, trait points, stat bonuses and similar properties should be declarative wherever practical.
 
-The temporary Peasant/City prototype scope is allowed to contain only a subset of the full human catalog, but the schema and rules engine must not assume those are the only settings that can ever exist.
+The temporary human slice covers Peasant, Villager, City Dweller and Professional Soldier data/rules, but the schema and rules engine must not assume those are the only settings that can ever exist.
 
 ## Regression safety
 
@@ -78,8 +78,10 @@ Until explicitly revised:
 
 - The first lifepath must be a Born lifepath.
 - Born lifepaths are never legal after the first selection.
-- The temporary implementation exposes **Born Peasant** and **City Born** as the two starting branches.
-- Selecting or navigating later lifepaths must never cause another Born lifepath (for example Village Born) to become eligible.
+- The temporary implementation exposes **Born Peasant**, **Village Born** and **City Born** as initial branches.
+- The supported first-slice lifepath area includes **Peasant**, **Villager**, **City Dweller** and **Professional Soldier**.
+- Professional Soldier is a reachable supported subsetting, not an invented Born option.
+- Selecting or navigating later lifepaths must never cause any Born lifepath to become eligible again.
 - Selected lifepaths show accumulated age.
 - Mental and physical stat pools are visually distinguishable.
 - Skill opening uses the correct root stat(s) and opening exponent.
