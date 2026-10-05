@@ -42,7 +42,9 @@ See `docs/DECISIONS.md` and `docs/audits/CB-001_FIRST_HUMAN_SLICE.md`.
 
 **Implementation consequence:** lifepath grants cannot be modeled as a single unconditional fixed payload if repeat support is implemented. The effective grant depends on how many times that path has already been taken.
 
-**OPEN:** the audited repetition passage says certain later grants are halved but does not, in the extracted text, resolve rounding for odd values. Other Burning Wheel subsystems explicitly say when to round up or down, so this project will not infer a repeat-grant rounding rule without a source or explicit interpretation.
+**Project interpretation:** when a repeated-lifepath grant is halved and produces a fraction, round **up**. The Law of Diminishing Returns does not specify the rounding direction in the audited paragraph, so this is explicitly a project interpretation rather than RAW. See `docs/DECISIONS.md` D-013.
+
+Examples: 5 → 3, 7 → 4.
 
 ## Age and stat pools
 
@@ -60,9 +62,9 @@ See `docs/DECISIONS.md` and `docs/audits/CB-001_FIRST_HUMAN_SLICE.md`.
 
 **Implementation consequence:** requirements are structured predicates, not display text. The first supported Human tables already require position checks, one-time limits, any-of prior paths, category/tag requirements, counted prior paths and prior-lifepath-metadata checks.
 
-**OPEN — timing of final-state wording:** some Human entries are phrased in terms of the character's starting/final state rather than only prior history. Human **Elder** says the character must start play over 50, while the general rule says requirements are met before the path is taken. **Augur** includes a condition on the character having no more than three lifepaths total. These wordings create a genuine timing question for an interactive builder. Do not silently convert them into either “current-history only” or “final-build only” checks until the interpretation is resolved.
+**Project UX/implementation decision:** rare restrictions phrased in terms of final/starting age, such as Human Elder, do not receive a dedicated intermediate legality status in the first implementation. Show the condition clearly in the lifepath description and verify it during whole-build validation. See `docs/DECISIONS.md` D-012.
 
-**Implementation recommendation:** keep `canSelectNext()` and `validateBuild()` as separate concepts even if some currently audited requirements ultimately resolve at selection time. This avoids forcing global validation concerns into component code and gives the trainer a place to report deferred/pending constraints if an interpretation requires them.
+**Implementation recommendation:** keep `canSelectNext()` and `validateBuild()` as separate concepts. Immediate historical legality belongs in the former; whole-build constraints belong in the latter.
 
 ## Lifepath skill lists
 
@@ -99,16 +101,15 @@ See `docs/DECISIONS.md` and `docs/audits/CB-001_FIRST_HUMAN_SLICE.md`.
 - **Product scope:** temporary starts are Born Peasant, Village Born and City Born; supported areas are Peasant, Villager, City Dweller and Professional Soldier.
 - **RAW:** Leads add years and permit setting changes.
 - **Product behavior:** RAW-legal but unimplemented Lead destinations are shown as out of scope, not illegal.
+- **Project interpretation:** odd halved grants from repeated lifepaths round up.
+- **UX decision:** final-age requirements are described on the lifepath and checked during whole-build validation without a special pending-status UX.
 - **UX decision:** how Leads are visualized as a graph or transition UI.
 - **RAW:** standard skill open = 1 point; exponent based on root.
 - **UX decision:** use +1 / -1 controls and a large exponent display.
 
 ## Items still requiring audit before dependent implementation
 
-- exact rounding of halved repeat grants when odd;
 - complete manually verified data transcription for all lifepaths in the four supported areas;
 - curated semantic category membership for requirements such as horse-related/guard/priest/sorcerous;
-- timing of Human Elder/Augur-style requirements whose wording references starting/final build state;
 - special wife-lifepath skill/resource effects for later milestones;
-- age-chart data for Human stats;
 - gray/white shade edge cases if exposed in v2.
