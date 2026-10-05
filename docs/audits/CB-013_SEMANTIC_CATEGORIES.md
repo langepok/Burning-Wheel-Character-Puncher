@@ -1,10 +1,10 @@
 # CB-013 — First-slice semantic lifepath categories
 
-Status: **partially resolved; explicit project interpretations recorded**
+Status: **resolved for the current first-slice catalog**
 
 Issue: #13
 
-This note covers RAW requirements whose wording refers to a broad fictional category rather than an exact lifepath id or a setting membership test.
+This note covers RAW requirements whose wording refers to a broad fictional category rather than an exact lifepath id or a setting-membership test.
 
 The goal is to prevent two opposite errors:
 
@@ -12,6 +12,8 @@ The goal is to prevent two opposite errors:
 2. over-restricting a broad RAW category because a particular career transition feels unusual.
 
 Per D-010 and D-017, semantic membership is curated explicitly. Once a path is accepted as belonging to the category, the simulator does not add another generic biography-plausibility gate.
+
+The lists below are **first-slice content metadata**, not claims that these categories are globally complete across all Human lifepaths.
 
 ## `acolyte`
 
@@ -43,7 +45,7 @@ Accepted first-slice members:
 - City Dweller `City Guard`;
 - City Dweller `Guard Captain` — accepted project interpretation.
 
-`Guard Captain` is considered part of the broad guard category. Guard-adjacent occupations are not automatically included merely because their fiction involves custody/security; for example, `Gaol Warden` remains untagged unless separately justified.
+`Guard Captain` is considered part of the broad guard category. Guard-adjacent occupations are not automatically included merely because their fiction involves custody/security; for example, `Gaol Warden` remains untagged.
 
 ## `horse-related`
 
@@ -57,56 +59,54 @@ Accepted first-slice members:
 - City Dweller `Saddler` — accepted ordinary-language/category interpretation;
 - Professional Soldier `Cavalryman` — accepted ordinary-language/category interpretation.
 
-The category is intentionally inclusive for genuinely horse-focused lifepaths. The simulator does not reject a history merely because the resulting transition is unusual (for example a Groom later entering a martial horse-focused career). If RAW/category membership permits it, the player may explain the history in the fiction.
+The category is intentionally inclusive for genuinely horse-focused lifepaths. The simulator does not reject a history merely because the resulting transition is unusual. If category membership permits it, the player may explain the history in the fiction.
 
 When future settings are added, source examples such as Knight, Squire and Master of Horses should be tagged explicitly during their own audit. Do not implement heuristics based on the word `Horse`, Riding skill presence, or similar proxies.
 
 ## `priest`
 
-High-confidence first-slice members:
+Accepted first-slice members:
 
-- Peasant `Itinerant Priest`;
-- Villager `Village Priest`;
-- Villager `Venal Priest`;
-- City Dweller `Temple Priest`.
+- Peasant `Itinerant Priest` — source-obvious;
+- Villager `Village Priest` — source-obvious;
+- Villager `Venal Priest` — source-obvious;
+- City Dweller `Temple Priest` — source-obvious;
+- Professional Soldier `Chaplain` — accepted project interpretation.
 
-OPEN:
-
-- whether Professional Soldier `Chaplain` itself should satisfy another consumer of `any priest lifepath`.
-
-This is not equivalent to “any Religious-setting lifepath.” The source uses those as distinct kinds of prerequisite elsewhere.
+The source separately uses both “any priest lifepath” and “any Religious-setting lifepath”, so these remain distinct predicates. `Chaplain` is included because it is itself a priestly office/role; this is a semantic interpretation, not a claim that the book explicitly enumerates Chaplain inside a global priest list.
 
 ## `sorcerous`
 
-High-confidence candidates:
+Accepted first-slice members:
 
-- City Dweller `Neophyte Sorcerer`;
-- City Dweller `Sorcerer`;
-- Professional Soldier `Wizard of War`.
+- Peasant `Augur` — accepted project interpretation;
+- Peasant `Recluse Wizard` — accepted project interpretation;
+- City Dweller `Neophyte Sorcerer` — source-obvious;
+- City Dweller `Sorcerer` — source-obvious;
+- Professional Soldier `Wizard of War` — accepted project interpretation.
 
-OPEN:
+The category is intentionally semantic and broader than literal name matching. `Augur` is included because the path is explicitly magical/divinatory and grants Sorcery; `Recluse Wizard` and `Wizard of War` are plainly sorcerous careers despite using different titles.
 
-- Peasant `Augur`;
-- Peasant `Recluse Wizard`;
-- any other magic-adjacent first-slice lifepath.
+Do **not** collapse this tag into “contains Sorcery in its skill list.” The source can separately express a requirement as “a previous lifepath that contains the Sorcery skill” (for Recluse Wizard), so `sorcerous` and `skill-list-contains-sorcery` remain distinct predicates.
 
-Do not collapse `sorcerous` into “contains Sorcery in its skill list” unless the source supports that equivalence. Peasant `Recluse Wizard` demonstrates that the rulebook can separately express a prerequisite as “a previous lifepath that contains the Sorcery skill,” so those predicates must remain distinct.
+Likewise, the presence of Astrology, Enchanting or another occult-adjacent skill alone does not automatically create `sorcerous` membership.
 
 ## `female-gender-specific`
 
-The source uses a broad category for Midwife and gives `Lady` as an example outside the current slice.
+The Midwife prerequisite explicitly refers to “any female gender-specific lifepath” and gives `Lady` as an example outside the current slice.
 
-OPEN first-slice membership includes questions around:
+Accepted first-slice members:
 
-- Country Wife;
-- Village Wife;
-- City Wife;
-- Serving Girl;
-- Alewife;
-- Midwife itself;
-- other explicitly female-coded paths.
+- Peasant `Midwife` — accepted semantic interpretation;
+- Peasant `Country Wife` — source/role-obvious;
+- Villager `Serving Girl` — accepted semantic interpretation;
+- Villager `Village Wife` — source/role-obvious;
+- City Dweller `Alewife` — source explicitly restricts the character to female;
+- City Dweller `City Wife` — source/role-obvious.
 
-This category needs a deliberate follow-up rather than name inference.
+This tag represents lifepaths whose role/title is specifically female in the fiction of the source, not occupations that are merely stereotypically or historically female-coded. Therefore paths such as `Seamstress` are **not** included solely on cultural association.
+
+When future settings are added, female-specific paths such as `Lady`/`Young Lady` should be audited explicitly rather than inferred from arbitrary naming heuristics.
 
 ## Implementation requirements
 
@@ -117,6 +117,7 @@ Rules may ask:
 ```ts
 hasPriorLifepathWithTag(build, 'horse-related')
 hasPriorLifepathWithTag(build, 'guard')
+hasPriorLifepathWithTag(build, 'priest')
 ```
 
 but must not infer membership dynamically from source/display names or skill strings.
@@ -126,9 +127,14 @@ Tests should include at least:
 - Failed Acolyte satisfies `acolyte`;
 - Guard Captain satisfies `guard`;
 - Groom/Farrier/Saddler/Cavalryman satisfy `horse-related` according to the curated first-slice set;
-- Gaol Warden does not gain `guard` merely through substring/fictional adjacency;
-- unrelated Riding-bearing paths do not become `horse-related` through skill inference.
+- Chaplain satisfies `priest`;
+- Augur/Recluse Wizard/Neophyte Sorcerer/Sorcerer/Wizard of War satisfy `sorcerous`;
+- Midwife/Country Wife/Serving Girl/Village Wife/Alewife/City Wife satisfy `female-gender-specific`;
+- Gaol Warden does not gain `guard` merely through fictional adjacency;
+- Seamstress does not gain `female-gender-specific` merely through cultural association;
+- unrelated Riding-bearing paths do not become `horse-related` through skill inference;
+- a path containing Sorcery does not become `sorcerous` automatically unless it is explicitly curated.
 
-## Remaining work
+## Result
 
-Issue #13 remains open until `priest`, `sorcerous` and `female-gender-specific` first-slice membership is resolved or explicitly deferred with safe production behavior.
+Issue #13 is resolved for Peasant, Villager, City Dweller and Professional Soldier. Future catalog expansions must extend the semantic-tag audit alongside their content rather than treating this first-slice list as globally complete.
