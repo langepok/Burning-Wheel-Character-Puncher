@@ -46,7 +46,7 @@ Professional Soldier is included as a reachable supported area through legal Lea
 
 ### Born exclusivity
 
-After any first lifepath is selected:
+After any first lifepath is selected in rules-enforced mode:
 
 - no Born lifepath is legal;
 - no later selection, Lead or setting transition may make Born Peasant, Village Born, City Born or another Born lifepath legal again;
@@ -56,12 +56,20 @@ After any first lifepath is selected:
 
 ### Current-setting choices
 
-After the Born path:
+After the Born path in rules-enforced mode:
 
 - eligible lifepaths in the current setting are determined by the rules layer;
 - requirements/restrictions are evaluated outside React;
 - unavailable paths can expose a structured reason for the UI;
 - the UI does not duplicate the legality calculation.
+
+### Semantic category requirements
+
+- broad categories such as `acolyte`, `guard`, `sergeant` and `horse-related` are explicit curated metadata, not substring matching;
+- `Failed Acolyte` satisfies the current project's `acolyte` interpretation;
+- `Guard Captain` satisfies the current project's `guard` interpretation;
+- both supported Groom variants, Farrier, Saddler and Cavalryman are explicitly `horse-related` in the first slice;
+- satisfying a semantic category is not followed by an extra generic biography-plausibility gate.
 
 ### Requirement timing
 
@@ -125,28 +133,50 @@ Acceptance boundary:
 - adding another audited stock/setting later should not require replacing the Human engine with a new parallel engine;
 - stock-specific exceptions may add explicit predicate/special-rule capabilities, but ordinary discovery/identity/selection plumbing remains shared.
 
+### Free Creation mode — lifepath foundation
+
+The product has an explicit rules-enforced mode and an explicit Free Creation/sandbox mode.
+
+In Free Creation mode:
+
+- the same rules evaluator can still report that an action violates RAW/project rules;
+- violations do not block the user from applying a lifepath action;
+- multiple Born lifepaths are allowed, including Born lifepaths after index 0;
+- current-setting/Lead access and lifepath requirements/restrictions may be ignored deliberately;
+- repeat restrictions may be ignored deliberately;
+- the resulting build is not silently reported as rules-valid;
+- switching to Free Creation does not mutate canonical lifepath data;
+- build/save state records the active mode.
+
+The implementation must not create a second sandbox rules engine or scatter authoritative `freeMode` rule logic through React.
+
 ## Phase CB-2 — Stats
 
 When implemented:
 
 - mental and physical point pools are separate domain values;
 - mental and physical stats are visually distinguishable;
-- allocations cannot spend more points than their corresponding pool contains;
+- allocations cannot spend more points than their corresponding pool contains in rules-enforced mode;
 - decrement/refund returns exactly one point to the correct pool;
 - reset restores the exact original pools;
-- rules calculations are tested independently of React.
+- rules calculations are tested independently of React;
+- Free Creation can deliberately bypass normal stat-pool/limit enforcement without changing what the normal rules evaluator reports.
 
 ## Phase CB-3 — Skills
 
 ### Skill availability
 
+In rules-enforced mode:
+
 - Lifepath skill points may only purchase skills allowed by the selected lifepaths.
 - General skill points may purchase legal unrestricted skills according to RAW.
 - Required lifepath skills are identified from ordered lifepath history.
 
+In Free Creation mode, any skill available in the loaded catalog may be selected without those normal eligibility gates. Truly user-authored unknown skills belong to the later custom-content milestone.
+
 ### Opening a standard skill
 
-For a standard one-root skill:
+For a standard one-root skill in rules-enforced mode:
 
 - opening cost is 1 appropriate skill point;
 - exponent becomes `floor(root / 2)`.
@@ -158,9 +188,11 @@ For a standard two-root skill:
 
 Special/training skill costs are not silently treated as standard costs.
 
+Free Creation may allow direct overrides once the skill editor supports them, but that must not alter the normal opening calculation or make the override appear RAW-legal.
+
 ### Required skill
 
-For each selected lifepath:
+For each selected lifepath in rules-enforced mode:
 
 - the first listed skill is required unless already open from an earlier path;
 - when it is already open, the next listed skill becomes required;
@@ -175,7 +207,7 @@ For each selected lifepath:
 
 ### Point-source provenance
 
-Opening/advancement records the source of each spent point.
+Opening/advancement records the source of each spent point in rules-enforced mode.
 
 At minimum, tests cover:
 
@@ -183,7 +215,8 @@ At minimum, tests cover:
 2. open with general point → undo → general pool fully restored;
 3. open with general point and advance according to allowed source rules → rollback restores each source correctly;
 4. repeated +1/-1 cycles do not create or destroy points;
-5. full reset returns the build to the exact pre-skill-allocation state.
+5. full reset returns the build to the exact pre-skill-allocation state;
+6. a Free Creation override does not weaken or bypass these normal-mode invariants when mode is `rules`.
 
 ## Regression test matrix
 
@@ -191,15 +224,18 @@ Before a Character Burner PR is complete, relevant tests should cover:
 
 | Area | Required regression |
 | --- | --- |
-| Born selection | first lifepath must be Born |
-| Born exclusivity | accepted interpretation: Born legal only at index 0 |
+| Born selection | first lifepath must be Born in rules mode |
+| Born exclusivity | accepted interpretation: Born legal only at index 0 in rules mode |
+| Free Born override | Free Creation can deliberately add later/multiple Born paths while evaluator still reports the violation |
 | Temporary starts | Born Peasant, Village Born and City Born all available initially |
-| Born reappearance | No Born path becomes legal later |
+| Born reappearance | No Born path becomes rules-legal later |
 | Supported scope | Peasant, Villager, City Dweller and Professional Soldier transitions behave according to audited data |
 | Unsupported Leads | out-of-scope destination is distinguished from RAW illegality |
 | Leads | Lead adds one year once and changes setting |
 | Age | total matches lifepaths + Leads |
-| Requirements | unmet immediate requirement returns explicit rejection |
+| Requirements | unmet immediate requirement returns explicit rejection/evaluation in rules mode |
+| Semantic tags | Failed Acolyte/Guard Captain/horse-related fixtures use explicit metadata, not name parsing |
+| Free requirement override | Free Creation may apply an unmet-requirement path without making it rules-valid |
 | Final-age requirement | condition is visible and whole-build validation catches an invalid final age |
 | Duplicate display | duplicate source names render setting-qualified labels without changing domain identity |
 | Catalog modularity | generic engine/catalog discovery does not depend on a hard-coded Human setting list |
@@ -208,6 +244,7 @@ Before a Character Burner PR is complete, relevant tests should cover:
 | Required skill | ordered fallback to next listed skill works |
 | Refund | exact pool/source is restored |
 | Reset | state and pools equal original snapshot |
+| Mode persistence | save/state representation cannot silently turn a Free Creation build into a rules-enforced valid build |
 
 ## Definition of done for a feature
 
