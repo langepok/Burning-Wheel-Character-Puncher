@@ -160,6 +160,45 @@ However, data formats introduced now should avoid needless obstacles to that fut
 
 A future authoring system should be able to reuse the same validation/catalog pipeline as built-in content rather than creating a second rules path.
 
+## D-017 — Broad semantic lifepath categories are inclusive, explicit tags
+
+**Status:** Accepted — project interpretation / data-curation policy
+
+When RAW uses a broad fictional category such as `any guard lifepath`, `any Acolyte LP` or `a prior lifepath having to do with horses`, the project should model that category by explicit curated semantic tags.
+
+The simulator must **not** add a second hidden “does this biography feel plausible?” gate after category membership is satisfied. Burning Wheel already permits unusual life histories; if a path genuinely belongs to the category, it qualifies and the player may explain the transition in the fiction.
+
+Accepted current-slice interpretations include:
+
+- Villager `Failed Acolyte` counts as `acolyte`;
+- City Dweller `Guard Captain` counts as `guard`;
+- plainly horse-focused current-slice paths are tagged `horse-related`, including both Groom variants, Farrier, Saddler and Cavalryman.
+
+This does not authorize fuzzy runtime inference. Membership is recorded explicitly in audited data. Similar-looking or merely adjacent paths are not auto-tagged by substrings, skill names or UI labels.
+
+## D-018 — Free Creation mode bypasses rules enforcement without rewriting RAW
+
+**Status:** Accepted — product/architecture decision
+
+The application will provide a **Free Creation** (sandbox) mode in addition to normal rules-enforced character burning.
+
+In normal mode, RAW plus accepted project interpretations determine which actions are legal and point/requirement limits are enforced.
+
+In Free Creation mode, those restrictions do not block the user's choices. As relevant subsystems are implemented, the user may deliberately create otherwise-illegal builds, including examples such as:
+
+- multiple Born lifepaths or Born lifepaths in later positions;
+- lifepaths without legal Leads/current-setting access;
+- unmet lifepath requirements/restrictions;
+- arbitrary repeated lifepaths;
+- skills/traits chosen without the normal lifepath eligibility gates;
+- stat, skill, trait and resource allocations beyond normal Burning Wheel limits where the corresponding editor supports direct adjustment.
+
+Free Creation does **not** change RAW, mutate canonical content data or make an illegal build “rules-valid.” The same rule evaluators should remain available so the UI can optionally show warnings/explanations while the command policy allows the action.
+
+Preferred architecture is an explicit enforcement policy such as `rules` vs `free`, not a second forked Character Burner engine. Save/load state should record the chosen mode so a sandbox build is never silently treated as rules-legal.
+
+The near-term Free Creation mode operates on content available in the loaded catalog. Truly user-authored stocks/lifepaths/skills belong to the later D-016 content-authoring milestone and should then flow through the same sandbox mode.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:
