@@ -16,7 +16,8 @@ This roadmap is ordered by dependency and regression risk, not by visual complet
 
 Scope:
 
-- human temporary Peasant + City starting slice;
+- human temporary starting Born choices: Born Peasant, Village Born and City Born;
+- supported first-slice lifepath areas: Peasant, Villager, City Dweller and Professional Soldier;
 - Born-only-first invariant;
 - current setting and available lifepaths;
 - requirements/restrictions for included lifepaths;
@@ -32,7 +33,7 @@ Implementation order:
 4. regression tests;
 5. minimal UI showing the flow and explanations.
 
-**Exit condition:** a player can select a legal short lifepath history, see why alternatives are unavailable, and undo without changing derived results incorrectly.
+**Exit condition:** a player can select a legal short lifepath history across the supported settings, see why alternatives are unavailable, and undo without changing derived results incorrectly.
 
 ## M2 — Stats
 
@@ -75,7 +76,7 @@ Audit rules before implementing each subsystem.
 ## M5 — Complete Character Burner data
 
 - Full audited Human lifepath data.
-- Expand beyond temporary Peasant/City starts.
+- Expand beyond the temporary Peasant/Villager/City/Professional Soldier slice.
 - Data validation and coverage checks.
 - Additional stocks only after Human flow is stable.
 - Save/load format with versioning if useful.
