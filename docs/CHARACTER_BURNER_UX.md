@@ -345,6 +345,13 @@ The details view may be an expandable card or a side pane inside the catalog dia
 
 The product should build the **complete skill catalog as a data layer before the final Skills UI is wired to it**. Character Burner UI, future roll builders and later combat training should all consume the same catalog rather than maintaining separate skill records.
 
+Implementation order for this area is therefore:
+
+1. audit and encode the complete Skill List;
+2. represent roots, types, restrictions, FoRKs and special mechanical behavior structurally;
+3. test the catalog/rules behavior;
+4. then connect the final Skills UI and Add Skill dialog to that catalog.
+
 The public repository/application should use:
 
 - structured mechanical fields;
