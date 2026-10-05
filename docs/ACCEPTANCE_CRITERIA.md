@@ -9,6 +9,15 @@ These criteria define the behavior contract for the current Character Burner v2 
 - No production rules implementation is accepted without corresponding tests.
 - Rules, state and React UI are separated by module boundaries.
 
+### Issue #2 — Technical bootstrap
+
+- A minimal React shell identifies Character Burner v2 as under construction.
+- `src/app`, `src/character`, `src/data`, `src/rules`, `src/ui` and `tests` exist.
+- A framework-independent smoke test imports a domain module without React or UI.
+- A fresh `npm ci`, `npm run typecheck`, `npm run test` and `npm run build` pass.
+- The npm lockfile is committed; dependencies and generated build output are not.
+- No game rules, lifepath catalog or character-selection UI are introduced.
+
 ## Phase CB-1 — Lifepath selection slice
 
 ### Starting state
