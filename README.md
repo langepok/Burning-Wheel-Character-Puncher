@@ -56,6 +56,30 @@ When code, documentation and the rulebook disagree, stop and resolve the discrep
 
 ## Development workflow
 
+### Local development
+
+Use Node.js 22.12+ on the 22.x line, 24.x, or 26+ and npm.
+
+```sh
+npm ci
+npm run dev
+```
+
+Before opening a pull request, run:
+
+```sh
+npm run typecheck
+npm run test
+npm run build
+```
+
+Tests run once in Node without a browser. The bootstrap includes only a project
+shell and an empty build-history container; game data and rules follow in later
+issues. Application startup lives in `src/app`, presentation in `src/ui`, and
+framework-independent code in `src/character`, `src/rules` and `src/data`.
+
+### Feature changes
+
 For substantial changes:
 
 1. establish or update acceptance criteria;
