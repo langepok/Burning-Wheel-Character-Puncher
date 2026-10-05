@@ -124,6 +124,40 @@ React is responsible for:
 
 React components must not contain authoritative conditions such as `if (lifepaths.length > 0) disableBorn` except as a direct rendering of a domain result.
 
+## Rule evaluation vs enforcement policy
+
+Rules knowledge and action blocking are separate concerns.
+
+The domain rules layer should continue to answer whether an action is RAW/project-legal and why. A separate character-command/enforcement policy decides whether a violation blocks the action.
+
+Representative direction:
+
+```ts
+type BuildMode = 'rules' | 'free';
+
+type RuleEvaluation = {
+  legal: boolean;
+  reasons: readonly RuleReason[];
+};
+
+applyCharacterAction(build, action, catalog, mode)
+```
+
+In `rules` mode, illegal actions are rejected.
+
+In `free` mode, the same evaluation can be retained as warnings/explanations while the action is allowed. This is the foundation of D-018 Free Creation mode.
+
+Important consequences:
+
+- do not fork a separate sandbox rules engine;
+- do not change canonical lifepath/skill data to make sandbox choices appear legal;
+- do not scatter `if (freeMode)` checks through React components;
+- commands/state should know the active enforcement mode, while reusable rules functions remain mode-independent where practical;
+- saved builds should preserve their mode;
+- whole-build validation may still report rules violations for a free-mode build without preventing the build from existing.
+
+As new subsystems arrive, the same policy boundary extends to point budgets, skill/trait availability, stat limits and similar Character Burner constraints.
+
 ## Content/catalog boundary
 
 The catalog is a first-class domain input. Generic engine code should receive a catalog/registry rather than importing Human data directly.
@@ -176,6 +210,14 @@ Do not create parallel "Human engine", "Dwarf engine", etc. unless source rules 
 
 The near-term project does **not** need a dynamic plugin runtime or a general-purpose scripting language. Avoid both extremes: do not hard-code Human assumptions, but also do not build speculative infrastructure that current rules do not require.
 
+## Semantic category tags
+
+Some RAW requirements use fictional categories rather than exact ids or setting membership (`guard`, `acolyte`, `priest`, `horse-related`, etc.). These are modeled as curated semantic metadata on lifepaths.
+
+Rules may query a semantic tag, but runtime code must not manufacture membership from display strings or substring matching.
+
+Per D-017, category membership itself is the gate. The engine must not add a second generic biography-plausibility test after a path satisfies the required category.
+
 ## Lifepath identity and display labels
 
 Lifepath identity, printed name and UI label are separate concepts.
@@ -225,6 +267,7 @@ interface Lifepath {
   statGrant: StatGrant;
   skillPointGrant: SkillPointGrant;
   traitPointGrant: number;
+  semanticTags?: SemanticLifepathTag[];
 }
 ```
 
@@ -250,6 +293,8 @@ Built-in or user-authored content pack
 
 The editor/import/export layer is intentionally deferred until the base game simulator is mature.
 
+Free Creation mode initially operates on whatever content is loaded into this catalog. Once user-authored content exists, the same mode should work with it without a separate sandbox content path.
+
 ## Commands and rollback
 
 Prefer explicit domain commands to direct mutation:
@@ -263,20 +308,23 @@ increaseSkill(...)
 decreaseSkill(...)
 ```
 
-A command should either:
+A command in rules-enforced mode should either:
 
 1. return the next valid state plus an auditable delta/transaction, or
 2. reject with a structured reason.
+
+In Free Creation mode, the command may apply a rules-illegal action while preserving the evaluation/warning metadata needed by the teaching UI.
 
 For point-bearing actions, exact inverse operations are preferred over reconstructing refunds from the current visual state.
 
 ## Invariants worth property-testing
 
 - a legal apply + rollback round trip returns the original build state;
-- total points never increase from repeated open/increase/decrease cycles;
-- no Born lifepath is legal after a first lifepath exists;
+- total points never increase from repeated open/increase/decrease cycles in rules-enforced mode;
+- no Born lifepath is legal after a first lifepath exists in rules-enforced mode;
+- Free Creation may apply an otherwise-illegal Born/restriction action without changing the underlying rule evaluation;
 - age equals lifepath years plus Lead years represented by the chosen path history;
-- available options are a deterministic function of build + catalog;
+- available options are a deterministic function of build + catalog + enforcement mode/policy;
 - UI serialization does not alter domain meaning;
 - adding a stock/setting catalog does not require changing generic Human-independent rules merely to make its records discoverable;
 - display-label qualification never changes variant/family identity.
