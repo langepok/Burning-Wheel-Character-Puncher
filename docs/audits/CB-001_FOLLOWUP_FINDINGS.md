@@ -109,7 +109,59 @@ Therefore:
 - keep the repeated-grant calculation blocked on a verified source or an explicit project interpretation;
 - repeating a lifepath may still be represented in history, but M1 tests should avoid asserting odd-value repeated grants until resolved.
 
-## 5. Audit status after this pass
+## 5. Setting categories vs semantic categories in requirements
+
+A second source pass clarifies that not every phrase of the form “any X lifepath” should become a free-form semantic tag.
+
+### Setting-backed categories
+
+Requirements such as **any Professional Soldier lifepath** can be represented directly as setting/subsetting membership:
+
+```ts
+{ kind: 'priorSetting', settingIds: ['human.professional-soldier'] }
+```
+
+Likewise, printed shorthand such as **any Soldier lifepath** should use the canonical `human.professional-soldier` setting id after alias normalization, rather than a separate `soldier` tag.
+
+This avoids duplicating information already present in the catalog.
+
+### Semantic categories that still require curated tags
+
+The supported tables also contain genuinely semantic categories that are not simply setting membership:
+
+- **any guard lifepath**;
+- **any priest lifepath**;
+- **any sorcerous lifepath**;
+- **a prior lifepath having to do with horses**.
+
+These require explicit audited metadata, for example:
+
+```ts
+tags: ['guard', 'priest', 'sorcerous', 'horse-related']
+```
+
+Do not derive these tags at runtime from lifepath names, skill lists or fuzzy text matching.
+
+### Source examples
+
+- City `Duelist` accepts Squire, any Outcast or Soldier lifepath, or any guard lifepath.
+- City `Sergeant-at-Arms` accepts any guard lifepath among several named alternatives.
+- `Chaplain` and a Professional Soldier priest-type path use **any priest lifepath** as a requirement option.
+- Villager `Scholar` accepts several named paths or **any sorcerous lifepath**.
+- Professional Soldier `Cavalryman` asks for a prior lifepath “having to do with horses” and gives examples such as Knight, Squire, Groom and Master of Horses.
+
+### Audit boundary
+
+The source does not provide, in these requirement lines, a complete machine-readable membership list for `guard`, `priest`, `sorcerous` or `horse-related`.
+
+Therefore:
+
+- the schema may support these tags now;
+- tag membership must be manually audited and stored in data;
+- a path must not qualify merely because its English name happens to contain `Guard`, `Priest`, `Horse`, etc.;
+- adding/removing a tag is a data/rules change that should be covered by fixture validation tests.
+
+## 6. Audit status after this pass
 
 Resolved or sufficiently specified for implementation planning:
 
@@ -118,6 +170,7 @@ Resolved or sufficiently specified for implementation planning:
 - current product scope;
 - canonical setting aliases;
 - Lead years and out-of-scope distinction;
+- distinction between setting-backed and semantic category requirements;
 - basic requirement algebra;
 - Human starting stat pools for ages 01–100;
 - standard skill opening/advancement rules and point-source provenance.
@@ -126,6 +179,6 @@ Still OPEN before dependent production behavior:
 
 - final/start-of-play requirement timing (Elder/Thinker-style wording) — interpretation proposed above;
 - odd-value rounding for repeated-lifepath half grants;
-- manually audited semantic membership for tags such as `horse-related`, `guard`, `priest`, and `sorcerous`;
+- manually audited membership for semantic tags such as `horse-related`, `guard`, `priest`, and `sorcerous`;
 - dynamic wife-lifepath effects when Skills/Resources milestones are implemented;
 - complete manual transcription/validation of all records in the four supported areas.
