@@ -1,5 +1,5 @@
 import type {
-  OwnedSkillTopic, RootRule, SkillCatalogContent, SkillFamilyDefinition, SkillMetadata,
+  ForkTarget, OwnedSkillTopic, RootRule, SkillCatalogContent, SkillContext, SkillFamilyDefinition, SkillMetadata, ToolRequirement,
 } from './types';
 
 function index<T extends { readonly id: string }>(records: readonly T[]): ReadonlyMap<string, T> {
@@ -30,6 +30,31 @@ function validateRoot(root: RootRule): void {
   }
 }
 
+function validateOperands(nodes: readonly unknown[]): void {
+  if (nodes.length < 2) throw new Error('Composition requires at least two operands');
+}
+
+function validateContext(context: SkillContext): void {
+  if (context.kind === 'allOf' || context.kind === 'anyOf') {
+    validateOperands(context.conditions);
+    context.conditions.forEach(validateContext);
+  } else {
+    // Leaf ids are content references, not expressions to parse or execute.
+    for (const [key, value] of Object.entries(context)) {
+      if (key !== 'kind' && !value.trim()) throw new Error('Context ids must be nonempty');
+    }
+  }
+}
+
+function validateTools(tools: ToolRequirement): void {
+  if (tools.kind === 'allOf' || tools.kind === 'anyOf') {
+    validateOperands(tools.requirements);
+    tools.requirements.forEach(validateTools);
+  } else if (tools.kind === 'specific-item' && !tools.item.trim()) {
+    throw new Error('Tool item must be nonempty');
+  }
+}
+
 /** Typed content integrity boundary, not a JSON parser or a rules evaluator. */
 export function createSkillCatalog(content: SkillCatalogContent) {
   const skills = index(content.skills);
@@ -43,7 +68,27 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   const requireSkill = (id: string) => {
     if (!skills.has(id) && !references.has(id)) throw new Error(`Unknown skill reference: ${id}`);
   };
+  const validateForkTarget = (target: ForkTarget): void => {
+    if (target.kind === 'skill') requireSkill(target.skillId);
+    if (target.kind === 'skill-family' && !families.has(target.familyId)) {
+      throw new Error(`Unknown skill family: ${target.familyId}`);
+    }
+    if (target.kind === 'allOf' || target.kind === 'anyOf') {
+      validateOperands(target.targets);
+      target.targets.forEach(validateForkTarget);
+    }
+    // A probable target remains audit metadata, never a resolved FoRK reference.
+  };
   const validateMetadata = (metadata: Partial<SkillMetadata>) => {
+    if (metadata.tools) validateTools(metadata.tools);
+    if (metadata.useContext) validateContext(metadata.useContext);
+    if (metadata.baseOpeningCostOverride) {
+      const { points, source } = metadata.baseOpeningCostOverride;
+      if (!Number.isSafeInteger(points) || points <= 0 || !source.length) {
+        throw new Error('Opening cost override requires positive integer points and provenance');
+      }
+      if (metadata.training?.kind === 'training') throw new Error('Non-Training opening override cannot replace Training cost');
+    }
     if (metadata.familyMembership) {
       if (!families.has(metadata.familyMembership.familyId)) throw new Error(`Unknown family: ${metadata.familyMembership.familyId}`);
       skillTopicKey(metadata.familyMembership);
@@ -52,18 +97,17 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     for (const requirement of metadata.openingRequirements ?? []) requireSkill(requirement.skillId);
     for (const relation of metadata.relations ?? []) {
       if (relation.target.kind === 'skill') requireSkill(relation.target.id);
+      if ('context' in relation && relation.context) validateContext(relation.context);
     }
-    for (const { target } of metadata.forkSuggestions?.suggestions ?? []) {
-      if (target.kind === 'skill') requireSkill(target.skillId);
-      if (target.kind === 'wise-family' && !families.has(target.familyId)) {
-        throw new Error(`Unknown Wise family: ${target.familyId}`);
-      }
-      // A probable target remains audit metadata, never a resolved FoRK reference.
+    for (const { target, context } of metadata.forkSuggestions?.suggestions ?? []) {
+      validateForkTarget(target);
+      if (context) validateContext(context);
     }
     if (metadata.specialForkBehaviorId && !forkBehaviors.has(metadata.specialForkBehaviorId)) {
       throw new Error(`Unknown special FoRK behavior: ${metadata.specialForkBehaviorId}`);
     }
     for (const capability of metadata.capabilities ?? []) {
+      if (capability.kind === 'literacy' && capability.context) validateContext(capability.context);
       if (capability.kind === 'subsystem-capability' && !integrations.has(capability.integrationId)) {
         throw new Error(`Unknown integration: ${capability.integrationId}`);
       }
@@ -80,7 +124,10 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     }
   }
   for (const family of families.values()) validateMetadata(family.defaults);
-  for (const integration of integrations.values()) requireSkill(integration.skillId);
+  for (const integration of integrations.values()) {
+    requireSkill(integration.skillId);
+    if (integration.context) validateContext(integration.context);
+  }
 
   return { skills, references, families, choices, forkBehaviors, integrations };
 }

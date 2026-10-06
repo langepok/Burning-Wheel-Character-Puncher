@@ -39,7 +39,7 @@ describe('typed skill registration integrity', () => {
     expect(() => createSkillCatalog(withMetadata({ familyMembership: { familyId: 'missing', topicId: 'local' } }))).toThrow('Unknown family');
     expect(() => createSkillCatalog(withMetadata({ specialForkBehaviorId: 'missing' }))).toThrow('Unknown special FoRK');
     expect(() => createSkillCatalog(withMetadata({ capabilities: [{ kind: 'subsystem-capability', id: 'help', integrationId: 'missing' }] }))).toThrow('Unknown integration');
-    expect(() => createSkillCatalog(withMetadata({ forkSuggestions: { policy: 'guidance-not-whitelist', manualContextualContributors: true, suggestions: [{ target: { kind: 'wise-family', familyId: 'missing', relevance: 'appropriate' } }] } }))).toThrow('Unknown Wise family');
+    expect(() => createSkillCatalog(withMetadata({ forkSuggestions: { policy: 'guidance-not-whitelist', manualContextualContributors: true, suggestions: [{ target: { kind: 'skill-family', familyId: 'missing', relevance: 'appropriate' } }] } }))).toThrow('Unknown skill family');
   });
   it('does not resolve a probable target or require it to be loaded', () => {
     const content = withMetadata({ forkSuggestions: { policy: 'guidance-not-whitelist', manualContextualContributors: true,

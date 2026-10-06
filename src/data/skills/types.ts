@@ -16,8 +16,13 @@ export type RootRule = FixedRoot | {
   readonly otherwise: FixedRoot;
 };
 
+/** Canonical printed labels; notably Seafaring and Seafarer are distinct. */
 export type SkillType = 'Academic' | 'Artisan' | 'Craftsman' | 'Martial' | 'Martial Training' | 'Physical' |
-  'Medicinal' | 'Military' | 'Military Training' | 'Sorcerous' | 'Special' | 'Wise';
+  'Medicinal' | 'Military' | 'Military Training' | 'Sorcerous' | 'Special' | 'Wise' |
+  'Social' | 'Peasant' | 'Forester' | 'Artist' | 'Musical' | 'School of Thought' | 'Seafaring' | 'Seafarer';
+
+/** A composition contains at least two operands; no executable predicates. */
+export type Operands<T> = readonly [T, T, ...T[]];
 
 export type TrainingBehavior =
   | { readonly kind: 'exponent'; readonly rootPurpose: 'opening'; readonly advancement: 'standard' }
@@ -32,9 +37,14 @@ export type RollBehavior =
 
 export type SkillContext =
   | { readonly kind: 'subject'; readonly subject: 'children' | 'great-wolves' | 'spiders' | 'rats-and-relatives' }
-  | { readonly kind: 'activity'; readonly activity: 'potion-work' | 'wound-treatment' | 'hauling' | 'crafting' }
+  | { readonly kind: 'activity'; readonly activity: 'potion-work' | 'wound-treatment' | 'hauling' | 'crafting' | 'pursuit' | 'travel' | 'field-maneuver' }
   | { readonly kind: 'culture'; readonly cultureId: string }
-  | { readonly kind: 'stock'; readonly stockId: StockId };
+  | { readonly kind: 'stock'; readonly stockId: StockId }
+  | { readonly kind: 'target-trait'; readonly traitId: string }
+  | { readonly kind: 'target-stock'; readonly stockId: StockId }
+  | { readonly kind: 'target-culture'; readonly cultureId: string }
+  | { readonly kind: 'target-origin'; readonly originId: string }
+  | { readonly kind: 'allOf' | 'anyOf'; readonly conditions: Operands<SkillContext> };
 
 export interface AvailabilityRestriction {
   readonly kind: 'stock-only';
@@ -50,17 +60,23 @@ export type UseRequirement = {
 export type ToolRequirement =
   | { readonly kind: 'none'; readonly expendable: false }
   | { readonly kind: 'generic' | 'traveling-gear' | 'workshop'; readonly expendable?: boolean }
-  | { readonly kind: 'specific-item'; readonly item: string; readonly expendable?: boolean };
+  | { readonly kind: 'specific-item'; readonly item: string; readonly expendable?: boolean }
+  | { readonly kind: 'allOf' | 'anyOf'; readonly requirements: Operands<ToolRequirement> };
 
 export type SkillReferenceTarget =
   | { readonly kind: 'skill'; readonly skillId: SkillId }
   | { readonly kind: 'unresolved-source-reference'; readonly sourceLabel: string;
       readonly probableTargetSkillId?: SkillId };
+/** Curated categories, never inferred from names, prose or Skill Type labels. */
+export type SkillSemanticCategory = 'melee-weapon' | 'ritual' | 'song';
+export type ForkTarget = SkillReferenceTarget |
+  { readonly kind: 'category'; readonly category: SkillSemanticCategory; readonly relevance: 'any' | 'appropriate' } |
+  { readonly kind: 'skill-type'; readonly skillType: SkillType; readonly relevance: 'any' | 'appropriate' } |
+  { readonly kind: 'skill-family'; readonly familyId: string; readonly relevance: 'any' | 'appropriate' } |
+  { readonly kind: 'applicable-to-content' } |
+  { readonly kind: 'allOf' | 'anyOf'; readonly targets: Operands<ForkTarget> };
 export type ForkSuggestion = {
-  readonly target: SkillReferenceTarget |
-    { readonly kind: 'category'; readonly category: 'melee-weapon'; readonly relevance: 'appropriate' } |
-    { readonly kind: 'skill-type'; readonly skillType: SkillType; readonly relevance: 'appropriate' } |
-    { readonly kind: 'wise-family'; readonly familyId: string; readonly relevance: 'appropriate' };
+  readonly target: ForkTarget;
   readonly context?: SkillContext;
 };
 export interface ForkGuidance {
@@ -99,7 +115,7 @@ export type SkillRelation =
       readonly additionalCapabilityIds?: readonly string[] };
 
 export type SkillCapability =
-  | { readonly kind: 'literacy'; readonly actions: readonly ('read' | 'write')[]; readonly context: SkillContext }
+  | { readonly kind: 'literacy'; readonly actions: readonly ('read' | 'write')[]; readonly context?: SkillContext }
   | { readonly kind: 'subsystem-capability'; readonly id: string; readonly integrationId: string };
 export type ResourceInteraction = { readonly kind: 'recover-taxed-resources' | 'produce-cash' };
 export type IntegrationTag = 'fight' | 'range-and-cover' | 'duel-of-wits' | 'injury' | 'resources' |
@@ -110,6 +126,7 @@ export interface SkillIntegration {
   readonly id: string;
   readonly skillId: SkillId;
   readonly subsystem: IntegrationTag;
+  readonly context?: SkillContext;
   readonly summary: string;
   readonly source: readonly SkillSource[];
 }
@@ -118,9 +135,15 @@ export interface SkillMetadata {
   readonly familyMembership?: { readonly familyId: string; readonly topicId: string };
   readonly rootRule: RootRule;
   readonly skillType: SkillType;
+  readonly semanticCategories?: readonly SkillSemanticCategory[];
   readonly availabilityRestrictions: readonly AvailabilityRestriction[];
   readonly openingRequirements: readonly OpeningRequirement[];
   readonly useRequirements: readonly UseRequirement[];
+  readonly useContext?: SkillContext;
+  /** Audited non-Training base cost only; absence is untranscribed, not 1. */
+  readonly baseOpeningCostOverride?: {
+    readonly kind: 'fixed'; readonly points: number; readonly source: readonly SkillSource[];
+  };
   readonly tools: ToolRequirement;
   readonly training: TrainingBehavior;
   readonly rollBehavior: RollBehavior;

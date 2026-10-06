@@ -11,6 +11,9 @@ const source = (section: string, page?: number): SkillSource => ({
 const brief: SkillSource = {
   kind: 'task-brief', document: 'docs/audits/SKILL_SCHEMA_FOUNDATION.md', section: 'Supplemental task examples',
 };
+const hardeningSource: SkillSource = {
+  kind: 'task-brief', document: 'docs/audits/SKILL_SCHEMA_FOUNDATION.md', section: 'PR #21 RAW review corrections',
+};
 const stat = (id: string): FixedRoot => ({ kind: 'single', ability: { kind: 'stat', id } });
 const combined = (first: string, second: string): FixedRoot => ({
   kind: 'combined', abilities: [{ kind: 'stat', id: first }, { kind: 'stat', id: second }],
@@ -38,6 +41,9 @@ const fixture = (
 const supplemental = (
   id: string, sourceName: string, summary: string, metadata: Partial<SkillMetadata>,
 ): SkillAuditFixture => ({ id, sourceName, coverage: 'partial', summary, source: [brief], ...metadata });
+const reviewed = (
+  id: string, sourceName: string, summary: string, metadata: Partial<SkillMetadata>,
+): SkillAuditFixture => ({ id, sourceName, coverage: 'partial', summary, source: [hardeningSource], ...metadata });
 
 /** Audited general guidance, not a bonus calculator or a whitelist. */
 export const ordinaryForkMetadata = {
@@ -71,8 +77,11 @@ export const skillFixtureContent: SkillCatalogContent = {
     fixture('brawling', 'Brawling', 261, 'Martial skill with a separate Fight integration.', {
       rootRule: stat('power'), skillType: 'Martial', integrationTags: ['fight'], forkSuggestions: guidance(fork('boxing')),
     }, true),
-    fixture('boxing', 'Boxing (Martial Arts)', 261, 'One skill identity for the two source names.', {
-      rootRule: combined('power', 'agility'), skillType: 'Martial', sourceAliases: ['Boxing', 'Martial Arts'],
+    { ...fixture('boxing', 'Boxing (Martial Arts)', 261, 'Boxing identity; Martial Arts refers to its mechanics.', {
+      rootRule: combined('power', 'agility'), skillType: 'Martial', sourceAliases: ['Boxing'],
+    }), source: [source('Boxing (Martial Arts)', 261), hardeningSource] },
+    reviewed('martial-arts', 'Martial Arts', 'Separate skill identity referencing Boxing mechanics.', {
+      relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'boxing' } }],
     }),
     fixture('child-rearing', 'Child-Rearing', 264, 'Substitutions apply only when caring for children.', {
       rootRule: stat('will'), relations: ['instruction', 'cooking', 'field-dressing'].map(id => ({
@@ -191,7 +200,7 @@ export const skillFixtureContent: SkillCatalogContent = {
       rootRule: hatred, printedMarkers: ['§'], rollBehavior: { kind: 'open-ended', basis: 'attribute-root' },
     }),
     supplemental('scavenging', 'Scavenging', 'Allows an appropriate Wise suggestion.', {
-      forkSuggestions: guidance({ target: { kind: 'wise-family', familyId: 'wises', relevance: 'appropriate' } }),
+      forkSuggestions: guidance({ target: { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' } }),
     }),
     supplemental('rhyme-of-the-pathfinder', 'Rhyme of the Pathfinder', 'Reuses Tracking mechanics without sharing identity.', {
       relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'tracking' } }],
@@ -202,26 +211,62 @@ export const skillFixtureContent: SkillCatalogContent = {
     supplemental('spider-husbandry', 'Spider Husbandry', 'Instruction and Field Dressing limited to spiders.', {
       relations: ['instruction', 'field-dressing'].map(id => ({ kind: 'contextual-substitution', target: { kind: 'skill', id }, context: { kind: 'subject', subject: 'spiders' } })),
     }),
-    supplemental('rope-chant', 'Rope Chant', 'Reuses Knots with additional effects reserved for later audit.', {
+    { ...supplemental('rope-chant', 'Rope Chant', 'Reuses Knots with additional effects reserved for later audit.', {
       relations: [{ kind: 'mechanics-reuse-with-additions', target: { kind: 'skill', id: 'knots' } }],
-    }),
+      tools: { kind: 'anyOf', requirements: [{ kind: 'traveling-gear' }, { kind: 'specific-item', item: 'elven-rope' }] },
+    }), source: [brief, hardeningSource] },
     supplemental('hauling', 'Hauling', 'Can substitute for Power in hauling.', {
       relations: [{ kind: 'contextual-substitution', target: { kind: 'stat', id: 'power' }, context: { kind: 'activity', activity: 'hauling' } }],
     }),
     supplemental('gambling', 'Gambling', 'Uses traveling gear; not Games of Chance.', { tools: { kind: 'traveling-gear' } }),
     supplemental('architect', 'Architect', 'Workshop tool requirement.', { tools: { kind: 'workshop' } }),
     supplemental('staff', 'Staff', 'Requires the specific item.', { tools: { kind: 'specific-item', item: 'staff' } }),
+    reviewed('falconry', 'Falconry', 'Requires generic tools and a falcon.', {
+      tools: { kind: 'allOf', requirements: [{ kind: 'generic' }, { kind: 'specific-item', item: 'falcon' }] },
+    }),
+    reviewed('hunting', 'Hunting', 'Bow or javelin are alternatives.', {
+      tools: { kind: 'anyOf', requirements: [{ kind: 'specific-item', item: 'bow' }, { kind: 'specific-item', item: 'javelin' }] },
+    }),
+    reviewed('demonology', 'Demonology', 'FoRK guidance includes any ritual-type skill.', {
+      forkSuggestions: guidance({ target: { kind: 'category', category: 'ritual', relevance: 'any' } }),
+    }),
+    reviewed('composition', 'Composition', 'FoRK applicability follows the content being composed.', {
+      forkSuggestions: guidance({ target: { kind: 'applicable-to-content' } }),
+    }),
+    reviewed('ballad-of-history', 'Ballad of History', 'Appropriate history, Wise or song FoRKs.', {
+      forkSuggestions: guidance({ target: { kind: 'anyOf', targets: [
+        { kind: 'skill-family', familyId: 'history', relevance: 'appropriate' },
+        { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' },
+        { kind: 'category', category: 'song', relevance: 'appropriate' },
+      ] } }),
+    }),
+    reviewed('song-of-lordship', 'Song of Lordship', 'Etiquette-like use among targets with one of the stated traits.', {
+      relations: [{ kind: 'contextual-substitution', target: { kind: 'skill', id: 'etiquette' }, context: { kind: 'anyOf', conditions: [
+        { kind: 'target-trait', traitId: 'etharchal' }, { kind: 'target-trait', traitId: 'fea' }, { kind: 'target-trait', traitId: 'aman' },
+      ] } }],
+    }),
+    reviewed('code-of-citadels', 'Code of Citadels', 'Use context identifies a Citadel-born Elf target.', {
+      useContext: { kind: 'allOf', conditions: [{ kind: 'target-stock', stockId: 'elf' }, { kind: 'target-origin', originId: 'citadel-born' }] },
+    }),
+    reviewed('driving', 'Driving', 'Riding substitution in pursuit or travel.', {
+      relations: [{ kind: 'contextual-substitution', target: { kind: 'skill', id: 'riding' }, context: { kind: 'anyOf', conditions: [
+        { kind: 'activity', activity: 'pursuit' }, { kind: 'activity', activity: 'travel' },
+      ] } }],
+    }),
+    reviewed('read', 'Read', 'General reading capability without a culture gate.', { capabilities: [{ kind: 'literacy', actions: ['read'] }] }),
+    reviewed('write', 'Write', 'General writing capability without a culture gate.', { capabilities: [{ kind: 'literacy', actions: ['write'] }] }),
   ],
   references: [
     ...[
       ['doctrine', 'Doctrine'], ['apothecary', 'Apothecary'], ['surgery', 'Surgery'],
       ['field-dressing', 'Field Dressing'], ['instruction', 'Instruction'], ['cooking', 'Cooking'],
-      ['write', 'Write'], ['lock-pick', 'Lock Pick'], ['etiquette', 'Etiquette'],
+      ['lock-pick', 'Lock Pick'], ['etiquette', 'Etiquette'],
       ['blacksmith', 'Blacksmith'], ['whitesmith', 'Whitesmith'], ['coppersmith', 'Coppersmith'],
       ['command', 'Command'], ['weaving', 'Weaving'], ['strategy', 'Strategy'], ['dwarf-wise', 'Dwarf-wise'],
       ['knives', 'Knives'], ['throwing', 'Throwing'], ['drinking', 'Drinking'], ['drunking', 'Drunking'], ['games-of-chance', 'Games of Chance'],
     ].map(([id, sourceName]) => ({ id, sourceName, source: [source('Representative fixtures and regression invariants')] })),
     { id: 'knots', sourceName: 'Knots', source: [brief] },
+    { id: 'riding', sourceName: 'Riding', source: [hardeningSource] },
     { id: 'alchemy', sourceName: 'Alchemy', source: [source('Poisons anomaly', 254)] },
     ...([
       ['music-composition', 'Music Composition', 285], ['tracking', 'Tracking', 305],
@@ -242,7 +287,7 @@ export const skillFixtureContent: SkillCatalogContent = {
     alternative: { kind: 'linked-test', usesSpecialForkDie: false }, source: [source('Astrology', 257), source('Rune Casting', 293)] }],
   integrations: [
     { id: 'brawling-fight', skillId: 'brawling', subsystem: 'fight', summary: 'Fight action permissions require later subsystem implementation.', source: [source('Brawling', 261)] },
-    { id: 'skirmish-help', skillId: 'skirmish-tactics', subsystem: 'range-and-cover', summary: 'Same-team characters with this Training can help each other on maneuvers; at most five skirmishers.', source: [source('Skirmish Tactics', 297)] },
+    { id: 'skirmish-help', skillId: 'skirmish-tactics', subsystem: 'range-and-cover', context: { kind: 'activity', activity: 'field-maneuver' }, summary: 'Same-team characters with this Training can help each other on maneuvers; at most five skirmishers.', source: [source('Skirmish Tactics', 297)] },
     { id: 'voice-communication', skillId: 'voice-of-thunder', subsystem: 'battlefield-communication', summary: 'Battlefield communication in addition to Command mechanics; execution deferred.', source: [source('Voice of Thunder', 307)] },
   ],
 };

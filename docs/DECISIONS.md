@@ -275,6 +275,23 @@ future licensed full text must remain separate from public core data and must
 never become runtime-parsed rules. Unresolved source references retain their
 printed labels and tentative targets without silently resolving them.
 
+## D-024 — Composable audited skill metadata without identity normalization
+
+**Status:** Accepted — schema-hardening decision for PR #21
+
+The user's subsequent BWGR review corrects the initial Boxing/Martial Arts
+interpretation: they are distinct skill identities with reusable mechanics,
+not aliases. Preserve the printed Boxing heading and link Martial Arts with
+a mechanics relation. No duplicated combat implementation follows from this.
+
+Keep canonical Skill Type source labels, including Seafaring versus Seafarer.
+Small boolean composition nodes describe tools, FoRK targets and target/activity
+contexts; they are data, not a scripting language or evaluator. FoRK categories
+use curated metadata, never substring matching. General literacy does not require
+a cultural context. Non-Training base opening overrides need explicit provenance
+and cannot replace Training costs; marker/type inference and Gray-opening metadata
+are excluded. See the [review evidence](audits/SKILL_SCHEMA_FOUNDATION.md#pr-21-raw-review-corrections).
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:

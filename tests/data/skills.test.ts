@@ -71,7 +71,7 @@ describe('Skill Catalog schema foundation', () => {
       suggestions: [{ target: { kind: 'skill', skillId: 'boxing' } }, { target: { kind: 'skill', skillId: 'brawling' } },
         { target: { kind: 'category', category: 'melee-weapon', relevance: 'appropriate' } }] });
     expect(skill('mending').forkSuggestions?.suggestions).toEqual([{ target: { kind: 'skill-type', skillType: 'Craftsman', relevance: 'appropriate' } }]);
-    expect(skill('scavenging').forkSuggestions?.suggestions).toEqual([{ target: { kind: 'wise-family', familyId: 'wises', relevance: 'appropriate' } }]);
+    expect(skill('scavenging').forkSuggestions?.suggestions).toEqual([{ target: { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' } }]);
   });
 
   it('retains all four Herbalism FoRKs and their distinct contexts', () => {
@@ -119,8 +119,9 @@ describe('Skill Catalog schema foundation', () => {
     expect(skill('rhyme-of-the-pathfinder').relations).toEqual([{ kind: 'same-mechanics', target: { kind: 'skill', id: 'tracking' } }]);
     expect(skill('voice-of-thunder').relations).toEqual([{ kind: 'mechanics-reuse-with-additions', target: { kind: 'skill', id: 'command' }, additionalCapabilityIds: ['battlefield-communication'] }]);
     expect(skill('dwarven-rune-script').capabilities).toEqual([{ kind: 'literacy', actions: ['read', 'write'], context: { kind: 'culture', cultureId: 'dwarven' } }]);
-    expect(skill('boxing').sourceAliases).toEqual(['Boxing', 'Martial Arts']);
-    expect(catalog.skills.has('martial-arts')).toBe(false);
+    expect(skill('boxing').sourceAliases).not.toContain('Martial Arts');
+    expect(skill('martial-arts').id).not.toBe(skill('boxing').id);
+    expect(skill('martial-arts').relations).toEqual([{ kind: 'same-mechanics', target: { kind: 'skill', id: 'boxing' } }]);
   });
 
   it('permits stat targets without treating a stat as a skill', () => {

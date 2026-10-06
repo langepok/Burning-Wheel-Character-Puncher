@@ -39,8 +39,10 @@ execution are deferred.
 Supporting name references include the visually verified Music Composition,
 Tracking, Symbology and Song of Flocks and Herds. Nogger and Stuff-wise are actual
 partial fixtures. Tests preserve Knives versus Throwing, Spear versus Throwing,
-Drinking versus Drunking, and Gambling versus Games of Chance. Boxing/Martial
-Arts retains one identity with explicit source aliases.
+Drinking versus Drunking, and Gambling versus Games of Chance. Boxing and Martial
+Arts have separate identities. The Boxing record preserves its printed heading
+`Boxing (Martial Arts)`; the Martial Arts record points to Boxing via a
+`same-mechanics` relation. Shared mechanics do not merge owned skills.
 
 ## Supplemental task examples
 
@@ -59,6 +61,44 @@ Their page numbers were not supplied; they do not acquire invented citations.
 - Hauling may substitute for Power in the hauling context.
 - Sword requires a sword, Staff a staff, Gambling traveling gear, Architect a
   workshop, and Mending generic expendable tools.
+
+## PR #21 RAW review corrections
+
+The user's BWGR review for this hardening pass supplies the following corrections
+and additional examples. They are recorded with `task-brief` provenance to this
+section; no new page numbers were supplied. The explicit Boxing/Martial Arts
+correction supersedes the earlier single-identity reading of the audit packet:
+the Boxing entry and Fight refer to two skills, and Martial Arts has its own
+entry referring to Boxing. No combat implementation is duplicated.
+
+- Canonical Skill Type labels include Social, Peasant, Forester, Artist, Musical,
+  School of Thought, Seafaring and Seafarer. The latter two remain separate
+  source labels, with no automatic normalization.
+- Falconry requires generic tools **and** a falcon. Hunting takes a bow **or**
+  javelin. Rope Chant takes traveling gear **or** Elven Rope. Tool leaves retain
+  their own expendability; unknown expenditure is not filled with false.
+- Demonology can use any ritual-type skill as FoRK guidance. Composition accepts
+  skills applicable to its content. Ballad of History accepts an appropriate
+  history, Wise or song. Ritual/song are curated semantic categories rather
+  than inferred substrings or invented printed Skill Type labels.
+- Song of Lordship's Etiquette-like use is contextual to targets with Etharchal,
+  Fea **or** Aman. Code of Citadels identifies a target who is both Elf and
+  Citadel-born. These are target conditions, not actor stock restrictions.
+- Driving's Riding substitution applies in pursuit **or** travel. Field-maneuver
+  context can also be represented independently (the existing Skirmish Tactics
+  integration already has audited maneuver scope).
+- Ordinary Read and Write have general literacy capabilities; the Dwarven Rune
+  Script capability retains its cultural context. Playwright still requires the
+  specific Write skill; this pass does not substitute any literacy capability.
+- A non-Training base opening-cost override may be represented with explicit
+  source provenance. Standard opening is one point; specified special skills
+  may cost two; Training costs two with no exponent. Marker/type labels do not
+  establish costs. No new per-skill prices were supplied in this review, so the
+  new cost representation is exercised with synthetic test content only.
+
+These examples add partial fixtures, not a full A–Z transcription. Boolean
+compositions are declarative metadata; no evaluator or general rules language
+is introduced.
 
 ## Deliberately incomplete evidence
 

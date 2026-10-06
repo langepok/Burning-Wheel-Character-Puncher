@@ -146,6 +146,22 @@ not implemented skill/roll/subsystem evaluators.
 See [`audits/SKILL_SCHEMA_FOUNDATION.md`](audits/SKILL_SCHEMA_FOUNDATION.md) for
 fixture scope, incomplete evidence and supplemental task-example provenance.
 
+## PR #21 subsequent BWGR review
+
+The user's subsequent RAW verification corrects Boxing/Martial Arts to two
+separate skill identities sharing mechanics: the Boxing entry and Fight refer
+to both skills, and the Martial Arts entry refers back to Boxing. The Boxing
+heading remains canonical source text, not an instruction to merge identities.
+
+Additional source examples establish composed tool requirements, broader
+contextual FoRK guidance, target trait/stock/origin conditions and general
+Read/Write literacy. Their concise paraphrases and source-entry names are in
+the [review record](audits/SKILL_SCHEMA_FOUNDATION.md#pr-21-raw-review-corrections).
+The review supplied no additional page numbers; none are fabricated here.
+Playwright's Write prerequisite is unchanged. The standard/special/Training
+opening-cost rules above support a sourced base-cost override representation,
+not cost inference from magical markers or an implemented spending engine.
+
 ## Items still requiring audit before dependent implementation
 
 - complete manually verified data transcription for all lifepaths in the four supported areas;

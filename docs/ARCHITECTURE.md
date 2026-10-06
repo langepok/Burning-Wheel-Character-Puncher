@@ -235,6 +235,20 @@ behavior; FoRK references and contexts; availability/opening/use requirements;
 tools; relations; capabilities; and Resources interactions. Printed markers
 remain separate source metadata. Relations never merge skill identities.
 
+`SkillType` preserves printed labels, including both Seafaring and Seafarer.
+Tools, FoRK targets and contexts support small `allOf`/`anyOf` compositions.
+FoRK family/category/content-applicability leaves retain contextual guidance;
+curated ritual/song categories are not inferred from names. Target trait,
+stock, culture and origin leaves are distinct from actor stock/culture context.
+Registration recursively checks composition arity and loaded skill/family links.
+These nodes contain no scripts, callbacks, prose parsing or rule evaluation.
+
+Literacy may be general (no context) or contextual. Non-Training base opening
+overrides store a positive integer cost and provenance; absent values remain
+untranscribed. Costs are not derived from printed markers or Skill Type. Gray
+opening belongs to future global Burner rules, not skill metadata. Training
+retains its independent fixed cost/no-exponent representation.
+
 `SkillRollContributor` preserves source skill and special behavior identity for
 a future roll builder. `SpecialForkBehavior` describes Astrology's special die;
 Astrology and Rune Casting share it. Ordinary FoRK guidance is separate.

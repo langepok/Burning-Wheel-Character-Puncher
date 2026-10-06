@@ -193,7 +193,18 @@ When implemented:
 - Add representative positive, negative, serialization and type-level tests; retain the entire existing lifepath regression suite.
 - Run `npm ci`, `npm run typecheck`, `npm test`, and `npm run build`. No full A–Z transcription or UI/roll/combat/Resources/Injury/magic engine.
 
-### Skill availability
+### PR #21 schema hardening
+
+- Boxing and Martial Arts have distinct ids; a mechanics relation permits reuse without aliasing identity.
+- Preserve source Skill Type labels, including Social, Peasant, Forester, Artist, Musical, School of Thought, Seafaring and Seafarer.
+- Tools compose with allOf/anyOf; Falconry, Hunting and Rope Chant preserve the supplied conjunctions/alternatives.
+- FoRK guidance supports ritual categories, applicability to content, and history/Wise/song alternatives without prose parsing or a whitelist.
+- Context conditions compose target traits, target stock/origin and activities; preserve Song of Lordship, Code of Citadels and Driving conditions.
+- Read/Write support general literacy; Dwarven literacy retains its context and Playwright still requires Write.
+- Non-Training base opening-cost overrides carry provenance; missing cost remains untranscribed. Never infer costs from markers/types or add Gray-opening metadata.
+- New composition nodes receive integrity and serialization regressions; all prior tests and required npm checks pass.
+
+### Skill availability (rules evaluation)
 
 In rules-enforced mode:
 
