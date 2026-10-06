@@ -220,6 +220,78 @@ it does not establish a new Burning Wheel rule.
 Skill and resource fractions share an exact serializable numerator/denominator
 type and validation. This representation implies no resource-rounding policy.
 
+## D-020 — Data-driven Skill Catalog, schema before full transcription
+
+**Status:** Accepted — architecture/scope decision for the Skill Catalog foundation
+
+The full General Skill Catalog will be declarative content. The foundation uses
+the verified [Issue #20 audit packet](https://github.com/langepok/Burning-Wheel-Character-Puncher/issues/20)
+and representative examples from the task brief to prove the schema. Full A–Z
+transcription belongs in a subsequent PR.
+
+Complete `SkillDefinition` records and explicitly partial `SkillAuditFixture`
+records have different coverage discriminants. Omitted fixture metadata means
+untranscribed, not unrestricted or ordinary. Name-only references are not skill
+definitions. Fixtures do not replace the current lifepath catalog's skill references.
+
+## D-021 — FoRK guidance and contributor provenance
+
+**Status:** Accepted — architecture decision implementing verified RAW
+
+Printed FoRK suggestions are guidance, not an exhaustive whitelist. Concrete
+skills, types, categories, Wise topics and contexts have structured representation.
+Future adjudication must allow contextual contributors beyond the printed list.
+
+Contributors preserve their source skill, evidence and ordinary/special behavior
+identity. Astrology and Rune Casting reference a shared special FoRK descriptor;
+flattening this to a dice count would lose reroll/subtraction behavior. This PR
+does not implement a roll builder or dice evaluator.
+
+## D-022 — Skill families and choices have separate identities
+
+**Status:** Accepted — data modeling decision implementing verified RAW
+
+Wises and History are families with separately owned topics and shared metadata
+defaults. Named topics may override those defaults. Family/topic ids form a stable
+pair, independent of display text. A family does not own one shared exponent.
+
+Appropriate Weapons is a choice expression selecting real skills in context;
+it is never registered as an owned skill. Broader families such as languages
+and musical instruments await their own audits.
+
+## D-023 — Skill definitions describe facts; integrations own subsystem behavior
+
+**Status:** Accepted — architecture and repository-content decision
+
+`SkillDefinition` metadata separates availability, opening and use requirements;
+Training from Skill Type; printed markers from roll behavior; and semantic
+relations from source aliases. Integration tags are indexes, not execution
+permissions. Separate `SkillIntegration` records reserve a place for subsystem
+links; Fight, Range and Cover, Resources, Injury and magic execution remains
+outside the catalog.
+
+Public data holds project-authored summaries and source references. Optional
+future licensed full text must remain separate from public core data and must
+never become runtime-parsed rules. Unresolved source references retain their
+printed labels and tentative targets without silently resolving them.
+
+## D-024 — Composable audited skill metadata without identity normalization
+
+**Status:** Accepted — schema-hardening decision for PR #21
+
+The user's subsequent BWGR review corrects the initial Boxing/Martial Arts
+interpretation: they are distinct skill identities with reusable mechanics,
+not aliases. Preserve the printed Boxing heading and link Martial Arts with
+a mechanics relation. No duplicated combat implementation follows from this.
+
+Keep canonical Skill Type source labels, including Seafaring versus Seafarer.
+Small boolean composition nodes describe tools, FoRK targets and target/activity
+contexts; they are data, not a scripting language or evaluator. FoRK categories
+use curated metadata, never substring matching. General literacy does not require
+a cultural context. Non-Training base opening overrides need explicit provenance
+and cannot replace Training costs; marker/type inference and Gray-opening metadata
+are excluded. See the [review evidence](audits/SKILL_SCHEMA_FOUNDATION.md#pr-21-raw-review-corrections).
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:
