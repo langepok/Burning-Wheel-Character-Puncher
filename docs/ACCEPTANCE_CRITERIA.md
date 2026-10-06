@@ -178,6 +178,21 @@ When implemented:
 
 ## Phase CB-3 — Skills
 
+### Skill Catalog schema foundation — Issue #20
+
+- Define stock-independent skill metadata separately from rule evaluators, character state, UI and subsystem integrations.
+- Represent single, combined, attribute and conditional roots; Training has no exponent, no normal advancement and an aptitude/practice root purpose independent of Skill Type.
+- Separate printed markers from unconditional/conditional open-ended behavior.
+- FoRK suggestions are guidance with manual contextual additions, and retain typed skill/category/type/Wise/context references. Astrology-style contributor behavior preserves provenance and is shared with Rune Casting.
+- Distinguish availability scope, opening requirements and use requirements; never infer Gifted as Sorcery's opening requirement.
+- Distinguish mechanics reuse, contextual substitution, capability inclusion, specialization and replacement, including stat/attribute targets.
+- Represent independent tool/expendable metadata, repeated Resources interactions, families and weapon-choice expressions without subsystem execution.
+- Wise/History topics have separate owned identities; Appropriate Weapons is not a SkillDefinition.
+- Keep partial audit fixtures explicitly partial. Untranscribed fields do not mean unrestricted, no tools, or no special behavior. All supplied facts retain packet/task-brief provenance and supplied page references.
+- Preserve canonical names, distinct skill identities and unresolved Poisons → Alchemical; probable Alchemy is never promoted to a resolved reference.
+- Add representative positive, negative, serialization and type-level tests; retain the entire existing lifepath regression suite.
+- Run `npm ci`, `npm run typecheck`, `npm test`, and `npm run build`. No full A–Z transcription or UI/roll/combat/Resources/Injury/magic engine.
+
 ### Skill availability
 
 In rules-enforced mode:

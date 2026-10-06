@@ -210,6 +210,46 @@ Do not create parallel "Human engine", "Dwarf engine", etc. unless source rules 
 
 The near-term project does **not** need a dynamic plugin runtime or a general-purpose scripting language. Avoid both extremes: do not hard-code Human assumptions, but also do not build speculative infrastructure that current rules do not require.
 
+## Skill Catalog schema foundation
+
+`src/data/skills/types.ts` defines skill metadata independently of rules and
+character state. `SkillDefinition` requires complete core metadata;
+`SkillAuditFixture` explicitly permits untranscribed fields. No consumer may
+interpret a missing partial field as an unrestricted/default rule. Supporting
+`SkillNameReference` records carry identity/evidence only.
+
+`createSkillCatalog` registers typed content, checking ids, cross-record references,
+family membership, integration ownership and non-overlapping conditional-root
+cases. It is an integrity boundary for TypeScript content, not a general JSON
+schema validator or a rules evaluator. It has no built-in stock switch and does
+not import Human data. Untrusted import validation is future work.
+
+`fixtures.ts` is a representative schema test pack, not production skill content.
+It is not automatically joined to the lifepath catalog's existing skill-name
+references. A later full transcription must audit that join and each complete
+definition. Details and fixture provenance are in
+[`audits/SKILL_SCHEMA_FOUNDATION.md`](audits/SKILL_SCHEMA_FOUNDATION.md).
+
+Structured unions cover stat/attribute roots and stock cases; Training; roll
+behavior; FoRK references and contexts; availability/opening/use requirements;
+tools; relations; capabilities; and Resources interactions. Printed markers
+remain separate source metadata. Relations never merge skill identities.
+
+`SkillRollContributor` preserves source skill and special behavior identity for
+a future roll builder. `SpecialForkBehavior` describes Astrology's special die;
+Astrology and Rune Casting share it. Ordinary FoRK guidance is separate.
+
+`SkillFamilyDefinition` provides defaults; `OwnedSkillTopic` identifies a topic
+by `(familyId, topicId)` and supplies metadata overrides. The composition helper
+replaces whole fields, not individual array items. Named entries such as
+Stuff-wise retain explicit family membership and audited overrides. These
+helpers compose data only; they do not open a skill or store character exponents.
+`SkillChoiceExpression` keeps Appropriate Weapons out of the skill map.
+
+Typed integration tags describe discovery/indexing. `SkillIntegration` records
+hold separate summaries and provenance; future subsystem logic belongs in
+`rules/`. No catalog strings are parsed into executable rules.
+
 ## Semantic category tags
 
 Some RAW requirements use fictional categories rather than exact ids or setting membership (`guard`, `acolyte`, `priest`, `horse-related`, etc.). These are modeled as curated semantic metadata on lifepaths.

@@ -107,6 +107,45 @@ Examples: 5 → 3, 7 → 4.
 - **RAW:** standard skill open = 1 point; exponent based on root.
 - **UX decision:** use +1 / -1 controls and a large exponent display.
 
+## Skill List schema audit — Issue #20
+
+The verified [schema audit packet](https://github.com/langepok/Burning-Wheel-Character-Puncher/issues/20)
+supplies the following additional paraphrases. These are metadata foundations,
+not implemented skill/roll/subsystem evaluators.
+
+- **RAW:** FoRK lists are situational guidance, not exhaustive allowed lists.
+  A related owned skill contributes one die, or two at exponent 7+. Stats and
+  attributes do not FoRK. See *Fields of Related Knowledge*, book pp. 36–37
+  (PDF pp. 38–39).
+- **RAW:** Training has no exponent and no normal advancement. Its printed root
+  supports Aptitude/practice, independently of Skill Type. The packet cites
+  *Character Burner*, book p. 88 / PDF p. 90. Antiphon Union Training is an
+  Artisan example (book p. 255), while Skirmish Tactics is Military Training
+  (book p. 297).
+- **RAW:** The printed `§` identifies magical open-ended skills, but other rules
+  can also make tests open-ended. Nogger is a Craftsman skill with this marker
+  (book p. 285); Orc Torture uses Hatred and is open-ended (book p. 304).
+- **RAW:** Astrology's FoRK can apply to skills except Martial/Physical types.
+  Sixes reroll normally; on a one, reroll the die and subtract one success if
+  that second roll fails. A linked test avoids this special FoRK die. Rune
+  Casting uses the same style of FoRK. See book pp. 257 and 293.
+- **RAW:** Histories and Wise topics are separately owned skills, despite their
+  family presentation (book pp. 277 and 309). Appropriate Weapons is a choice
+  heading, not an owned skill (book p. 256).
+- **RAW:** Availability scope, prerequisites to opening and conditions on use
+  are distinct. Playwright requires Write to open (book p. 288); Sorcery's
+  Gifted interaction concerns spell use and does not establish an opening
+  prerequisite in this audit (book p. 299).
+- **RAW:** Resources recovery recurs across Accounting, Administration,
+  Beggardry, Estate Management, Extortion and Waiting Tables (book pp. 253,
+  259, 271, 307). Beggardry can also produce cash. These are typed interactions,
+  not a Resources engine.
+- **Unresolved source reference:** Poisons prints `Alchemical` (book p. 288).
+  Alchemy (book p. 254) is only a probable target; it is not silently substituted.
+
+See [`audits/SKILL_SCHEMA_FOUNDATION.md`](audits/SKILL_SCHEMA_FOUNDATION.md) for
+fixture scope, incomplete evidence and supplemental task-example provenance.
+
 ## Items still requiring audit before dependent implementation
 
 - complete manually verified data transcription for all lifepaths in the four supported areas;
