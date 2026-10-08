@@ -275,6 +275,12 @@ future licensed full text must remain separate from public core data and must
 never become runtime-parsed rules. Unresolved source references retain their
 printed labels and tentative targets without silently resolving them.
 
+The confirmed Antiphon audit keeps its direct tools as none. Its cross-reference
+to the preceding skill-song creation stage belongs in structured magic-integration
+metadata, not in ToolRequirement. Creation follows the chosen song's own rules
+and tools; this does not propagate them to the later enchantment stage. No
+inheritance evaluator or magic engine is introduced.
+
 ## D-024 — Composable audited skill metadata without identity normalization
 
 **Status:** Accepted — schema-hardening decision for PR #21
@@ -291,6 +297,17 @@ use curated metadata, never substring matching. General literacy does not requir
 a cultural context. Non-Training base opening overrides need explicit provenance
 and cannot replace Training costs; marker/type inference and Gray-opening metadata
 are excluded. See the [review evidence](audits/SKILL_SCHEMA_FOUNDATION.md#pr-21-raw-review-corrections).
+
+The subsequent PDF audit and user resolution extend tool composition with a
+conditional context and then/otherwise branches. Dwarven Rune Script and Elven
+Script require expendable tools for writing, not reading. Reuse activity nodes
+and recursive tool validation; do not introduce a Script-specific node or an
+evaluator. See [the A–Z audit](audits/GENERAL_SKILL_CATALOG_AZ.md).
+
+The confirmed Blacksmith audit adds optional context to Resources interactions
+and a generic circumstance-id leaf to SkillContext. The suitable-workplace
+condition is independent of Workshop tools and is never inferred for other
+skills. This extends descriptive metadata only; no Resources evaluator follows.
 
 ## Open decisions
 

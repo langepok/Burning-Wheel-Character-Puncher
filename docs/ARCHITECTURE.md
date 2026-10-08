@@ -237,6 +237,14 @@ remain separate source metadata. Relations never merge skill identities.
 
 `SkillType` preserves printed labels, including both Seafaring and Seafarer.
 Tools, FoRK targets and contexts support small `allOf`/`anyOf` compositions.
+Tools also support a conditional node with a structured context and recursive
+then/otherwise tool branches. Reading and writing are distinct activity leaves;
+the Script fixtures require expendable tools only for writing. Registration
+checks both branches and the condition without evaluating the activity.
+Resource interactions can independently attach a SkillContext. A circumstance
+leaf carries a nonempty content id, such as suitable-workplace. Tools do not
+manufacture Resources contexts, and a context on recovery does not restrict
+other uses of the skill. Registration validates these contexts recursively.
 FoRK family/category/content-applicability leaves retain contextual guidance;
 curated ritual/song categories are not inferred from names. Target trait,
 stock, culture and origin leaves are distinct from actor stock/culture context.
@@ -260,9 +268,21 @@ Stuff-wise retain explicit family membership and audited overrides. These
 helpers compose data only; they do not open a skill or store character exponents.
 `SkillChoiceExpression` keeps Appropriate Weapons out of the skill map.
 
+The ongoing transcription lives in `src/data/skills/general/`, separately from
+partial fixtures. Reviewed blocks contain complete definitions; later-block
+name references carry identity/evidence only. The independent canonical oracle
+lives in `tests/data/general-skill-manifest.ts` and checks ids, names, record kinds
+and pages. The unfinished aggregate is not exposed by the UI. Wises use the
+printed Special default; explicitly printed Wise entries override it. The three
+named Doctrine variations are explicit definitions, not a new family model.
+
 Typed integration tags describe discovery/indexing. `SkillIntegration` records
 hold separate summaries and provenance; future subsystem logic belongs in
 `rules/`. No catalog strings are parsed into executable rules.
+Magic integrations can also hold a structured base-item-creation reference to
+an applicable skill song and its own rules/tools. This describes a preceding
+stage independently of the owning skill's ToolRequirement. It neither copies
+tools nor applies creation requirements to the later enchantment stage.
 
 ## Semantic category tags
 

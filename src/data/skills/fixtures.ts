@@ -1,6 +1,6 @@
 import type {
   FixedRoot, ForkGuidance, ForkSuggestion, SkillAuditFixture, SkillCatalogContent,
-  SkillMetadata, SkillRelation, SkillSource, TrainingBehavior,
+  SkillMetadata, SkillRelation, SkillSource, ToolRequirement, TrainingBehavior,
 } from './types';
 
 const packetUrl = 'https://github.com/langepok/Burning-Wheel-Character-Puncher/issues/20';
@@ -14,11 +14,18 @@ const brief: SkillSource = {
 const hardeningSource: SkillSource = {
   kind: 'task-brief', document: 'docs/audits/SKILL_SCHEMA_FOUNDATION.md', section: 'PR #21 RAW review corrections',
 };
+const pdfAudit = (section: string, page: number): SkillSource => ({
+  kind: 'audit-packet',
+  url: 'https://github.com/langepok/Burning-Wheel-Character-Puncher/blob/skill-catalog-general-a-z/docs/audits/GENERAL_SKILL_CATALOG_AZ.md',
+  section, pages: { printed: [page], pdf: [page + 2] },
+});
 const stat = (id: string): FixedRoot => ({ kind: 'single', ability: { kind: 'stat', id } });
 const combined = (first: string, second: string): FixedRoot => ({
   kind: 'combined', abilities: [{ kind: 'stat', id: first }, { kind: 'stat', id: second }],
 });
 const hatred: FixedRoot = { kind: 'single', ability: { kind: 'attribute', id: 'hatred' } };
+const writingTools: ToolRequirement = { kind: 'conditional', when: { kind: 'activity', activity: 'writing' },
+  then: { kind: 'generic', expendable: true }, otherwise: { kind: 'none', expendable: false } };
 const training: TrainingBehavior = {
   kind: 'training', rootPurpose: 'aptitude-and-practice', exponent: 'none', advancement: 'none', openingCost: 2,
 };
@@ -63,8 +70,21 @@ export const skillFixtureContent: SkillCatalogContent = {
     fixture('administration', 'Administration', 253, 'Can recover taxed Resources.', {
       rootRule: stat('perception'), resourceInteractions: [{ kind: 'recover-taxed-resources' }],
     }),
+    { id: 'blacksmith', sourceName: 'Blacksmith', coverage: 'partial',
+      summary: 'Forges iron and steel; Resources recovery needs a suitable workplace.',
+      source: [pdfAudit('Contextual Resources recovery: Blacksmith', 260)],
+      tools: { kind: 'workshop' }, resourceInteractions: [{ kind: 'recover-taxed-resources',
+        context: { kind: 'circumstance', circumstanceId: 'suitable-workplace' } }],
+    },
+    { id: 'carpentry', sourceName: 'Carpentry', coverage: 'partial',
+      summary: 'Wood construction and Resources recovery.',
+      source: [pdfAudit('Resources qualifier scan: Carpentry', 263)],
+      tools: { kind: 'workshop' }, resourceInteractions: [{ kind: 'recover-taxed-resources' }],
+    },
     fixture('antiphon-union-training', 'Antiphon Union Training', 255, 'Artisan Training with no exponent.', {
       rootRule: stat('will'), skillType: 'Artisan', training, printedMarkers: ['*'],
+      tools: { kind: 'none', expendable: false }, integrationTags: ['magic'],
+      capabilities: [{ kind: 'subsystem-capability', id: 'antiphon-base-item-creation', integrationId: 'antiphon-creation' }],
     }),
     fixture('armor-training', 'Armor Training', 256, 'Root is for practice, not an exponent.', {
       rootRule: combined('power', 'speed'), skillType: 'Martial Training', training, printedMarkers: ['*'],
@@ -89,6 +109,7 @@ export const skillFixtureContent: SkillCatalogContent = {
       })),
     }),
     fixture('dwarven-rune-script', 'Dwarven Rune Script', 269, 'Reading and writing in the Dwarven context.', {
+      tools: writingTools,
       rootRule: stat('perception'), capabilities: [{ kind: 'literacy', actions: ['read', 'write'],
         context: { kind: 'culture', cultureId: 'dwarven' } }],
     }),
@@ -227,8 +248,15 @@ export const skillFixtureContent: SkillCatalogContent = {
     reviewed('hunting', 'Hunting', 'Bow or javelin are alternatives.', {
       tools: { kind: 'anyOf', requirements: [{ kind: 'specific-item', item: 'bow' }, { kind: 'specific-item', item: 'javelin' }] },
     }),
-    reviewed('demonology', 'Demonology', 'FoRK guidance includes any ritual-type skill.', {
-      forkSuggestions: guidance({ target: { kind: 'category', category: 'ritual', relevance: 'any' } }),
+    fixture('demonology', 'Demonology', 267, 'Study of demons; distinct from Empyrealia.', {
+      forkSuggestions: guidance(fork('ancient-history'), fork('obscure-history'), fork('summoning'), fork('doctrine')),
+    }),
+    fixture('empyrealia', 'Empyrealia', 270, 'Study of celestial hierarchies; ritual-category FoRK guidance.', {
+      forkSuggestions: guidance(fork('doctrine'), fork('summoning'), { target: { kind: 'category', category: 'ritual', relevance: 'any' } }),
+    }),
+    fixture('elven-script', 'Elven Script', 270, 'Elven literacy with expendable tools for writing only.', {
+      rootRule: stat('perception'), skillType: 'Academic', tools: writingTools,
+      availabilityRestrictions: only(['elf'], 'character-burning'), capabilities: [{ kind: 'literacy', actions: ['read', 'write'] }],
     }),
     reviewed('composition', 'Composition', 'FoRK applicability follows the content being composed.', {
       forkSuggestions: guidance({ target: { kind: 'applicable-to-content' } }),
@@ -261,11 +289,12 @@ export const skillFixtureContent: SkillCatalogContent = {
       ['doctrine', 'Doctrine'], ['apothecary', 'Apothecary'], ['surgery', 'Surgery'],
       ['field-dressing', 'Field Dressing'], ['instruction', 'Instruction'], ['cooking', 'Cooking'],
       ['lock-pick', 'Lock Pick'], ['etiquette', 'Etiquette'],
-      ['blacksmith', 'Blacksmith'], ['whitesmith', 'Whitesmith'], ['coppersmith', 'Coppersmith'],
+      ['whitesmith', 'Whitesmith'], ['coppersmith', 'Coppersmith'],
       ['command', 'Command'], ['weaving', 'Weaving'], ['strategy', 'Strategy'], ['dwarf-wise', 'Dwarf-wise'],
       ['knives', 'Knives'], ['throwing', 'Throwing'], ['drinking', 'Drinking'], ['drunking', 'Drunking'], ['games-of-chance', 'Games of Chance'],
     ].map(([id, sourceName]) => ({ id, sourceName, source: [source('Representative fixtures and regression invariants')] })),
     { id: 'knots', sourceName: 'Knots', source: [brief] },
+    ...[['ancient-history', 'Ancient History'], ['obscure-history', 'Obscure History'], ['summoning', 'Summoning']].map(([id, sourceName]) => ({ id, sourceName, source: [source('Demonology correction', 267)] })),
     { id: 'riding', sourceName: 'Riding', source: [hardeningSource] },
     { id: 'alchemy', sourceName: 'Alchemy', source: [source('Poisons anomaly', 254)] },
     ...([
@@ -275,7 +304,7 @@ export const skillFixtureContent: SkillCatalogContent = {
   ],
   families: [
     { id: 'wises', sourceName: 'Wises', ownership: 'separate-skill-per-topic',
-      defaults: { rootRule: stat('perception'), skillType: 'Wise' },
+      defaults: { rootRule: stat('perception'), skillType: 'Special' },
       summary: 'Each topic is owned separately; named entries may override family metadata.', source: [source('Wises', 309)] },
     { id: 'history', sourceName: 'History', ownership: 'separate-skill-per-topic', defaults: { rootRule: stat('perception') },
       summary: 'Individual histories are opened and owned separately.', source: [source('History', 277)] },
@@ -286,6 +315,12 @@ export const skillFixtureContent: SkillCatalogContent = {
     die: { six: 'reroll-normally', one: { action: 'reroll', onFailure: { subtractSuccesses: 1 } } },
     alternative: { kind: 'linked-test', usesSpecialForkDie: false }, source: [source('Astrology', 257), source('Rune Casting', 293)] }],
   integrations: [
+    { id: 'antiphon-creation', skillId: 'antiphon-union-training', subsystem: 'magic',
+      baseItemCreation: { stage: 'base-item-creation', requiredMethod: { kind: 'applicable-skill-song' },
+        follows: 'selected-skill-own-rules-and-tools' },
+      summary: 'Create the base item using an applicable skill song before imbuing it with a spell song.',
+      source: [pdfAudit('Antiphon Union: creation-stage cross-reference', 255)],
+    },
     { id: 'brawling-fight', skillId: 'brawling', subsystem: 'fight', summary: 'Fight action permissions require later subsystem implementation.', source: [source('Brawling', 261)] },
     { id: 'skirmish-help', skillId: 'skirmish-tactics', subsystem: 'range-and-cover', context: { kind: 'activity', activity: 'field-maneuver' }, summary: 'Same-team characters with this Training can help each other on maneuvers; at most five skirmishers.', source: [source('Skirmish Tactics', 297)] },
     { id: 'voice-communication', skillId: 'voice-of-thunder', subsystem: 'battlefield-communication', summary: 'Battlefield communication in addition to Command mechanics; execution deferred.', source: [source('Voice of Thunder', 307)] },

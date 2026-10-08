@@ -39,15 +39,23 @@ function validateContext(context: SkillContext): void {
     validateOperands(context.conditions);
     context.conditions.forEach(validateContext);
   } else {
-    // Leaf ids are content references, not expressions to parse or execute.
-    for (const [key, value] of Object.entries(context)) {
-      if (key !== 'kind' && !value.trim()) throw new Error('Context ids must be nonempty');
+    const fields = { circumstance: 'circumstanceId', subject: 'subject', activity: 'activity', culture: 'cultureId', stock: 'stockId',
+      'target-trait': 'traitId', 'target-stock': 'stockId', 'target-culture': 'cultureId', 'target-origin': 'originId' } as const;
+    const field = fields[context.kind];
+    const value = field && (context as unknown as Record<string, unknown>)[field];
+    if (typeof value !== 'string' || !value.trim()) throw new Error('Context ids must be nonempty');
+    if (context.kind === 'activity' && !['potion-work', 'wound-treatment', 'hauling', 'crafting', 'pursuit', 'travel', 'field-maneuver', 'reading', 'writing'].includes(value)) {
+      throw new Error('Unknown context activity');
     }
   }
 }
 
 function validateTools(tools: ToolRequirement): void {
-  if (tools.kind === 'allOf' || tools.kind === 'anyOf') {
+  if (tools.kind === 'conditional') {
+    validateContext(tools.when);
+    validateTools(tools.then);
+    validateTools(tools.otherwise);
+  } else if (tools.kind === 'allOf' || tools.kind === 'anyOf') {
     validateOperands(tools.requirements);
     tools.requirements.forEach(validateTools);
   } else if (tools.kind === 'specific-item' && !tools.item.trim()) {
@@ -82,6 +90,9 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   const validateMetadata = (metadata: Partial<SkillMetadata>) => {
     if (metadata.tools) validateTools(metadata.tools);
     if (metadata.useContext) validateContext(metadata.useContext);
+    for (const interaction of metadata.resourceInteractions ?? []) {
+      if (interaction.context !== undefined) validateContext(interaction.context);
+    }
     if (metadata.baseOpeningCostOverride) {
       const { points, source } = metadata.baseOpeningCostOverride;
       if (!Number.isSafeInteger(points) || points <= 0 || !source.length) {
@@ -127,6 +138,14 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   for (const integration of integrations.values()) {
     requireSkill(integration.skillId);
     if (integration.context) validateContext(integration.context);
+    if (integration.baseItemCreation !== undefined) {
+      const creation = integration.baseItemCreation;
+      if (integration.subsystem !== 'magic' || creation?.stage !== 'base-item-creation' ||
+          creation.requiredMethod?.kind !== 'applicable-skill-song' ||
+          creation.follows !== 'selected-skill-own-rules-and-tools') {
+        throw new Error('Invalid magic base-item-creation reference');
+      }
+    }
   }
 
   return { skills, references, families, choices, forkBehaviors, integrations };

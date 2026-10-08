@@ -162,6 +162,37 @@ Playwright's Write prerequisite is unchanged. The standard/special/Training
 opening-cost rules above support a sourced base-cost override representation,
 not cost inference from magical markers or an implemented spending engine.
 
+## General Skill List PDF corrections
+
+- **RAW:** The general Wises entry prints Skill Type Special (book p. 309 /
+  PDF p. 311). Named exceptions, including Black Legion-wise (book p. 260),
+  explicitly print Wise. Family membership does not normalize the printed type.
+
+- **RAW:** Demonology suggests Ancient History, Obscure History, Summoning and
+  Doctrine (book p. 267 / PDF p. 269). The ritual-type FoRK suggestion belongs
+  to Empyrealia (book p. 270 / PDF p. 272), alongside Doctrine and Summoning.
+  These remain distinct identities and non-exhaustive FoRK guidance.
+- **RAW:** Dwarven Rune Script and Elven Script require generic expendable tools
+  for writing only; reading has no tool requirement (book pp. 269–270 /
+  PDF pp. 271–272). This concerns tools, not eligibility to use the skill.
+
+## Antiphon creation-stage cross-reference
+
+- **RAW, confirmed source reading:** Antiphon Union Training has no direct tool
+  requirement. The Tools qualification refers to the skill-song stage that
+  creates the base item; that creation follows the selected song's own rules
+  and tools (book p. 255 / PDF p. 257). It does not automatically require those
+  creation tools during the later spell-song enchantment stage.
+
+## Contextual Resources metadata
+
+- **RAW:** Blacksmith can replenish taxed Resources if a suitable place to
+  practice the trade is available (book p. 260 / PDF p. 262). This circumstance
+  is encoded on recovery independently of the Workshop tool requirement.
+- **RAW:** Carpentry can replenish taxed Resources and requires Workshop tools
+  (book p. 263 / PDF p. 265); its recovery description does not contain the
+  Blacksmith workplace qualifier. Do not propagate that condition from Tools.
+
 ## Items still requiring audit before dependent implementation
 
 - complete manually verified data transcription for all lifepaths in the four supported areas;

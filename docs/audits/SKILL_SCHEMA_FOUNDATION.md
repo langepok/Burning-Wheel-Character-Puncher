@@ -77,7 +77,10 @@ entry referring to Boxing. No combat implementation is duplicated.
 - Falconry requires generic tools **and** a falcon. Hunting takes a bow **or**
   javelin. Rope Chant takes traveling gear **or** Elven Rope. Tool leaves retain
   their own expendability; unknown expenditure is not filled with false.
-- Demonology can use any ritual-type skill as FoRK guidance. Composition accepts
+- Empyrealia can use any ritual-type skill as FoRK guidance (book p. 270 / PDF
+  p. 272). The earlier Demonology attribution was corrected against the PDF:
+  Demonology instead names Ancient History, Obscure History, Summoning and
+  Doctrine (book p. 267 / PDF p. 269). Composition accepts
   skills applicable to its content. Ballad of History accepts an appropriate
   history, Wise or song. Ritual/song are curated semantic categories rather
   than inferred substrings or invented printed Skill Type labels.
@@ -112,6 +115,9 @@ The packet explicitly verifies that Song of the Eldar lacks a printed `§`.
 Its mechanics relation does not synthesize a marker or unverified roll metadata.
 Family defaults also remain partial; common Wise obstacle values are not given
 in the packet and therefore are not invented.
+The later PDF transcription corrects the family Skill Type default to Special,
+as printed in Wises (book p. 309 / PDF p. 311). Named Wise-type overrides remain
+distinct; membership in the family does not manufacture a Skill Type label.
 
 Poisons → Alchemical is the already-known unresolved source anomaly, not a newly
 resolved alias. Further production use must retain or explicitly resolve it.

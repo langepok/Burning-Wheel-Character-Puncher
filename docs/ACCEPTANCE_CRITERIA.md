@@ -204,6 +204,34 @@ When implemented:
 - Non-Training base opening-cost overrides carry provenance; missing cost remains untranscribed. Never infer costs from markers/types or add Gray-opening metadata.
 - New composition nodes receive integrity and serialization regressions; all prior tests and required npm checks pass.
 
+### General Skill List A–Z transcription — source gate
+
+- Antiphon Union Training has no direct tools. Its magic integration preserves
+  a base-item-creation reference to an applicable skill song and that song's own
+  rules/tools. The reference serializes and validates independently; it never
+  copies or propagates tools into Antiphon or its later enchantment stage.
+
+- Resource interactions may carry structured contexts independently of tools.
+  Blacksmith recovery requires the suitable-workplace circumstance, while its
+  Workshop tools remain separate. Do not infer this condition for other skills.
+  Contexts serialize and register; missing, empty or non-string circumstance
+  ids are rejected. Recovery without a context remains representable.
+
+- Demonology retains its four named FoRK suggestions and no ritual-category
+  suggestion; Empyrealia supplies the real ritual-category representative.
+- Dwarven Rune Script and Elven Script require generic expendable tools when
+  writing, otherwise none. Reading/writing are structured activities. Conditional
+  tools round-trip and compose with allOf/anyOf; malformed conditions and nested
+  branches are rejected without introducing a tool evaluator.
+
+- Verify every canonical entry against BWGR (2018), book pp. 252–309 / PDF pp. 254–311; audit fixtures are supporting evidence only.
+- Build an independent id/name/kind/page manifest and compare it with complete production definitions, named topics, families and choices, not just a total count.
+- Production content must contain no partial fixtures or fabricated defaults; retain explicit unresolved source references.
+- Audit the lifepath-reference join separately for General skills, stock-specific references, choices and genuine unresolved references.
+- Preserve source conditions on tools and other metadata; a choice between tools is not a conditional requirement based on the activity.
+- Add oracle coverage before production blocks A–D, E–H, I–M, N–R and S–Z; run targeted integrity checks after each block and the full required checks before a PR.
+- Stop on source conflicts or schema blockers rather than marking incomplete transcription production-ready. Current preflight findings are in `docs/audits/GENERAL_SKILL_CATALOG_AZ.md`.
+
 ### Skill availability (rules evaluation)
 
 In rules-enforced mode:

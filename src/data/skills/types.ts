@@ -36,8 +36,9 @@ export type RollBehavior =
       readonly then: 'open-ended'; readonly otherwise: 'standard' };
 
 export type SkillContext =
+  | { readonly kind: 'circumstance'; readonly circumstanceId: string }
   | { readonly kind: 'subject'; readonly subject: 'children' | 'great-wolves' | 'spiders' | 'rats-and-relatives' }
-  | { readonly kind: 'activity'; readonly activity: 'potion-work' | 'wound-treatment' | 'hauling' | 'crafting' | 'pursuit' | 'travel' | 'field-maneuver' }
+  | { readonly kind: 'activity'; readonly activity: 'potion-work' | 'wound-treatment' | 'hauling' | 'crafting' | 'pursuit' | 'travel' | 'field-maneuver' | 'reading' | 'writing' }
   | { readonly kind: 'culture'; readonly cultureId: string }
   | { readonly kind: 'stock'; readonly stockId: StockId }
   | { readonly kind: 'target-trait'; readonly traitId: string }
@@ -61,7 +62,9 @@ export type ToolRequirement =
   | { readonly kind: 'none'; readonly expendable: false }
   | { readonly kind: 'generic' | 'traveling-gear' | 'workshop'; readonly expendable?: boolean }
   | { readonly kind: 'specific-item'; readonly item: string; readonly expendable?: boolean }
-  | { readonly kind: 'allOf' | 'anyOf'; readonly requirements: Operands<ToolRequirement> };
+  | { readonly kind: 'allOf' | 'anyOf'; readonly requirements: Operands<ToolRequirement> }
+  | { readonly kind: 'conditional'; readonly when: SkillContext;
+      readonly then: ToolRequirement; readonly otherwise: ToolRequirement };
 
 export type SkillReferenceTarget =
   | { readonly kind: 'skill'; readonly skillId: SkillId }
@@ -117,19 +120,31 @@ export type SkillRelation =
 export type SkillCapability =
   | { readonly kind: 'literacy'; readonly actions: readonly ('read' | 'write')[]; readonly context?: SkillContext }
   | { readonly kind: 'subsystem-capability'; readonly id: string; readonly integrationId: string };
-export type ResourceInteraction = { readonly kind: 'recover-taxed-resources' | 'produce-cash' };
+export type ResourceInteraction = {
+  readonly kind: 'recover-taxed-resources' | 'produce-cash';
+  readonly context?: SkillContext;
+};
 export type IntegrationTag = 'fight' | 'range-and-cover' | 'duel-of-wits' | 'injury' | 'resources' |
   'magic' | 'equipment' | 'mounted-combat' | 'military-campaign' | 'poisons' | 'ambush' | 'battlefield-communication';
 
 /** Index/extension record only; subsystem execution is deliberately absent. */
-export interface SkillIntegration {
+interface SkillIntegrationIdentity {
   readonly id: string;
   readonly skillId: SkillId;
-  readonly subsystem: IntegrationTag;
   readonly context?: SkillContext;
   readonly summary: string;
   readonly source: readonly SkillSource[];
 }
+/** Reference to the preceding creation stage; does not inherit or evaluate tools. */
+export interface MagicBaseItemCreation {
+  readonly stage: 'base-item-creation';
+  readonly requiredMethod: { readonly kind: 'applicable-skill-song' };
+  readonly follows: 'selected-skill-own-rules-and-tools';
+}
+export type SkillIntegration = SkillIntegrationIdentity & (
+  | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation }
+  | { readonly subsystem: Exclude<IntegrationTag, 'magic'>; readonly baseItemCreation?: never }
+);
 
 export interface SkillMetadata {
   readonly familyMembership?: { readonly familyId: string; readonly topicId: string };

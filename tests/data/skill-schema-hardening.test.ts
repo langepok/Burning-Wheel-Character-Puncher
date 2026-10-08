@@ -49,14 +49,14 @@ describe('PR #21 schema hardening', () => {
   });
 
   it('represents ritual, content applicability, and history/Wise/song FoRK predicates', () => {
-    expect(skill('demonology').forkSuggestions?.suggestions).toEqual([{ target: { kind: 'category', category: 'ritual', relevance: 'any' } }]);
+    expect(skill('empyrealia').forkSuggestions?.suggestions).toEqual([{ target: { kind: 'skill', skillId: 'doctrine' } }, { target: { kind: 'skill', skillId: 'summoning' } }, { target: { kind: 'category', category: 'ritual', relevance: 'any' } }]);
     expect(skill('composition').forkSuggestions?.suggestions).toEqual([{ target: { kind: 'applicable-to-content' } }]);
     expect(skill('ballad-of-history').forkSuggestions?.suggestions).toEqual([{ target: { kind: 'anyOf', targets: [
       { kind: 'skill-family', familyId: 'history', relevance: 'appropriate' },
       { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' },
       { kind: 'category', category: 'song', relevance: 'appropriate' },
     ] } }]);
-    for (const id of ['demonology', 'composition', 'ballad-of-history']) {
+    for (const id of ['empyrealia', 'composition', 'ballad-of-history']) {
       expect(skill(id).forkSuggestions).toMatchObject({ policy: 'guidance-not-whitelist', manualContextualContributors: true });
     }
   });
