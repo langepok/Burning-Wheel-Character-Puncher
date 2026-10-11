@@ -413,3 +413,7 @@ Per D-025, direct character Resources interactions remain ResourceInteraction;
 created-item valuation is structured equipment/Resources integration metadata.
 Typed obstacle/dice measures and optional crafting costs do not calculate prices.
 Magic matrix and Antiphon references are stored independently.
+
+D-025 also separates EquipmentUseEffect from created-item valuation. Equipment
+integrations store crafting acquisition cost/condition/repeatability and the use
+bonus owned by the resulting equipment. No stacking or crafting evaluator exists.

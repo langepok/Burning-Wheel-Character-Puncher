@@ -6,10 +6,10 @@ import { generalSkillManifest } from './general-skill-manifest';
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
-  (['E', 'F'].includes(entry.sourceName[0]) && (entry.printedPage <= 273 || entry.id === 'forest-wise')));
+  ['E', 'F'].includes(entry.sourceName[0]) || entry.id === 'gambling');
 
 describe('Reviewed General Skill List transcription blocks', () => {
-  it('covers every reviewed A–D and pre-Forge E–F entry exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed A–F entry and Gambling exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {
@@ -19,11 +19,16 @@ describe('Reviewed General Skill List transcription blocks', () => {
       if (entry.kind !== 'choice') expect(catalog.skills.get(entry.id)?.coverage).toBe('complete');
     }
   });
-  it('retains the E–F source distinctions and leaves Forge Artifice untranscribed', () => {
+  it('begins G with Gambling without inventing Games of Chance settlement metadata', () => {
+    expect(catalog.skills.get('gambling')).toMatchObject({ coverage: 'complete', skillType: 'Special', tools: { kind: 'traveling-gear' } });
+    expect(catalog.skills.has('games-of-chance')).toBe(false);
+    expect(catalog.references.has('games-of-chance')).toBe(true);
+  });
+  it('retains the E–F source distinctions and audited Forge Artifice metadata', () => {
     expect(catalog.skills.get('earth-wise')?.skillType).toBe('Wise');
     expect(catalog.skills.get('firebuilding')?.forkSuggestions?.suggestions).toContainEqual({ target: { kind: 'unresolved-source-reference', sourceLabel: 'Survivalist', probableTargetSkillId: 'survival' } });
-    expect(catalog.skills.has('forge-artifice')).toBe(false);
-    expect(catalog.references.has('forge-artifice')).toBe(true);
+    expect(catalog.skills.get('forge-artifice')?.coverage).toBe('complete');
+    expect(catalog.references.has('forge-artifice')).toBe(false);
     expect(catalog.skills.get('empyrealia')?.forkSuggestions?.suggestions).toContainEqual({ target: { kind: 'category', category: 'ritual', relevance: 'any' } });
     expect(catalog.skills.get('estate-management')?.tools).toEqual({ kind: 'specific-item', item: 'estate' });
     expect(catalog.skills.get('estate-management')?.resourceInteractions).toEqual([{ kind: 'recover-taxed-resources' }]);

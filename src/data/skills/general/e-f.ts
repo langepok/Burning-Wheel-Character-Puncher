@@ -1,8 +1,8 @@
-import { combined, define, expendable, fork, forks, generic, guidance, item, magical, none, only, sourceFork, stat, workshop, writingTools } from './shared';
+import { combined, define, expendable, fork, forks, generic, guidance, item, magical, none, only, sourceFork, stat, training, workshop, writingTools } from './shared';
 
 const per = stat('perception');
 const perAgi = combined('perception', 'agility');
-/** Reviewed E–F entries preceding the pending Forge Artifice case. */
+/** Reviewed ordinary E–F entries; stock-specific effects remain separate integrations. */
 export const eFSkills = [
   define('earth-wise', 'Earth-wise', 269, 'Identify types, origins and ages of earth.', { rootRule: per, skillType: 'Wise', tools: none,
     familyMembership: { familyId: 'wises', topicId: 'earth' } }),
@@ -55,4 +55,17 @@ export const eFSkills = [
     forkSuggestions: forks('hunting', 'herbalism') }),
   define('foreign-languages', 'Foreign Languages', 273, 'Communicate in languages other than the native tongue.', {
     rootRule: per, skillType: 'Social', tools: none }),
+  define('forge-artifice', 'Forge Artifice', 274, 'Create Dwarven forges with embedded equipment-use benefits.', {
+    rootRule: combined('will', 'perception'), skillType: 'Artisan', tools: workshop, ...magical,
+    availabilityRestrictions: only(['dwarf']), integrationTags: ['equipment'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'forge-use-bonus', integrationId: 'forge-artifice-use' }] }),
+  define('forgery', 'Forgery', 274, 'Copy documents, signatures and seals.', {
+    rootRule: perAgi, skillType: 'Special', tools: expendable,
+    forkSuggestions: forks('calligraphy', 'read', 'write', 'illuminations', 'whitesmith') }),
+  define('formation-fighting', 'Formation Fighting', 274, 'Fight alongside allies in formation; maneuver assistance and outnumbered penalties use the combat subsystems.', {
+    rootRule: stat('will'), skillType: 'Military Training', tools: none, training, printedMarkers: ['*'],
+    integrationTags: ['fight', 'range-and-cover'] }),
+  define('fortifications', 'Fortifications', 274, 'Construct defensible positions for combat.', {
+    rootRule: per, skillType: 'Military', tools: generic, integrationTags: ['range-and-cover'],
+    forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), fork('mason'), fork('architect')) }),
 ];

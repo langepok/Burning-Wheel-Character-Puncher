@@ -90,6 +90,7 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('black-legion-wise', 'Black Legion-wise', 260, 'Knowledge of the legions and their workings.', {
     rootRule: per, skillType: 'Wise', tools: generic, familyMembership: { familyId: 'wises', topicId: 'black-legion' }, forkSuggestions: forks('orc-wise') }),
   define('black-metal-artifice', 'Black Metal Artifice', 260, 'Dwarven metal tools, with an option to increase difficulty for enhanced tools.', {
+    capabilities: [{ kind: 'subsystem-capability', id: 'black-metal-tool-use-bonus', integrationId: 'black-metal-artifice-use' }],
     rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: workshop, ...magical, availabilityRestrictions: only(['dwarf']),
     forkSuggestions: forks('white-metal-artifice', 'war-art'), integrationTags: ['equipment', 'magic'] }),
   define('blacksmith', 'Blacksmith', 260, 'Forge iron and steel; Resources recovery needs a suitable workplace.', {

@@ -3,10 +3,12 @@ import { aDIntegrations, aDSkills } from './a-d';
 import { aDWises } from './a-d-wises';
 import { eFSkills } from './e-f';
 import { eFWises } from './e-f-wises';
+import { equipmentUseIntegrations } from './equipment-use';
+import { gHSkills } from './g-h';
 import { generalNameReferences } from './references';
 import { evidence, none, stat } from './shared';
 
-const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises];
+const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises, ...gHSkills];
 const loadedIds = new Set(skills.map(skill => skill.id));
 
 /** Work in progress: complete records for reviewed blocks, identity-only references elsewhere.
@@ -27,5 +29,5 @@ export const generalSkillTranscriptionContent: SkillCatalogContent = {
   forkBehaviors: [{ id: 'astrology-fork', target: { kind: 'any-skill-except-types', excluded: ['Martial', 'Physical'] },
     die: { six: 'reroll-normally', one: { action: 'reroll', onFailure: { subtractSuccesses: 1 } } },
     alternative: { kind: 'linked-test', usesSpecialForkDie: false }, source: [evidence('Astrology', 257)] }],
-  integrations: aDIntegrations,
+  integrations: [...aDIntegrations, ...equipmentUseIntegrations],
 };

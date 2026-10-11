@@ -8,7 +8,7 @@ Branch: `skill-catalog-general-a-z`.
 
 The user-provided PDF was read locally; extracted text and page images remain
 outside the repository. This document contains project-authored summaries.
-Issue #20, D-020–D-024 and foundation fixtures support, but do not replace, the PDF.
+Issue #20, D-020–D-025 and foundation fixtures support, but do not replace, the PDF.
 An independent manifest now contains 424 heading/topic candidates from the full
 source index plus three named Doctrine variations from the entry body. Later
 blocks still need entry-by-entry verification; 427 is a working manifest count,
@@ -152,23 +152,41 @@ clause is not included in this partial fixture. Black Metal Artifice (260/262)
 modifies tool-use dice; War Art (307/309) modifies weapon/armor properties and
 quality. These are not item valuation measures and have not been normalized into
 this descriptor. Forge Artifice (274/276) also grants tool-user advantage dice;
-see the next pending case below. No equipment or Resources evaluator is added.
+see the resolved use-bonus case below. No equipment or Resources evaluator is added.
 
-## Pending E–H schema case: Forge Artifice tool-user bonus
+## Resolved equipment-use bonus boundary
 
-Visually verified Forge Artifice, book 274 / PDF 276. Each optional +2 crafting
-obstacle grants +1D advantage to users of the completed forge, conditional on
-meeting the final obstacle. Unlike Gem Artifice's valuation tradeoff, this is a
-repeatable modification of equipment use, not Resources value. The approved
-valuation descriptor cannot faithfully encode its target/measure/repeatability.
-Black Metal Artifice (260/262) confirms a related tool-use bonus case but does
-not state the same repeatable-per-increment behavior. No repetition is inferred.
+Visually verified Forge Artifice, book 274 / PDF 276, and Black Metal Artifice,
+260/262. A separate EquipmentUseEffect in equipment integration records the
+created equipment kind, +1 advantage die for its user, optional +2 crafting Ob
+acquisition and successful creation condition. Forge has per-increment
+repeatability; Black Metal has explicitly unspecified repeatability. Do not
+interpret unspecified as single-use or repeatable. No maximum or stacking
+calculation is invented. Single-tradeoff is representable for future audited cases.
 
-Minimal proposed direction, not implemented: a separate equipment-use bonus
-metadata descriptor with explicit dice amount, crafting-obstacle cost, and
-repeatability. Reuse the equipment integration boundary without extending
-CreatedItemValueEffect to non-value measures or adding an evaluator. Production
-transcription pauses before Forge Artifice pending a user decision.
+Forge is now a complete production record linked to this integration. The existing
+Black Metal record also links to its structured tools bonus; its other facts remain
+unchanged. The value descriptor and all Gem/White Metal regression tests remain
+unchanged. User approval extends D-025 rather than adding an unrelated Decision.
+
+## Pending G schema case: Games of Chance Resources settlement
+
+Visually verified book 275 / PDF 277. The prize determines a Resources obstacle;
+a versus skill test determines winner and loser. The loser tests Resources at that
+obstacle. On success, the winner records a Resources advancement test of the same
+obstacle. If the loser is taxed, those taxed dice go to the winner as cash.
+These distinct outcomes depend on another character's test and tax amount.
+
+The existing recover-taxed-resources / produce-cash descriptors cannot encode the
+roles, shared obstacle, advancement credit and tax-derived payout. Equipment use
+and item valuation do not apply. Plain produce-cash would erase the audited source
+of the amount and its condition. No complete Games of Chance record is added.
+
+Minimal proposed direction, not implemented: structured wager-settlement metadata
+under a Resources integration, with explicit winner/loser roles, prize-obstacle
+reference and the success/tax outcomes. Alternatively extend direct Resources
+interaction metadata with a dedicated typed settlement descriptor. Either option
+is metadata only, without a Resources, advancement or transaction evaluator.
 
 ## Planned oracle and integrity coverage
 
@@ -185,7 +203,7 @@ transcription pauses before Forge Artifice pending a user decision.
 6. Run block-level checks and final npm ci/typecheck/test/build plus diff-check.
    Passing foundation tests do not establish A–Z completeness.
 
-## Reviewed E�F progress
+## Reviewed E–F progress
 
 Added 40 complete records before Forge Artifice: 23 ordinary skills and 17 named
 Wise topics, bringing reviewed production definitions to 166. Earth-wise has an
@@ -198,9 +216,17 @@ unresolved source references with probable canonical ids where applicable. They
 are not runtime aliases. Foreign Languages continues onto book 274 / PDF 276.
 Gem/White Metal representatives remain partial and outside the production catalog.
 
+## Further transcription progress
+
+E–F is complete against the independent manifest: four further ordinary records
+(Forge Artifice, Forgery, Formation Fighting, Fortifications) plus the earlier 40.
+Gambling begins G. Reviewed production definitions now total 171. Games of Chance
+remains an identity-only reference pending its structured Resources settlement.
+Later G–H records and the rest of A–Z remain unfinished.
+
 ## Current verification
 
-This checkpoint passes npm ci, typecheck, all 349 tests across 13 files, build
-and git diff --check. Full A�Z counts and the lifepath-reference join remain
-pending; no full A�Z PR is open. Production transcription pauses at the Forge
-Artifice equipment-use bonus case.
+This checkpoint passes npm ci, typecheck, all 370 tests across 14 files, build
+and git diff --check. Full A–Z counts and the lifepath-reference join remain
+pending; no full A–Z PR is open. Production transcription pauses at Games of
+Chance.

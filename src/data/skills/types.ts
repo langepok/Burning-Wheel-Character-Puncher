@@ -153,13 +153,26 @@ export type CreatedItemValueEffect =
 export type MagicCreatedItemReference =
   | { readonly kind: 'enchanting-matrix'; readonly target: 'created-item' }
   | { readonly kind: 'antiphon-union'; readonly target: 'created-item'; readonly skillId: SkillId };
+/** A property acquired by the crafting result, not an intrinsic skill bonus. */
+export interface EquipmentUseEffect {
+  readonly target: { readonly kind: 'created-equipment'; readonly equipmentKindId: string };
+  readonly effect: { readonly kind: 'advantage-dice'; readonly dice: number;
+    readonly recipient: 'equipment-user'; readonly appliesTo: 'tests-using-equipment' };
+  readonly acquisition: { readonly kind: 'crafting-obstacle-tradeoff'; readonly choice: 'optional';
+    readonly obstacleDelta: number;
+    /** Unspecified does not assert permission or prohibition to repeat. */
+    readonly repeatability: 'single-tradeoff' | 'per-increment' | 'unspecified';
+    readonly requiresSuccessfulCreation: true };
+}
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation;
-      readonly createdItemReference?: MagicCreatedItemReference; readonly createdItemValueEffects?: never }
-  | { readonly subsystem: 'equipment' | 'resources'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
+      readonly createdItemReference?: MagicCreatedItemReference; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never }
+  | { readonly subsystem: 'equipment'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
+      readonly equipmentUseEffect?: EquipmentUseEffect; readonly baseItemCreation?: never; readonly createdItemReference?: never }
+  | { readonly subsystem: 'resources'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
       readonly baseItemCreation?: never; readonly createdItemReference?: never }
   | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>;
-      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never }
+      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never }
 );
 
 export interface SkillMetadata {

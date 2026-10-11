@@ -138,6 +138,20 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   for (const integration of integrations.values()) {
     requireSkill(integration.skillId);
     if (integration.context) validateContext(integration.context);
+    if (integration.equipmentUseEffect !== undefined) {
+      const use = integration.equipmentUseEffect;
+      const acquisition = use?.acquisition;
+      if (integration.subsystem !== 'equipment' || use?.target?.kind !== 'created-equipment' ||
+          typeof use.target.equipmentKindId !== 'string' || !use.target.equipmentKindId.trim() ||
+          use.effect?.kind !== 'advantage-dice' || !Number.isInteger(use.effect.dice) || use.effect.dice <= 0 ||
+          use.effect.recipient !== 'equipment-user' || use.effect.appliesTo !== 'tests-using-equipment' ||
+          acquisition?.kind !== 'crafting-obstacle-tradeoff' || acquisition.choice !== 'optional' ||
+          !Number.isInteger(acquisition.obstacleDelta) || acquisition.obstacleDelta <= 0 ||
+          !['single-tradeoff', 'per-increment', 'unspecified'].includes(acquisition.repeatability) ||
+          acquisition.requiresSuccessfulCreation !== true) {
+        throw new Error('Invalid equipment-use effect');
+      }
+    }
     if (integration.createdItemValueEffects !== undefined) {
       const effects = integration.createdItemValueEffects;
       if (!['equipment', 'resources'].includes(integration.subsystem) || !Array.isArray(effects) || !effects.length) {

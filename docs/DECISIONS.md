@@ -309,7 +309,7 @@ and a generic circumstance-id leaf to SkillContext. The suitable-workplace
 condition is independent of Workshop tools and is never inferred for other
 skills. This extends descriptive metadata only; no Resources evaluator follows.
 
-## D-025 — Created-item valuation belongs to equipment integration
+## D-025 — Crafting-result metadata belongs to equipment integration
 
 **Status:** Accepted — A–Z source audit and explicit user resolution
 
@@ -326,6 +326,15 @@ representative (308/310), motivate this contract. Magic matrix/Antiphon referenc
 are independent of valuation. Other equipment properties (tool bonuses, weapon
 statistics, quality) are not valuation and must not be forced into its measures.
 Partial representatives do not replace the complete A–Z production transcription.
+
+The confirmed Forge Artifice audit (274/276) extends this boundary with a separate
+EquipmentUseEffect. It stores the created equipment kind, advantage dice for its
+user, optional crafting-obstacle cost, explicit repeatability and successful final
+creation condition. Forge's cost/bonus is per increment; Black Metal Artifice
+(260/262) leaves repeatability unspecified. Unspecified is not a boolean permission
+or prohibition. A single-tradeoff value is available for sources that establish it.
+Do not add a maximum, evaluate stacking or convert use bonuses into skill bonuses
+or Resources value. Descriptor validation is content integrity, not rules execution.
 
 ## Open decisions
 

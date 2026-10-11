@@ -336,3 +336,16 @@ A Character Burner feature is done only when:
   timing are rejected. Magic references remain separate from valuation.
 - Direct ResourceInteraction retains only character recovery/cash semantics.
   No evaluator, price calculation or spending engine is introduced.
+
+## Created-equipment use bonus metadata (D-025 extension)
+
+- Forge Artifice stores the created forge as target, +1 advantage die to its user,
+  and +2 crafting obstacle per increment, requiring successful final creation.
+- Black Metal Artifice stores a created tool-use +1 die tradeoff costing +2 Ob;
+  repeatability remains explicitly unspecified, rather than inferred from Forge.
+- Single-tradeoff, per-increment and unspecified repeatability are representable.
+  No maximum or stacking calculation is invented.
+- Use bonuses are distinct from item valuation, ResourceInteraction and intrinsic
+  skill bonuses. The descriptor belongs only to equipment integrations.
+- Serialization/registration preserve the data and reject malformed targets,
+  dice, costs, repeatability and creation conditions. Existing valuation tests pass.

@@ -208,3 +208,11 @@ of Resources value to a cut gemstone. White Metal Artifice has the same ordinary
 item obstacle/tradeoff shape. These modify created items, not character Resources.
 Gem Artifice's enchanting matrix and Gemcraft's Antiphon connection are separate
 magic references. The partial White Metal representative omits the mithril clause.
+
+### Equipment-use bonuses (BWGR 260, 274 / PDF 262, 276)
+
+Forge Artifice can embed one advantage die for each +2 crafting obstacle chosen;
+the final obstacle must be met. The bonus belongs to use of the created forge.
+Black Metal Artifice can add +2 crafting obstacle for +1 die on skill tests using
+the created tools. Its entry does not establish per-increment repeatability;
+metadata preserves that as unspecified. Neither effect is a Resources value bonus.
