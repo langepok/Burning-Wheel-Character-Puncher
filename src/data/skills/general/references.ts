@@ -1,6 +1,6 @@
 import { evidence } from './shared';
 
-// Identity/provenance only for later blocks, not complete definitions.
+// Identity/provenance only for later blocks and source-named targets, not complete definitions.
 export const generalNameReferences = [
   { id: "abbey-wise", sourceName: "Abbey-wise", source: [evidence("Abbey-wise", 253)] },
   { id: "accounting", sourceName: "Accounting", source: [evidence("Accounting", 253)] },
@@ -425,4 +425,5 @@ export const generalNameReferences = [
   { id: "write", sourceName: "Write", source: [evidence("Write", 309)] },
   { id: 'ancient-history', sourceName: 'Ancient History', source: [evidence('History', 277)] },
   { id: 'obscure-history', sourceName: 'Obscure History', source: [evidence('History', 277)] },
+  { id: 'escape-artist', sourceName: 'Escape Artist', source: [evidence('Knots opposing skill reference', 280)] },
 ] as const;

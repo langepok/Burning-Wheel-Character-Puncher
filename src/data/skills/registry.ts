@@ -64,7 +64,7 @@ function validateContext(context: SkillContext): void {
     const field = fields[context.kind];
     const value = field && (context as unknown as Record<string, unknown>)[field];
     if (typeof value !== 'string' || !value.trim()) throw new Error('Context ids must be nonempty');
-    if (context.kind === 'activity' && !['potion-work', 'wound-treatment', 'hauling', 'crafting', 'pursuit', 'travel', 'field-maneuver', 'reading', 'writing', 'tending-wounds-and-illness'].includes(value)) {
+    if (context.kind === 'activity' && !['potion-work', 'wound-treatment', 'hauling', 'crafting', 'pursuit', 'travel', 'field-maneuver', 'reading', 'writing', 'tending-wounds-and-illness', 'securing-a-person'].includes(value)) {
       throw new Error('Unknown context activity');
     }
   }
@@ -111,21 +111,46 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (metadata.testProfile !== undefined) {
       const profile = metadata.testProfile;
       if (profile?.kind === 'versus') {
-        if ('base' in profile || 'adjustments' in profile || !Array.isArray(profile.opposingAbilities) || !profile.opposingAbilities.length) {
+        if ('base' in profile || 'adjustments' in profile) {
           throw new Error('Invalid skill test profile');
         }
-        for (const ability of profile.opposingAbilities) {
-          if (ability?.kind === 'context-resolved-skill') {
-            if (ability.actorRole !== 'eavesdropper' || ability.resolution !== 'manual' ||
-                Object.keys(ability).some(key => !['kind', 'actorRole', 'resolution'].includes(key))) {
-              throw new Error('Invalid context-resolved opposing skill');
+        const opponents = profile.opposingAbilities;
+        if (!Array.isArray(opponents)) {
+          const alternatives = opponents as Exclude<typeof opponents, readonly unknown[]>;
+          if (alternatives?.kind !== 'anyOf') throw new Error('Invalid opposing alternatives');
+          validateOperands(alternatives.operands);
+          const ids = new Set<string>();
+          for (const branch of alternatives.operands) {
+            const ability = branch?.ability;
+            if (!ability || !['skill', 'stat', 'attribute'].includes(ability.kind)) throw new Error('Invalid opposing ability');
+            const id = ability.kind === 'skill' ? ability.skillId : ability.id;
+            if (typeof id !== 'string' || !id.trim() || ids.has(`${ability.kind}:${id}`)) throw new Error('Invalid opposing ability');
+            ids.add(`${ability.kind}:${id}`);
+            if (ability.kind === 'skill') requireSkill(id);
+            if (branch.modifiers !== undefined) {
+              if (!Array.isArray(branch.modifiers)) throw new Error('Invalid opposing modifiers');
+              for (const modifier of branch.modifiers) {
+                if (modifier?.kind !== 'double-obstacle-penalty' || Object.keys(modifier).length !== 1) {
+                  throw new Error('Invalid canonical obstacle penalty');
+                }
+              }
             }
-            continue;
           }
-          if (ability?.kind !== 'skill' || typeof ability.skillId !== 'string' || !ability.skillId.trim()) {
-            throw new Error('Invalid opposing skill reference');
+        } else {
+          if (!opponents.length) throw new Error('Invalid skill test profile');
+          for (const ability of opponents) {
+            if (ability?.kind === 'context-resolved-skill') {
+              if (ability.actorRole !== 'eavesdropper' || ability.resolution !== 'manual' ||
+                  Object.keys(ability).some(key => !['kind', 'actorRole', 'resolution'].includes(key))) {
+                throw new Error('Invalid context-resolved opposing skill');
+              }
+              continue;
+            }
+            if (ability?.kind !== 'skill' || typeof ability.skillId !== 'string' || !ability.skillId.trim()) {
+              throw new Error('Invalid opposing skill reference');
+            }
+            requireSkill(ability.skillId);
           }
-          requireSkill(ability.skillId);
         }
       } else if (profile?.kind === 'obstacle') {
         if ('opposingAbilities' in profile) throw new Error('Invalid skill test profile');

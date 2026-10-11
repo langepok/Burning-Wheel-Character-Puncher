@@ -46,7 +46,7 @@ export type SkillContext =
   | { readonly kind: 'stock-mismatch'; readonly relativeTo: 'target-crowd' }
   | { readonly kind: 'circumstance'; readonly circumstanceId: string }
   | { readonly kind: 'subject'; readonly subject: 'children' | 'great-wolves' | 'spiders' | 'rats-and-relatives' }
-  | { readonly kind: 'activity'; readonly activity: 'potion-work' | 'wound-treatment' | 'hauling' | 'crafting' | 'pursuit' | 'travel' | 'field-maneuver' | 'reading' | 'writing' | 'tending-wounds-and-illness' }
+  | { readonly kind: 'activity'; readonly activity: 'potion-work' | 'wound-treatment' | 'hauling' | 'crafting' | 'pursuit' | 'travel' | 'field-maneuver' | 'reading' | 'writing' | 'tending-wounds-and-illness' | 'securing-a-person' }
   | { readonly kind: 'culture'; readonly cultureId: string }
   | { readonly kind: 'stock'; readonly stockId: StockId }
   | { readonly kind: 'target-trait'; readonly traitId: string }
@@ -252,6 +252,15 @@ export type OpposingAbilityReference = Extract<SkillReferenceTarget, { kind: 'sk
   readonly kind: 'context-resolved-skill'; readonly actorRole: 'eavesdropper';
   readonly resolution: 'manual'; readonly skillId?: never;
 };
+/** Canonical penalty: base obstacle/opponent successes double before other modifiers.
+ * Execution is deferred; this is not a multiplier of the final obstacle. */
+export type DoubleObstaclePenalty = { readonly kind: 'double-obstacle-penalty' };
+export interface OpposingAbilityAlternative {
+  readonly ability: Extract<SkillReferenceTarget, { kind: 'skill' }> | RootAbility;
+  readonly modifiers?: readonly DoubleObstaclePenalty[];
+}
+export type OpposingAbilities = readonly [OpposingAbilityReference, ...OpposingAbilityReference[]] |
+  { readonly kind: 'anyOf'; readonly operands: Operands<OpposingAbilityAlternative> };
 /** Descriptive skill-level test facts, not a roll-building or arbitration engine.
  * Missing modifiers remain untranscribed; manual adjustments explicitly lack deltas. */
 export type SkillTestProfile = {
@@ -261,7 +270,7 @@ export type SkillTestProfile = {
 } & (
   | { readonly kind: 'versus';
       /** Potential opponents, not simultaneous tests against every ability. */
-      readonly opposingAbilities: readonly [OpposingAbilityReference, ...OpposingAbilityReference[]];
+      readonly opposingAbilities: OpposingAbilities;
       readonly base?: never; readonly adjustments?: never }
   | { readonly kind: 'obstacle'; readonly base: ObstacleBasis;
       readonly adjustments?: readonly ManualTestAdjustment[]; readonly opposingAbilities?: never }

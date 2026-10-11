@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
-import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, SkillTestProfile, ToolRequirement } from '../../src/data/skills';
+import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
 import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
 
@@ -120,14 +120,13 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Knots, book 280 / PDF 282: mixed opposing abilities and a double obstacle penalty. */
-describe('Pending Knots source case', () => {
-  it('cannot represent the Power alternative or doubled obstacle through a fixed delta', () => {
-    type Opponent = Extract<SkillTestProfile, { kind: 'versus' }>['opposingAbilities'][number];
-    const power = { kind: 'stat', id: 'power' } as const;
-    expectTypeOf<typeof power>().not.toExtend<Opponent>();
+/** Leathercraft, book 280 / PDF 282: enchantment-conditioned equipment bonus. */
+describe('Pending Leathercraft result effect', () => {
+  it('cannot use a crafting-obstacle tradeoff for the Song of Silence enchantment', () => {
+    const effect = { kind: 'enchantment', skillId: 'song-of-silence', dice: 1, skillTest: 'stealthy' } as const;
+    expectTypeOf<typeof effect>().not.toExtend<NonNullable<Extract<SkillIntegration, { subsystem: 'equipment' }>['equipmentUseEffect']>>();
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('knots')).toBe(false);
-    expect(production.references.get('knots')?.sourceName).toBe('Knots');
+    expect(production.skills.has('leathercraft')).toBe(false);
+    expect(production.references.get('leathercraft')?.sourceName).toBe('Leathercraft');
   });
 });

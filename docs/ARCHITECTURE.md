@@ -460,3 +460,11 @@ skill used by the eavesdropping participant. The latter has a constrained role
 and manual resolution, no concrete id/default/fallback. It is intentional source
 selection, not an unresolved source-name typo or an arbitrary ability selector.
 The catalog validates this metadata but does not perform GM adjudication.
+
+
+OpposingAbilities may use explicit anyOf branches with fixed skill or RootAbility
+references. Branch-local DoubleObstaclePenalty is a reusable canonical semantic
+modifier: double base obstacle/opponent successes before other modifiers, not the
+final modified obstacle. Skill data stores its name and scope; execution semantics
+are deferred to the rules engine. No automatic stat-versus-skill penalty inference,
+calculation or subsystem rule transcription is added.

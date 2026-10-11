@@ -70,6 +70,24 @@ export const iMSkills = [
   define('knives', 'Knives', 279, 'Fight with knives at close quarters; this is not a throwing skill.', {
     rootRule: stat('agility'), skillType: 'Martial', tools: item('something knife-like'), integrationTags: ['fight'],
     forkSuggestions: guidance(fork('brawling'), fork('boxing'), melee) }),
+  define('knots', 'Knots', 280, 'Tie ropes for ships, cargo, nets and securing a person.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Seafaring',
+    tools: { kind: 'traveling-gear', expendable: true }, forkSuggestions: forks('rigging'),
+    testProfile: { kind: 'versus', context: { kind: 'activity', activity: 'securing-a-person' },
+      opposingAbilities: { kind: 'anyOf', operands: [
+        { ability: { kind: 'skill', skillId: 'escape-artist' } },
+        { ability: { kind: 'stat', id: 'power' }, modifiers: [{ kind: 'double-obstacle-penalty' }] },
+      ] } } }),
+  define('lance', 'Lance', 280, 'Use a couched lance from horseback under Fight and mounted-combat rules.', {
+    rootRule: combined('agility', 'power'), skillType: 'Martial', tools: item('a really big, pointy stick'),
+    forkSuggestions: forks('spear'), integrationTags: ['fight', 'mounted-combat'] }),
+  define('lapidary', 'Lapidary', 280, 'Refine gems for sale or jewelry.', {
+    rootRule: stat('perception'), skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('jeweler') }),
+  define('latrine-wise', 'Latrine-wise', 280, 'Knowledge of latrines.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'latrine' } }),
+  define('lazy-bastard-wise', 'Lazy Bastard-wise', 280, 'Knowledge of lazy bastards.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'lazy-bastard' } }),
+
 ];
 
 export const iMIntegrations: readonly SkillIntegration[] = [

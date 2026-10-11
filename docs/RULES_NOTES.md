@@ -296,3 +296,14 @@ opposes the skill used by a participant trying to eavesdrop. The entry supplies 
 fixed opposing identity. Preserve a skill-only eavesdropper reference with manual
 context resolution, without selecting Observation, Perception or Jargon as default.
 This is source-supported contextual selection, not missing transcription data.
+
+
+## Knots opposition and Double Obstacle Penalty (BWGR 280 / PDF 282)
+
+For securing a person, Knots opposes Escape Artist or Power. Per the confirmed
+source reading, only Power suffers Double Obstacle Penalty. Store skill/stat
+alternatives with the named penalty on the Power branch. The canonical mechanic
+doubles base obstacle/opponent successes before other modifiers; modifiers are
+not doubled. This is descriptive metadata, not a final-obstacle multiplier or +2.
+Escape Artist has only identity/provenance from the Knots reference, not an
+invented full skill definition. No test or obstacle calculation is executed.

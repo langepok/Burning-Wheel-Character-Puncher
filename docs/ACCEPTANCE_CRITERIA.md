@@ -450,3 +450,14 @@ A Character Burner feature is done only when:
 - References serialize and validate; invalid roles/kinds/resolutions and invented
   ids/defaults are rejected. Existing fixed profiles remain unchanged.
 - No contextual selection, GM adjudication or opposed-test evaluator is implemented.
+
+## Mixed opposing alternatives and Double Obstacle Penalty
+
+- Knots' securing-person versus profile offers Escape Artist skill OR Power stat.
+- Only the Power branch carries the named double-obstacle-penalty modifier.
+- This canonical semantic modifier doubles the base obstacle/opponent successes
+  before other modifiers; it is neither a fixed +2 nor a final-obstacle multiplier.
+- Alternatives and branch modifiers serialize and validate, without a calculation
+  engine. Existing fixed/contextual opposing profiles remain unchanged.
+- Invalid references, empty/duplicate alternatives and numeric/formula additions
+  to the named modifier are rejected. Stat ids retain the existing kind/id boundary.

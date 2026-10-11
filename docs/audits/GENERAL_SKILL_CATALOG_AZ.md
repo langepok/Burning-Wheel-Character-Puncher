@@ -308,18 +308,32 @@ selection, not missing transcription or an unresolved printed skill name.
 Fixed skill references still resolve through the catalog. The contextual shape
 rejects additional selector/default/id fields and does not implement adjudication.
 
-## Pending K schema case: Knots mixed opponent / double obstacle penalty
+## Resolved K schema case: Knots mixed opponents / Double Obstacle Penalty
 
-Visually verified book 280 / PDF 282. For securing a person, the entry gives
-Knots versus Escape Artist or Power at double obstacle penalty. The current
-versus profile cannot express a skill/stat alternative, and fixed additive
-modifiers cannot preserve a doubled obstacle. Do not substitute a fixed +2,
-turn Power into a skill, or silently apply the penalty to both alternatives.
-Knots remains an identity-only reference pending a minimal metadata decision.
-The source case needs typed alternative opposing abilities and a structured
-obstacle multiplier scoped to the appropriate opposing test/branch, together
-with the securing-a-person context. No calculation or opposed-test evaluator
-is proposed. The current type-level gap test proves Power cannot be an opponent.
+Visually verified book 280 / PDF 282; the user confirmed the Power-only penalty
+and canonical semantics. OpposingAbilities preserves existing fixed/contextual
+lists and adds explicit anyOf ability branches. Knots' securing-person context
+selects Escape Artist skill OR Power stat, with double-obstacle-penalty only on
+Power. The named modifier doubles the base obstacle/opponent successes before
+other modifiers; it is not +2 or a final-obstacle multiplier. Execution is deferred.
+Escape Artist is registered only as the identity/provenance named by Knots; there
+is no invented complete General entry, root, type, alias or opening behavior.
+Stat/attribute references retain the existing nonempty kind/id integrity boundary.
+
+## Pending L schema case: Leathercraft enchanted equipment benefit
+
+Visually verified book 280 / PDF 282. Leathercraft combined with Antiphon Union
+and Song of Silence can produce boots granting +1D to Stealthy. The current
+EquipmentUseEffect only models a crafting-obstacle tradeoff and bonuses to tests
+using equipment. It cannot encode the enchantment prerequisites and named Stealthy
+bonus without falsely inventing an obstacle cost or broadening its scope to every
+equipment-use test. The Doom of Strength belt example gives no numeric benefit;
+do not invent one from its description.
+Leathercraft remains identity-only. Minimal proposed direction: equipment-result
+metadata with an enchantment acquisition reference (Antiphon Union + Song of
+Silence), boots target and a +1D effect specifically for Stealthy. Preserve separate
+magic integration and do not calculate/enchant/propagate bonuses automatically.
+A type-level gap test records the absent acquisition/effect shape.
 
 ## Formalization policy through General A–Z completion
 
@@ -397,11 +411,14 @@ Added Jargon, Javelin, Jewelcraft, Jeweler, Khirurgy, Kingdom-wise and Knives:
 restriction, magical marker and Antiphon integration. Khirurgy's Dwarf-only
 restriction applies in character burning; no always-only scope is inferred.
 Javelin uses thrown-weapon subsystem references; Knives remains close-quarters.
-J is complete against the independent manifest; K pauses at Knots.
+J–K is now complete against the independent manifest. Added Knots, Lance,
+Lapidary, Latrine-wise and Lazy Bastard-wise: 222 complete production definitions.
+Lance retains its Agility/Power root and mounted-combat reference; Lapidary remains
+Perception-rooted. L pauses at Leathercraft; later L-M records remain untranscribed.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (546 tests
-in 22 files), npm run build and git diff --check. K-M and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (567 tests
+in 23 files), npm run build and git diff --check. L-M and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Knots mixed opposing abilities and doubled obstacle metadata.
+Production transcription pauses at Leathercraft enchantment-conditioned equipment benefit.
