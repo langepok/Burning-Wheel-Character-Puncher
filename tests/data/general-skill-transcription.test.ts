@@ -6,10 +6,10 @@ import { generalSkillManifest } from './general-skill-manifest';
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
-  ['E', 'F'].includes(entry.sourceName[0]) || entry.id === 'gambling');
+  ['E', 'F', 'G'].includes(entry.sourceName[0]));
 
 describe('Reviewed General Skill List transcription blocks', () => {
-  it('covers every reviewed A–F entry and Gambling exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed A–G entry exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {
@@ -19,10 +19,18 @@ describe('Reviewed General Skill List transcription blocks', () => {
       if (entry.kind !== 'choice') expect(catalog.skills.get(entry.id)?.coverage).toBe('complete');
     }
   });
-  it('begins G with Gambling without inventing Games of Chance settlement metadata', () => {
+  it('registers full Gem records and their independent valuation/magic metadata', () => {
+    expect(catalog.skills.get('gem-artifice')).toMatchObject({ coverage: 'complete', skillType: 'Artisan', tools: { kind: 'workshop' } });
+    expect(catalog.integrations.get('gem-artifice-value')?.createdItemValueEffects).toContainEqual({ kind: 'automatic', modifier: { target: 'created-item', measure: 'resources-obstacle', delta: 1 } });
+    expect(catalog.integrations.get('gemcraft-value')?.createdItemValueEffects).toEqual([{ kind: 'automatic', modifier: { target: 'created-item', measure: 'resources-value-dice', delta: 1 } }]);
+    expect(catalog.integrations.get('gem-artifice-matrix')?.subsystem).toBe('magic');
+    expect(catalog.integrations.get('gemcraft-antiphon')?.subsystem).toBe('magic');
+    expect(catalog.integrations.has('white-metal-artifice-value')).toBe(false);
+  });
+  it('keeps Games of Chance settlement separate from Gambling', () => {
     expect(catalog.skills.get('gambling')).toMatchObject({ coverage: 'complete', skillType: 'Special', tools: { kind: 'traveling-gear' } });
-    expect(catalog.skills.has('games-of-chance')).toBe(false);
-    expect(catalog.references.has('games-of-chance')).toBe(true);
+    expect(catalog.skills.get('games-of-chance')?.coverage).toBe('complete');
+    expect(catalog.references.has('games-of-chance')).toBe(false);
   });
   it('retains the E–F source distinctions and audited Forge Artifice metadata', () => {
     expect(catalog.skills.get('earth-wise')?.skillType).toBe('Wise');

@@ -164,15 +164,31 @@ export interface EquipmentUseEffect {
     readonly repeatability: 'single-tradeoff' | 'per-increment' | 'unspecified';
     readonly requiresSuccessfulCreation: true };
 }
+export type PrizeObstacleReference = { readonly kind: 'same-as-prize-obstacle' };
+export type WagerSettlementOutcome =
+  | { readonly when: 'loser-resources-test-passed'; readonly recipient: 'winner';
+      readonly effect: { readonly kind: 'resources-advancement-credit'; readonly obstacle: PrizeObstacleReference } }
+  | { readonly when: 'loser-resources-taxed'; readonly recipient: 'winner';
+      readonly effect: { readonly kind: 'cash-from-taxed-dice';
+        readonly amount: { readonly kind: 'taxed-dice-count'; readonly role: 'loser' } } };
+/** A closed descriptive settlement class, not executable branches or a scripting DSL. */
+export interface WagerSettlement {
+  readonly kind: 'wager-settlement';
+  readonly roles: { readonly winner: 'versus-test-winner'; readonly loser: 'versus-test-loser' };
+  readonly prize: { readonly measure: 'resources-obstacle'; readonly setBefore: 'versus-skill-test' };
+  readonly loserResourcesTest: { readonly roller: 'loser'; readonly after: 'versus-skill-test'; readonly obstacle: PrizeObstacleReference };
+  /** Independently conditioned facts. Array order implies neither execution nor exclusivity. */
+  readonly outcomes: readonly WagerSettlementOutcome[];
+}
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation;
-      readonly createdItemReference?: MagicCreatedItemReference; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never }
+      readonly createdItemReference?: MagicCreatedItemReference; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never }
   | { readonly subsystem: 'equipment'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
-      readonly equipmentUseEffect?: EquipmentUseEffect; readonly baseItemCreation?: never; readonly createdItemReference?: never }
+      readonly equipmentUseEffect?: EquipmentUseEffect; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never }
   | { readonly subsystem: 'resources'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
-      readonly baseItemCreation?: never; readonly createdItemReference?: never }
+      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement }
   | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>;
-      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never }
+      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never }
 );
 
 export interface SkillMetadata {

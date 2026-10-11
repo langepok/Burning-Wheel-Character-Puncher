@@ -349,3 +349,15 @@ A Character Burner feature is done only when:
   skill bonuses. The descriptor belongs only to equipment integrations.
 - Serialization/registration preserve the data and reject malformed targets,
   dice, costs, repeatability and creation conditions. Existing valuation tests pass.
+
+## Wager settlement metadata
+
+- Games of Chance has explicit winner/loser roles assigned by a versus skill test.
+  The prize Resources obstacle is set before that test; the loser's subsequent
+  Resources test and the winner's advancement credit reference that shared value.
+- Passed-test advancement credit and taxed-dice cash have separate typed conditions
+  and effects. The cash amount explicitly references the loser's taxed dice.
+- Outcome order does not imply exclusivity or execution. No evaluator is added.
+- Gambling has no Games of Chance settlement descriptor or outcomes.
+- Serialization preserves the descriptor; integrity validation rejects mismatched
+  roles, references, conditions, effects and placement outside Resources integration.

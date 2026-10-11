@@ -169,24 +169,35 @@ Black Metal record also links to its structured tools bonus; its other facts rem
 unchanged. The value descriptor and all Gem/White Metal regression tests remain
 unchanged. User approval extends D-025 rather than adding an unrelated Decision.
 
-## Pending G schema case: Games of Chance Resources settlement
+## Resolved Games of Chance wager settlement
 
-Visually verified book 275 / PDF 277. The prize determines a Resources obstacle;
-a versus skill test determines winner and loser. The loser tests Resources at that
-obstacle. On success, the winner records a Resources advancement test of the same
-obstacle. If the loser is taxed, those taxed dice go to the winner as cash.
-These distinct outcomes depend on another character's test and tax amount.
+Visually verified book 275 / PDF 277. The Resources integration now stores a
+closed wager-settlement descriptor: winner/loser roles are assigned by the versus
+skill test, and the prize Resources obstacle is set before it. The losing
+participant's subsequent Resources test refers to that shared prize obstacle.
+A passed test grants the winner an advancement credit of the same obstacle;
+taxation grants the winner cash equal to the loser's taxed dice count.
 
-The existing recover-taxed-resources / produce-cash descriptors cannot encode the
-roles, shared obstacle, advancement credit and tax-derived payout. Equipment use
-and item valuation do not apply. Plain produce-cash would erase the audited source
-of the amount and its condition. No complete Games of Chance record is added.
+These are two separately conditioned, typed outcomes, not an if/else or exclusive
+branch. Reversing their declaration order preserves both facts. Validation checks
+roles, obstacle/amount references, effect-condition pairs and Resources-only
+placement. It does not execute tests, advancement or cash transactions.
+ResourceInteraction remains unchanged. Gambling does not inherit these outcomes.
+No new Decision is needed: D-023/D-024 already separate facts and integrations.
 
-Minimal proposed direction, not implemented: structured wager-settlement metadata
-under a Resources integration, with explicit winner/loser roles, prize-obstacle
-reference and the success/tax outcomes. Alternatively extend direct Resources
-interaction metadata with a dedicated typed settlement descriptor. Either option
-is metadata only, without a Resources, advancement or transaction evaluator.
+## Pending H schema case: Haggling purchase negotiation
+
+Visually verified Haggling, book 276 / PDF 278. The buyer and seller make a versus
+test; the buyer can lower the obstacle by one. This applies to purchase negotiation,
+not a manufactured item's value and not Games of Chance prize settlement.
+
+The current schema has no structured purchase-obstacle adjustment with buyer/seller
+roles. CreatedItemValueEffect targets a crafted result and cannot be reused without
+changing that meaning. WagerSettlement has fixed advancement/tax outcomes, not a
+negotiated purchase. Plain recovery/cash metadata would also lose the source fact.
+Haggling remains an identity-only reference, pending a minimal typed Resources
+purchase-negotiation descriptor. No evaluator or additional success/failure policy
+is inferred from the entry. Hallmaster and later H records are not transcribed yet.
 
 ## Planned oracle and integrity coverage
 
@@ -214,19 +225,24 @@ Estate Management requires an estate independently of its plain Resources recove
 Source FoRK labels Weaver, Carpenter, Illumination, Survivalist and Tanning remain
 unresolved source references with probable canonical ids where applicable. They
 are not runtime aliases. Foreign Languages continues onto book 274 / PDF 276.
-Gem/White Metal representatives remain partial and outside the production catalog.
+At that checkpoint Gem/White Metal representatives were partial and outside production.
 
 ## Further transcription progress
 
-E–F is complete against the independent manifest: four further ordinary records
-(Forge Artifice, Forgery, Formation Fighting, Fortifications) plus the earlier 40.
-Gambling begins G. Reviewed production definitions now total 171. Games of Chance
-remains an identity-only reference pending its structured Resources settlement.
-Later G–H records and the rest of A–Z remain unfinished.
+A–G is complete against the independent manifest, with 186 reviewed production
+definitions and the separate Appropriate Weapons choice. G adds 16 records:
+7 ordinary skills and 9 named Wise topics. Gem Artifice and Gemcraft now have full
+production definitions linked to their previously audited valuation/magic metadata.
+The descriptor data is shared with the partial regression fixtures; production
+never imports partial definitions. White Metal stays a partial representative until
+its own block. Grain Appraisal preserves its printed Craftsman type and Dwarf-only
+burning scope. Great Wolf Husbandry's Field Dressing capability is explicitly scoped
+to Great Wolf wounds. Grain Song keeps Rhyme of Rules as an unresolved source
+reference. It remains distinct from Miller; no identity normalization is performed.
 
 ## Current verification
 
-This checkpoint passes npm ci, typecheck, all 370 tests across 14 files, build
-and git diff --check. Full A–Z counts and the lifepath-reference join remain
-pending; no full A–Z PR is open. Production transcription pauses at Games of
-Chance.
+This checkpoint passes npm ci, typecheck, all 391 tests across 15 files, build
+and git diff --check. H and the remaining A–Z blocks, final counts and the
+lifepath-reference join remain pending; no full A–Z PR is open. Production
+transcription pauses at Haggling purchase negotiation.

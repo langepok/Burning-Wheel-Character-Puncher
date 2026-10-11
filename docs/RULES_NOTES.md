@@ -216,3 +216,11 @@ the final obstacle must be met. The bonus belongs to use of the created forge.
 Black Metal Artifice can add +2 crafting obstacle for +1 die on skill tests using
 the created tools. Its entry does not establish per-increment repeatability;
 metadata preserves that as unspecified. Neither effect is a Resources value bonus.
+
+### Games of Chance settlement (BWGR 275 / PDF 277)
+
+Set the prize Resources obstacle before the versus skill test. The loser then
+tests Resources at that obstacle. Passing gives the winner a Resources advancement
+credit at the same obstacle; taxation gives the winner cash equal to the loser's
+taxed dice. Store these separately conditioned consequences without imposing
+exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.

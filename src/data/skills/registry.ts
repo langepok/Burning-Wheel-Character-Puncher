@@ -138,6 +138,29 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   for (const integration of integrations.values()) {
     requireSkill(integration.skillId);
     if (integration.context) validateContext(integration.context);
+    if (integration.wagerSettlement !== undefined) {
+      const wager = integration.wagerSettlement;
+      if (integration.subsystem !== 'resources' || wager?.kind !== 'wager-settlement' ||
+          wager.roles?.winner !== 'versus-test-winner' || wager.roles.loser !== 'versus-test-loser' ||
+          wager.prize?.measure !== 'resources-obstacle' || wager.prize.setBefore !== 'versus-skill-test' ||
+          wager.loserResourcesTest?.roller !== 'loser' || wager.loserResourcesTest.after !== 'versus-skill-test' ||
+          wager.loserResourcesTest.obstacle?.kind !== 'same-as-prize-obstacle' ||
+          !Array.isArray(wager.outcomes) || wager.outcomes.length !== 2 ||
+          new Set(wager.outcomes.map(outcome => outcome?.when)).size !== 2) {
+        throw new Error('Invalid wager settlement');
+      }
+      for (const outcome of wager.outcomes) {
+        if (outcome?.recipient !== 'winner') throw new Error('Invalid wager settlement outcome');
+        if (outcome.when === 'loser-resources-test-passed') {
+          if (outcome.effect?.kind !== 'resources-advancement-credit' || outcome.effect.obstacle?.kind !== 'same-as-prize-obstacle') {
+            throw new Error('Invalid wager settlement outcome');
+          }
+        } else if (outcome.when === 'loser-resources-taxed') {
+          if (outcome.effect?.kind !== 'cash-from-taxed-dice' || outcome.effect.amount?.kind !== 'taxed-dice-count' ||
+              outcome.effect.amount.role !== 'loser') throw new Error('Invalid wager settlement outcome');
+        } else throw new Error('Invalid wager settlement outcome');
+      }
+    }
     if (integration.equipmentUseEffect !== undefined) {
       const use = integration.equipmentUseEffect;
       const acquisition = use?.acquisition;
