@@ -185,19 +185,43 @@ placement. It does not execute tests, advancement or cash transactions.
 ResourceInteraction remains unchanged. Gambling does not inherit these outcomes.
 No new Decision is needed: D-023/D-024 already separate facts and integrations.
 
-## Pending H schema case: Haggling purchase negotiation
+## Resolved Haggling purchase negotiation
 
-Visually verified Haggling, book 276 / PDF 278. The buyer and seller make a versus
-test; the buyer can lower the obstacle by one. This applies to purchase negotiation,
-not a manufactured item's value and not Games of Chance prize settlement.
+Visually verified Haggling, book 276 / PDF 278. Resources integration stores a
+closed purchase-negotiation descriptor with buyer/seller roles, versus-test nature,
+price/purchase-term/contract subject and optional buyer adjustment of -1 to the
+relevant negotiation obstacle. The source entry does not supply an extra condition
+for that adjustment. No victory condition, seller consequence or purchase engine
+is added. Gambling and Games of Chance do not inherit this descriptor.
 
-The current schema has no structured purchase-obstacle adjustment with buyer/seller
-roles. CreatedItemValueEffect targets a crafted result and cannot be reused without
-changing that meaning. WagerSettlement has fixed advancement/tax outcomes, not a
-negotiated purchase. Plain recovery/cash metadata would also lose the source fact.
-Haggling remains an identity-only reference, pending a minimal typed Resources
-purchase-negotiation descriptor. No evaluator or additional success/failure policy
-is inferred from the entry. Hallmaster and later H records are not transcribed yet.
+The full Haggling definition retains Will root, Social type, no tools and the two
+printed FoRKs. Validation covers the typed descriptor and Resources-only placement;
+serialization preserves the declaration without calculating a price.
+
+## Pending H schema case: Hallmaster structure resistance
+
+Visually verified Hallmaster, book 276 / PDF 278. While constructing a structure,
+the Artificer may add +2 crafting Ob to add +1 Ob to tests that alter or destroy
+the resulting structure. This is a property of a created structure, not its
+Resources value, an advantage-dice use bonus or a negotiated purchase adjustment.
+
+The existing descriptors cannot store this resistance effect and its construction
+cost without changing their target/measure meaning. Hallmaster remains an
+identity-only reference. Minimal proposed direction, not implemented: a separate
+structure-resistance descriptor in equipment integration, preserving the created
+structure target, optional +2 crafting obstacle cost and +1 test-obstacle modifier
+scoped explicitly to altering or destroying that structure. Repeatability remains
+unspecified; no stacking, maximum or durability evaluator is inferred.
+
+## Formalization policy through General A–Z completion
+
+Per the user's planning clarification, maintain the present metadata formalization
+level throughout the General catalog. Distinct structured RAW procedures receive
+small typed subsystem descriptors, without evaluators. Stop at unrepresented source
+cases rather than replacing mechanics with prose or expanding a generic DSL.
+After A–Z completion, conduct a separate retrospective and define a narrower
+scope policy for later Equipment, Resources and Fight work. That later review does
+not weaken current General transcription expectations.
 
 ## Planned oracle and integrity coverage
 
@@ -240,9 +264,12 @@ burning scope. Great Wolf Husbandry's Field Dressing capability is explicitly sc
 to Great Wolf wounds. Grain Song keeps Rhyme of Rules as an unresolved source
 reference. It remains distinct from Miller; no identity normalization is performed.
 
+Haggling now begins H as the 187th complete production definition. Hallmaster and
+later entries remain pending their respective source/schema review.
+
 ## Current verification
 
-This checkpoint passes npm ci, typecheck, all 391 tests across 15 files, build
+This checkpoint passes npm ci, typecheck, all 410 tests across 16 files, build
 and git diff --check. H and the remaining A–Z blocks, final counts and the
 lifepath-reference join remain pending; no full A–Z PR is open. Production
-transcription pauses at Haggling purchase negotiation.
+transcription pauses at Hallmaster structure resistance.

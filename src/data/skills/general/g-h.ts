@@ -30,4 +30,7 @@ export const gHSkills = [
     relations: [{ kind: 'includes-capability', target: { kind: 'skill', id: 'field-dressing' }, context: { kind: 'allOf', conditions: [
       { kind: 'subject', subject: 'great-wolves' }, { kind: 'activity', activity: 'wound-treatment' },
     ] } }], integrationTags: ['injury'] }),
+  define('haggling', 'Haggling', 276, 'Negotiate prices, purchase terms and contracts.', { rootRule: stat('will'), skillType: 'Social', tools: none,
+    forkSuggestions: forks('persuasion', 'soothing-platitudes'), integrationTags: ['resources'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'purchase-negotiation', integrationId: 'haggling-negotiation' }] }),
 ];

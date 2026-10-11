@@ -2,6 +2,13 @@ import type { SkillIntegration } from '../types';
 import { evidence } from './shared';
 
 export const resourceIntegrations: readonly SkillIntegration[] = [
+  { id: 'haggling-negotiation', skillId: 'haggling', subsystem: 'resources',
+    purchaseNegotiation: {
+      kind: 'purchase-negotiation', roles: ['buyer', 'seller'], test: { kind: 'versus' },
+      subject: 'price-purchase-terms-and-contracts',
+      buyerObstacleAdjustment: { kind: 'obstacle-modifier', target: 'relevant-negotiation-obstacle', choice: 'optional', delta: -1 },
+    }, summary: 'Buyer and seller negotiate; the buyer may lower the relevant obstacle. No extra outcome condition is specified here.',
+    source: [evidence('Haggling', 276)] },
   { id: 'games-of-chance-settlement', skillId: 'games-of-chance', subsystem: 'resources',
     wagerSettlement: {
       kind: 'wager-settlement', roles: { winner: 'versus-test-winner', loser: 'versus-test-loser' },

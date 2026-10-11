@@ -224,3 +224,11 @@ tests Resources at that obstacle. Passing gives the winner a Resources advanceme
 credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
+
+### Haggling negotiation (BWGR 276 / PDF 278)
+
+Haggling negotiates price, purchase terms and contracts through a buyer/seller
+versus test. The buyer may lower the relevant obstacle by one. The General entry
+adds no separate outcome condition, seller consequence or price-calculation rule.
+Preserve this as Resources integration metadata, separate from gambling settlement
+and crafted-item valuation, without executing a purchase.

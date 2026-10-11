@@ -180,15 +180,24 @@ export interface WagerSettlement {
   /** Independently conditioned facts. Array order implies neither execution nor exclusivity. */
   readonly outcomes: readonly WagerSettlementOutcome[];
 }
+/** Describes negotiation facts without a purchase or commerce evaluator. */
+export interface PurchaseNegotiation {
+  readonly kind: 'purchase-negotiation';
+  readonly roles: readonly ['buyer', 'seller'];
+  readonly test: { readonly kind: 'versus' };
+  readonly subject: 'price-purchase-terms-and-contracts';
+  readonly buyerObstacleAdjustment: { readonly kind: 'obstacle-modifier';
+    readonly target: 'relevant-negotiation-obstacle'; readonly choice: 'optional'; readonly delta: number };
+}
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation;
-      readonly createdItemReference?: MagicCreatedItemReference; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never }
+      readonly createdItemReference?: MagicCreatedItemReference; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never }
   | { readonly subsystem: 'equipment'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
-      readonly equipmentUseEffect?: EquipmentUseEffect; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never }
+      readonly equipmentUseEffect?: EquipmentUseEffect; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never }
   | { readonly subsystem: 'resources'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
-      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement }
+      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation }
   | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>;
-      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never }
+      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never }
 );
 
 export interface SkillMetadata {

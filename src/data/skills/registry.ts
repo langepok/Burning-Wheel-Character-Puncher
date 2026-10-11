@@ -138,6 +138,17 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   for (const integration of integrations.values()) {
     requireSkill(integration.skillId);
     if (integration.context) validateContext(integration.context);
+    if (integration.purchaseNegotiation !== undefined) {
+      const purchase = integration.purchaseNegotiation;
+      const adjustment = purchase?.buyerObstacleAdjustment;
+      if (integration.subsystem !== 'resources' || purchase?.kind !== 'purchase-negotiation' ||
+          !Array.isArray(purchase.roles) || purchase.roles.length !== 2 || purchase.roles[0] !== 'buyer' || purchase.roles[1] !== 'seller' ||
+          purchase.test?.kind !== 'versus' || purchase.subject !== 'price-purchase-terms-and-contracts' ||
+          adjustment?.kind !== 'obstacle-modifier' || adjustment.target !== 'relevant-negotiation-obstacle' ||
+          adjustment.choice !== 'optional' || !Number.isInteger(adjustment.delta) || adjustment.delta === 0) {
+        throw new Error('Invalid purchase negotiation');
+      }
+    }
     if (integration.wagerSettlement !== undefined) {
       const wager = integration.wagerSettlement;
       if (integration.subsystem !== 'resources' || wager?.kind !== 'wager-settlement' ||

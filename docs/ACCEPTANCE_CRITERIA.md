@@ -361,3 +361,15 @@ A Character Burner feature is done only when:
 - Gambling has no Games of Chance settlement descriptor or outcomes.
 - Serialization preserves the descriptor; integrity validation rejects mismatched
   roles, references, conditions, effects and placement outside Resources integration.
+
+## Purchase negotiation metadata
+
+- Haggling preserves buyer/seller roles, versus-test nature and negotiation of
+  price/purchase terms, including its source reference to contracts.
+- The buyer may adjust the relevant negotiation obstacle by -1. No win condition,
+  seller outcome, purchase flow or automatic price calculation is added.
+- Gambling and Games of Chance do not inherit this descriptor.
+- The typed descriptor round-trips through registration and rejects malformed
+  roles, subjects, test kind, obstacle adjustment or non-Resources placement.
+- Keep the current formalization level until General A–Z is finished. Review a
+  narrower scope policy separately afterward; stop at further unrepresented RAW.
