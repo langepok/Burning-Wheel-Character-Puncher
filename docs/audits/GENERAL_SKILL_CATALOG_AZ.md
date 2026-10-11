@@ -198,20 +198,39 @@ The full Haggling definition retains Will root, Social type, no tools and the tw
 printed FoRKs. Validation covers the typed descriptor and Resources-only placement;
 serialization preserves the declaration without calculating a price.
 
-## Pending H schema case: Hallmaster structure resistance
+## Resolved created-structure resistance
 
-Visually verified Hallmaster, book 276 / PDF 278. While constructing a structure,
-the Artificer may add +2 crafting Ob to add +1 Ob to tests that alter or destroy
-the resulting structure. This is a property of a created structure, not its
-Resources value, an advantage-dice use bonus or a negotiated purchase adjustment.
+Visually verified Hallmaster, book 276 / PDF 278, and Stone Artifice, 301/303.
+Both allow optional +2 obstacle when building a structure for +1 obstacle on tests
+to alter or destroy the created structure. A distinct StructureResistance descriptor
+stores target, cost, affected actions and the tests-against-structure modifier.
+Repeatability is explicitly unspecified for both. It does not imply a maximum,
+stacking, a bonus to an equipment user or a Resources-value change.
 
-The existing descriptors cannot store this resistance effect and its construction
-cost without changing their target/measure meaning. Hallmaster remains an
-identity-only reference. Minimal proposed direction, not implemented: a separate
-structure-resistance descriptor in equipment integration, preserving the created
-structure target, optional +2 crafting obstacle cost and +1 test-obstacle modifier
-scoped explicitly to altering or destroying that structure. Repeatability remains
-unspecified; no stacking, maximum or durability evaluator is inferred.
+Hallmaster is a full production definition linked to equipment integration. Stone
+Artifice remains a partial representative until S, sharing the reviewed descriptor
+without importing partial definitions into production. Validation/serialization
+check the data; no HP, durability or destruction engine is implemented. D-025 is
+extended to created-object/result metadata without changing the architecture boundary.
+
+## Pending I schema case: Inconspicuous situational test penalties
+
+Visually verified book 278 / PDF 280. Inconspicuous opposes Observation. Its test
+has +1 obstacle for garish/inappropriate dress, +1 for being above/below one's
+station, +1 for not being from the region, and +2 for a different race than the
+crowd the character is attempting to blend into.
+
+Current skill metadata lacks a structured opposed-skill test profile with
+situational obstacle modifiers. Resources purchase/settlement and structure
+resistance have different subjects/targets and cannot store this use procedure.
+Do not repurpose them or flatten these penalties into a prose special rule.
+Inconspicuous remains an identity-only reference.
+
+Minimal proposed direction, not implemented: small typed skill-test metadata for
+an opposed skill reference plus obstacle-modifier entries, using the existing
+structured SkillContext (curated circumstance ids for these source situations).
+No modifier evaluator, crowd model or runtime prose parsing is proposed. The
+current formalization level remains unchanged, pending user schema resolution.
 
 ## Formalization policy through General A–Z completion
 
@@ -264,12 +283,26 @@ burning scope. Great Wolf Husbandry's Field Dressing capability is explicitly sc
 to Great Wolf wounds. Grain Song keeps Rhyme of Rules as an unresolved source
 reference. It remains distinct from Miller; no identity normalization is performed.
 
-Haggling now begins H as the 187th complete production definition. Hallmaster and
-later entries remain pending their respective source/schema review.
+## H completion and I progress
+
+H is complete against the independent manifest: 8 ordinary skills, 7 Wise topics
+and the History family, whose default metadata now preserves the printed root,
+Academic type, tools and FoRK guidance. History remains a family with separate
+ownership per topic; it is not a single owned skill. The generic other-History
+FoRK suggestion is subject to the base FoRK rule of using another skill, not
+permission to FoRK a skill into itself.
+
+Hunting keeps the bow/javelin alternative tools; Herbalism keeps the source's two
+contextual FoRK alternatives. Hauling substitutes for Power only in hauling.
+Hymn of Scales and Fins reuses Fishing mechanics while retaining its own identity.
+Its spell-song FoRKs remain unresolved source references where outside General.
+Illuminations and Imperfections-wise begin I. There are now 203 complete production
+definitions, plus the separately modeled History family and Appropriate Weapons
+choice; later blocks and final counts remain pending.
 
 ## Current verification
 
-This checkpoint passes npm ci, typecheck, all 410 tests across 16 files, build
-and git diff --check. H and the remaining A–Z blocks, final counts and the
-lifepath-reference join remain pending; no full A–Z PR is open. Production
-transcription pauses at Hallmaster structure resistance.
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (431 tests
+in 17 files), npm run build and git diff --check. I and later blocks, final counts
+and the lifepath-reference join remain unfinished; no full A–Z PR is open.
+Production transcription pauses at Inconspicuous situational test metadata.

@@ -1,4 +1,4 @@
-import { combined, define, fork, forks, generic, guidance, magical, only, sourceFork, stat, traveling, none, workshop } from './shared';
+import { combined, define, expendable, fork, forks, generic, guidance, item, magical, only, sourceFork, stat, traveling, none, workshop } from './shared';
 
 /** G–H in progress; subsystem settlement metadata is authored independently. */
 export const gHSkills = [
@@ -33,4 +33,25 @@ export const gHSkills = [
   define('haggling', 'Haggling', 276, 'Negotiate prices, purchase terms and contracts.', { rootRule: stat('will'), skillType: 'Social', tools: none,
     forkSuggestions: forks('persuasion', 'soothing-platitudes'), integrationTags: ['resources'],
     capabilities: [{ kind: 'subsystem-capability', id: 'purchase-negotiation', integrationId: 'haggling-negotiation' }] }),
+  define('hallmaster', 'Hallmaster', 276, 'Build Dwarven halls and optionally reinforce their resistance to alteration or destruction.', {
+    rootRule: combined('will', 'perception'), skillType: 'Artisan', tools: workshop, ...magical, availabilityRestrictions: only(['dwarf']),
+    forkSuggestions: forks('war-engineer', 'stone-artifice'), integrationTags: ['equipment'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'structure-resistance', integrationId: 'hallmaster-resistance' }] }),
+  define('hammer', 'Hammer', 276, 'Use heavy blunt crushing weapons with beaks or spikes.', { rootRule: stat('agility'), skillType: 'Martial', tools: item('hammer'),
+    forkSuggestions: forks('mace', 'cudgel', 'axe'), semanticCategories: ['melee-weapon'], integrationTags: ['fight'] }),
+  define('hauling', 'Hauling', 277, 'Carry heavy loads using the skill in place of Power.', { rootRule: combined('will', 'power'), skillType: 'Peasant', tools: none,
+    relations: [{ kind: 'contextual-substitution', target: { kind: 'stat', id: 'power' }, context: { kind: 'activity', activity: 'hauling' } }] }),
+  define('heraldry', 'Heraldry', 277, 'Recognize heraldic coats of arms and families.', { rootRule: stat('perception'), skillType: 'Special', tools: none,
+    forkSuggestions: forks('etiquette') }),
+  define('herbalism', 'Herbalism', 277, 'Use herbs to prevent or treat ailments and wounds.', { rootRule: stat('perception'), skillType: 'Medicinal', tools: expendable,
+    forkSuggestions: guidance(
+      { target: { kind: 'anyOf', targets: [{ kind: 'skill', skillId: 'apothecary' }, { kind: 'skill', skillId: 'alchemy' }] }, context: { kind: 'activity', activity: 'potion-work' } },
+      { target: { kind: 'anyOf', targets: [{ kind: 'skill', skillId: 'surgery' }, { kind: 'skill', skillId: 'field-dressing' }] }, context: { kind: 'activity', activity: 'wound-treatment' } },
+    ), integrationTags: ['injury'] }),
+  define('hunting', 'Hunting', 277, 'Capture or kill wild prey for food.', { rootRule: combined('perception', 'agility'), skillType: 'Forester',
+    tools: { kind: 'anyOf', requirements: [item('bow'), item('javelin')] }, forkSuggestions: forks('tracking', 'trapper') }),
+  define('hymn-of-scales-and-fins', 'Hymn of Scales and Fins', 278, 'Elven fishing through song; functions like Fishing.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Peasant', tools: generic, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: guidance(sourceFork('Slip of Currents'), sourceFork('Rhyme of Rules')),
+    relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'fishing' } }] }),
 ];

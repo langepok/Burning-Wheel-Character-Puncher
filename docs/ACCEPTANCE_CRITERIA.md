@@ -373,3 +373,14 @@ A Character Burner feature is done only when:
   roles, subjects, test kind, obstacle adjustment or non-Resources placement.
 - Keep the current formalization level until General A–Z is finished. Review a
   narrower scope policy separately afterward; stop at further unrepresented RAW.
+
+## Created-structure resistance metadata
+
+- Hallmaster and the Stone Artifice representative store a created-structure
+  target, optional +2 building/crafting obstacle and +1 obstacle on tests against
+  that structure for alteration or destruction.
+- Repeatability is explicitly unspecified for both; do not infer stacking or a max.
+- StructureResistance is distinct from EquipmentUseEffect, valuation and direct
+  ResourceInteraction. It belongs only to equipment integration metadata.
+- Serialization preserves it; integrity validation checks target, cost, modifier,
+  alter/destroy action set and repeatability. No durability/destruction evaluator.

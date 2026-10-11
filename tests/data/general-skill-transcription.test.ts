@@ -6,18 +6,31 @@ import { generalSkillManifest } from './general-skill-manifest';
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
-  ['E', 'F', 'G'].includes(entry.sourceName[0]) || entry.id === 'haggling');
+  ['E', 'F', 'G', 'H'].includes(entry.sourceName[0]) || ['illuminations', 'imperfections-wise'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
-  it('covers every reviewed A–G entry and Haggling exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed A–H entry and pre-Inconspicuous I rows exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {
-      const record = entry.kind === 'choice' ? catalog.choices.get(entry.id) : catalog.skills.get(entry.id);
+      const record = entry.kind === 'family' ? catalog.families.get(entry.id) : entry.kind === 'choice' ? catalog.choices.get(entry.id) : catalog.skills.get(entry.id);
       expect(record?.sourceName).toBe(entry.sourceName);
       expect(record?.source).toContainEqual(expect.objectContaining({ pages: { printed: [entry.printedPage], pdf: [entry.pdfPage] } }));
-      if (entry.kind !== 'choice') expect(catalog.skills.get(entry.id)?.coverage).toBe('complete');
+      if (entry.kind !== 'choice' && entry.kind !== 'family') expect(catalog.skills.get(entry.id)?.coverage).toBe('complete');
     }
+  });
+  it('preserves the remaining H context/choice distinctions and leaves Inconspicuous untranscribed', () => {
+    expect(catalog.skills.get('hunting')?.tools).toEqual({ kind: 'anyOf', requirements: [{ kind: 'specific-item', item: 'bow' }, { kind: 'specific-item', item: 'javelin' }] });
+    expect(catalog.skills.get('herbalism')?.forkSuggestions?.suggestions).toEqual([
+      { target: { kind: 'anyOf', targets: [{ kind: 'skill', skillId: 'apothecary' }, { kind: 'skill', skillId: 'alchemy' }] }, context: { kind: 'activity', activity: 'potion-work' } },
+      { target: { kind: 'anyOf', targets: [{ kind: 'skill', skillId: 'surgery' }, { kind: 'skill', skillId: 'field-dressing' }] }, context: { kind: 'activity', activity: 'wound-treatment' } },
+    ]);
+    expect(catalog.skills.get('hauling')?.relations).toEqual([{ kind: 'contextual-substitution', target: { kind: 'stat', id: 'power' }, context: { kind: 'activity', activity: 'hauling' } }]);
+    expect(catalog.families.get('history')?.defaults).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } }, skillType: 'Academic', tools: { kind: 'none', expendable: false } });
+    expect(catalog.skills.has('history')).toBe(false);
+    expect(catalog.skills.get('illuminations')?.skillType).toBe('Artist');
+    expect(catalog.skills.has('inconspicuous')).toBe(false);
+    expect(catalog.references.has('inconspicuous')).toBe(true);
   });
   it('registers full Gem records and their independent valuation/magic metadata', () => {
     expect(catalog.skills.get('gem-artifice')).toMatchObject({ coverage: 'complete', skillType: 'Artisan', tools: { kind: 'workshop' } });

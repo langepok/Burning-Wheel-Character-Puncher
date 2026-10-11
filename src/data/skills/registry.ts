@@ -138,6 +138,20 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   for (const integration of integrations.values()) {
     requireSkill(integration.skillId);
     if (integration.context) validateContext(integration.context);
+    if (integration.structureResistance !== undefined) {
+      const resistance = integration.structureResistance;
+      const acquisition = resistance?.acquisition;
+      const effect = resistance?.effect;
+      if (integration.subsystem !== 'equipment' || resistance?.kind !== 'structure-resistance' || resistance.target !== 'created-structure' ||
+          acquisition?.kind !== 'crafting-obstacle-tradeoff' || acquisition.choice !== 'optional' ||
+          !Number.isInteger(acquisition.obstacleDelta) || acquisition.obstacleDelta <= 0 ||
+          !['single-tradeoff', 'per-increment', 'unspecified'].includes(acquisition.repeatability) ||
+          effect?.kind !== 'obstacle-modifier' || !Number.isInteger(effect.delta) || effect.delta <= 0 ||
+          effect.target !== 'tests-against-created-structure' || !Array.isArray(effect.appliesTo) ||
+          effect.appliesTo.length !== 2 || !effect.appliesTo.includes('alter') || !effect.appliesTo.includes('destroy')) {
+        throw new Error('Invalid structure resistance');
+      }
+    }
     if (integration.purchaseNegotiation !== undefined) {
       const purchase = integration.purchaseNegotiation;
       const adjustment = purchase?.buyerObstacleAdjustment;

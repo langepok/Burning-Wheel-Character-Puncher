@@ -8,10 +8,13 @@ import { gHSkills } from './g-h';
 import { resourceIntegrations } from './resources';
 import { gWises } from './g-wises';
 import { itemValueIntegrations } from './item-value';
+import { structureResistanceIntegrations } from './structure-resistance';
+import { hWises } from './h-wises';
+import { iMSkills } from './i-m';
 import { generalNameReferences } from './references';
 import { evidence, none, stat } from './shared';
 
-const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises, ...gHSkills, ...gWises];
+const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises, ...gHSkills, ...gWises, ...hWises, ...iMSkills];
 const loadedIds = new Set(skills.map(skill => skill.id));
 
 /** Work in progress: complete records for reviewed blocks, identity-only references elsewhere.
@@ -24,7 +27,12 @@ export const generalSkillTranscriptionContent: SkillCatalogContent = {
     { id: 'wises', sourceName: 'Wises', ownership: 'separate-skill-per-topic',
       defaults: { rootRule: stat('perception'), skillType: 'Special', tools: none },
       summary: 'Perception-rooted, separately owned topics; named entries may override the source defaults.', source: [evidence('Wises', 309)] },
-    { id: 'history', sourceName: 'History', ownership: 'separate-skill-per-topic', defaults: { rootRule: stat('perception') },
+    { id: 'history', sourceName: 'History', ownership: 'separate-skill-per-topic',
+      defaults: { rootRule: stat('perception'), skillType: 'Academic', tools: none,
+        forkSuggestions: { policy: 'guidance-not-whitelist', manualContextualContributors: true, suggestions: [
+          { target: { kind: 'skill', skillId: 'research' } }, { target: { kind: 'skill', skillId: 'philosophy' } },
+          { target: { kind: 'skill', skillId: 'doctrine' } }, { target: { kind: 'skill-family', familyId: 'history', relevance: 'any' } },
+        ] } },
       summary: 'Separate ownership for each specific History.', source: [evidence('History', 277)] },
   ],
   choices: [{ id: 'appropriate-weapons', sourceName: 'Appropriate Weapons', kind: 'appropriate-weapons',
@@ -33,5 +41,6 @@ export const generalSkillTranscriptionContent: SkillCatalogContent = {
     die: { six: 'reroll-normally', one: { action: 'reroll', onFailure: { subtractSuccesses: 1 } } },
     alternative: { kind: 'linked-test', usesSpecialForkDie: false }, source: [evidence('Astrology', 257)] }],
   integrations: [...aDIntegrations, ...equipmentUseIntegrations, ...resourceIntegrations,
-    ...itemValueIntegrations.filter(integration => loadedIds.has(integration.skillId))],
+    ...itemValueIntegrations.filter(integration => loadedIds.has(integration.skillId)),
+    ...structureResistanceIntegrations.filter(integration => loadedIds.has(integration.skillId))],
 };

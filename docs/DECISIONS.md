@@ -309,7 +309,7 @@ and a generic circumstance-id leaf to SkillContext. The suitable-workplace
 condition is independent of Workshop tools and is never inferred for other
 skills. This extends descriptive metadata only; no Resources evaluator follows.
 
-## D-025 — Crafting-result metadata belongs to equipment integration
+## D-025 — Created-object/result metadata belongs to equipment integration
 
 **Status:** Accepted — A–Z source audit and explicit user resolution
 
@@ -335,6 +335,14 @@ creation condition. Forge's cost/bonus is per increment; Black Metal Artifice
 or prohibition. A single-tradeoff value is available for sources that establish it.
 Do not add a maximum, evaluate stacking or convert use bonuses into skill bonuses
 or Resources value. Descriptor validation is content integrity, not rules execution.
+
+The confirmed Hallmaster (276/278) and Stone Artifice (301/303) audit extends
+created-object/result metadata to structures. A distinct StructureResistance
+stores the created structure, optional building-obstacle cost and the obstacle
+penalty on tests against that structure for alteration/destruction. Both sources
+leave repeatability unspecified. This is neither a use bonus to the equipment
+user nor Resources valuation. No HP, durability, stacking or destruction engine
+follows from this descriptor; the equipment integration boundary is unchanged.
 
 ## Open decisions
 

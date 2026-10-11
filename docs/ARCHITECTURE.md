@@ -417,3 +417,8 @@ Magic matrix and Antiphon references are stored independently.
 D-025 also separates EquipmentUseEffect from created-item valuation. Equipment
 integrations store crafting acquisition cost/condition/repeatability and the use
 bonus owned by the resulting equipment. No stacking or crafting evaluator exists.
+
+D-025 also covers created structures: StructureResistance stores a construction
+tradeoff and penalties on tests against the result for alteration/destruction.
+It is distinct from equipment-user dice bonuses and item valuation; no durability
+or destruction state/evaluator is added.

@@ -232,3 +232,11 @@ versus test. The buyer may lower the relevant obstacle by one. The General entry
 adds no separate outcome condition, seller consequence or price-calculation rule.
 Preserve this as Resources integration metadata, separate from gambling settlement
 and crafted-item valuation, without executing a purchase.
+
+### Structure resistance (BWGR 276, 301 / PDF 278, 303)
+
+Hallmaster and Stone Artifice allow an optional +2 obstacle during construction
+for +1 obstacle on any test to alter or destroy the resulting structure. Neither
+entry specifies per-increment repetition. Store repeatability as unspecified and
+the penalty as a property of tests against the structure, not user bonus dice,
+Resources value or hit points. No destruction calculation is implemented.
