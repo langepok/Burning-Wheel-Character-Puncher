@@ -6,10 +6,10 @@ import { generalSkillManifest } from './general-skill-manifest';
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
-  ['E', 'F', 'G', 'H'].includes(entry.sourceName[0]) || ['illuminations', 'imperfections-wise', 'inconspicuous', 'infection-wise', 'insect-husbandry', 'instruction', 'interrogation'].includes(entry.id));
+  ['E', 'F', 'G', 'H', 'I'].includes(entry.sourceName[0]));
 
 describe('Reviewed General Skill List transcription blocks', () => {
-  it('covers every reviewed A–H entry and I rows through Interrogation exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed A–I entry exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {

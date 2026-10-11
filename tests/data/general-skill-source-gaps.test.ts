@@ -120,12 +120,14 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Pending Intimidation continuation, book 278-279 / PDF 280-281. */
-describe('Pending skill-test follow-up metadata', () => {
-  it('cannot represent an on-success Steel follow-up or silently complete Intimidation', () => {
-    expectTypeOf<'onSuccess'>().not.toExtend<keyof SkillTestProfile>();
+/** Pending Jargon source case, book 279 / PDF 281; no opponent skill is guessed. */
+describe('Pending context-supplied opposing skill', () => {
+  it('cannot use a participant skill without inventing a concrete canonical id', () => {
+    type OpposingSkill = Extract<SkillTestProfile, { kind: 'versus' }>['opposingAbilities'][number];
+    const sourceCase = { kind: 'participant-tested-skill', participant: 'eavesdropper' } as const;
+    expectTypeOf<typeof sourceCase>().not.toExtend<OpposingSkill>();
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('intimidation')).toBe(false);
-    expect(production.references.get('intimidation')?.sourceName).toBe('Intimidation');
+    expect(production.skills.has('jargon')).toBe(false);
+    expect(production.references.get('jargon')?.sourceName).toBe('Jargon');
   });
 });

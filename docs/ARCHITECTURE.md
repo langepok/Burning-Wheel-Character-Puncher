@@ -444,3 +444,12 @@ ManualTestAdjustment explicitly marks source quantities as unquantified and forb
 numeric delta, including zero. Structured examples document source situations;
 they are not executable conditions, per-trait/per-Belief formulas or arbitration.
 These facts remain SkillTestProfile metadata, separate from subsystem execution.
+
+SkillTestFollowUp describes a primary-test success trigger, scoped context, generic
+primary-actor/target role and an existing AbilityReference. DynamicTestModifier
+stores a named primary-test result reference rather than a computed delta or formula.
+The current extra-successes reference adds to a hesitation obstacle. Fixed numeric
+modifiers, manual/unquantified adjustments and dynamic references remain separate.
+Profile context scopes the primary procedure; it does not restrict the skill's
+other subsystem uses. Outside-subsystem contexts are typed and recursively validated.
+No follow-up execution, success counting, Steel or hesitation evaluator is added.

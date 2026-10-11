@@ -1,4 +1,4 @@
-import { define, expendable, generic, forks, guidance, fork, none, stat } from './shared';
+import { define, expendable, generic, forks, guidance, fork, none, stat, evidence } from './shared';
 
 /** Reviewed I–M production records; transcription remains in progress. */
 export const iMSkills = [
@@ -34,4 +34,16 @@ export const iMSkills = [
           { kind: 'target-belief', constraint: 'prevents-disclosure-of-sought-information' },
         ] },
       ] } }),
+  { ...define('intimidation', 'Intimidation', 278, 'Threaten a target; outside Duel of Wits, success prompts a Steel test.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('ugly-truth'), integrationTags: ['duel-of-wits'],
+    testProfile: { kind: 'obstacle', context: { kind: 'outside-subsystem', subsystem: 'duel-of-wits' },
+      base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' }, adjustments: [],
+      followUps: [{ trigger: { kind: 'test-success', source: 'primary-test' },
+        context: { kind: 'outside-subsystem', subsystem: 'duel-of-wits' },
+        test: { actor: 'target', ability: { kind: 'attribute', id: 'steel' } },
+        modifiers: [{ kind: 'dynamic-value', target: 'hesitation-obstacle', operation: 'add',
+          value: { kind: 'extra-successes', source: 'primary-test' } }],
+      }] } }), source: [evidence('Intimidation', 278), evidence('Intimidation continuation', 279)] },
+  define('intrigue-wise', 'Intrigue-wise', 279, 'Knowledge of intrigue.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'intrigue' } }),
 ];

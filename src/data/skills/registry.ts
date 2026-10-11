@@ -36,6 +36,13 @@ function validateOperands(nodes: readonly unknown[]): void {
 
 function validateContext(context: SkillContext): void {
   if (!context || typeof context !== 'object') throw new Error('Invalid context');
+  if (context.kind === 'outside-subsystem') {
+    if (!['fight', 'range-and-cover', 'duel-of-wits', 'injury', 'resources', 'magic', 'equipment',
+      'mounted-combat', 'military-campaign', 'poisons', 'ambush', 'battlefield-communication'].includes(context.subsystem)) {
+      throw new Error('Invalid outside-subsystem context');
+    }
+    return;
+  }
   const typedLeaves = { 'target-belief': ['constraint', ['prevents-disclosure-of-sought-information']], attire: ['attire', ['garish', 'inappropriate']],
     'social-station-mismatch': ['position', ['above', 'below']],
     'regional-origin-mismatch': ['relativeTo', ['current-region']],
@@ -137,6 +144,27 @@ export function createSkillCatalog(content: SkillCatalogContent) {
           }
         }
       } else throw new Error('Invalid skill test profile');
+      if (profile.context !== undefined) validateContext(profile.context);
+      if (profile.followUps !== undefined) {
+        if (!Array.isArray(profile.followUps)) throw new Error('Invalid skill test follow-ups');
+        for (const followUp of profile.followUps) {
+          if (followUp?.trigger?.kind !== 'test-success' || followUp.trigger.source !== 'primary-test' ||
+              !followUp.test || !['primary-actor', 'target'].includes(followUp.test.actor) ||
+              !Array.isArray(followUp.modifiers) || !followUp.modifiers.length) {
+            throw new Error('Invalid skill test follow-up');
+          }
+          validateContext(followUp.context);
+          const ability = followUp.test.ability;
+          if (!ability || !['skill', 'stat', 'attribute'].includes(ability.kind) ||
+              typeof ability.id !== 'string' || !ability.id.trim()) throw new Error('Invalid follow-up ability');
+          if (ability.kind === 'skill') requireSkill(ability.id);
+          for (const modifier of followUp.modifiers) {
+            if (modifier?.kind !== 'dynamic-value' || modifier.target !== 'hesitation-obstacle' ||
+                modifier.operation !== 'add' || 'delta' in modifier || modifier.value?.kind !== 'extra-successes' ||
+                modifier.value.source !== 'primary-test') throw new Error('Invalid dynamic test modifier');
+          }
+        }
+      }
       if (profile.modifiers !== undefined) {
         if (!Array.isArray(profile.modifiers)) throw new Error('Invalid skill test modifiers');
         for (const modifier of profile.modifiers) {

@@ -276,5 +276,14 @@ manual/unquantified sources separately from numeric modifiers and executes none.
 
 Intimidation uses the victim's Will for the initial threat test (278-279/280-281).
 Its representative basis excerpt does not inherit Interrogation adjustments.
-The continued success/Steel/hesitation procedure is a separate pending schema
-case; the excerpt is partial and is not used as a production-complete record.
+The basis-only excerpt stays partial. The production record separately stores
+the approved success/Steel/hesitation metadata described below.
+
+## Intimidation follow-up (BWGR 278-279 / PDF 280-281)
+
+Outside Duel of Wits, Intimidation tests against target Will. If it succeeds, the
+target makes a Steel test; extra successes from the primary Intimidation test add
+to the hesitation obstacle. Store Steel as an attribute ability reference and the
+extra successes as a structured primary-test value reference, not a numeric delta.
+Scope this primary procedure and follow-up outside Duel of Wits while retaining
+the skill's separate Duel of Wits usage index. Metadata does not run any tests.

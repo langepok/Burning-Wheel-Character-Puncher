@@ -422,3 +422,20 @@ A Character Burner feature is done only when:
   it does not claim full transcription of any additional Steel/hesitation procedure.
 - Ability-reference shape, snapshot, sources, quantity markers and examples are
   validated; metadata round-trips without executing formulas or GM arbitration.
+
+## Success-conditioned follow-up tests
+
+- SkillTestProfile stores typed followUps without automatic execution. Generic
+  primary-actor/target roles and existing AbilityReference are reused across tests.
+- Intimidation's primary target-Will obstacle and success-conditioned target Steel
+  follow-up are explicitly scoped outside Duel of Wits; the skill itself remains
+  indexed as usable in Duel of Wits rather than restricted out of it.
+- Steel is an attribute reference, not a catalog skill identity. Skill ability
+  references resolve through the catalog; stat/attribute ids use the existing
+  extensible kind/id integrity boundary.
+- The hesitation-obstacle modifier adds an extra-successes reference from the
+  primary test; no numeric delta, computed amount or formula replaces that reference.
+- Dynamic, fixed and manual/unquantified modifiers remain distinct typed forms.
+- Contexts, triggers, actors, abilities and values round-trip through validation;
+  malformed/dangling skill references and invalid result sources are rejected.
+- No Steel, hesitation, Fight, Duel of Wits, success-counting or follow-up engine.

@@ -275,23 +275,47 @@ pages (278-279/280-281), and no Interrogation adjustments. The existing versus
 profiles and scoped obstacle-reference relations retain their meanings. No new
 Decision is needed under D-023/D-024; metadata does not execute rules.
 
-## Pending I schema case: Intimidation success / Steel / hesitation chain
+## Resolved I schema case: success / Steel / hesitation follow-up
 
-Visually verified book 278-279 / PDF 280-281. Outside Duel of Wits, successful
-Intimidation calls for a Steel test; extra successes add to the hesitation obstacle.
-This is a follow-up test and transfer of a measured result, not a fixed modifier,
-an unquantified adjustment or a versus-opponent list. The current profile has no
-structured representation for that success-conditioned follow-up.
+Visually verified book 278-279 / PDF 280-281. The user approved typed follow-up
+test metadata: primary-test success trigger, outside-Duel-of-Wits context, target
+actor and Steel attribute reference. A dynamic modifier adds a structured extra-
+successes reference from the primary Intimidation test to the hesitation obstacle.
+No numeric delta or formula is stored in this modifier; fixed numeric modifiers
+and manual/unquantified adjustments remain separate types.
 
-Intimidation remains an identity-only production reference; its approved obstacle
-basis excerpt is partial. Do not copy the procedure into prose and mark the record
-complete, or implement a Steel/hesitation engine.
+Generic primary-actor/target roles were introduced because the catalog had no
+existing skill-test role model. AbilityReference is reused; known skill references
+resolve through the catalog, while stat/attribute references retain the existing
+extensible kind/id validation boundary. The primary obstacle profile is also
+scoped outside Duel of Wits, without restricting the skill's separately indexed
+Duel of Wits usage. No Interrogation adjustments are copied into Intimidation.
 
-Minimal proposed direction, not implemented: a small typed follow-up-test descriptor
-preserving success trigger, target Steel reference and hesitation-obstacle modifier
-whose amount is sourced from the initial skill test's extra successes. Preserve the
-outside-Duel-of-Wits use context. No formula DSL, roll resolution or hesitation
-calculation is proposed. A type-level gap test records the absent profile field.
+Intimidation is now a full production record with both source-page references.
+The prior basis-only fixture remains an isolated partial excerpt, never a production
+substitute. Serialization and negative tests cover context, trigger, roles, abilities,
+result sources and modifier shape. No Steel/hesitation/Fight/Duel-of-Wits evaluator,
+success-counting runtime or automatic follow-up execution is implemented. D-023/
+D-024 already establish the descriptive-data boundary; no new decision is needed.
+
+## Pending J schema case: Jargon context-supplied opposing skill
+
+Visually verified book 279 / PDF 281. Beyond identifying speakers and communicating
+plans, Jargon uses a versus test against the skill of someone trying to eavesdrop
+on the conversation. The entry does not name that skill as Observation, Jargon or
+any other specific canonical identity. Do not infer one from the activity.
+
+SkillTestProfile currently requires concrete registered opposing skill references.
+It cannot preserve a context-supplied participant skill without inventing a skillId.
+An unresolved printed skill-name reference is not this relation: the source gives
+an activity/participant rather than a missing canonical skill name. Jargon remains
+an identity-only reference pending user resolution.
+
+Minimal proposed direction, not implemented: typed opposing-skill reference to
+the skill used by the eavesdropping participant, with manual/context resolution
+and no fixed default skillId. This is not unrestricted any-skill permission, a
+whitelist, runtime prose parsing or an eavesdropping evaluator. A type-level gap
+test records that concrete opposing references cannot express this source case.
 
 ## Formalization policy through General A–Z completion
 
@@ -357,14 +381,14 @@ Hunting keeps the bow/javelin alternative tools; Herbalism keeps the source's tw
 contextual FoRK alternatives. Hauling substitutes for Power only in hauling.
 Hymn of Scales and Fins reuses Fishing mechanics while retaining its own identity.
 Its spell-song FoRKs remain unresolved source references where outside General.
-Illuminations, Imperfections-wise, Inconspicuous and Infection-wise begin I. There
-are now 208 complete production definitions, including Insect Husbandry,
-Instruction and Interrogation. The History family and Appropriate Weapons choice
-stay separate; later blocks and final counts remain pending.
+I is now complete against the independent manifest: 9 records, including the
+approved Intimidation procedure and Intrigue-wise. There are 210 complete production
+definitions. The History family and Appropriate Weapons choice stay separate;
+J-M and later blocks, final counts and the lifepath-reference join remain pending.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (507 tests
-in 20 files), npm run build and git diff --check. I and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (531 tests
+in 21 files), npm run build and git diff --check. J-M and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Intimidation success/Steel/hesitation metadata.
+Production transcription pauses at Jargon context-supplied opposing skill metadata.

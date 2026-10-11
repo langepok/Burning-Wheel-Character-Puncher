@@ -40,7 +40,9 @@ describe('Target-derived obstacle facts', () => {
     const fixture = createSkillCatalog(targetObstacleFixtureContent);
     expect(fixture.skills.get('intimidation')?.testProfile).toEqual({ kind: 'obstacle', base });
     expect(fixture.skills.get('intimidation')?.coverage).toBe('partial');
-    expect(catalog.skills.has('intimidation')).toBe(false);
+    expect(catalog.skills.get('intimidation')?.coverage).toBe('complete');
+    expect(catalog.skills.get('intimidation')?.testProfile?.base).toEqual(base);
+    expect(catalog.skills.get('intimidation')?.testProfile?.adjustments).toEqual([]);
   });
   it.each([generalSkillTranscriptionContent, targetObstacleFixtureContent])('serializes basis and manual facts intact', content => {
     const restored = createSkillCatalog(JSON.parse(JSON.stringify(content)) as typeof content);

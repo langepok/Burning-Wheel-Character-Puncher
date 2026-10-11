@@ -38,6 +38,7 @@ export type RollBehavior =
 /** Attire and mismatch leaves describe the skill user relative to their environment.
  * Stock mismatch preserves the source race/crowd comparison without fixing a stock. */
 export type SkillContext =
+  | { readonly kind: 'outside-subsystem'; readonly subsystem: IntegrationTag }
   | { readonly kind: 'target-belief'; readonly constraint: 'prevents-disclosure-of-sought-information' }
   | { readonly kind: 'attire'; readonly attire: 'garish' | 'inappropriate' }
   | { readonly kind: 'social-station-mismatch'; readonly position: 'above' | 'below'; readonly relativeTo: 'appropriate-social-station' }
@@ -233,9 +234,24 @@ export type ManualTestAdjustment = {
   | { readonly source: 'target-traits'; readonly examples?: never }
   | { readonly source: 'situational-disadvantage'; readonly examples?: readonly SkillContext[] }
 );
+/** Roles are local to the owning primary test, not skill-specific actor models. */
+export type SkillTestActor = 'primary-actor' | 'target';
+export type TestResultValueReference = { readonly kind: 'extra-successes'; readonly source: 'primary-test' };
+export type DynamicTestModifier = {
+  readonly kind: 'dynamic-value'; readonly target: 'hesitation-obstacle'; readonly operation: 'add';
+  readonly value: TestResultValueReference; readonly delta?: never;
+};
+export interface SkillTestFollowUp {
+  readonly trigger: { readonly kind: 'test-success'; readonly source: 'primary-test' };
+  readonly context: SkillContext;
+  readonly test: { readonly actor: SkillTestActor; readonly ability: AbilityReference };
+  readonly modifiers: readonly [DynamicTestModifier, ...DynamicTestModifier[]];
+}
 /** Descriptive skill-level test facts, not a roll-building or arbitration engine.
  * Missing modifiers remain untranscribed; manual adjustments explicitly lack deltas. */
 export type SkillTestProfile = {
+  readonly context?: SkillContext;
+  readonly followUps?: readonly SkillTestFollowUp[];
   readonly modifiers?: readonly { readonly kind: 'obstacle'; readonly delta: number; readonly when: SkillContext }[];
 } & (
   | { readonly kind: 'versus';
