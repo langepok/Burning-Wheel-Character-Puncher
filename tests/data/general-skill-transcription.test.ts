@@ -6,10 +6,27 @@ import { generalSkillManifest } from './general-skill-manifest';
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
-  ['E', 'F', 'G', 'H', 'I'].includes(entry.sourceName[0]));
+  ['E', 'F', 'G', 'H', 'I', 'J'].includes(entry.sourceName[0]) ||
+  ['khirurgy', 'kingdom-wise', 'knives'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
-  it('covers every reviewed A–I entry exactly with the correct record kind/name/page', () => {
+  it('preserves the separate J–K roots, restrictions, tools and subsystem references', () => {
+    const jewelcraft = catalog.skills.get('jewelcraft');
+    expect(jewelcraft?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'agility' }] });
+    expect(jewelcraft?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['elf'], scope: 'always' }]);
+    expect(jewelcraft?.printedMarkers).toEqual(['§']);
+    expect(jewelcraft?.tools).toEqual({ kind: 'workshop' });
+    expect(catalog.integrations.get('jewelcraft-antiphon')?.createdItemReference).toEqual({
+      kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training',
+    });
+    expect(catalog.skills.get('jeweler')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'perception' }, { kind: 'stat', id: 'agility' }] });
+    expect(catalog.skills.get('khirurgy')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['dwarf'], scope: 'character-burning' }]);
+    expect(catalog.skills.get('javelin')?.tools).toEqual({ kind: 'none', expendable: false });
+    expect(catalog.skills.get('javelin')?.integrationTags).toEqual(['range-and-cover', 'fight']);
+    expect(catalog.skills.get('knives')?.tools).toEqual({ kind: 'specific-item', item: 'something knife-like' });
+    expect(catalog.skills.get('knives')?.integrationTags).toEqual(['fight']);
+  });
+  it('covers every reviewed A–J and pre-Knots entry exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {

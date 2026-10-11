@@ -287,3 +287,12 @@ to the hesitation obstacle. Store Steel as an attribute ability reference and th
 extra successes as a structured primary-test value reference, not a numeric delta.
 Scope this primary procedure and follow-up outside Duel of Wits while retaining
 the skill's separate Duel of Wits usage index. Metadata does not run any tests.
+
+
+## Jargon contextual opposition (BWGR 279 / PDF 281)
+
+Jargon identifies speakers and communicates plans/instructions; its versus case
+opposes the skill used by a participant trying to eavesdrop. The entry supplies no
+fixed opposing identity. Preserve a skill-only eavesdropper reference with manual
+context resolution, without selecting Observation, Perception or Jargon as default.
+This is source-supported contextual selection, not missing transcription data.

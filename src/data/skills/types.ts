@@ -247,6 +247,11 @@ export interface SkillTestFollowUp {
   readonly test: { readonly actor: SkillTestActor; readonly ability: AbilityReference };
   readonly modifiers: readonly [DynamicTestModifier, ...DynamicTestModifier[]];
 }
+/** Source-supported contextual selection is distinct from missing transcription. */
+export type OpposingAbilityReference = Extract<SkillReferenceTarget, { kind: 'skill' }> | {
+  readonly kind: 'context-resolved-skill'; readonly actorRole: 'eavesdropper';
+  readonly resolution: 'manual'; readonly skillId?: never;
+};
 /** Descriptive skill-level test facts, not a roll-building or arbitration engine.
  * Missing modifiers remain untranscribed; manual adjustments explicitly lack deltas. */
 export type SkillTestProfile = {
@@ -256,7 +261,7 @@ export type SkillTestProfile = {
 } & (
   | { readonly kind: 'versus';
       /** Potential opponents, not simultaneous tests against every ability. */
-      readonly opposingAbilities: readonly [Extract<SkillReferenceTarget, { kind: 'skill' }>, ...Extract<SkillReferenceTarget, { kind: 'skill' }>[]];
+      readonly opposingAbilities: readonly [OpposingAbilityReference, ...OpposingAbilityReference[]];
       readonly base?: never; readonly adjustments?: never }
   | { readonly kind: 'obstacle'; readonly base: ObstacleBasis;
       readonly adjustments?: readonly ManualTestAdjustment[]; readonly opposingAbilities?: never }

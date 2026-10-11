@@ -439,3 +439,14 @@ A Character Burner feature is done only when:
 - Contexts, triggers, actors, abilities and values round-trip through validation;
   malformed/dangling skill references and invalid result sources are rejected.
 - No Steel, hesitation, Fight, Duel of Wits, success-counting or follow-up engine.
+
+## Context-resolved opposing skills
+
+- Jargon has a versus profile whose opposing skill belongs to the eavesdropper.
+- The typed reference explicitly resolves manually from context, without a concrete
+  skillId, default or fallback. This is source-supported selection, not missing data.
+- Context-resolved references remain distinct from fixed skills, target stats,
+  unresolved source-name references and unrestricted ability selectors.
+- References serialize and validate; invalid roles/kinds/resolutions and invented
+  ids/defaults are rejected. Existing fixed profiles remain unchanged.
+- No contextual selection, GM adjudication or opposed-test evaluator is implemented.

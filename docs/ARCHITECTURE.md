@@ -453,3 +453,10 @@ modifiers, manual/unquantified adjustments and dynamic references remain separat
 Profile context scopes the primary procedure; it does not restrict the skill's
 other subsystem uses. Outside-subsystem contexts are typed and recursively validated.
 No follow-up execution, success counting, Steel or hesitation evaluator is added.
+
+
+OpposingAbilityReference separates a fixed catalog skill from a context-resolved
+skill used by the eavesdropping participant. The latter has a constrained role
+and manual resolution, no concrete id/default/fallback. It is intentional source
+selection, not an unresolved source-name typo or an arbitrary ability selector.
+The catalog validates this metadata but does not perform GM adjudication.

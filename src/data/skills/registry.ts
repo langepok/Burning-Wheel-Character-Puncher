@@ -115,6 +115,13 @@ export function createSkillCatalog(content: SkillCatalogContent) {
           throw new Error('Invalid skill test profile');
         }
         for (const ability of profile.opposingAbilities) {
+          if (ability?.kind === 'context-resolved-skill') {
+            if (ability.actorRole !== 'eavesdropper' || ability.resolution !== 'manual' ||
+                Object.keys(ability).some(key => !['kind', 'actorRole', 'resolution'].includes(key))) {
+              throw new Error('Invalid context-resolved opposing skill');
+            }
+            continue;
+          }
           if (ability?.kind !== 'skill' || typeof ability.skillId !== 'string' || !ability.skillId.trim()) {
             throw new Error('Invalid opposing skill reference');
           }

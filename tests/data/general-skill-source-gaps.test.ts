@@ -120,14 +120,14 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Pending Jargon source case, book 279 / PDF 281; no opponent skill is guessed. */
-describe('Pending context-supplied opposing skill', () => {
-  it('cannot use a participant skill without inventing a concrete canonical id', () => {
-    type OpposingSkill = Extract<SkillTestProfile, { kind: 'versus' }>['opposingAbilities'][number];
-    const sourceCase = { kind: 'participant-tested-skill', participant: 'eavesdropper' } as const;
-    expectTypeOf<typeof sourceCase>().not.toExtend<OpposingSkill>();
+/** Knots, book 280 / PDF 282: mixed opposing abilities and a double obstacle penalty. */
+describe('Pending Knots source case', () => {
+  it('cannot represent the Power alternative or doubled obstacle through a fixed delta', () => {
+    type Opponent = Extract<SkillTestProfile, { kind: 'versus' }>['opposingAbilities'][number];
+    const power = { kind: 'stat', id: 'power' } as const;
+    expectTypeOf<typeof power>().not.toExtend<Opponent>();
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('jargon')).toBe(false);
-    expect(production.references.get('jargon')?.sourceName).toBe('Jargon');
+    expect(production.skills.has('knots')).toBe(false);
+    expect(production.references.get('knots')?.sourceName).toBe('Knots');
   });
 });

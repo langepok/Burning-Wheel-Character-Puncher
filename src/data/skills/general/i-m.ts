@@ -1,4 +1,5 @@
-import { define, expendable, generic, forks, guidance, fork, none, stat, evidence } from './shared';
+import type { SkillIntegration } from '../types';
+import { define, expendable, generic, forks, guidance, fork, none, stat, evidence, combined, magical, only, workshop, item, melee } from './shared';
 
 /** Reviewed I–M production records; transcription remains in progress. */
 export const iMSkills = [
@@ -46,4 +47,34 @@ export const iMSkills = [
       }] } }), source: [evidence('Intimidation', 278), evidence('Intimidation continuation', 279)] },
   define('intrigue-wise', 'Intrigue-wise', 279, 'Knowledge of intrigue.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'intrigue' } }),
+  define('jargon', 'Jargon', 279, 'Use specialist secret speech to identify speakers or communicate plans and instructions.', {
+    rootRule: stat('perception'), skillType: 'Social', tools: none,
+    testProfile: { kind: 'versus', opposingAbilities: [
+      { kind: 'context-resolved-skill', actorRole: 'eavesdropper', resolution: 'manual' },
+    ] } }),
+  define('javelin', 'Javelin', 279, 'Use short throwing spears under the thrown-weapon rules.', {
+    rootRule: stat('agility'), skillType: 'Martial', tools: none, forkSuggestions: forks('throwing'), integrationTags: ['range-and-cover', 'fight'] }),
+  define('jewelcraft', 'Jewelcraft', 279, 'Craft Elven jewelry that can be enchanted through Antiphon Union and appropriate spell songs.', {
+    rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: workshop, ...magical,
+    availabilityRestrictions: only(['elf']), forkSuggestions: forks('smithcraft', 'gemcraft'), integrationTags: ['magic', 'equipment'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'jewelcraft-antiphon', integrationId: 'jewelcraft-antiphon' }] }),
+  define('jeweler', 'Jeweler', 279, 'Work metals and precious gems into jewelry.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: workshop,
+    forkSuggestions: forks('etching', 'whitesmith', 'lapidary') }),
+  define('khirurgy', 'Khirurgy', 279, 'Dwarven medicine; treatment procedures use Anatomy of Injury.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Medicinal', tools: generic,
+    availabilityRestrictions: only(['dwarf'], 'character-burning'), integrationTags: ['injury'],
+    forkSuggestions: forks('herbalism', 'field-dressing', 'bloodletting', 'apothecary') }),
+  define('kingdom-wise', 'Kingdom-wise', 279, 'Knowledge of kingdoms.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'kingdom' } }),
+  define('knives', 'Knives', 279, 'Fight with knives at close quarters; this is not a throwing skill.', {
+    rootRule: stat('agility'), skillType: 'Martial', tools: item('something knife-like'), integrationTags: ['fight'],
+    forkSuggestions: guidance(fork('brawling'), fork('boxing'), melee) }),
+];
+
+export const iMIntegrations: readonly SkillIntegration[] = [
+  { id: 'jewelcraft-antiphon', skillId: 'jewelcraft', subsystem: 'magic',
+    createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
+    summary: 'Created jewelry may be enchanted with Antiphon Union and appropriate spell songs, including Paean of Deeds, Ballad of Rage and Strain of Far Sight.',
+    source: [evidence('Jewelcraft', 279)] },
 ];

@@ -298,24 +298,28 @@ result sources and modifier shape. No Steel/hesitation/Fight/Duel-of-Wits evalua
 success-counting runtime or automatic follow-up execution is implemented. D-023/
 D-024 already establish the descriptive-data boundary; no new decision is needed.
 
-## Pending J schema case: Jargon context-supplied opposing skill
+## Resolved J schema case: Jargon context-supplied opposing skill
 
-Visually verified book 279 / PDF 281. Beyond identifying speakers and communicating
-plans, Jargon uses a versus test against the skill of someone trying to eavesdrop
-on the conversation. The entry does not name that skill as Observation, Jargon or
-any other specific canonical identity. Do not infer one from the activity.
+Visually verified book 279 / PDF 281. The user approved an opposing reference
+whose kind constrains it to a skill used by the eavesdropping participant.
+Its role is eavesdropper and resolution is manual/contextual. No concrete id,
+default or fallback is stored. This is deliberate source-supported contextual
+selection, not missing transcription or an unresolved printed skill name.
+Fixed skill references still resolve through the catalog. The contextual shape
+rejects additional selector/default/id fields and does not implement adjudication.
 
-SkillTestProfile currently requires concrete registered opposing skill references.
-It cannot preserve a context-supplied participant skill without inventing a skillId.
-An unresolved printed skill-name reference is not this relation: the source gives
-an activity/participant rather than a missing canonical skill name. Jargon remains
-an identity-only reference pending user resolution.
+## Pending K schema case: Knots mixed opponent / double obstacle penalty
 
-Minimal proposed direction, not implemented: typed opposing-skill reference to
-the skill used by the eavesdropping participant, with manual/context resolution
-and no fixed default skillId. This is not unrestricted any-skill permission, a
-whitelist, runtime prose parsing or an eavesdropping evaluator. A type-level gap
-test records that concrete opposing references cannot express this source case.
+Visually verified book 280 / PDF 282. For securing a person, the entry gives
+Knots versus Escape Artist or Power at double obstacle penalty. The current
+versus profile cannot express a skill/stat alternative, and fixed additive
+modifiers cannot preserve a doubled obstacle. Do not substitute a fixed +2,
+turn Power into a skill, or silently apply the penalty to both alternatives.
+Knots remains an identity-only reference pending a minimal metadata decision.
+The source case needs typed alternative opposing abilities and a structured
+obstacle multiplier scoped to the appropriate opposing test/branch, together
+with the securing-a-person context. No calculation or opposed-test evaluator
+is proposed. The current type-level gap test proves Power cannot be an opponent.
 
 ## Formalization policy through General A–Z completion
 
@@ -386,9 +390,18 @@ approved Intimidation procedure and Intrigue-wise. There are 210 complete produc
 definitions. The History family and Appropriate Weapons choice stay separate;
 J-M and later blocks, final counts and the lifepath-reference join remain pending.
 
+## J–K progress
+
+Added Jargon, Javelin, Jewelcraft, Jeweler, Khirurgy, Kingdom-wise and Knives:
+217 complete production definitions. Jewelcraft keeps its own identity, Elven
+restriction, magical marker and Antiphon integration. Khirurgy's Dwarf-only
+restriction applies in character burning; no always-only scope is inferred.
+Javelin uses thrown-weapon subsystem references; Knives remains close-quarters.
+J is complete against the independent manifest; K pauses at Knots.
+
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (531 tests
-in 21 files), npm run build and git diff --check. J-M and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (546 tests
+in 22 files), npm run build and git diff --check. K-M and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Jargon context-supplied opposing skill metadata.
+Production transcription pauses at Knots mixed opposing abilities and doubled obstacle metadata.
