@@ -36,15 +36,15 @@ function validateOperands(nodes: readonly unknown[]): void {
 
 function validateContext(context: SkillContext): void {
   if (!context || typeof context !== 'object') throw new Error('Invalid context');
-  const typedLeaves = { attire: ['attire', ['garish', 'inappropriate']],
+  const typedLeaves = { 'target-belief': ['constraint', ['prevents-disclosure-of-sought-information']], attire: ['attire', ['garish', 'inappropriate']],
     'social-station-mismatch': ['position', ['above', 'below']],
     'regional-origin-mismatch': ['relativeTo', ['current-region']],
     'stock-mismatch': ['relativeTo', ['target-crowd']] } as const;
-  if (context.kind === 'attire' || context.kind === 'social-station-mismatch' ||
+  if (context.kind === 'target-belief' || context.kind === 'attire' || context.kind === 'social-station-mismatch' ||
       context.kind === 'regional-origin-mismatch' || context.kind === 'stock-mismatch') {
     const [field, allowed] = typedLeaves[context.kind as keyof typeof typedLeaves];
     const value = (context as unknown as Record<string, unknown>)[field];
-    if (typeof value !== 'string' || !(allowed as readonly string[]).includes(value)) throw new Error('Invalid mismatch/attire context');
+    if (typeof value !== 'string' || !(allowed as readonly string[]).includes(value)) throw new Error('Invalid typed context');
     if (context.kind === 'social-station-mismatch' && context.relativeTo !== 'appropriate-social-station') {
       throw new Error('Invalid social-station comparison');
     }
@@ -103,15 +103,40 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   const validateMetadata = (metadata: Partial<SkillMetadata>) => {
     if (metadata.testProfile !== undefined) {
       const profile = metadata.testProfile;
-      if (profile?.kind !== 'versus' || !Array.isArray(profile.opposingAbilities) || !profile.opposingAbilities.length) {
-        throw new Error('Invalid skill test profile');
-      }
-      for (const ability of profile.opposingAbilities) {
-        if (ability?.kind !== 'skill' || typeof ability.skillId !== 'string' || !ability.skillId.trim()) {
-          throw new Error('Invalid opposing skill reference');
+      if (profile?.kind === 'versus') {
+        if ('base' in profile || 'adjustments' in profile || !Array.isArray(profile.opposingAbilities) || !profile.opposingAbilities.length) {
+          throw new Error('Invalid skill test profile');
         }
-        requireSkill(ability.skillId);
-      }
+        for (const ability of profile.opposingAbilities) {
+          if (ability?.kind !== 'skill' || typeof ability.skillId !== 'string' || !ability.skillId.trim()) {
+            throw new Error('Invalid opposing skill reference');
+          }
+          requireSkill(ability.skillId);
+        }
+      } else if (profile?.kind === 'obstacle') {
+        if ('opposingAbilities' in profile) throw new Error('Invalid skill test profile');
+        const base = profile.base;
+        if (base?.kind !== 'target-ability-exponent' || base.snapshot !== 'current' ||
+            !base.ability || !['stat', 'attribute'].includes(base.ability.kind) ||
+            typeof base.ability.id !== 'string' || !base.ability.id.trim()) {
+          throw new Error('Invalid obstacle basis');
+        }
+        if (profile.adjustments !== undefined) {
+          if (!Array.isArray(profile.adjustments)) throw new Error('Invalid manual test adjustments');
+          for (const adjustment of profile.adjustments) {
+            if (adjustment?.kind !== 'manual' || adjustment.quantity !== 'unquantified' || 'delta' in adjustment ||
+                !['target-traits', 'situational-disadvantage'].includes(adjustment.source)) {
+              throw new Error('Invalid manual test adjustment');
+            }
+            if (adjustment.examples !== undefined) {
+              if (adjustment.source !== 'situational-disadvantage' || !Array.isArray(adjustment.examples) || !adjustment.examples.length) {
+                throw new Error('Invalid manual adjustment examples');
+              }
+              adjustment.examples.forEach(validateContext);
+            }
+          }
+        }
+      } else throw new Error('Invalid skill test profile');
       if (profile.modifiers !== undefined) {
         if (!Array.isArray(profile.modifiers)) throw new Error('Invalid skill test modifiers');
         for (const modifier of profile.modifiers) {

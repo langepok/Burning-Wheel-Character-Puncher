@@ -120,15 +120,12 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Pending source case, book 278 / PDF 280; no obstacle amounts are guessed. */
-describe('Pending target-derived obstacle metadata', () => {
-  it('cannot encode Interrogation as a versus profile or silently mark it complete', () => {
-    const targetObstacleBasis = { kind: 'obstacle', base: {
-      kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, timing: 'current',
-    } } as const;
-    expectTypeOf<typeof targetObstacleBasis>().not.toExtend<SkillTestProfile>();
+/** Pending Intimidation continuation, book 278-279 / PDF 280-281. */
+describe('Pending skill-test follow-up metadata', () => {
+  it('cannot represent an on-success Steel follow-up or silently complete Intimidation', () => {
+    expectTypeOf<'onSuccess'>().not.toExtend<keyof SkillTestProfile>();
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('interrogation')).toBe(false);
-    expect(production.references.get('interrogation')?.sourceName).toBe('Interrogation');
+    expect(production.skills.has('intimidation')).toBe(false);
+    expect(production.references.get('intimidation')?.sourceName).toBe('Intimidation');
   });
 });

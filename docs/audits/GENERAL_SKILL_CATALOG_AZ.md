@@ -254,24 +254,44 @@ serialization tests cover both source forms. The prior negative schema-gap test
 is replaced by the approved positive contract. D-023/D-024 already cover the
 semantic-relation boundary; no new decision is required.
 
-## Pending I schema case: Interrogation target-derived obstacle
+## Resolved I schema case: target-derived obstacle and unquantified adjustments
 
-Visually verified book 278 / PDF 280. Interrogation uses the current Will exponent
-of the person being interrogated as its obstacle, with trait adjustments and
-situational disadvantages, for example Beliefs preventing disclosure. The entry
-does not quantify those extra adjustments; do not assign invented deltas.
+Visually verified Interrogation, book 278 / PDF 280. The user approved a separate
+obstacle branch of SkillTestProfile with a target-ability-exponent basis, Will
+stat reference and current snapshot. Target traits and situational disadvantage
+are independent manual adjustments, explicitly marked unquantified. Numeric delta
+is forbidden, including zero or explicit undefined; absence is an audited fact,
+not a default or missing transcription.
 
-SkillTestProfile currently describes versus opposition and fixed contextual
-obstacle deltas. Obstacle-reference reuses another skill's guidance, not a target
-ability exponent. Neither can preserve this test basis plus unquantified
-adjustments. Interrogation stays an identity-only reference pending resolution.
+A target Belief preventing disclosure is a structured example inside situational
+disadvantage. It is not a trigger applying automatically to every Belief or a
+per-trait formula. Ability kind/id and snapshot, quantity/source markers, examples
+and known numeric modifiers are validated without accessing character state or
+performing GM arbitration. Generic attributes remain representable.
 
-Minimal proposed direction, not implemented: extend skill-level test metadata
-with a target-ability-exponent obstacle basis and separately typed, manually
-adjudicated/unquantified trait and situational adjustments. Preserve the current
-exponent reference and disclosure-preventing Belief example without an arbitrary
-formula DSL, character-state lookup or interrogation evaluator. A type-level gap
-test records that this obstacle basis is not representable in SkillTestProfile.
+Interrogation is now a complete production record. Intimidation's target-Will
+basis is a separate partial representative, with source references to both entry
+pages (278-279/280-281), and no Interrogation adjustments. The existing versus
+profiles and scoped obstacle-reference relations retain their meanings. No new
+Decision is needed under D-023/D-024; metadata does not execute rules.
+
+## Pending I schema case: Intimidation success / Steel / hesitation chain
+
+Visually verified book 278-279 / PDF 280-281. Outside Duel of Wits, successful
+Intimidation calls for a Steel test; extra successes add to the hesitation obstacle.
+This is a follow-up test and transfer of a measured result, not a fixed modifier,
+an unquantified adjustment or a versus-opponent list. The current profile has no
+structured representation for that success-conditioned follow-up.
+
+Intimidation remains an identity-only production reference; its approved obstacle
+basis excerpt is partial. Do not copy the procedure into prose and mark the record
+complete, or implement a Steel/hesitation engine.
+
+Minimal proposed direction, not implemented: a small typed follow-up-test descriptor
+preserving success trigger, target Steel reference and hesitation-obstacle modifier
+whose amount is sourced from the initial skill test's extra successes. Preserve the
+outside-Duel-of-Wits use context. No formula DSL, roll resolution or hesitation
+calculation is proposed. A type-level gap test records the absent profile field.
 
 ## Formalization policy through General A–Z completion
 
@@ -338,13 +358,13 @@ contextual FoRK alternatives. Hauling substitutes for Power only in hauling.
 Hymn of Scales and Fins reuses Fishing mechanics while retaining its own identity.
 Its spell-song FoRKs remain unresolved source references where outside General.
 Illuminations, Imperfections-wise, Inconspicuous and Infection-wise begin I. There
-are now 207 complete production definitions, including Insect Husbandry and
-Instruction. The History family and Appropriate Weapons choice stay separate;
-later blocks and final counts remain pending.
+are now 208 complete production definitions, including Insect Husbandry,
+Instruction and Interrogation. The History family and Appropriate Weapons choice
+stay separate; later blocks and final counts remain pending.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (481 tests
-in 19 files), npm run build and git diff --check. I and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (507 tests
+in 20 files), npm run build and git diff --check. I and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Interrogation target-derived obstacle metadata.
+Production transcription pauses at Intimidation success/Steel/hesitation metadata.

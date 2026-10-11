@@ -38,6 +38,7 @@ export type RollBehavior =
 /** Attire and mismatch leaves describe the skill user relative to their environment.
  * Stock mismatch preserves the source race/crowd comparison without fixing a stock. */
 export type SkillContext =
+  | { readonly kind: 'target-belief'; readonly constraint: 'prevents-disclosure-of-sought-information' }
   | { readonly kind: 'attire'; readonly attire: 'garish' | 'inappropriate' }
   | { readonly kind: 'social-station-mismatch'; readonly position: 'above' | 'below'; readonly relativeTo: 'appropriate-social-station' }
   | { readonly kind: 'regional-origin-mismatch'; readonly relativeTo: 'current-region' }
@@ -221,14 +222,29 @@ export type SkillIntegration = SkillIntegrationIdentity & (
       readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
 );
 
-/** Descriptive skill-level test facts, not a roll-building or opposed-test engine.
- * Missing modifiers remain untranscribed; no advantage values are inferred. */
-export interface SkillTestProfile {
-  readonly kind: 'versus';
-  /** Potential opponents, not a command to test against every ability simultaneously. */
-  readonly opposingAbilities: readonly [Extract<SkillReferenceTarget, { kind: 'skill' }>, ...Extract<SkillReferenceTarget, { kind: 'skill' }>[]];
+/** Reference to the target's live ability value; no lookup/calculation is performed. */
+export type ObstacleBasis = {
+  readonly kind: 'target-ability-exponent'; readonly ability: RootAbility; readonly snapshot: 'current';
+};
+/** Unquantified is an audited fact, not a default zero or an omitted numeric value. */
+export type ManualTestAdjustment = {
+  readonly kind: 'manual'; readonly quantity: 'unquantified'; readonly delta?: never;
+} & (
+  | { readonly source: 'target-traits'; readonly examples?: never }
+  | { readonly source: 'situational-disadvantage'; readonly examples?: readonly SkillContext[] }
+);
+/** Descriptive skill-level test facts, not a roll-building or arbitration engine.
+ * Missing modifiers remain untranscribed; manual adjustments explicitly lack deltas. */
+export type SkillTestProfile = {
   readonly modifiers?: readonly { readonly kind: 'obstacle'; readonly delta: number; readonly when: SkillContext }[];
-}
+} & (
+  | { readonly kind: 'versus';
+      /** Potential opponents, not simultaneous tests against every ability. */
+      readonly opposingAbilities: readonly [Extract<SkillReferenceTarget, { kind: 'skill' }>, ...Extract<SkillReferenceTarget, { kind: 'skill' }>[]];
+      readonly base?: never; readonly adjustments?: never }
+  | { readonly kind: 'obstacle'; readonly base: ObstacleBasis;
+      readonly adjustments?: readonly ManualTestAdjustment[]; readonly opposingAbilities?: never }
+);
 
 export interface SkillMetadata {
   readonly testProfile?: SkillTestProfile;

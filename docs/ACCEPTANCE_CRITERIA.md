@@ -407,3 +407,18 @@ A Character Burner feature is done only when:
 - Targets and nested contexts survive serialization/integrity validation; malformed
   targets/compositions/contexts and dangling skill references are rejected.
 - Changes to a target's metadata do not change source metadata; no evaluator is added.
+
+## Target-derived obstacle and manual adjustments
+
+- SkillTestProfile supports a target-ability-exponent basis with a stat/attribute
+  reference and current snapshot, separate from versus-opponent profiles.
+- Interrogation records current target Will, target-traits and situational
+  disadvantage as separate manual, explicitly unquantified adjustments.
+- Disclosure-preventing target Beliefs are structured examples inside situational
+  disadvantage, not a universal per-Belief obstacle rule.
+- Manual adjustments have no numeric delta; even explicit zero/undefined delta
+  is rejected. Their unquantified marker distinguishes RAW absence from missing data.
+- An Intimidation excerpt reuses the Will basis without Interrogation adjustments;
+  it does not claim full transcription of any additional Steel/hesitation procedure.
+- Ability-reference shape, snapshot, sources, quantity markers and examples are
+  validated; metadata round-trips without executing formulas or GM arbitration.

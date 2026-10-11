@@ -265,3 +265,16 @@ roots, Skill Type, FoRKs, capabilities or special rules.
 Instruction (278/280) refers to Learning from Another for obstacle guidance.
 Its catalog record preserves that section reference in a concise authored summary;
 the external chapter's teaching procedure is not transcribed or executed here.
+
+## Target-derived skill obstacles (BWGR 278 / PDF 280)
+
+Interrogation uses the current Will exponent of the target as its obstacle, with
+trait and situational adjustments whose values are not quantified in the entry.
+A target Belief preventing disclosure is a source example of situational
+disadvantage, not a universal obstacle increase per Belief. The catalog stores
+manual/unquantified sources separately from numeric modifiers and executes none.
+
+Intimidation uses the victim's Will for the initial threat test (278-279/280-281).
+Its representative basis excerpt does not inherit Interrogation adjustments.
+The continued success/Steel/hesitation procedure is a separate pending schema
+case; the excerpt is partial and is not used as a production-complete record.

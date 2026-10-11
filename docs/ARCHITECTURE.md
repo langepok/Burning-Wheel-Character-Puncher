@@ -436,3 +436,11 @@ skill/anyOf targets supply only obstacle guidance in the specified context. It
 neither replaces the tested skill nor inherits target tools, roots, types or
 special rules. Targets are concrete registered identities and alternatives stay
 explicit; no obstacle selection or inheritance evaluator is introduced.
+
+Skill-level obstacle profiles can reference the target's current stat/attribute
+exponent. Ability references retain the existing extensible kind/id boundary;
+validation checks their shape, not a speculative character/ability registry.
+ManualTestAdjustment explicitly marks source quantities as unquantified and forbids
+numeric delta, including zero. Structured examples document source situations;
+they are not executable conditions, per-trait/per-Belief formulas or arbitration.
+These facts remain SkillTestProfile metadata, separate from subsystem execution.

@@ -1,4 +1,4 @@
-import { define, expendable, generic, forks, none, stat } from './shared';
+import { define, expendable, generic, forks, guidance, fork, none, stat } from './shared';
 
 /** Reviewed I–M production records; transcription remains in progress. */
 export const iMSkills = [
@@ -22,4 +22,16 @@ export const iMSkills = [
       context: { kind: 'activity', activity: 'tending-wounds-and-illness' } }] }),
   define('instruction', 'Instruction', 278, 'Teach another character; obstacle guidance is in Learning from Another.', {
     rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('command', 'persuasion') }),
+  define('interrogation', 'Interrogation', 278, 'Obtain sought information from an unwilling subject.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none,
+    forkSuggestions: guidance(fork('intimidation'), fork('torture'), { target: { kind: 'anyOf', targets: [
+      { kind: 'skill', skillId: 'ugly-truth' }, { kind: 'skill', skillId: 'soothing-platitudes' },
+    ] } }),
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' },
+      adjustments: [
+        { kind: 'manual', source: 'target-traits', quantity: 'unquantified' },
+        { kind: 'manual', source: 'situational-disadvantage', quantity: 'unquantified', examples: [
+          { kind: 'target-belief', constraint: 'prevents-disclosure-of-sought-information' },
+        ] },
+      ] } }),
 ];
