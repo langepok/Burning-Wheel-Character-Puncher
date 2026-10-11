@@ -430,3 +430,9 @@ selecting opponents, combining modifiers, evaluating crowds or running tests.
 Attire and social-station/region/crowd-stock mismatch contexts describe comparisons,
 not target identity or a hard-coded stock. Missing partial-profile modifiers are
 untranscribed, not a declaration that no other test guidance exists.
+
+Obstacle-reference is a semantic skill relation owned by the source record. Its
+skill/anyOf targets supply only obstacle guidance in the specified context. It
+neither replaces the tested skill nor inherits target tools, roots, types or
+special rules. Targets are concrete registered identities and alternatives stay
+explicit; no obstacle selection or inheritance evaluator is introduced.

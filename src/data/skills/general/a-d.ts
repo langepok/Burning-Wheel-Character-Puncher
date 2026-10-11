@@ -33,7 +33,10 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('anatomy', 'Anatomy', 255, 'Anatomical structures and internal functions.', {
     rootRule: per, skillType: 'Academic', tools: none, forkSuggestions: forks('surgery', 'field-dressing') }),
   define('animal-husbandry', 'Animal Husbandry', 255, 'Raising, breeding and caring for animals.', {
-    rootRule: will, skillType: 'Peasant', tools: generic, integrationTags: ['injury'] }),
+    rootRule: will, skillType: 'Peasant', tools: generic, integrationTags: ['injury'],
+    relations: [{ kind: 'obstacle-reference', targets: { kind: 'anyOf', targets: [
+      { kind: 'skill', skillId: 'field-dressing' }, { kind: 'skill', skillId: 'apothecary' },
+    ] }, context: { kind: 'activity', activity: 'tending-wounds-and-illness' } }] }),
   define('antiphon-union-training', 'Antiphon Union Training', 255, 'Imbue an item created through a skill song with a spell song.', {
     rootRule: will, skillType: 'Artisan', tools: none, training, printedMarkers: ['*'], availabilityRestrictions: only(['elf']),
     integrationTags: ['magic'], capabilities: [{ kind: 'subsystem-capability', id: 'antiphon-base-item-creation', integrationId: 'antiphon-creation' }] }),
@@ -86,7 +89,11 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('beggardry', 'Beggardry', 259, 'Begging can produce 1D cash or replenish taxed Resources.', {
     rootRule: will, skillType: 'Social', tools: none, forkSuggestions: forks('persuasion', 'falsehood', 'soothing-platitudes'),
     resourceInteractions: [{ kind: 'recover-taxed-resources' }, { kind: 'produce-cash' }], integrationTags: ['resources'] }),
-  define('bird-husbandry', 'Bird Husbandry', 259, 'Raise and tend birds, including wounds and illness.', { rootRule: will, skillType: 'Forester', tools: generic, integrationTags: ['injury'] }),
+  define('bird-husbandry', 'Bird Husbandry', 259, 'Raise and tend birds, including wounds and illness.', {
+    rootRule: will, skillType: 'Forester', tools: generic, integrationTags: ['injury'],
+    relations: [{ kind: 'obstacle-reference', targets: { kind: 'anyOf', targets: [
+      { kind: 'skill', skillId: 'field-dressing' }, { kind: 'skill', skillId: 'apothecary' },
+    ] }, context: { kind: 'activity', activity: 'tending-wounds-and-illness' } }] }),
   define('black-legion-wise', 'Black Legion-wise', 260, 'Knowledge of the legions and their workings.', {
     rootRule: per, skillType: 'Wise', tools: generic, familyMembership: { familyId: 'wises', topicId: 'black-legion' }, forkSuggestions: forks('orc-wise') }),
   define('black-metal-artifice', 'Black Metal Artifice', 260, 'Dwarven metal tools, with an option to increase difficulty for enhanced tools.', {

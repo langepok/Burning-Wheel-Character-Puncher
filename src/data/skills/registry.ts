@@ -57,7 +57,7 @@ function validateContext(context: SkillContext): void {
     const field = fields[context.kind];
     const value = field && (context as unknown as Record<string, unknown>)[field];
     if (typeof value !== 'string' || !value.trim()) throw new Error('Context ids must be nonempty');
-    if (context.kind === 'activity' && !['potion-work', 'wound-treatment', 'hauling', 'crafting', 'pursuit', 'travel', 'field-maneuver', 'reading', 'writing'].includes(value)) {
+    if (context.kind === 'activity' && !['potion-work', 'wound-treatment', 'hauling', 'crafting', 'pursuit', 'travel', 'field-maneuver', 'reading', 'writing', 'tending-wounds-and-illness'].includes(value)) {
       throw new Error('Unknown context activity');
     }
   }
@@ -141,8 +141,25 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (metadata.rootRule) validateRoot(metadata.rootRule);
     for (const requirement of metadata.openingRequirements ?? []) requireSkill(requirement.skillId);
     for (const relation of metadata.relations ?? []) {
-      if (relation.target.kind === 'skill') requireSkill(relation.target.id);
-      if ('context' in relation && relation.context) validateContext(relation.context);
+      if (relation.kind === 'obstacle-reference') {
+        const target = relation.targets;
+        if (!target || !['skill', 'anyOf'].includes(target.kind)) throw new Error('Invalid obstacle-reference target');
+        if (target.kind === 'anyOf') validateOperands(target.targets);
+        const sources = target.kind === 'anyOf' ? target.targets : [target];
+        for (const source of sources) {
+          if (source?.kind !== 'skill' || typeof source.skillId !== 'string' || !source.skillId.trim()) {
+            throw new Error('Invalid obstacle-reference target');
+          }
+          requireSkill(source.skillId);
+        }
+        if (new Set(sources.map(source => source.skillId)).size !== sources.length) {
+          throw new Error('Obstacle-reference alternatives must be distinct');
+        }
+        validateContext(relation.context);
+      } else {
+        if (relation.target.kind === 'skill') requireSkill(relation.target.id);
+        if ('context' in relation && relation.context) validateContext(relation.context);
+      }
     }
     for (const { target, context } of metadata.forkSuggestions?.suggestions ?? []) {
       validateForkTarget(target);

@@ -1,4 +1,4 @@
-import { define, expendable, forks, none, stat } from './shared';
+import { define, expendable, generic, forks, none, stat } from './shared';
 
 /** Reviewed I–M production records; transcription remains in progress. */
 export const iMSkills = [
@@ -16,4 +16,10 @@ export const iMSkills = [
     ] } }),
   define('infection-wise', 'Infection-wise', 278, 'Knowledge of infections.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'infection' } }),
+  define('insect-husbandry', 'Insect Husbandry', 278, 'Raise and care for insects, with scoped medical obstacle guidance.', {
+    rootRule: stat('will'), skillType: 'Forester', tools: generic, integrationTags: ['injury'],
+    relations: [{ kind: 'obstacle-reference', targets: { kind: 'skill', skillId: 'apothecary' },
+      context: { kind: 'activity', activity: 'tending-wounds-and-illness' } }] }),
+  define('instruction', 'Instruction', 278, 'Teach another character; obstacle guidance is in Learning from Another.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('command', 'persuasion') }),
 ];

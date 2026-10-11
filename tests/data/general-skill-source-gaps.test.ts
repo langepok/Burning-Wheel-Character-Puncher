@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
-import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, SkillRelation, ToolRequirement } from '../../src/data/skills';
+import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, SkillTestProfile, ToolRequirement } from '../../src/data/skills';
 import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
 
@@ -120,10 +120,15 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Pending source case, book 278 / PDF 280; no production record is fabricated. */
-describe('Pending scoped obstacle reuse', () => {
-  it('shows that reusing only Apothecary obstacles is not a whole-skill mechanics relation', () => {
-    expectTypeOf<Extract<SkillRelation, { kind: 'obstacle-reference' }>>().toBeNever();
-    expect(createSkillCatalog(generalSkillTranscriptionContent).skills.has('insect-husbandry')).toBe(false);
+/** Pending source case, book 278 / PDF 280; no obstacle amounts are guessed. */
+describe('Pending target-derived obstacle metadata', () => {
+  it('cannot encode Interrogation as a versus profile or silently mark it complete', () => {
+    const targetObstacleBasis = { kind: 'obstacle', base: {
+      kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, timing: 'current',
+    } } as const;
+    expectTypeOf<typeof targetObstacleBasis>().not.toExtend<SkillTestProfile>();
+    const production = createSkillCatalog(generalSkillTranscriptionContent);
+    expect(production.skills.has('interrogation')).toBe(false);
+    expect(production.references.get('interrogation')?.sourceName).toBe('Interrogation');
   });
 });

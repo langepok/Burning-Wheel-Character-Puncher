@@ -44,7 +44,7 @@ export type SkillContext =
   | { readonly kind: 'stock-mismatch'; readonly relativeTo: 'target-crowd' }
   | { readonly kind: 'circumstance'; readonly circumstanceId: string }
   | { readonly kind: 'subject'; readonly subject: 'children' | 'great-wolves' | 'spiders' | 'rats-and-relatives' }
-  | { readonly kind: 'activity'; readonly activity: 'potion-work' | 'wound-treatment' | 'hauling' | 'crafting' | 'pursuit' | 'travel' | 'field-maneuver' | 'reading' | 'writing' }
+  | { readonly kind: 'activity'; readonly activity: 'potion-work' | 'wound-treatment' | 'hauling' | 'crafting' | 'pursuit' | 'travel' | 'field-maneuver' | 'reading' | 'writing' | 'tending-wounds-and-illness' }
   | { readonly kind: 'culture'; readonly cultureId: string }
   | { readonly kind: 'stock'; readonly stockId: StockId }
   | { readonly kind: 'target-trait'; readonly traitId: string }
@@ -114,7 +114,13 @@ export interface SkillRollContributor {
   readonly source: readonly SkillSource[];
 }
 
+/** Only concrete obstacle-guidance sources; alternatives are not combined tests. */
+export type ObstacleReferenceTarget = Extract<SkillReferenceTarget, { kind: 'skill' }> |
+  { readonly kind: 'anyOf'; readonly targets: Operands<Extract<SkillReferenceTarget, { kind: 'skill' }>> };
+
 export type SkillRelation =
+  /** The owning skill is the source; this relation never inherits target metadata. */
+  | { readonly kind: 'obstacle-reference'; readonly targets: ObstacleReferenceTarget; readonly context: SkillContext }
   | { readonly kind: 'same-mechanics' | 'includes-capability' | 'specialized-version';
       readonly target: AbilityReference; readonly context?: SkillContext }
   | { readonly kind: 'contextual-substitution' | 'replacement';

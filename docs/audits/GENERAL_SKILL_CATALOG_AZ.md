@@ -234,23 +234,44 @@ ground advantage guidance is recorded in the excerpt summary, without inventing
 values or formalizing advantage conditions in this change. No opposed-test or
 modifier evaluator is implemented. D-023/D-024 already establish the boundary.
 
-## Pending I schema case: Insect Husbandry scoped obstacle reference
+## Resolved I schema case: scoped obstacle references
 
-Visually verified book 278 / PDF 280. Tending insect wounds and illness uses the
-Apothecary skill obstacles. This is a scoped reuse of obstacle guidance, not a
-statement that Insect Husbandry inherits all Apothecary mechanics, tools, root,
-type, FoRKs or capabilities. Its own printed type is Forester and tools are Yes.
+Visually verified Insect Husbandry (book 278 / PDF 280), Animal Husbandry
+(255/257) and Bird Husbandry (259/261). The user approved a distinct semantic
+obstacle-reference relation: owning skill identity, concrete skill source or
+explicit anyOf alternatives, and a required structured activity context.
 
-Current SkillRelation supports whole-mechanics reuse/capability/substitution;
-SkillTestProfile currently describes versus opposition and obstacle modifiers,
-not reuse of another skill's obstacle guidance. Do not mislabel this as complete
-mechanics reuse or rely on a prose escape hatch. Insect Husbandry stays an
-identity-only reference pending user resolution.
+Insect Husbandry references Apothecary for tending wounds and illness. The two
+previous A/B production records now preserve Field Dressing OR Apothecary for
+the same activity instead of only an injury tag/summary. All three keep their
+own roots, tools, types and special rules. References do not select the tested
+skill, inherit target metadata or act as FoRKs/capability inclusion. Ordinary
+husbandry is outside the medical context. No evaluator is added.
 
-Minimal proposed direction, not implemented: a typed obstacle-reference relation
-with a skill target (Apothecary) and a context limited to tending wounds/illness.
-No obstacle table, tools inheritance, medicine evaluator or broader redesign is
-proposed. A type-level gap test confirms this narrower relation is absent.
+Integrity checks concrete source identities, distinct anyOf alternatives and
+nested contexts. Independent expected data, target-metadata mutation and
+serialization tests cover both source forms. The prior negative schema-gap test
+is replaced by the approved positive contract. D-023/D-024 already cover the
+semantic-relation boundary; no new decision is required.
+
+## Pending I schema case: Interrogation target-derived obstacle
+
+Visually verified book 278 / PDF 280. Interrogation uses the current Will exponent
+of the person being interrogated as its obstacle, with trait adjustments and
+situational disadvantages, for example Beliefs preventing disclosure. The entry
+does not quantify those extra adjustments; do not assign invented deltas.
+
+SkillTestProfile currently describes versus opposition and fixed contextual
+obstacle deltas. Obstacle-reference reuses another skill's guidance, not a target
+ability exponent. Neither can preserve this test basis plus unquantified
+adjustments. Interrogation stays an identity-only reference pending resolution.
+
+Minimal proposed direction, not implemented: extend skill-level test metadata
+with a target-ability-exponent obstacle basis and separately typed, manually
+adjudicated/unquantified trait and situational adjustments. Preserve the current
+exponent reference and disclosure-preventing Belief example without an arbitrary
+formula DSL, character-state lookup or interrogation evaluator. A type-level gap
+test records that this obstacle basis is not representable in SkillTestProfile.
 
 ## Formalization policy through General A–Z completion
 
@@ -317,12 +338,13 @@ contextual FoRK alternatives. Hauling substitutes for Power only in hauling.
 Hymn of Scales and Fins reuses Fishing mechanics while retaining its own identity.
 Its spell-song FoRKs remain unresolved source references where outside General.
 Illuminations, Imperfections-wise, Inconspicuous and Infection-wise begin I. There
-are now 205 complete production definitions, plus the separately modeled History family and Appropriate Weapons
-choice; later blocks and final counts remain pending.
+are now 207 complete production definitions, including Insect Husbandry and
+Instruction. The History family and Appropriate Weapons choice stay separate;
+later blocks and final counts remain pending.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (461 tests
-in 18 files), npm run build and git diff --check. I and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (481 tests
+in 19 files), npm run build and git diff --check. I and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Insect Husbandry scoped obstacle reuse.
+Production transcription pauses at Interrogation target-derived obstacle metadata.

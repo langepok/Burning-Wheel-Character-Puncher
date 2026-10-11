@@ -393,3 +393,17 @@ A Character Burner feature is done only when:
 - Observation and Stealthy excerpts demonstrate multiple/single opponents without importing incomplete records into production or inventing Stealthy advantage values.
 - Serialization preserves references and conditions; malformed profiles, modifiers and typed contexts fail integrity validation.
 - No opposed-test/modifier evaluator, Resources or Fight procedure is introduced.
+
+## Scoped obstacle-guidance references
+
+- A distinct obstacle-reference relation describes only obstacle guidance, with
+  ownership by the source skill, a concrete skill target or anyOf skill sources,
+  and a required structured context.
+- Insect Husbandry references Apothecary for tending wounds and illness; Animal
+  Husbandry and Bird Husbandry reference Field Dressing OR Apothecary in that
+  same context. Ordinary husbandry remains their own skill use.
+- No whole-mechanics reuse, substitution, FoRK, capability inclusion, tested-skill
+  selection or root/type/tools/special-rule inheritance follows from this relation.
+- Targets and nested contexts survive serialization/integrity validation; malformed
+  targets/compositions/contexts and dangling skill references are rejected.
+- Changes to a target's metadata do not change source metadata; no evaluator is added.

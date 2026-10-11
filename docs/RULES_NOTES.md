@@ -253,3 +253,15 @@ Observation (286/288) can oppose Inconspicuous, Stealthy, Sleight of Hand or Tra
 Stealthy (301/303) opposes Observation, with advantage guidance for light, weather
 and ground. Representative excerpts preserve opposition without inventing fixed
 advantage dice or claiming complete transcription of either later record.
+
+## Husbandry obstacle guidance (BWGR 255, 259, 278 / PDF 257, 261, 280)
+
+Animal Husbandry and Bird Husbandry use Field Dressing OR Apothecary obstacles
+when tending wounds and illness. Insect Husbandry uses Apothecary obstacles for
+that activity. Their ordinary husbandry remains their own skill use. This is
+scoped obstacle guidance, not whole-skill substitution or inheritance of tools,
+roots, Skill Type, FoRKs, capabilities or special rules.
+
+Instruction (278/280) refers to Learning from Another for obstacle guidance.
+Its catalog record preserves that section reference in a concise authored summary;
+the external chapter's teaching procedure is not transcribed or executed here.
