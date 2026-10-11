@@ -199,3 +199,12 @@ not cost inference from magical markers or an implemented spending engine.
 - curated semantic category membership for requirements such as horse-related/guard/priest/sorcerous;
 - special wife-lifepath skill/resource effects for later milestones;
 - gray/white shade edge cases if exposed in v2.
+
+### Created-item valuation (BWGR 275, 308 / PDF 277, 310)
+
+Gem Artifice increases a manufactured gem/stone's Resources obstacle by one;
+a pre-roll optional +2 crafting obstacle adds another one. Gemcraft adds one die
+of Resources value to a cut gemstone. White Metal Artifice has the same ordinary
+item obstacle/tradeoff shape. These modify created items, not character Resources.
+Gem Artifice's enchanting matrix and Gemcraft's Antiphon connection are separate
+magic references. The partial White Metal representative omits the mithril clause.

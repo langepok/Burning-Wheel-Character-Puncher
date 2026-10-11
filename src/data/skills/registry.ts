@@ -138,6 +138,34 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   for (const integration of integrations.values()) {
     requireSkill(integration.skillId);
     if (integration.context) validateContext(integration.context);
+    if (integration.createdItemValueEffects !== undefined) {
+      const effects = integration.createdItemValueEffects;
+      if (!['equipment', 'resources'].includes(integration.subsystem) || !Array.isArray(effects) || !effects.length) {
+        throw new Error('Invalid created-item value effects');
+      }
+      for (const effect of effects) {
+        const modifier = effect?.modifier;
+        if (!modifier || modifier.target !== 'created-item' ||
+            !['resources-obstacle', 'resources-value-dice'].includes(modifier.measure) ||
+            !Number.isInteger(modifier.delta) || modifier.delta === 0 ||
+            !['automatic', 'optional-tradeoff'].includes(effect.kind)) {
+          throw new Error('Invalid created-item value effect');
+        }
+        if (effect.kind === 'optional-tradeoff' && (modifier.measure !== 'resources-obstacle' ||
+            effect.choiceTiming !== 'before-roll' || effect.cost?.kind !== 'crafting-obstacle-modifier' ||
+            !Number.isInteger(effect.cost.delta) || effect.cost.delta <= 0)) {
+          throw new Error('Invalid created-item value tradeoff');
+        }
+      }
+    }
+    if (integration.createdItemReference !== undefined) {
+      const reference = integration.createdItemReference;
+      if (integration.subsystem !== 'magic' || reference?.target !== 'created-item' ||
+          !['enchanting-matrix', 'antiphon-union'].includes(reference.kind)) {
+        throw new Error('Invalid magic created-item reference');
+      }
+      if (reference.kind === 'antiphon-union') requireSkill(reference.skillId);
+    }
     if (integration.baseItemCreation !== undefined) {
       const creation = integration.baseItemCreation;
       if (integration.subsystem !== 'magic' || creation?.stage !== 'base-item-creation' ||

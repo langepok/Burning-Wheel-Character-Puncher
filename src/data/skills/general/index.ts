@@ -1,10 +1,12 @@
 import type { SkillCatalogContent } from '../types';
 import { aDIntegrations, aDSkills } from './a-d';
 import { aDWises } from './a-d-wises';
+import { eFSkills } from './e-f';
+import { eFWises } from './e-f-wises';
 import { generalNameReferences } from './references';
 import { evidence, none, stat } from './shared';
 
-const skills = [...aDSkills, ...aDWises];
+const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises];
 const loadedIds = new Set(skills.map(skill => skill.id));
 
 /** Work in progress: complete records for reviewed blocks, identity-only references elsewhere.

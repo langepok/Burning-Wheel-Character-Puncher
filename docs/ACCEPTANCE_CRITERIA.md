@@ -325,3 +325,14 @@ A Character Burner feature is done only when:
 5. unrelated behavior and layout are unchanged unless explicitly in scope;
 6. durable new decisions are recorded in `docs/DECISIONS.md`;
 7. unresolved rules ambiguities are listed rather than guessed through.
+
+## Created-item valuation metadata (D-025)
+
+- Gem Artifice stores automatic +1 created-item Resources obstacle and optional
+  before-roll +2 crafting Ob for a further +1 item Resources obstacle.
+- Gemcraft stores +1 Resources-value die; obstacle and dice remain distinct types.
+- White Metal Artifice has a partial regression for the same ordinary-material shape.
+- Tradeoffs round-trip through registration; malformed units, targets, costs and
+  timing are rejected. Magic references remain separate from valuation.
+- Direct ResourceInteraction retains only character recovery/cash semantics.
+  No evaluator, price calculation or spending engine is introduced.

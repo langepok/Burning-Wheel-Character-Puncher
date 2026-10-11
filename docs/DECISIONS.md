@@ -309,6 +309,24 @@ and a generic circumstance-id leaf to SkillContext. The suitable-workplace
 condition is independent of Workshop tools and is never inferred for other
 skills. This extends descriptive metadata only; no Resources evaluator follows.
 
+## D-025 — Created-item valuation belongs to equipment integration
+
+**Status:** Accepted — A–Z source audit and explicit user resolution
+
+Direct character Resources effects (tax recovery and cash generation) remain
+ResourceInteraction. Valuation of a crafting result belongs to equipment/Resources
+integration metadata. Store a created-item target, typed measure and integer delta;
+Resources obstacle and Resources value dice are distinct measures. An optional
+valuation tradeoff stores its pre-roll choice and crafting-obstacle cost separately
+from the automatic modifier. Do not infer repeatability or evaluate prices,
+crafting tests, equipment or character Resources.
+
+Gem Artifice and Gemcraft (BWGR 275 / PDF 277), with the White Metal Artifice
+representative (308/310), motivate this contract. Magic matrix/Antiphon references
+are independent of valuation. Other equipment properties (tool bonuses, weapon
+statistics, quality) are not valuation and must not be forced into its measures.
+Partial representatives do not replace the complete A–Z production transcription.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:

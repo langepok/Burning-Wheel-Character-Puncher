@@ -4,10 +4,12 @@ import { generalSkillTranscriptionContent } from '../../src/data/skills/general'
 import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' || ('sourceParent' in entry && entry.sourceParent === 'doctrine'));
+const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
+  ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
+  (['E', 'F'].includes(entry.sourceName[0]) && (entry.printedPage <= 273 || entry.id === 'forest-wise')));
 
 describe('Reviewed General Skill List transcription blocks', () => {
-  it('covers every A–D canonical entry exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed A–D and pre-Forge E–F entry exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {
@@ -16,6 +18,17 @@ describe('Reviewed General Skill List transcription blocks', () => {
       expect(record?.source).toContainEqual(expect.objectContaining({ pages: { printed: [entry.printedPage], pdf: [entry.pdfPage] } }));
       if (entry.kind !== 'choice') expect(catalog.skills.get(entry.id)?.coverage).toBe('complete');
     }
+  });
+  it('retains the E–F source distinctions and leaves Forge Artifice untranscribed', () => {
+    expect(catalog.skills.get('earth-wise')?.skillType).toBe('Wise');
+    expect(catalog.skills.get('firebuilding')?.forkSuggestions?.suggestions).toContainEqual({ target: { kind: 'unresolved-source-reference', sourceLabel: 'Survivalist', probableTargetSkillId: 'survival' } });
+    expect(catalog.skills.has('forge-artifice')).toBe(false);
+    expect(catalog.references.has('forge-artifice')).toBe(true);
+    expect(catalog.skills.get('empyrealia')?.forkSuggestions?.suggestions).toContainEqual({ target: { kind: 'category', category: 'ritual', relevance: 'any' } });
+    expect(catalog.skills.get('estate-management')?.tools).toEqual({ kind: 'specific-item', item: 'estate' });
+    expect(catalog.skills.get('estate-management')?.resourceInteractions).toEqual([{ kind: 'recover-taxed-resources' }]);
+    expect(catalog.skills.get('field-dressing')?.tools).toEqual({ kind: 'traveling-gear', expendable: true });
+    expect(catalog.skills.get('falconry')?.tools).toEqual({ kind: 'allOf', requirements: [{ kind: 'generic' }, { kind: 'specific-item', item: 'falcon' }] });
   });
   it('serializes and registers the reviewed records and their nested references', () => {
     const restored = createSkillCatalog(JSON.parse(JSON.stringify(generalSkillTranscriptionContent)) as typeof generalSkillTranscriptionContent);

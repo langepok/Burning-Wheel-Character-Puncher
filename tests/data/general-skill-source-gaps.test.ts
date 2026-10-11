@@ -11,16 +11,6 @@ const registerTools = (tools: ToolRequirement) => createSkillCatalog({ ...skillF
 });
 
 describe('General Skill List source corrections', () => {
-  it('documents the pending created-item Resources value gap without conflating obstacle and dice (book 275 / PDF 277)', () => {
-    // Proposed metadata only. The current descriptor cannot retain either unit.
-    type ObstacleValueAdjustment = { readonly kind: 'created-item-value-adjustment';
-      readonly adjustment: { readonly unit: 'resources-obstacle'; readonly increase: 1 } };
-    type DiceValueAdjustment = { readonly kind: 'created-item-value-adjustment';
-      readonly adjustment: { readonly unit: 'resources-value-dice'; readonly increase: 1 } };
-    expectTypeOf<ObstacleValueAdjustment>().not.toExtend<ResourceInteraction>();
-    expectTypeOf<DiceValueAdjustment>().not.toExtend<ResourceInteraction>();
-    expectTypeOf<ObstacleValueAdjustment>().not.toExtend<DiceValueAdjustment>();
-  });
   it('keeps Antiphon tools separate from its structured preceding creation-stage reference', () => {
     const creation = { stage: 'base-item-creation', requiredMethod: { kind: 'applicable-skill-song' },
       follows: 'selected-skill-own-rules-and-tools' } as const;

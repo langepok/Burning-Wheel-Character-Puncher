@@ -408,3 +408,8 @@ For point-bearing actions, exact inverse operations are preferred over reconstru
 Start small. Add a dependency only when it removes meaningful complexity or risk.
 
 Do not add a backend, database, auth, global state library, plugin runtime or rules DSL during bootstrap without a concrete need and a recorded decision.
+
+Per D-025, direct character Resources interactions remain ResourceInteraction;
+created-item valuation is structured equipment/Resources integration metadata.
+Typed obstacle/dice measures and optional crafting costs do not calculate prices.
+Magic matrix and Antiphon references are stored independently.

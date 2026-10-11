@@ -141,9 +141,25 @@ export interface MagicBaseItemCreation {
   readonly requiredMethod: { readonly kind: 'applicable-skill-song' };
   readonly follows: 'selected-skill-own-rules-and-tools';
 }
+/** Valuation of the crafting result, never the character's Resources pool. */
+export type CreatedItemValueModifier =
+  | { readonly target: 'created-item'; readonly measure: 'resources-obstacle'; readonly delta: number }
+  | { readonly target: 'created-item'; readonly measure: 'resources-value-dice'; readonly delta: number };
+export type CreatedItemValueEffect =
+  | { readonly kind: 'automatic'; readonly modifier: CreatedItemValueModifier }
+  | { readonly kind: 'optional-tradeoff'; readonly choiceTiming: 'before-roll';
+      readonly modifier: Extract<CreatedItemValueModifier, { measure: 'resources-obstacle' }>;
+      readonly cost: { readonly kind: 'crafting-obstacle-modifier'; readonly delta: number } };
+export type MagicCreatedItemReference =
+  | { readonly kind: 'enchanting-matrix'; readonly target: 'created-item' }
+  | { readonly kind: 'antiphon-union'; readonly target: 'created-item'; readonly skillId: SkillId };
 export type SkillIntegration = SkillIntegrationIdentity & (
-  | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation }
-  | { readonly subsystem: Exclude<IntegrationTag, 'magic'>; readonly baseItemCreation?: never }
+  | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation;
+      readonly createdItemReference?: MagicCreatedItemReference; readonly createdItemValueEffects?: never }
+  | { readonly subsystem: 'equipment' | 'resources'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
+      readonly baseItemCreation?: never; readonly createdItemReference?: never }
+  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>;
+      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never }
 );
 
 export interface SkillMetadata {

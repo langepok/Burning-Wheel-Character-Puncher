@@ -136,30 +136,39 @@ Wise and requires tools; no blanket normalization applies to named overrides.
   magical. Explicit song descriptions support the categories on Call of the Wild,
   Ballad of History and Dignity of the Wilderlands.
 
-## Pending E–H schema case: created-item Resources value
+## Resolved created-item valuation boundary
 
-Visually verified Gem Artifice and Gemcraft, book p. 275 / PDF p. 277.
-Gem Artifice raises a created gem/stone's Resources obstacle by one; an optional
-increase of two to the crafting-test obstacle raises that Resources obstacle by
-one more. Gemcraft instead adds one die of Resources value to the created stone.
-These units and effects are distinct. They do not recover taxed Resources or
-produce the Beggardry cash grant.
+Gem Artifice and Gemcraft (book 275 / PDF 277) modify the crafted result, not
+character Resources. Equipment integration stores created-item value effects:
+Resources obstacle and Resources value dice are distinct typed measures.
+Gem Artifice has automatic +1 obstacle and an optional pre-roll +2 crafting
+obstacle cost for an additional +1 item obstacle. Gemcraft has automatic +1 die
+of item Resources value. Neither effect is a cash grant or taxed recovery.
+Magic matrix and Antiphon references remain separate magic integrations.
 
-ResourceInteraction currently admits only recovery and cash; general integrations
-have no structured item-value adjustment metadata. Tags or a prose summary alone
-would not preserve the unit/amount/tradeoff as structured mechanics. No engine
-is needed to store those facts, but the representational boundary needs a decision.
+White Metal Artifice (book 308 / PDF 310) provides a representative regression
+for the same ordinary-material obstacle/tradeoff shape. Its additional mithril
+clause is not included in this partial fixture. Black Metal Artifice (260/262)
+modifies tool-use dice; War Art (307/309) modifies weapon/armor properties and
+quality. These are not item valuation measures and have not been normalized into
+this descriptor. Forge Artifice (274/276) also grants tool-user advantage dice;
+see the next pending case below. No equipment or Resources evaluator is added.
 
-Minimal proposed direction, **not implemented**: a created-item-value adjustment
-descriptor with explicit unit (Resources obstacle versus Resources value dice),
-amount and the optional Gem Artifice crafting-obstacle tradeoff. Alternatively,
-place that descriptor on equipment/Resources integration metadata rather than
-the repeated ResourceInteraction union. Neither option evaluates crafting or
-Resources. Do not normalize either unit or invent repeatability for the tradeoff.
+## Pending E–H schema case: Forge Artifice tool-user bonus
 
-The source-gap test proves the current interaction type cannot store the proposed
-source-shaped descriptors. E–H production transcription is paused pending user
-resolution, rather than representing these as recovery/cash or claiming A–Z done.
+Visually verified Forge Artifice, book 274 / PDF 276. Each optional +2 crafting
+obstacle grants +1D advantage to users of the completed forge, conditional on
+meeting the final obstacle. Unlike Gem Artifice's valuation tradeoff, this is a
+repeatable modification of equipment use, not Resources value. The approved
+valuation descriptor cannot faithfully encode its target/measure/repeatability.
+Black Metal Artifice (260/262) confirms a related tool-use bonus case but does
+not state the same repeatable-per-increment behavior. No repetition is inferred.
+
+Minimal proposed direction, not implemented: a separate equipment-use bonus
+metadata descriptor with explicit dice amount, crafting-obstacle cost, and
+repeatability. Reuse the equipment integration boundary without extending
+CreatedItemValueEffect to non-value measures or adding an evaluator. Production
+transcription pauses before Forge Artifice pending a user decision.
 
 ## Planned oracle and integrity coverage
 
@@ -176,9 +185,22 @@ resolution, rather than representing these as recovery/cash or claiming A–Z do
 6. Run block-level checks and final npm ci/typecheck/test/build plus diff-check.
    Passing foundation tests do not establish A–Z completeness.
 
+## Reviewed E�F progress
+
+Added 40 complete records before Forge Artifice: 23 ordinary skills and 17 named
+Wise topics, bringing reviewed production definitions to 166. Earth-wise has an
+explicit printed Wise type and its own summary (269/271); it does not inherit the
+generic Special type. No stock restriction is inferred from its Dwarf description.
+Elven Script preserves writing-only tools; Empyrealia keeps the ritual predicate.
+Estate Management requires an estate independently of its plain Resources recovery.
+Source FoRK labels Weaver, Carpenter, Illumination, Survivalist and Tanning remain
+unresolved source references with probable canonical ids where applicable. They
+are not runtime aliases. Foreign Languages continues onto book 274 / PDF 276.
+Gem/White Metal representatives remain partial and outside the production catalog.
+
 ## Current verification
 
-A–D and resolved source/schema corrections pass a clean dependency install,
-typecheck, all 335 tests across 12 files, build and diff whitespace checks.
-Final A–Z counts and the lifepath-reference join remain pending; no full A–Z PR
-is open. The pending created-item-value descriptor is a schema reproducer only.
+This checkpoint passes npm ci, typecheck, all 349 tests across 13 files, build
+and git diff --check. Full A�Z counts and the lifepath-reference join remain
+pending; no full A�Z PR is open. Production transcription pauses at the Forge
+Artifice equipment-use bonus case.
