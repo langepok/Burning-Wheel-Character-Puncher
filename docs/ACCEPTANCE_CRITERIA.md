@@ -384,3 +384,12 @@ A Character Burner feature is done only when:
   ResourceInteraction. It belongs only to equipment integration metadata.
 - Serialization preserves it; integrity validation checks target, cost, modifier,
   alter/destroy action set and repeatability. No durability/destruction evaluator.
+
+## Approved skill-level opposed-test metadata
+
+- SkillTestProfile describes versus tests and one or more validated opposing skill references, without execution.
+- Inconspicuous preserves four independent obstacle modifiers (+1/+1/+1/+2), with typed attire/social-station/regional-origin/crowd-stock mismatch contexts.
+- Garish OR inappropriate attire and above OR below appropriate station are compositions within individual modifiers; modifiers are not mutually exclusive.
+- Observation and Stealthy excerpts demonstrate multiple/single opponents without importing incomplete records into production or inventing Stealthy advantage values.
+- Serialization preserves references and conditions; malformed profiles, modifiers and typed contexts fail integrity validation.
+- No opposed-test/modifier evaluator, Resources or Fight procedure is introduced.

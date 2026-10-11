@@ -31,11 +31,24 @@ function validateRoot(root: RootRule): void {
 }
 
 function validateOperands(nodes: readonly unknown[]): void {
-  if (nodes.length < 2) throw new Error('Composition requires at least two operands');
+  if (!Array.isArray(nodes) || nodes.length < 2) throw new Error('Composition requires at least two operands');
 }
 
 function validateContext(context: SkillContext): void {
-  if (context.kind === 'allOf' || context.kind === 'anyOf') {
+  if (!context || typeof context !== 'object') throw new Error('Invalid context');
+  const typedLeaves = { attire: ['attire', ['garish', 'inappropriate']],
+    'social-station-mismatch': ['position', ['above', 'below']],
+    'regional-origin-mismatch': ['relativeTo', ['current-region']],
+    'stock-mismatch': ['relativeTo', ['target-crowd']] } as const;
+  if (context.kind === 'attire' || context.kind === 'social-station-mismatch' ||
+      context.kind === 'regional-origin-mismatch' || context.kind === 'stock-mismatch') {
+    const [field, allowed] = typedLeaves[context.kind as keyof typeof typedLeaves];
+    const value = (context as unknown as Record<string, unknown>)[field];
+    if (typeof value !== 'string' || !(allowed as readonly string[]).includes(value)) throw new Error('Invalid mismatch/attire context');
+    if (context.kind === 'social-station-mismatch' && context.relativeTo !== 'appropriate-social-station') {
+      throw new Error('Invalid social-station comparison');
+    }
+  } else if (context.kind === 'allOf' || context.kind === 'anyOf') {
     validateOperands(context.conditions);
     context.conditions.forEach(validateContext);
   } else {
@@ -88,6 +101,27 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     // A probable target remains audit metadata, never a resolved FoRK reference.
   };
   const validateMetadata = (metadata: Partial<SkillMetadata>) => {
+    if (metadata.testProfile !== undefined) {
+      const profile = metadata.testProfile;
+      if (profile?.kind !== 'versus' || !Array.isArray(profile.opposingAbilities) || !profile.opposingAbilities.length) {
+        throw new Error('Invalid skill test profile');
+      }
+      for (const ability of profile.opposingAbilities) {
+        if (ability?.kind !== 'skill' || typeof ability.skillId !== 'string' || !ability.skillId.trim()) {
+          throw new Error('Invalid opposing skill reference');
+        }
+        requireSkill(ability.skillId);
+      }
+      if (profile.modifiers !== undefined) {
+        if (!Array.isArray(profile.modifiers)) throw new Error('Invalid skill test modifiers');
+        for (const modifier of profile.modifiers) {
+          if (modifier?.kind !== 'obstacle' || !Number.isSafeInteger(modifier.delta) || modifier.delta === 0 || !modifier.when) {
+            throw new Error('Invalid skill test modifier');
+          }
+          validateContext(modifier.when);
+        }
+      }
+    }
     if (metadata.tools) validateTools(metadata.tools);
     if (metadata.useContext) validateContext(metadata.useContext);
     for (const interaction of metadata.resourceInteractions ?? []) {

@@ -213,24 +213,44 @@ without importing partial definitions into production. Validation/serialization
 check the data; no HP, durability or destruction engine is implemented. D-025 is
 extended to created-object/result metadata without changing the architecture boundary.
 
-## Pending I schema case: Inconspicuous situational test penalties
+## Resolved I schema case: Inconspicuous situational test penalties
 
-Visually verified book 278 / PDF 280. Inconspicuous opposes Observation. Its test
-has +1 obstacle for garish/inappropriate dress, +1 for being above/below one's
-station, +1 for not being from the region, and +2 for a different race than the
-crowd the character is attempting to blend into.
+Visually verified book 278 / PDF 280. The user approved skill-level test metadata,
+separate from Resources/Fight integrations. SkillTestProfile records versus tests
+and validated opposing skill references. Inconspicuous is now a complete production
+record with four independent obstacle modifiers: +1 garish OR inappropriate attire,
++1 above OR below appropriate social station, +1 regional-origin mismatch, and +2
+race/stock mismatch with the crowd being blended into.
 
-Current skill metadata lacks a structured opposed-skill test profile with
-situational obstacle modifiers. Resources purchase/settlement and structure
-resistance have different subjects/targets and cannot store this use procedure.
-Do not repurpose them or flatten these penalties into a prose special rule.
-Inconspicuous remains an identity-only reference.
+New typed SkillContext leaves describe actor/environment comparisons; target-origin
+and target-stock would lose the mismatch semantics. The two OR conditions stay within
+individual penalties, with no exclusion rule between the four modifiers. Integrity
+checks validate references, modifier units/deltas and nested typed contexts.
 
-Minimal proposed direction, not implemented: small typed skill-test metadata for
-an opposed skill reference plus obstacle-modifier entries, using the existing
-structured SkillContext (curated circumstance ids for these source situations).
-No modifier evaluator, crowd model or runtime prose parsing is proposed. The
-current formalization level remains unchanged, pending user schema resolution.
+Observation (286/288) and Stealthy (301/303) were visually reviewed and supplied as
+partial representative excerpts, not out-of-order production definitions. Observation
+has four candidate opposed skills; Stealthy opposes Observation. Its light/weather/
+ground advantage guidance is recorded in the excerpt summary, without inventing
+values or formalizing advantage conditions in this change. No opposed-test or
+modifier evaluator is implemented. D-023/D-024 already establish the boundary.
+
+## Pending I schema case: Insect Husbandry scoped obstacle reference
+
+Visually verified book 278 / PDF 280. Tending insect wounds and illness uses the
+Apothecary skill obstacles. This is a scoped reuse of obstacle guidance, not a
+statement that Insect Husbandry inherits all Apothecary mechanics, tools, root,
+type, FoRKs or capabilities. Its own printed type is Forester and tools are Yes.
+
+Current SkillRelation supports whole-mechanics reuse/capability/substitution;
+SkillTestProfile currently describes versus opposition and obstacle modifiers,
+not reuse of another skill's obstacle guidance. Do not mislabel this as complete
+mechanics reuse or rely on a prose escape hatch. Insect Husbandry stays an
+identity-only reference pending user resolution.
+
+Minimal proposed direction, not implemented: a typed obstacle-reference relation
+with a skill target (Apothecary) and a context limited to tending wounds/illness.
+No obstacle table, tools inheritance, medicine evaluator or broader redesign is
+proposed. A type-level gap test confirms this narrower relation is absent.
 
 ## Formalization policy through General A–Z completion
 
@@ -296,13 +316,13 @@ Hunting keeps the bow/javelin alternative tools; Herbalism keeps the source's tw
 contextual FoRK alternatives. Hauling substitutes for Power only in hauling.
 Hymn of Scales and Fins reuses Fishing mechanics while retaining its own identity.
 Its spell-song FoRKs remain unresolved source references where outside General.
-Illuminations and Imperfections-wise begin I. There are now 203 complete production
-definitions, plus the separately modeled History family and Appropriate Weapons
+Illuminations, Imperfections-wise, Inconspicuous and Infection-wise begin I. There
+are now 205 complete production definitions, plus the separately modeled History family and Appropriate Weapons
 choice; later blocks and final counts remain pending.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (431 tests
-in 17 files), npm run build and git diff --check. I and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (461 tests
+in 18 files), npm run build and git diff --check. I and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Inconspicuous situational test metadata.
+Production transcription pauses at Insect Husbandry scoped obstacle reuse.

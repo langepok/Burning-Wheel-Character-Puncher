@@ -6,10 +6,10 @@ import { generalSkillManifest } from './general-skill-manifest';
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
-  ['E', 'F', 'G', 'H'].includes(entry.sourceName[0]) || ['illuminations', 'imperfections-wise'].includes(entry.id));
+  ['E', 'F', 'G', 'H'].includes(entry.sourceName[0]) || ['illuminations', 'imperfections-wise', 'inconspicuous', 'infection-wise'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
-  it('covers every reviewed A–H entry and pre-Inconspicuous I rows exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed A–H entry and I rows through Infection-wise exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {
@@ -19,7 +19,7 @@ describe('Reviewed General Skill List transcription blocks', () => {
       if (entry.kind !== 'choice' && entry.kind !== 'family') expect(catalog.skills.get(entry.id)?.coverage).toBe('complete');
     }
   });
-  it('preserves the remaining H context/choice distinctions and leaves Inconspicuous untranscribed', () => {
+  it('preserves the remaining H context/choice distinctions and full Inconspicuous identity', () => {
     expect(catalog.skills.get('hunting')?.tools).toEqual({ kind: 'anyOf', requirements: [{ kind: 'specific-item', item: 'bow' }, { kind: 'specific-item', item: 'javelin' }] });
     expect(catalog.skills.get('herbalism')?.forkSuggestions?.suggestions).toEqual([
       { target: { kind: 'anyOf', targets: [{ kind: 'skill', skillId: 'apothecary' }, { kind: 'skill', skillId: 'alchemy' }] }, context: { kind: 'activity', activity: 'potion-work' } },
@@ -29,8 +29,8 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(catalog.families.get('history')?.defaults).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } }, skillType: 'Academic', tools: { kind: 'none', expendable: false } });
     expect(catalog.skills.has('history')).toBe(false);
     expect(catalog.skills.get('illuminations')?.skillType).toBe('Artist');
-    expect(catalog.skills.has('inconspicuous')).toBe(false);
-    expect(catalog.references.has('inconspicuous')).toBe(true);
+    expect(catalog.skills.get('inconspicuous')?.coverage).toBe('complete');
+    expect(catalog.references.has('inconspicuous')).toBe(false);
   });
   it('registers full Gem records and their independent valuation/magic metadata', () => {
     expect(catalog.skills.get('gem-artifice')).toMatchObject({ coverage: 'complete', skillType: 'Artisan', tools: { kind: 'workshop' } });

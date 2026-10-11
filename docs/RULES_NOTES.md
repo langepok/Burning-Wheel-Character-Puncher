@@ -240,3 +240,16 @@ for +1 obstacle on any test to alter or destroy the resulting structure. Neither
 entry specifies per-increment repetition. Store repeatability as unspecified and
 the penalty as a property of tests against the structure, not user bonus dice,
 Resources value or hit points. No destruction calculation is implemented.
+
+## Skill-level opposed-test metadata
+
+Inconspicuous (book 278 / PDF 280) opposes Observation. Four separate obstacle
+penalties are preserved: garish or inappropriate attire (+1), inappropriate
+above/below social station (+1), regional-origin mismatch (+1), and race/stock
+mismatch with the crowd (+2). Typed comparisons retain actor/environment mismatch;
+this metadata does not evaluate them or decide stacking.
+
+Observation (286/288) can oppose Inconspicuous, Stealthy, Sleight of Hand or Trapper.
+Stealthy (301/303) opposes Observation, with advantage guidance for light, weather
+and ground. Representative excerpts preserve opposition without inventing fixed
+advantage dice or claiming complete transcription of either later record.

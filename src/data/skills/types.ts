@@ -35,7 +35,13 @@ export type RollBehavior =
   | { readonly kind: 'conditional'; readonly whenRoot: RootAbility;
       readonly then: 'open-ended'; readonly otherwise: 'standard' };
 
+/** Attire and mismatch leaves describe the skill user relative to their environment.
+ * Stock mismatch preserves the source race/crowd comparison without fixing a stock. */
 export type SkillContext =
+  | { readonly kind: 'attire'; readonly attire: 'garish' | 'inappropriate' }
+  | { readonly kind: 'social-station-mismatch'; readonly position: 'above' | 'below'; readonly relativeTo: 'appropriate-social-station' }
+  | { readonly kind: 'regional-origin-mismatch'; readonly relativeTo: 'current-region' }
+  | { readonly kind: 'stock-mismatch'; readonly relativeTo: 'target-crowd' }
   | { readonly kind: 'circumstance'; readonly circumstanceId: string }
   | { readonly kind: 'subject'; readonly subject: 'children' | 'great-wolves' | 'spiders' | 'rats-and-relatives' }
   | { readonly kind: 'activity'; readonly activity: 'potion-work' | 'wound-treatment' | 'hauling' | 'crafting' | 'pursuit' | 'travel' | 'field-maneuver' | 'reading' | 'writing' }
@@ -209,7 +215,17 @@ export type SkillIntegration = SkillIntegrationIdentity & (
       readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
 );
 
+/** Descriptive skill-level test facts, not a roll-building or opposed-test engine.
+ * Missing modifiers remain untranscribed; no advantage values are inferred. */
+export interface SkillTestProfile {
+  readonly kind: 'versus';
+  /** Potential opponents, not a command to test against every ability simultaneously. */
+  readonly opposingAbilities: readonly [Extract<SkillReferenceTarget, { kind: 'skill' }>, ...Extract<SkillReferenceTarget, { kind: 'skill' }>[]];
+  readonly modifiers?: readonly { readonly kind: 'obstacle'; readonly delta: number; readonly when: SkillContext }[];
+}
+
 export interface SkillMetadata {
+  readonly testProfile?: SkillTestProfile;
   readonly familyMembership?: { readonly familyId: string; readonly topicId: string };
   readonly rootRule: RootRule;
   readonly skillType: SkillType;

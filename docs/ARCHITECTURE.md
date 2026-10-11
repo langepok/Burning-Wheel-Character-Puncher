@@ -422,3 +422,11 @@ D-025 also covers created structures: StructureResistance stores a construction
 tradeoff and penalties on tests against the result for alteration/destruction.
 It is distinct from equipment-user dice bonuses and item valuation; no durability
 or destruction state/evaluator is added.
+
+SkillTestProfile is optional skill-level test metadata, separate from subsystem
+integrations. Versus opponents are catalog skill references; contextual obstacle
+modifiers use typed conditions/composition. These describe source facts without
+selecting opponents, combining modifiers, evaluating crowds or running tests.
+Attire and social-station/region/crowd-stock mismatch contexts describe comparisons,
+not target identity or a hard-coded stock. Missing partial-profile modifiers are
+untranscribed, not a declaration that no other test guidance exists.

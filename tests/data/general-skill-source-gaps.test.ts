@@ -1,6 +1,7 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
-import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
+import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, SkillRelation, ToolRequirement } from '../../src/data/skills';
+import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
 
 const catalog = createSkillCatalog(skillFixtureContent);
@@ -116,5 +117,13 @@ describe('General Skill List source corrections', () => {
   });
   it.each(['then', 'otherwise'] as const)('validates the conditional %s branch recursively', branch => {
     expect(() => registerTools({ ...writingTools, [branch]: { kind: 'allOf', requirements: [] } } as unknown as ToolRequirement)).toThrow('at least two operands');
+  });
+});
+
+/** Pending source case, book 278 / PDF 280; no production record is fabricated. */
+describe('Pending scoped obstacle reuse', () => {
+  it('shows that reusing only Apothecary obstacles is not a whole-skill mechanics relation', () => {
+    expectTypeOf<Extract<SkillRelation, { kind: 'obstacle-reference' }>>().toBeNever();
+    expect(createSkillCatalog(generalSkillTranscriptionContent).skills.has('insect-husbandry')).toBe(false);
   });
 });
