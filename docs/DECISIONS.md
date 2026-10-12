@@ -353,6 +353,19 @@ it records the particular combination and resulting benefit. No crafting cost,
 tool inheritance or enchanting/equipment-use execution is implied. The belt
 example supplies no numeric effect and remains a source-backed magic summary.
 
+The confirmed Nogger audit (285–286 / 287–288) extends this boundary with
+CraftedConsumableEffect: results triggered by consuming the crafted product,
+not by its crafting test. Cases have source-authored recipient stock/not-stock
+conditions and dose/threshold metadata. Next-ability and scene skill-type scopes
+are separate. Explicit once-active/non-stacking does not imply per-dose repetition;
+other repetition remains unspecified. Cases are independent conditions, not XOR.
+A limited attribute-derived duration stores hour unit, base and subtracted current
+attribute exponent, never an arbitrary formula or a computed/clamped result.
+Unspecified duration/restorative denial is explicit where supported. No stock
+engine assumptions, inventory consumption, scene clock, drinking, intoxication,
+Health/Forte or duration evaluator follows. Consumable results are distinct from
+valuation, tool-use bonuses and skill-test outcomes.
+
 ## D-026 — Training root usage, learning methods and source options
 
 **Status:** Accepted — explicit user resolution and verified BWGR source audit

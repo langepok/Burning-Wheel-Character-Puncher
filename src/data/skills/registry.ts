@@ -1,3 +1,4 @@
+import { validateCraftedConsumable } from './consumables';
 import type {
   AbilityReference, OpposingAbilityReference, ForkTarget, OwnedSkillTopic, RootRule, SkillCatalogContent, SkillContext, SkillFamilyDefinition, SkillMetadata, ToolRequirement,
 } from './types';
@@ -465,6 +466,11 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   }
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
+    if (integration.craftedConsumableEffect !== undefined) {
+      if (integration.subsystem !== 'equipment') throw new Error('Invalid crafted consumable subsystem');
+      validateCraftedConsumable(integration.craftedConsumableEffect);
+    }
+
     requireSkill(integration.skillId);
     if (integration.context) validateContext(integration.context, requireSkill);
     if (integration.sustainedSpellReference !== undefined) {

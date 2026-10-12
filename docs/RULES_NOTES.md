@@ -372,3 +372,12 @@ unspecified magnitude. It is not inferred from other reputation examples or
 represented as zero. Reputation is a character/world-state outcome, not bonus
 dice on the ritual. No audience, reputation scope, permanent naming restriction,
 merging or Circles procedure is supplied by this entry or added to metadata.
+
+**RAW — Nogger crafted-consumable effects** (book 285–286 / PDF 287–288):
+a Dwarf's full draught gives 1D to the next Health test and +1 Ob to Social skill
+tests for the scene, once active without stacking from further drinking. Consumed
+steins at least current Forte cause drunkenness (+1 Ob all tests) for 10 minus
+Health hours. Other creatures become drunk on a mouthful, receive no restorative
+benefit and have no separately specified duration in this sentence. Do not inherit
+the Dwarf duration or invent a clamp. Equipment integration stores these independent
+consumption cases; no effects are applied at the Nogger crafting test. See D-025.

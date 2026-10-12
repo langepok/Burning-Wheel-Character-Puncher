@@ -120,12 +120,11 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Nogger, book 285–286 / PDF 287–288: consuming the crafted brew has effects. */
-describe('Pending Nogger consumption-result metadata', () => {
-  it('does not confuse the brewing skill with drinking its product or claim it complete', () => {
+/** Oratory, book 286 / PDF 288: base uses most common Will in the crowd. */
+describe('Pending Oratory aggregate obstacle basis', () => {
+  it('does not substitute a single target Will or claim Oratory complete', () => {
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('nogger')).toBe(false);
-    expect(production.references.get('nogger')?.sourceName).toBe('Nogger');
-    expect(catalog.skills.get('nogger')?.coverage).toBe('partial');
+    expect(production.skills.has('oratory')).toBe(false);
+    expect(production.references.get('oratory')?.sourceName).toBe('Oratory');
   });
 });

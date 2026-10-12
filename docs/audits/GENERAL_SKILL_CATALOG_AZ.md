@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (729 tests
-in 30 files), npm run build and git diff --check. N and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (755 tests
+in 31 files), npm run build and git diff --check. O and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Munitions and Music Composition:
-256 complete definitions: M complete, N reviewed through Navigation; Nogger and later entries pending.
+Production transcription continues through Nogger and Observation:
+261 complete definitions: A–N complete, O reviewed through Observation; Oratory and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -548,23 +548,39 @@ are implemented. Reputation results remain distinct from test dice/Advantage.
 
 Navigation is complete at 285/287: Perception, Seafaring, generic tools, Astrology,
 Orienteering and Pilot FoRKs. It is not relabelled Seafarer. There are now 256
-complete production definitions; N pauses at Nogger, which remains partial only
-in the foundation fixtures and identity-only in production.
+complete production definitions at that checkpoint; N paused at Nogger, then
+partial only in the foundation fixtures and identity-only in production.
 
-## Pending Nogger crafted-consumable effects
+## Resolved Nogger consumable effects and N completion
 
-Visually reviewed 285–286 / 287–288. These rules describe drinking the crafted
-brew, not making a Nogger test: a Dwarf's full draught grants 1D to the next Health
-test and +1 Ob to social tests for the scene, with only one such bonus/penalty
-regardless of additional drinking. Steins at least equal to the Dwarf's Forte
-cause drunkenness (+1 Ob to all tests) for hours equal to 10 minus Health. Other
-creatures become drunk on a mouthful and receive no benefit. Do not infer their
-drunkenness duration from the Dwarf sentence or invent a clamp on 10 minus Health.
+Visually reviewed 285–286 / 287–288. The approved CraftedConsumableEffect is
+an equipment integration for the crafted product, not a Nogger roll outcome.
+The Dwarf full-draught package is once-active/non-stacking, with separate 1D
+next-Health and +1 Ob scene-Social scopes. Another independent Dwarf case compares
+consumed steins to current Forte, at least, giving drunkenness/+1 Ob all tests.
+Its limited derived-duration descriptor stores base 10 minus current Health in
+hours, without computation or a clamp. Forte remains a stat reference and Health
+an attribute reference, rather than inventing a Forte attribute.
 
-Existing equipment-result metadata covers valuation, use bonuses, structures
-and enchanting combinations, not consumable doses, recipient stock, attribute
-thresholds, next-test/scene scopes and derived duration. It cannot preserve these
-facts without an approved minimal crafted-consumable-effect descriptor. A Nogger
-skill-test outcome would put the effects on the wrong event/recipient. No brewing,
-drinking, intoxication, Health or time evaluator is proposed. Nogger and subsequent
-entries remain incomplete pending this source/schema decision.
+The non-Dwarf mouthful case gives drunkenness/+1 Ob all tests, explicitly no
+restorative benefit and unspecified duration. It inherits neither the Dwarf
+package nor duration. Threshold/non-Dwarf repeat semantics are unspecified,
+not guessed from the once-active restorative package. Generic validation checks
+ids/units/scopes/shapes and never compares quantities or executes effects.
+D-025 is extended; no new durable decision or formula language is introduced.
+
+N is complete against the manifest: Name Ritual, Navigation and Nogger. Added
+Oath-wise, Obligation-wise, Obscure Text-wise and Observation: 261 complete
+production definitions. Observation preserves its four opposed skills and the
+separate warning against substituting it for ordinary Perception; no detection
+or perception/trait engine is introduced. O pauses at Oratory.
+
+## Pending Oratory crowd obstacle basis
+
+Visually reviewed 286/288: Oratory's obstacle is the most common Will exponent
+in the crowd. Current target-ability-exponent describes one target, not a crowd
+aggregate. Do not substitute average/highest Will or assume a majority threshold.
+The proposed minimal obstacle basis references crowd, Will and the most-common
+exponent statistic. No tie handling, crowd state, voting, aggregation or Duel of
+Wits evaluator is inferred. Oratory and later entries remain identity-only pending
+resolution; no further O–R records are marked complete ahead of this blocker.

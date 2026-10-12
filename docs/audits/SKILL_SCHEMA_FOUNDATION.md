@@ -147,3 +147,8 @@ Skill-test outcomes can describe name bestowal/denial and reputation grants
 without executing character/world-state changes. Fixed reputation dice and
 explicitly unspecified dice are different shapes; neither is a test modifier.
 Name Ritual (285/287) supplies success/failure and target-recipient regressions.
+
+Crafted consumables can have recipient/dose-dependent effects of consumption,
+with separate next-test/scene scopes, non-stacking, threshold and bounded derived
+duration metadata. Nogger (285–286/287–288) motivates the D-025 extension. These
+results remain equipment data, separate from crafting test outcomes or Resources.

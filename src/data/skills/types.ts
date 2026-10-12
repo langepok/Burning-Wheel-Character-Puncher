@@ -248,14 +248,42 @@ export interface StructureResistance {
   readonly effect: { readonly kind: 'obstacle-modifier'; readonly delta: number;
     readonly target: 'tests-against-created-structure'; readonly appliesTo: readonly ('alter' | 'destroy')[] };
 }
+/** Limited source-shaped duration, not an arithmetic expression language. */
+export type ConsumableDuration =
+  | { readonly kind: 'current-scene' | 'unspecified' }
+  | { readonly kind: 'attribute-derived-duration'; readonly unit: 'hour'; readonly base: number;
+      readonly subtract: { readonly kind: 'attribute'; readonly id: string }; readonly snapshot: 'current' };
+export type ConsumableEffect =
+  | { readonly kind: 'dice-bonus'; readonly dice: number;
+      readonly scope: { readonly kind: 'next-ability-test'; readonly ability: RootAbility } }
+  | { readonly kind: 'obstacle-modifier'; readonly delta: number;
+      readonly scope: { readonly kind: 'skill-type-tests'; readonly skillType: SkillType }; readonly duration: ConsumableDuration }
+  | { readonly kind: 'intoxication'; readonly condition: 'drunk';
+      readonly modifier: { readonly kind: 'obstacle-modifier'; readonly delta: number; readonly scope: { readonly kind: 'all-tests' } };
+      readonly duration: ConsumableDuration };
+/** All dose/ability/effect recipients are the consumer, never the crafting actor. */
+export interface CraftedConsumableEffect {
+  readonly recipientRole: 'consumer';
+  readonly target: 'crafted-consumable'; readonly caseSemantics: 'independent-source-conditions';
+  readonly cases: readonly {
+    readonly recipient: { readonly kind: 'stock' | 'not-stock'; readonly stockId: StockId };
+    readonly dose: { readonly kind: 'full-draught' | 'mouthful' } |
+      { readonly kind: 'consumed-quantity-threshold'; readonly unit: 'stein'; readonly comparison: 'at-least';
+        readonly recipientAbility: RootAbility; readonly snapshot: 'current' };
+    readonly repeat: 'once-active-non-stacking' | 'unspecified';
+    readonly restorativeBenefit?: 'none';
+    readonly effects: readonly [ConsumableEffect, ...ConsumableEffect[]];
+  }[];
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
-  | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
+  | { readonly subsystem: 'magic'; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
-  | { readonly subsystem: 'equipment'; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
+  | { readonly subsystem: 'equipment'; readonly craftedConsumableEffect?: CraftedConsumableEffect; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
       readonly equipmentUseEffect?: EquipmentUseEffect; readonly equipmentResult?: EquipmentResult; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: StructureResistance }
-  | { readonly subsystem: 'resources'; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
+  | { readonly subsystem: 'resources'; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly structureResistance?: never }
-  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly sustainedSpellReference?: never;
+  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
 );
 

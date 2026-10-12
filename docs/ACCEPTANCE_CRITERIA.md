@@ -547,3 +547,17 @@ A Character Burner feature is done only when:
   Advantage and obstacle changes. No audience/scope or permanent naming ban inferred.
 - Serializable typed outcome metadata rejects malformed triggers, recipients,
   effects and dice shapes. No naming/reputation/Circles execution or merging added.
+
+## Nogger crafted-consumable integration
+
+- Consumption effects attach to the crafted consumable, not the crafting test.
+- Dwarf full draught: 1D next Health test and +1 Ob Social skill tests for current
+  scene; separate scopes, once-active/non-stacking despite additional drinking.
+- Dwarf intoxication: consumed steins at least current Forte exponent; drunk,
+  +1 Ob all tests, hours represented as base 10 minus current Health exponent.
+- Non-Dwarf mouthful: drunk, +1 Ob all tests, no restorative benefit, explicitly
+  unspecified duration. Do not inherit Dwarf duration or restorative package.
+- Cases are independent conditions, not global XOR. Unspecified repeat/duration
+  does not establish a permission or numeric default. No formula string or clamp.
+- Metadata serializes and validates stock/ability ids, dose, scopes, units and
+  duration shapes. No inventory, drinking, Health/Forte, scene or state evaluator.

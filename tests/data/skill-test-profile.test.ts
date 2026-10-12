@@ -36,7 +36,8 @@ describe('Skill-level opposed-test metadata', () => {
     expect(fixtures.skills.get('observation')?.testProfile?.opposingAbilities).toEqual(
       ['inconspicuous', 'stealthy', 'sleight-of-hand', 'trapper'].map(skillId => ({ kind: 'skill', skillId })));
     expect(fixtures.skills.get('stealthy')?.testProfile).toEqual({ kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'observation' }] });
-    expect(catalog.skills.has('observation')).toBe(false);
+    expect(catalog.skills.get('observation')?.coverage).toBe('complete');
+    expect(catalog.skills.get('observation')?.testProfile).toEqual(fixtures.skills.get('observation')?.testProfile);
     expect(catalog.skills.has('stealthy')).toBe(false);
   });
   it.each([generalSkillTranscriptionContent, testProfileFixtureContent])('round trips declarative profiles through catalog validation', content => {
