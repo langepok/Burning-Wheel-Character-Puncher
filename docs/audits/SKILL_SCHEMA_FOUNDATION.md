@@ -137,3 +137,8 @@ footnotes, separate from practice/instruction learning methods (D-026).
 Mounted Combat source options preserve distinct identities and independent
 ownership; source-acquisition selection does not impose a character-wide XOR.
 Elven Outrider resolves to Bowman, Lancer to ordinary Training (137/139).
+
+Canonical contextual Advantage references general BW procedure and stores no fixed
+dice amount. Musical Instrument (285/287) supplies its structured music/mood
+suitability case. It is distinct from fixed dice bonuses, obstacle modifiers and
+manual obstacle adjustments. General/context resolution remains outside data.

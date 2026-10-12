@@ -524,3 +524,15 @@ A Character Burner feature is done only when:
   separate source facts, not adverse-outcome constants or a new equipment catalog.
 - Serialization and integrity validation reject malformed trigger/scope/outcome.
   No injury, explosive, damage lookup, destruction or result evaluator is added.
+
+## Musical Instrument canonical contextual Advantage
+
+- Base obstacle references current listener Will. Suitable performed music/current
+  mood is a structured relation, not a mood taxonomy or performer/trait condition.
+- Canonical Advantage is a distinct test effect with external resolution; no fixed
+  dice, invented +1D, obstacle delta or manual obstacle adjustment is stored.
+- Serialization and integrity validation reject numeric additions and malformed
+  suitability/Advantage metadata. Existing fixed dice and obstacle effects persist.
+- Musical Instrument stays a source entry; no Wises-style family ownership is
+  inferred. Additional instrument FoRK guidance uses an explicit curated category.
+- No Advantage, mood, music or linked-test evaluator is added.

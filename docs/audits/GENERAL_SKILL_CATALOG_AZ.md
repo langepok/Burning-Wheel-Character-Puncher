@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (692 tests
-in 28 files), npm run build and git diff --check. M and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (708 tests
+in 29 files), npm run build and git diff --check. N and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
 Production transcription continues through Munitions and Music Composition:
-252 complete definitions, with Musical Instrument and later entries pending.
+254 complete definitions: M complete, with N and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -516,14 +516,35 @@ created-item reference. Tests cover exact trigger, both subjects, source labels,
 recipient/reference, serialization, generic categories and malformed descriptors.
 D-023/D-024 already cover skill facts separate from subsystem execution.
 
-## Pending Musical Instrument contextual advantage
+## Resolved Musical Instrument canonical Advantage
 
-Visually reviewed book 285 / PDF 287. The obstacle uses the listener's Will;
-when music suits the mood, add advantage. The entry does not specify dice count.
-ContextualTestEffect currently requires a numeric dice bonus; ManualTestAdjustment
-represents obstacle adjustments, not unquantified advantage dice. Neither should
-silently become +1D or an obstacle reduction. The proposed next minimal extension
-is a typed manual/unquantified contextual advantage with a structured music/mood
-suitability condition, distinct from fixed dice and obstacle effects. No music,
-linked-test or advantage evaluator is proposed. Musical Instrument stays an
-identity-only reference until resolution; no subsequent M/N entries are completed.
+Visually reviewed book 285 / PDF 287. The obstacle uses the listener's current
+Will; explicit listener-role metadata identifies the target. Suitable performed
+music/current mood is a structured suitability relation. ContextualTestEffect now
+has canonical Advantage with external resolution and no numeric dice/delta.
+It remains separate from fixed dice, obstacle changes and manual obstacle
+adjustments; integrity rejects invented amounts and malformed relations.
+
+The printed FoRKs are Sing, Composition and additional instruments. Composition
+is preserved as printed, not silently replaced by Music Composition. An explicitly
+curated musical-instrument category preserves the open guidance; it does not
+admit all Musical skills or infer membership from names. Drum/flute/lyre are
+source examples in the summary, not a closed choice list or invented named skill
+identities. The entry is not forced into Wises-style ownership/family semantics.
+No instrument ownership, mood, linked-test or Advantage evaluator is introduced.
+Mystery Meat-wise completes M against the independent manifest. There are now
+254 complete definitions. N begins with Name Ritual and remains pending.
+
+## Pending N source case: Name Ritual test outcomes
+
+Visually reviewed book 285 / PDF 287: a successful ritual bestows a name and
++1D reputation; failure means the character cannot be named and earns an infamous
+reputation. The failure reputation has no numeric dice amount in this entry.
+Its obstacle uses target Will; the character-burning restriction is Orc-only.
+Current SkillTestProfile has modifiers and follow-ups, but no structured result
+for granting a name/reputation or the distinct failed-ritual consequences. These
+are not unconditional dice bonuses, Resources effects or Munitions zero-successes
+adverse outcomes. Name Ritual stays identity-only pending a minimal typed
+skill-test outcome descriptor. No naming, reputation or test-result engine is
+proposed, and no permanent naming restriction or failure reputation number is
+inferred. The rest of N has not been marked complete ahead of this blocker.

@@ -45,6 +45,7 @@ export interface CraftingSubjectContext {
 /** Attire and mismatch leaves describe the skill user relative to their environment.
  * Stock mismatch preserves the source race/crowd comparison without fixing a stock. */
 export type SkillContext =
+  | { readonly kind: 'music-mood-suitability'; readonly relation: 'suitable' }
   | CraftingSubjectContext
   | { readonly kind: 'test-context'; readonly context: 'versus-test' | 'detailed-conflict' }
   | { readonly kind: 'force-attribute'; readonly quantifier: 'majority-of-troops'; readonly attributeId: string }
@@ -97,7 +98,7 @@ export type SkillReferenceTarget =
   | { readonly kind: 'unresolved-source-reference'; readonly sourceLabel: string;
       readonly probableTargetSkillId?: SkillId };
 /** Curated categories, never inferred from names, prose or Skill Type labels. */
-export type SkillSemanticCategory = 'melee-weapon' | 'ritual' | 'song';
+export type SkillSemanticCategory = 'melee-weapon' | 'ritual' | 'song' | 'musical-instrument';
 export type ForkTarget = SkillReferenceTarget |
   { readonly kind: 'category'; readonly category: SkillSemanticCategory; readonly relevance: 'any' | 'appropriate' } |
   { readonly kind: 'skill-type'; readonly skillType: SkillType; readonly relevance: 'any' | 'appropriate' } |
@@ -260,7 +261,7 @@ export type SkillIntegration = SkillIntegrationIdentity & (
 
 /** Reference to the target's live ability value; no lookup/calculation is performed. */
 export type ObstacleBasis = {
-  readonly kind: 'target-ability-exponent'; readonly ability: RootAbility; readonly snapshot: 'current';
+  readonly kind: 'target-ability-exponent'; readonly targetRole?: 'listener'; readonly ability: RootAbility; readonly snapshot: 'current';
 };
 /** Unquantified is an audited fact, not a default zero or an omitted numeric value. */
 export type ManualTestAdjustment = {
@@ -296,8 +297,10 @@ export interface OpposingAbilityAlternative {
 }
 export type OpposingAbilities = readonly [OpposingAbilityReference, ...OpposingAbilityReference[]] |
   { readonly kind: 'anyOf'; readonly operands: Operands<OpposingAbilityAlternative> };
-/** Contextual effects keep dice and obstacle units separate. */
+/** Canonical Advantage delegates amount/resolution to general rules/context.
+ * It is distinct from both numeric dice bonuses and obstacle adjustments. */
 export type ContextualTestEffect =
+  | { readonly kind: 'advantage'; readonly resolution: 'canonical'; readonly dice?: never; readonly delta?: never }
   | { readonly kind: 'dice-bonus'; readonly dice: number }
   | { readonly kind: 'obstacle-modifier'; readonly delta: number };
 export interface ContextualTestModifier {

@@ -231,6 +231,14 @@ export const iMSkills = [
   define('music-composition', 'Music Composition', 285, 'Write musical notation and compose songs for voices or instruments.', {
     rootRule: combined('will', 'perception'), skillType: 'Musical', tools: expendable }),
 
+  define('musical-instrument', 'Musical Instrument', 285, 'Perform music on a chosen instrument, such as drum, flute or lyre, to convey ideas or affect listeners; tests can serve as linked tests.', {
+    rootRule: combined('will', 'agility'), skillType: 'Musical', tools: item('instrument'), semanticCategories: ['musical-instrument'],
+    forkSuggestions: guidance(fork('sing'), fork('composition'), { target: { kind: 'category', category: 'musical-instrument', relevance: 'any' } }),
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', targetRole: 'listener', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' },
+      modifiers: [{ effect: { kind: 'advantage', resolution: 'canonical' }, when: { kind: 'music-mood-suitability', relation: 'suitable' } }] } }),
+  define('mystery-meat-wise', 'Mystery Meat-wise', 285, 'Knowledge of mystery meat.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'mystery-meat' } }),
+
 ];
 
 export const iMIntegrations: readonly SkillIntegration[] = [

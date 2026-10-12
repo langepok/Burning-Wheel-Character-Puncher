@@ -357,3 +357,10 @@ maker takes the Mark result of the device being built. This is not every failed
 test. Skill metadata preserves the source-defined item reference without looking
 up damage or assigning a Mark to powder. Bomb Marks belong to item source facts,
 not a constant embedded in the consequence. No injury/detonation engine follows.
+
+**RAW — Musical Instrument contextual Advantage** (book 285 / PDF 287):
+base obstacle is the listener's Will. Performed music suitable to the current
+mood grants canonical Advantage; this entry specifies no fixed dice amount.
+The typed effect delegates general Advantage semantics to external rules/context,
+separate from fixed dice, obstacle modifiers and manual obstacle adjustments.
+The suitability leaf preserves the relation without a mood taxonomy or evaluator.

@@ -43,6 +43,12 @@ function validateOperands(nodes: readonly unknown[]): void {
 
 function validateContext(context: SkillContext, requireSkill: (id: string) => void): void {
   if (!context || typeof context !== 'object') throw new Error('Invalid context');
+  if (context.kind === 'music-mood-suitability') {
+    if (context.relation !== 'suitable' || Object.keys(context).some(key => !['kind', 'relation'].includes(key))) {
+      throw new Error('Invalid music/mood suitability');
+    }
+    return;
+  }
   if (context.kind === 'crafting-subject') {
     if (context.operation !== 'manufacturing' || Object.keys(context).some(key => !['kind', 'operation', 'anyOf'].includes(key))) {
       throw new Error('Invalid crafting subject');
@@ -276,6 +282,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         if ('opposingAbilities' in profile) throw new Error('Invalid skill test profile');
         const base = profile.base;
         if (base?.kind !== 'target-ability-exponent' || base.snapshot !== 'current' ||
+            (base.targetRole !== undefined && base.targetRole !== 'listener') ||
             !base.ability || !['stat', 'attribute'].includes(base.ability.kind) ||
             typeof base.ability.id !== 'string' || !base.ability.id.trim()) {
           throw new Error('Invalid obstacle basis');
@@ -325,7 +332,8 @@ export function createSkillCatalog(content: SkillCatalogContent) {
           const effect = modifier?.effect;
           if (!modifier?.when || !effect ||
               (effect.kind === 'obstacle-modifier' ? (!Number.isSafeInteger(effect.delta) || effect.delta === 0 || Object.keys(effect).length !== 2) :
-               effect.kind === 'dice-bonus' ? (!Number.isSafeInteger(effect.dice) || effect.dice <= 0 || Object.keys(effect).length !== 2) : true)) {
+               effect.kind === 'dice-bonus' ? (!Number.isSafeInteger(effect.dice) || effect.dice <= 0 || Object.keys(effect).length !== 2) :
+               effect.kind === 'advantage' ? (effect.resolution !== 'canonical' || Object.keys(effect).some(key => !['kind', 'resolution'].includes(key))) : true)) {
             throw new Error('Invalid skill test modifier');
           }
           validateContext(modifier.when, requireSkill);
