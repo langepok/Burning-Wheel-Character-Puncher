@@ -159,9 +159,54 @@ export const iMSkills = [
     rootRule: combined('perception', 'agility'), skillType: 'Artisan', tools: workshop,
     forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), fork('architect')) }),
 
+  define('meditation', 'Meditation', 283, 'Rest through meditation or center before another skill test; awareness and spell sustaining remain separate facts.', {
+    rootRule: stat('will'), skillType: 'School of Thought', tools: none,
+    procedures: [
+      { kind: 'duration-rest-substitution', substitutesFor: 'sleep-rest',
+        obstacle: { kind: 'duration-based-obstacle', unit: 'hour', firstUnitObstacle: 1, additionalUnitObstacleDelta: 1 },
+        effect: { kind: 'rest-equivalence', durationUnit: 'hour', restPerUnit: 1, appliesTo: ['wound-recovery', 'tax-recovery'] },
+        onFailure: { kind: 'falls-asleep', timing: 'at-some-point' } },
+      { kind: 'linked-pretest', target: 'subsequent-skill-test', semantics: { kind: 'canonical-rule', rule: 'linked-test' },
+        specialResolution: {
+          when: { kind: 'anyOf', conditions: [{ kind: 'test-context', context: 'versus-test' }, { kind: 'test-context', context: 'detailed-conflict' }] },
+          test: { kind: 'versus', actingAbility: { kind: 'skill', id: 'meditation' },
+            opposingAbility: { kind: 'context-resolved-skill', actorRole: 'opponent', resolution: 'manual' } },
+          onWin: { kind: 'dice-bonus', dice: 1, appliesTo: 'linked-target-test' },
+        } },
+    ],
+    activityFacts: [ { kind: 'vague-surroundings-awareness' },
+      { kind: 'permitted-test', abilities: { kind: 'anyOf', operands: [{ kind: 'stat', id: 'perception' }, { kind: 'skill', id: 'observation' }] },
+        purpose: { kind: 'detect-skill-use', skillId: 'stealthy' } } ],
+    integrationTags: ['magic'], capabilities: [{ kind: 'subsystem-capability', id: 'meditation-sustaining', integrationId: 'meditation-sustaining' }] }),
+  define('mending', 'Mending', 283, 'Repair farm and household goods or damaged armor using source obstacle guidance.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Peasant', tools: expendable,
+    forkSuggestions: guidance({ target: { kind: 'skill-type', skillType: 'Craftsman', relevance: 'appropriate' } }), integrationTags: ['equipment'] }),
+  define('mercenary-company-wise', 'Mercenary Company-wise', 283, 'Knowledge of mercenary companies.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'mercenary-company' } }),
+  define('metal-wise', 'Metal-wise', 283, 'Knowledge of metals.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'metal' } }),
+  define('midwifery', 'Midwifery', 283, 'Help mothers and children through childbirth.', {
+    rootRule: combined('will', 'perception'), skillType: 'Medicinal', tools: none, forkSuggestions: forks('herbalism') }),
+  define('mill-wise', 'Mill-wise', 283, 'Knowledge of mills.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'mill' } }),
+  define('miller', 'Miller', 284, 'Build, maintain and operate grain mills; the workshop is a mill.', {
+    rootRule: stat('perception'), skillType: 'Peasant', tools: workshop, forkSuggestions: forks('brewer') }),
+  define('mimicry', 'Mimicry', 284, 'Imitate animal sounds and voices.', {
+    rootRule: stat('perception'), skillType: 'Forester', tools: none }),
+  define('mining', 'Mining', 284, 'Excavate earth and extract ores or minerals, including ore prospecting.', {
+    rootRule: stat('perception'), skillType: 'Craftsman', tools: generic,
+    forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), fork('architect')) }),
+  define('monk-wise', 'Monk-wise', 284, 'Knowledge of monks.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'monk' } }),
+
 ];
 
 export const iMIntegrations: readonly SkillIntegration[] = [
+  { id: 'meditation-sustaining', skillId: 'meditation', subsystem: 'magic',
+    sustainedSpellReference: { actorRole: 'sorcerer', while: 'using-owning-skill', permission: 'maintain-sustained-spells',
+      requiredRetest: { kind: 'tax', rules: { kind: 'external-subsystem-rule', subsystem: 'magic', sourceName: 'The Power Still Flows Through Him' } } },
+    summary: 'A Sorcerer may sustain spells while meditating, with Tax retests under the referenced magic rule.', source: [evidence('Meditation', 283)] },
+
   { id: 'leathercraft-boots', skillId: 'leathercraft', subsystem: 'equipment',
     equipmentResult: {
       target: { kind: 'created-equipment', equipmentKindId: 'boots' },

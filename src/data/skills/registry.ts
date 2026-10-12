@@ -1,5 +1,5 @@
 import type {
-  ForkTarget, OwnedSkillTopic, RootRule, SkillCatalogContent, SkillContext, SkillFamilyDefinition, SkillMetadata, ToolRequirement,
+  AbilityReference, OpposingAbilityReference, ForkTarget, OwnedSkillTopic, RootRule, SkillCatalogContent, SkillContext, SkillFamilyDefinition, SkillMetadata, ToolRequirement,
 } from './types';
 
 function index<T extends { readonly id: string }>(records: readonly T[]): ReadonlyMap<string, T> {
@@ -9,6 +9,13 @@ function index<T extends { readonly id: string }>(records: readonly T[]): Readon
     result.set(record.id, record);
   }
   return result;
+}
+
+function validateContextResolvedSkill(reference: Extract<OpposingAbilityReference, { kind: 'context-resolved-skill' }>): void {
+  if (reference?.kind !== 'context-resolved-skill' || !['eavesdropper', 'opponent'].includes(reference.actorRole) || reference.resolution !== 'manual' ||
+      Object.keys(reference).some(key => !['kind', 'actorRole', 'resolution'].includes(key))) {
+    throw new Error('Invalid context-resolved opposing skill');
+  }
 }
 
 function validateRoot(root: RootRule): void {
@@ -36,6 +43,10 @@ function validateOperands(nodes: readonly unknown[]): void {
 
 function validateContext(context: SkillContext, requireSkill: (id: string) => void): void {
   if (!context || typeof context !== 'object') throw new Error('Invalid context');
+  if (context.kind === 'test-context') {
+    if (!['versus-test', 'detailed-conflict'].includes(context.context)) throw new Error('Invalid test context');
+    return;
+  }
   const forceLeaves = {
     'force-attribute': ['kind', 'quantifier', 'attributeId'], 'force-classification': ['kind', 'classification'],
     'force-contains-mount': ['kind', 'mountKind'], 'force-contains-trait': ['kind', 'traitId'],
@@ -142,7 +153,56 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     }
     // A probable target remains audit metadata, never a resolved FoRK reference.
   };
+  const validateAbility = (ability: AbilityReference): void => {
+    if (!ability || !['skill', 'stat', 'attribute'].includes(ability.kind) ||
+        typeof ability.id !== 'string' || !ability.id.trim()) throw new Error('Invalid ability reference');
+    if (ability.kind === 'skill') requireSkill(ability.id);
+  };
   const validateMetadata = (metadata: Partial<SkillMetadata>) => {
+    if (metadata.procedures !== undefined) {
+      if (!Array.isArray(metadata.procedures)) throw new Error('Invalid skill procedures');
+      for (const procedure of metadata.procedures) {
+        if (procedure?.kind === 'duration-rest-substitution') {
+          const { obstacle, effect, onFailure } = procedure;
+          if (Object.keys(procedure).some(key => !['kind', 'substitutesFor', 'obstacle', 'effect', 'onFailure'].includes(key)) ||
+              procedure.substitutesFor !== 'sleep-rest' || obstacle?.kind !== 'duration-based-obstacle' || obstacle.unit !== 'hour' ||
+              !Number.isSafeInteger(obstacle.firstUnitObstacle) || obstacle.firstUnitObstacle <= 0 ||
+              !Number.isSafeInteger(obstacle.additionalUnitObstacleDelta) || obstacle.additionalUnitObstacleDelta <= 0 ||
+              Object.keys(obstacle).length !== 4 || effect?.kind !== 'rest-equivalence' || effect.durationUnit !== 'hour' ||
+              !Number.isSafeInteger(effect.restPerUnit) || effect.restPerUnit <= 0 || !Array.isArray(effect.appliesTo) ||
+              Object.keys(effect).length !== 4 || effect.appliesTo.length !== 2 || effect.appliesTo[0] !== 'wound-recovery' || effect.appliesTo[1] !== 'tax-recovery' ||
+              onFailure?.kind !== 'falls-asleep' || onFailure.timing !== 'at-some-point' || Object.keys(onFailure).length !== 2) {
+            throw new Error('Invalid rest substitution');
+          }
+        } else if (procedure?.kind === 'linked-pretest') {
+          const special = procedure.specialResolution;
+          if (Object.keys(procedure).some(key => !['kind', 'target', 'semantics', 'specialResolution'].includes(key)) ||
+              procedure.target !== 'subsequent-skill-test' || procedure.semantics?.kind !== 'canonical-rule' ||
+              procedure.semantics.rule !== 'linked-test' || special?.test?.kind !== 'versus' ||
+              special.test.actingAbility?.kind !== 'skill' || special.onWin?.kind !== 'dice-bonus' ||
+              !Number.isSafeInteger(special.onWin.dice) || special.onWin.dice <= 0 || special.onWin.appliesTo !== 'linked-target-test' || Object.keys(special.onWin).length !== 3) {
+            throw new Error('Invalid linked pre-test');
+          }
+          validateContext(special.when, requireSkill);
+          validateAbility(special.test.actingAbility);
+          validateContextResolvedSkill(special.test.opposingAbility);
+          if (special.test.opposingAbility.actorRole !== 'opponent') throw new Error('Invalid linked opponent role');
+        } else throw new Error('Invalid skill procedure');
+      }
+    }
+    if (metadata.activityFacts !== undefined) {
+      if (!Array.isArray(metadata.activityFacts)) throw new Error('Invalid activity facts');
+      for (const fact of metadata.activityFacts) {
+        if (fact?.kind === 'vague-surroundings-awareness') {
+          if (Object.keys(fact).length !== 1) throw new Error('Invalid surrounding awareness fact');
+        } else if (fact?.kind === 'permitted-test') {
+          if (fact.abilities?.kind !== 'anyOf' || fact.purpose?.kind !== 'detect-skill-use') throw new Error('Invalid permitted test fact');
+          validateOperands(fact.abilities.operands);
+          fact.abilities.operands.forEach(validateAbility);
+          requireSkill(fact.purpose.skillId);
+        } else throw new Error('Invalid activity fact');
+      }
+    }
     if (metadata.testProfile !== undefined) {
       const profile = metadata.testProfile;
       if (profile?.kind === 'versus') {
@@ -175,10 +235,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
           if (!opponents.length) throw new Error('Invalid skill test profile');
           for (const ability of opponents) {
             if (ability?.kind === 'context-resolved-skill') {
-              if (ability.actorRole !== 'eavesdropper' || ability.resolution !== 'manual' ||
-                  Object.keys(ability).some(key => !['kind', 'actorRole', 'resolution'].includes(key))) {
-                throw new Error('Invalid context-resolved opposing skill');
-              }
+              validateContextResolvedSkill(ability);
               continue;
             }
             if (ability?.kind !== 'skill' || typeof ability.skillId !== 'string' || !ability.skillId.trim()) {
@@ -314,6 +371,15 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   for (const integration of integrations.values()) {
     requireSkill(integration.skillId);
     if (integration.context) validateContext(integration.context, requireSkill);
+    if (integration.sustainedSpellReference !== undefined) {
+      const reference = integration.sustainedSpellReference;
+      if (integration.subsystem !== 'magic' || reference?.actorRole !== 'sorcerer' || reference.while !== 'using-owning-skill' ||
+          reference.permission !== 'maintain-sustained-spells' || reference.requiredRetest?.kind !== 'tax' ||
+          reference.requiredRetest.rules?.kind !== 'external-subsystem-rule' || reference.requiredRetest.rules.subsystem !== 'magic' ||
+          typeof reference.requiredRetest.rules.sourceName !== 'string' || !reference.requiredRetest.rules.sourceName.trim()) {
+        throw new Error('Invalid sustained-spell reference');
+      }
+    }
     if (integration.structureResistance !== undefined) {
       const resistance = integration.structureResistance;
       const acquisition = resistance?.acquisition;

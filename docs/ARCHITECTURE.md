@@ -488,3 +488,13 @@ attribute conditions and trait/mount presence remain distinct; non-Dwarven is a
 source-defined classification without population thresholds. Prior-test contexts
 retain both area and Resources-cycle scope. Validation resolves skill references
 in contexts, including recursively composed/tool/integration contexts. No evaluator.
+
+
+SkillProcedure stores narrowly typed duration-rest-substitution and linked-pretest
+records separately. Named duration progression avoids a formula DSL; failure does
+not assign a time or credited rest. LinkedPretest references canonical linked-test
+semantics, with a separately scoped versus/detailed-conflict procedure and onWin
+benefit. Context-resolved opponent roles reuse the existing skill-only reference.
+SkillActivityFact preserves surrounding-awareness and permitted-test references
+without an Awareness ability. SustainedSpellReference remains a separate magic
+integration with external Tax rules. These descriptors execute no tests/recovery.

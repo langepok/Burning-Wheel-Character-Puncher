@@ -38,6 +38,7 @@ export type RollBehavior =
 /** Attire and mismatch leaves describe the skill user relative to their environment.
  * Stock mismatch preserves the source race/crowd comparison without fixing a stock. */
 export type SkillContext =
+  | { readonly kind: 'test-context'; readonly context: 'versus-test' | 'detailed-conflict' }
   | { readonly kind: 'force-attribute'; readonly quantifier: 'majority-of-troops'; readonly attributeId: string }
   | { readonly kind: 'force-classification'; readonly classification: 'non-dwarven' }
   | { readonly kind: 'force-contains-mount'; readonly mountKind: 'war-mount' | 'riding-mount' | 'pack-animal' }
@@ -198,6 +199,12 @@ export interface EquipmentResult {
   readonly effect: { readonly kind: 'skill-test-dice-bonus'; readonly recipient: 'equipment-user';
     readonly skillId: SkillId; readonly dice: number };
 }
+export interface SustainedSpellReference {
+  readonly actorRole: 'sorcerer'; readonly while: 'using-owning-skill';
+  readonly permission: 'maintain-sustained-spells';
+  readonly requiredRetest: { readonly kind: 'tax';
+    readonly rules: { readonly kind: 'external-subsystem-rule'; readonly subsystem: 'magic'; readonly sourceName: string } };
+}
 export type PrizeObstacleReference = { readonly kind: 'same-as-prize-obstacle' };
 export type WagerSettlementOutcome =
   | { readonly when: 'loser-resources-test-passed'; readonly recipient: 'winner';
@@ -233,13 +240,13 @@ export interface StructureResistance {
     readonly target: 'tests-against-created-structure'; readonly appliesTo: readonly ('alter' | 'destroy')[] };
 }
 export type SkillIntegration = SkillIntegrationIdentity & (
-  | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation;
+  | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
-  | { readonly subsystem: 'equipment'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
+  | { readonly subsystem: 'equipment'; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
       readonly equipmentUseEffect?: EquipmentUseEffect; readonly equipmentResult?: EquipmentResult; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: StructureResistance }
-  | { readonly subsystem: 'resources'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
+  | { readonly subsystem: 'resources'; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly structureResistance?: never }
-  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>;
+  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly sustainedSpellReference?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
 );
 
@@ -269,7 +276,7 @@ export interface SkillTestFollowUp {
 }
 /** Source-supported contextual selection is distinct from missing transcription. */
 export type OpposingAbilityReference = Extract<SkillReferenceTarget, { kind: 'skill' }> | {
-  readonly kind: 'context-resolved-skill'; readonly actorRole: 'eavesdropper';
+  readonly kind: 'context-resolved-skill'; readonly actorRole: 'eavesdropper' | 'opponent';
   readonly resolution: 'manual'; readonly skillId?: never;
 };
 /** Canonical penalty: base obstacle/opponent successes double before other modifiers.
@@ -306,7 +313,35 @@ export type SkillTestProfile = {
   | { readonly kind: 'contextual'; readonly base?: never; readonly adjustments?: never; readonly opposingAbilities?: never }
 );
 
+/** A closed progression descriptor, not a formula or a duration evaluator. */
+export interface DurationRestSubstitution {
+  readonly kind: 'duration-rest-substitution'; readonly substitutesFor: 'sleep-rest';
+  readonly obstacle: { readonly kind: 'duration-based-obstacle'; readonly unit: 'hour';
+    readonly firstUnitObstacle: number; readonly additionalUnitObstacleDelta: number };
+  readonly effect: { readonly kind: 'rest-equivalence'; readonly durationUnit: 'hour';
+    readonly restPerUnit: number; readonly appliesTo: readonly ['wound-recovery', 'tax-recovery'] };
+  readonly onFailure: { readonly kind: 'falls-asleep'; readonly timing: 'at-some-point' };
+}
+export interface LinkedPretest {
+  readonly kind: 'linked-pretest'; readonly target: 'subsequent-skill-test';
+  readonly semantics: { readonly kind: 'canonical-rule'; readonly rule: 'linked-test' };
+  readonly specialResolution: {
+    readonly when: SkillContext;
+    readonly test: { readonly kind: 'versus'; readonly actingAbility: Extract<AbilityReference, { kind: 'skill' }>;
+      readonly opposingAbility: Extract<OpposingAbilityReference, { kind: 'context-resolved-skill' }> & { readonly actorRole: 'opponent' } };
+    readonly onWin: { readonly kind: 'dice-bonus'; readonly dice: number; readonly appliesTo: 'linked-target-test' };
+  };
+}
+export type SkillProcedure = DurationRestSubstitution | LinkedPretest;
+/** Facts during use of the owning skill; no new ability named Awareness. */
+export type SkillActivityFact =
+  | { readonly kind: 'vague-surroundings-awareness' }
+  | { readonly kind: 'permitted-test'; readonly abilities: { readonly kind: 'anyOf'; readonly operands: Operands<AbilityReference> };
+      readonly purpose: { readonly kind: 'detect-skill-use'; readonly skillId: SkillId } };
+
 export interface SkillMetadata {
+  readonly procedures?: readonly SkillProcedure[];
+  readonly activityFacts?: readonly SkillActivityFact[];
   readonly testProfile?: SkillTestProfile;
   readonly familyMembership?: { readonly familyId: string; readonly topicId: string };
   readonly rootRule: RootRule;

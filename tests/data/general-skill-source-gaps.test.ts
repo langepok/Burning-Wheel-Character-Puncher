@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
-import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, SkillTestProfile, ToolRequirement } from '../../src/data/skills';
+import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, TrainingBehavior, ToolRequirement } from '../../src/data/skills';
 import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
 
@@ -120,14 +120,12 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Meditation, book 283 / PDF 285: rest equivalence and linked-test centering. */
-describe('Pending Meditation procedural metadata', () => {
-  it('cannot preserve centering as an unconditional contextual die bonus', () => {
-    const source = { kind: 'linked-test-centering', opponent: 'opponent-skill',
-      onWin: { kind: 'dice-bonus', dice: 1 } } as const;
-    expectTypeOf<typeof source>().not.toExtend<SkillTestProfile>();
+/** Mounted Combat Training, book 284 / PDF 286: root-purpose/source-choice gap. */
+describe('Pending Training root-purpose resolution', () => {
+  it('cannot represent the printed aptitude-only purpose or claim Mounted Combat complete', () => {
+    expectTypeOf<'aptitude-only'>().not.toExtend<Extract<TrainingBehavior, { kind: 'training' }>['rootPurpose']>();
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('meditation')).toBe(false);
-    expect(production.references.get('meditation')?.sourceName).toBe('Meditation');
+    expect(production.skills.has('mounted-combat-training')).toBe(false);
+    expect(production.references.get('mounted-combat-training')?.sourceName).toBe('Mounted Combat Training');
   });
 });

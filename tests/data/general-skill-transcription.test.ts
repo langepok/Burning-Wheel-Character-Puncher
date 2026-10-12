@@ -7,7 +7,7 @@ const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
   ['E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'].includes(entry.sourceName[0]) ||
-  ['mace', 'makers-mark-wise', 'man-wise', 'martial-arts', 'mason'].includes(entry.id));
+  ['mace', 'makers-mark-wise', 'man-wise', 'martial-arts', 'mason', 'meditation', 'mending', 'mercenary-company-wise', 'metal-wise', 'midwifery', 'mill-wise', 'miller', 'mimicry', 'mining', 'monk-wise'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
   it('preserves Martial Arts identity and the law-song FoRK alternatives', () => {
@@ -45,7 +45,7 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(catalog.skills.get('knives')?.tools).toEqual({ kind: 'specific-item', item: 'something knife-like' });
     expect(catalog.skills.get('knives')?.integrationTags).toEqual(['fight']);
   });
-  it('covers every reviewed A–L and pre-Meditation entry exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed A–L and pre-Mounted-Combat entry exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {

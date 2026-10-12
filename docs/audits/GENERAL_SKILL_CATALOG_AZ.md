@@ -350,24 +350,43 @@ war-mount source examples are destriers/coursers, without a horse-name parser.
 No force, calendar, terrain, history, Resources-cycle or test evaluator.
 This extends D-023/D-024 descriptive context metadata, not the general architecture.
 
-## Pending M schema case: Meditation rest / centering procedures
+## Resolved M schema case: Meditation rest / centering procedures
 
-Visually verified book 283 / PDF 285. Meditation may replace sleep: each hour
-counts as rest for wounds/Tax, its test obstacle equals the selected hours (Ob 1
-plus one per additional hour), and failure means falling asleep at some point.
-Centering is a linked test; for versus tests or detailed conflict it opposes the
-opponent's skill and grants +1D advantage if Meditation wins. Existing contextual
-modifiers cannot encode this result-conditioned linked-test benefit or hourly
-rest equivalence without flattening away the procedure.
+Visually verified book 283 / PDF 285; user-approved metadata stores two separate
+procedures. DurationRestSubstitution records hour-based Ob 1 plus +1 per additional
+hour, one hour of rest per meditation hour for wounds/Tax, and falling asleep at
+some point on failure. No failure-time or credited-hours rule is invented.
+LinkedPretest references canonical linked-test semantics for the ordinary case.
+Only versus/detailed conflict uses an explicit opposed Meditation test against a
+manual context-resolved opponent skill, with a win-conditioned +1D to its linked
+target. No unconditional bonus, default opponent or formula string.
 
-The entry also permits Perception/Observation to detect Stealthy characters while
-meditating, and sustaining spells with Tax retests under The Power Still Flows
-Through Him. Preserve these as separate ability/magic references, not automatic
-Meditation tests or invented Tax calculations. Meditation remains identity-only.
-Minimal proposed direction: small rest-equivalence/hour-based test metadata and
-linked-test-centering result metadata, with structured opposing participant skill
-reference and conditional benefit. No generic formula DSL, recovery/Tax/conflict
-engine or automatic execution. A type-level gap test records the centering case.
+Activity facts separately retain vague surrounding awareness and Perception OR
+Observation tests to detect Stealthy characters; Awareness is not an ability.
+A separate magic integration preserves Sorcerer sustained-spell permission and
+Tax retests under The Power Still Flows Through Him, as an external rule reference.
+Rest and centering do not contain this Tax procedure. No duration/recovery/linked-
+test/detailed-conflict/awareness/magic evaluator. D-023/D-024 remain sufficient.
+
+## Pending M source/schema discrepancy: Mounted Combat Training
+
+Visually verified book 284 / PDF 286. The printed footnote limits the Training
+root to Aptitude; the same footnote appears on Formation Fighting (274/276).
+TrainingBehavior currently only allows rootPurpose aptitude-and-practice, while
+RULES_NOTES describes that as RAW and cites book 88 / PDF 90. That page supports
+Training cost/no exponent, but does not establish this broader root-purpose label.
+Do not silently widen the printed footnote or revise accepted Training semantics.
+A user resolution is required to reconcile an aptitude-only representation with
+existing documentation/fixtures, including Formation Fighting. No Training engine
+is implemented, so this concerns data semantics and source attribution only.
+
+The Mounted Combat entry also permits choosing Mounted Combat: Bowman instead
+of the traditional lancer archetype when appropriate to character/setting. It
+should not be silently made an alias or a fake complete General skill. Preserve
+this as a distinct source-choice question in the same entry; an audited minimal
+variant/option reference would be preferable to combat implementation. Mounted
+Combat Training remains identity-only pending resolution. A compile-level gap test
+records the aptitude-only value's absence. No subsequent M records are transcribed.
 
 ## Formalization policy through General A–Z completion
 
@@ -458,11 +477,16 @@ complete against the manifest. Martial Arts keeps its own identity and printed
 root, with a same-mechanics Boxing relation and the referenced Boxing provenance;
 it does not become an alias or duplicate a combat implementation. Lyric of Law
 preserves the appropriate History/Wise/song FoRK alternative and Elven restriction.
-M pauses at Meditation; later M records remain untranscribed.
+Added Meditation, Mending, Mercenary Company-wise, Metal-wise, Midwifery,
+Mill-wise, Miller, Mimicry, Mining and Monk-wise: 247 complete definitions.
+Mending keeps appropriate Craftsman FoRK guidance and expendable tools; Miller's
+workshop is a mill, not an invented generic-tools-plus-mill conjunction. Midwifery
+retains its Will/Perception root and no-tools requirement. M now pauses at Mounted
+Combat Training; its record and later M records remain identity-only.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (615 tests
-in 25 files), npm run build and git diff --check. L-M and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (640 tests
+in 26 files), npm run build and git diff --check. L-M and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Meditation rest and centering metadata.
+Production transcription pauses at Mounted Combat Training root-purpose/source-choice resolution.

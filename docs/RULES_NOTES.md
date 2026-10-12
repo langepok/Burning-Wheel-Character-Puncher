@@ -330,3 +330,17 @@ test within the last Resources maintenance cycle; and winter with war mounts,
 riding mounts or pack animals. Store all seven independently, preserving the
 printed composition/quantifiers rather than substituting a target stock or
 inventing thresholds. These are skill-test facts, not an army/supply evaluator.
+
+
+## Meditation procedures (BWGR 283 / PDF 285)
+
+Meditation substitutes for sleep: each hour counts as rest for wound/Tax recovery.
+The first hour is Ob 1, with +1 Ob per additional hour; failure means falling asleep
+at some point, without a stated time or credited-hours rule. Separately, centering
+is a linked pre-test. For versus/detailed conflict, Meditation opposes the opponent's
+contextual skill; winning grants +1D to the linked target test. The ordinary case
+references linked-test semantics without inventing an opposed procedure.
+Vague awareness remains separate, as do Perception/Observation tests to detect
+Stealthy characters. A Sorcerer may sustain spells while meditating and retests Tax
+under The Power Still Flows Through Him. No ability named Awareness or recovery,
+Tax, duration, centering or conflict evaluator is introduced.

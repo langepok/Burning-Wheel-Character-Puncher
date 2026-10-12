@@ -486,3 +486,19 @@ A Character Burner feature is done only when:
   maintenance cycle. Terrain, season and scorched-earth conditions compose normally.
 - No army, calendar, terrain, Resources-cycle, history or test evaluator is added.
 - Metadata serializes; malformed leaves, compositions, effects and references fail.
+
+## Meditation procedural metadata
+
+- Two separate procedures store duration-based rest substitution and linked pre-test
+  centering. One hour starts at Ob 1, with +1 Ob per additional hour and one hour
+  rest-equivalence for wounds/Tax. Failure records falling asleep at some point,
+  without timing or credited-hours assumptions.
+- Centering precedes a subsequent skill test and references canonical linked-test
+  semantics. Only versus/detailed conflict adds opposed resolution, with Meditation
+  versus a context-resolved opponent skill and a win-conditioned +1D to the linked
+  target. No unconditional bonus or invented ordinary opposed procedure.
+- Vague surrounding awareness and permitted Perception/Observation detection tests
+  are separate facts. Sorcerer spell sustaining and Tax retest reference external
+  magic rules, independently of rest substitution.
+- All descriptors serialize and validate; no formula DSL or duration, recovery,
+  linked-test, awareness, Tax or conflict evaluator is added.
