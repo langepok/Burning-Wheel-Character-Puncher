@@ -159,7 +159,7 @@ describe('PR #21 schema hardening', () => {
     expect(() => createSkillCatalog(content({ baseOpeningCostOverride: { kind: 'fixed', points: 2, source: [] } }))).toThrow('provenance');
     expect(() => createSkillCatalog(content({
       baseOpeningCostOverride: { kind: 'fixed', points: 1, source: synthetic.source },
-      training: { kind: 'training', rootPurpose: 'aptitude-and-practice', exponent: 'none', advancement: 'none', openingCost: 2 },
+      training: { kind: 'training', rootUsage: 'aptitude-only', learningMethods: ['practice', 'instruction'], exponent: 'none', advancement: 'none', openingCost: 2 },
     }))).toThrow('cannot replace Training cost');
   });
 });

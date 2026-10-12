@@ -26,7 +26,8 @@ export type Operands<T> = readonly [T, T, ...T[]];
 
 export type TrainingBehavior =
   | { readonly kind: 'exponent'; readonly rootPurpose: 'opening'; readonly advancement: 'standard' }
-  | { readonly kind: 'training'; readonly rootPurpose: 'aptitude-and-practice';
+  | { readonly kind: 'training'; readonly rootUsage?: 'aptitude-only';
+      readonly learningMethods: readonly ('practice' | 'instruction')[];
       readonly exponent: 'none'; readonly advancement: 'none'; readonly openingCost: 2 };
 
 export type RollBehavior =
@@ -339,7 +340,26 @@ export type SkillActivityFact =
   | { readonly kind: 'permitted-test'; readonly abilities: { readonly kind: 'anyOf'; readonly operands: Operands<AbilityReference> };
       readonly purpose: { readonly kind: 'detect-skill-use'; readonly skillId: SkillId } };
 
+/** Selection is local to a source acquisition; option ownership is independent. */
+export interface TrainingSourceChoice {
+  readonly kind: 'training-source-options';
+  readonly selectionScope: 'source-acquisition';
+  readonly ownership: 'independent';
+  readonly appropriateness: 'character-and-setting';
+  readonly options: Operands<{
+    readonly id: SkillId;
+    readonly sourceLabel: string;
+    readonly archetype: string;
+    readonly source: readonly SkillSource[];
+    readonly sourceMappings: readonly {
+      readonly kind: 'lifepath'; readonly stockId: StockId;
+      readonly sourceName: string; readonly source: readonly SkillSource[];
+    }[];
+  }>;
+}
+
 export interface SkillMetadata {
+  readonly trainingSourceChoice?: TrainingSourceChoice;
   readonly procedures?: readonly SkillProcedure[];
   readonly activityFacts?: readonly SkillActivityFact[];
   readonly testProfile?: SkillTestProfile;

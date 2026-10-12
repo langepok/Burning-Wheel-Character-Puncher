@@ -28,8 +28,10 @@ export const melee: ForkSuggestion = { target: { kind: 'category', category: 'me
 export const only = (ids: string[], scope: 'always' | 'character-burning' = 'always') =>
   [{ kind: 'stock-only', stockIds: ids, scope }] as const;
 export const magical = { printedMarkers: ['§'], rollBehavior: { kind: 'open-ended', basis: 'magical' } } as const;
-export const training = { kind: 'training', rootPurpose: 'aptitude-and-practice', exponent: 'none',
+export const training = { kind: 'training', learningMethods: ['practice', 'instruction'], exponent: 'none',
   advancement: 'none', openingCost: 2 } as const;
+/** Only used for the seven individually audited General footnotes. */
+export const aptitudeTraining = { ...training, rootUsage: 'aptitude-only' } as const;
 
 /** Empty fields follow the reviewed General entry, not an omitted partial fixture.
  * Default exponent/roll behavior follows the Skill List introduction; exceptions
@@ -37,7 +39,8 @@ export const training = { kind: 'training', rootPurpose: 'aptitude-and-practice'
  */
 export function define(id: string, sourceName: string, page: number, summary: string,
   metadata: Pick<SkillMetadata, 'rootRule' | 'skillType' | 'tools'> & Partial<SkillMetadata>): SkillDefinition {
-  return { id, sourceName, coverage: 'complete', summary, source: [evidence(sourceName, page)],
+  return { id, sourceName, coverage: 'complete', summary, source: [evidence(sourceName, page),
+      ...(metadata.training?.kind === 'training' ? [evidence('Learning Training Skills', 51)] : [])],
     availabilityRestrictions: [], openingRequirements: [], useRequirements: [],
     training: { kind: 'exponent', rootPurpose: 'opening', advancement: 'standard' }, rollBehavior: { kind: 'standard' },
     printedMarkers: [], forkSuggestions: guidance(), relations: [], capabilities: [], resourceInteractions: [],

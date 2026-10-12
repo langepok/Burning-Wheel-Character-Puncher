@@ -72,7 +72,7 @@ describe('typed skill registration integrity', () => {
     expectTypeOf<SkillRollContributor['sourceSkillId']>().toEqualTypeOf<string>();
     // Compile-time safeguards are included in npm run typecheck (tests are in tsconfig).
     // @ts-expect-error Training has no numeric exponent, including B0.
-    const numericTraining: TrainingBehavior = { kind: 'training', rootPurpose: 'aptitude-and-practice', exponent: 0, advancement: 'none', openingCost: 2 };
+    const numericTraining: TrainingBehavior = { kind: 'training', rootUsage: 'aptitude-only', learningMethods: ['practice', 'instruction'], exponent: 0, advancement: 'none', openingCost: 2 };
     // @ts-expect-error Appropriate Weapons is a choice, not a SkillDefinition.
     const choiceAsSkill: SkillDefinition = skillFixtureContent.choices[0];
     expect(numericTraining).toBeDefined();

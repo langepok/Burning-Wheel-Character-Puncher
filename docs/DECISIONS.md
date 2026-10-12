@@ -353,6 +353,29 @@ it records the particular combination and resulting benefit. No crafting cost,
 tool inheritance or enchanting/equipment-use execution is implied. The belt
 example supplies no numeric effect and remains a source-backed magic summary.
 
+## D-026 — Training root usage, learning methods and source options
+
+**Status:** Accepted — explicit user resolution and verified BWGR source audit
+
+Training root purpose and learning methods are separate concepts. An explicit
+Aptitude-only footnote sets rootUsage aptitude-only: the root is used only to
+calculate Aptitude. Practice and instruction describe how learning tests are
+earned, not additional uses of the root (Learning Training Skills, book 51 / PDF 53).
+Do not infer root usage from a Training name or Skill Type. Missing root usage
+remains untranscribed. The seven General footnotes are Antiphon Union Training
+(255/257), Armor Training (256/258), Formation Fighting (274/276), Mounted Combat
+Training (284/286), Shield Training (295/297), Skirmish Tactics (297/299), and
+Two-Fisted Fighting Training (306/308).
+
+Mounted Combat Training and Mounted Combat: Bowman Training are distinct source
+identities/options, never display aliases or a fabricated Lancer Training identity.
+Selection belongs to a specific source acquisition, subject to the source's
+character/setting appropriateness, not globally exclusive ownership. Elven
+Outrider grants the Bowman option; Elven Lancer grants ordinary Mounted Combat
+Training (137/139). The Elven Lancer example owns both (130/132). Source mappings
+are content, not stock-specific engine assumptions. Combat consequences stay
+external subsystem references; no ownership, learning or combat evaluator follows.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:

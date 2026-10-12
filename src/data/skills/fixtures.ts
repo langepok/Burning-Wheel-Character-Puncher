@@ -27,7 +27,7 @@ const hatred: FixedRoot = { kind: 'single', ability: { kind: 'attribute', id: 'h
 const writingTools: ToolRequirement = { kind: 'conditional', when: { kind: 'activity', activity: 'writing' },
   then: { kind: 'generic', expendable: true }, otherwise: { kind: 'none', expendable: false } };
 const training: TrainingBehavior = {
-  kind: 'training', rootPurpose: 'aptitude-and-practice', exponent: 'none', advancement: 'none', openingCost: 2,
+  kind: 'training', rootUsage: 'aptitude-only', learningMethods: ['practice', 'instruction'], exponent: 'none', advancement: 'none', openingCost: 2,
 };
 const magical = { printedMarkers: ['§'], rollBehavior: { kind: 'open-ended', basis: 'magical' } } as const;
 const fork = (skillId: string): ForkSuggestion => ({ target: { kind: 'skill', skillId } });
@@ -43,7 +43,7 @@ const fixture = (
 ): SkillAuditFixture => ({
   id, sourceName, coverage: 'partial', summary,
   source: [source(sourceName, page), ...(supplemental ? [brief] : []),
-    ...(metadata.training?.kind === 'training' ? [source('Training in character burning', 88)] : [])], ...metadata,
+    ...(metadata.training?.kind === 'training' ? [source('Training in character burning', 88), source('Learning Training Skills', 51)] : [])], ...metadata,
 });
 const supplemental = (
   id: string, sourceName: string, summary: string, metadata: Partial<SkillMetadata>,
@@ -86,7 +86,7 @@ export const skillFixtureContent: SkillCatalogContent = {
       tools: { kind: 'none', expendable: false }, integrationTags: ['magic'],
       capabilities: [{ kind: 'subsystem-capability', id: 'antiphon-base-item-creation', integrationId: 'antiphon-creation' }],
     }),
-    fixture('armor-training', 'Armor Training', 256, 'Root is for practice, not an exponent.', {
+    fixture('armor-training', 'Armor Training', 256, 'Root is for Aptitude only, not an exponent.', {
       rootRule: combined('power', 'speed'), skillType: 'Martial Training', training, printedMarkers: ['*'],
     }),
     fixture('astrology', 'Astrology', 257, 'Its FoRK die has distinct reroll and failure behavior.', {

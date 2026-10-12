@@ -131,3 +131,9 @@ provenance and compile-time distinctions. The existing lifepath catalog and orac
 tests remain part of the full suite. Registration operates on typed content, not
 arbitrary untrusted JSON; it neither calculates skill effects nor validates a
 character's legality.
+
+Training root usage is source-supported aptitude-only for the seven audited
+footnotes, separate from practice/instruction learning methods (D-026).
+Mounted Combat source options preserve distinct identities and independent
+ownership; source-acquisition selection does not impose a character-wide XOR.
+Elven Outrider resolves to Bowman, Lancer to ordinary Training (137/139).

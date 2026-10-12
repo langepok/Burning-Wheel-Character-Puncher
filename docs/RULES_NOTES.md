@@ -117,11 +117,17 @@ not implemented skill/roll/subsystem evaluators.
   A related owned skill contributes one die, or two at exponent 7+. Stats and
   attributes do not FoRK. See *Fields of Related Knowledge*, book pp. 36–37
   (PDF pp. 38–39).
-- **RAW:** Training has no exponent and no normal advancement. Its printed root
-  supports Aptitude/practice, independently of Skill Type. The packet cites
-  *Character Burner*, book p. 88 / PDF p. 90. Antiphon Union Training is an
-  Artisan example (book p. 255), while Skirmish Tactics is Military Training
-  (book p. 297).
+- **RAW:** Training costs two points to open, has no exponent and no normal
+  advancement (book 88 / PDF 90). The seven explicit General footnotes limit the
+  root to Aptitude only: Antiphon Union (255), Armor (256), Formation Fighting
+  (274), Mounted Combat (284), Shield (295), Skirmish Tactics (297), Two-Fisted
+  Fighting (306); PDF pages are two greater. Learning tests are earned through
+  practice or instruction (book 51 / PDF 53), independently of root usage. See D-026.
+- **RAW:** Mounted Combat: Bowman Training is a separate source option from
+  Mounted Combat Training. Elven Outrider grants Bowman and Elven Lancer grants
+  ordinary Training (137/139). The character example owns both (130/132).
+  The appropriate character/setting choice (284/286) concerns an acquisition,
+  not global exclusive ownership; effects remain external mounted-combat rules.
 - **RAW:** The printed `§` identifies magical open-ended skills, but other rules
   can also make tests open-ended. Nogger is a Craftsman skill with this marker
   (book p. 285); Orc Torture uses Hatred and is open-ended (book p. 304).

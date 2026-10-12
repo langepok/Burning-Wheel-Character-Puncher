@@ -8,7 +8,7 @@ Branch: `skill-catalog-general-a-z`.
 
 The user-provided PDF was read locally; extracted text and page images remain
 outside the repository. This document contains project-authored summaries.
-Issue #20, D-020–D-025 and foundation fixtures support, but do not replace, the PDF.
+Issue #20, D-020–D-026 and foundation fixtures support, but do not replace, the PDF.
 An independent manifest now contains 424 heading/topic candidates from the full
 source index plus three named Doctrine variations from the entry body. Later
 blocks still need entry-by-entry verification; 427 is a working manifest count,
@@ -368,25 +368,33 @@ Tax retests under The Power Still Flows Through Him, as an external rule referen
 Rest and centering do not contain this Tax procedure. No duration/recovery/linked-
 test/detailed-conflict/awareness/magic evaluator. D-023/D-024 remain sufficient.
 
-## Pending M source/schema discrepancy: Mounted Combat Training
+## Resolved Training root usage and Mounted Combat source options
 
-Visually verified book 284 / PDF 286. The printed footnote limits the Training
-root to Aptitude; the same footnote appears on Formation Fighting (274/276).
-TrainingBehavior currently only allows rootPurpose aptitude-and-practice, while
-RULES_NOTES describes that as RAW and cites book 88 / PDF 90. That page supports
-Training cost/no exponent, but does not establish this broader root-purpose label.
-Do not silently widen the printed footnote or revise accepted Training semantics.
-A user resolution is required to reconcile an aptitude-only representation with
-existing documentation/fixtures, including Formation Fighting. No Training engine
-is implemented, so this concerns data semantics and source attribution only.
+D-026 separates aptitude-only root usage from practice/instruction learning
+methods (Learning Training Skills, 51/53). Visual review of the complete General
+range found exactly seven explicit footnotes:
 
-The Mounted Combat entry also permits choosing Mounted Combat: Bowman instead
-of the traditional lancer archetype when appropriate to character/setting. It
-should not be silently made an alias or a fake complete General skill. Preserve
-this as a distinct source-choice question in the same entry; an audited minimal
-variant/option reference would be preferable to combat implementation. Mounted
-Combat Training remains identity-only pending resolution. A compile-level gap test
-records the aptitude-only value's absence. No subsequent M records are transcribed.
+| Entry | Book | PDF |
+| --- | --- | --- |
+| Antiphon Union Training | 255 | 257 |
+| Armor Training | 256 | 258 |
+| Formation Fighting | 274 | 276 |
+| Mounted Combat Training | 284 | 286 |
+| Shield Training | 295 | 297 |
+| Skirmish Tactics | 297 | 299 |
+| Two-Fisted Fighting Training | 306 | 308 |
+
+All seven have explicit rootUsage aptitude-only; future unfootnoted Training does
+not receive this by default. Later S/T records remain partial representatives,
+not premature complete production transcriptions. The earlier broader root-purpose
+claim and its attribution to Character Burner 88/90 were corrected.
+
+Mounted Combat stores typed source-acquisition options with independent ownership.
+Elven Outrider -> Mounted Combat: Bowman Training; Elven Lancer -> ordinary Mounted
+Combat Training (137/139). The earlier Bowman lifepath mapping was erroneous and
+is not encoded. The character example (130/132) lists both. Bowman remains an
+identity-only source reference outside the General heading manifest, not an alias
+or a fabricated complete General entry. Combat execution remains external.
 
 ## Formalization policy through General A–Z completion
 
@@ -481,12 +489,16 @@ Added Meditation, Mending, Mercenary Company-wise, Metal-wise, Midwifery,
 Mill-wise, Miller, Mimicry, Mining and Monk-wise: 247 complete definitions.
 Mending keeps appropriate Craftsman FoRK guidance and expendable tools; Miller's
 workshop is a mill, not an invented generic-tools-plus-mill conjunction. Midwifery
-retains its Will/Perception root and no-tools requirement. M now pauses at Mounted
-Combat Training; its record and later M records remain identity-only.
+retains its Will/Perception root and no-tools requirement. Added Mounted Combat Training, Mouth of Hell-wise and Mule-wise: 250 complete
+definitions. M now pauses at Munitions; it and later entries remain identity-only.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (640 tests
-in 26 files), npm run build and git diff --check. L-M and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (667 tests
+in 27 files), npm run build and git diff --check. L-M and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Mounted Combat Training root-purpose/source-choice resolution.
+Production transcription pauses at Munitions (284/286): zero-success failure
+while making powder/explosives causes cook-off/misfire and the maker takes the
+Mark result of the device being built. Existing metadata does not represent
+this trigger with a created-device damage-result reference. No injury/damage
+number or engine is invented; user resolution of the minimal descriptor is needed.

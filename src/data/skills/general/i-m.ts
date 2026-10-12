@@ -1,5 +1,5 @@
 import type { SkillIntegration } from '../types';
-import { define, expendable, generic, forks, guidance, fork, none, stat, evidence, combined, magical, only, workshop, item, melee, sourceFork } from './shared';
+import { define, expendable, generic, forks, guidance, fork, none, stat, evidence, combined, magical, only, workshop, item, melee, sourceFork, aptitudeTraining } from './shared';
 
 /** Reviewed I–M production records; transcription remains in progress. */
 export const iMSkills = [
@@ -199,9 +199,30 @@ export const iMSkills = [
   define('monk-wise', 'Monk-wise', 284, 'Knowledge of monks.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'monk' } }),
 
+  define('mounted-combat-training', 'Mounted Combat Training', 284, 'Training for effective mounted combat; a source acquisition may choose the Bowman archetype when appropriate.', {
+    rootRule: combined('will', 'power'), skillType: 'Martial Training', tools: none,
+    training: aptitudeTraining, printedMarkers: ['*'], integrationTags: ['mounted-combat'],
+    trainingSourceChoice: {
+      kind: 'training-source-options', selectionScope: 'source-acquisition', ownership: 'independent',
+      appropriateness: 'character-and-setting', options: [
+        { id: 'mounted-combat-training', sourceLabel: 'Mounted Combat Training', archetype: 'lancer',
+          source: [evidence('Mounted Combat Training', 284), evidence('Elven Lancer character: both Training identities', 130)],
+          sourceMappings: [{ kind: 'lifepath', stockId: 'elf', sourceName: 'Lancer', source: [evidence('Elven Lancer lifepath', 137)] }] },
+        { id: 'mounted-combat-bowman-training', sourceLabel: 'Mounted Combat: Bowman Training', archetype: 'bowman',
+          source: [evidence('Mounted Combat Training: Bowman source choice', 284), evidence('Elven Lancer character: both Training identities', 130)],
+          sourceMappings: [{ kind: 'lifepath', stockId: 'elf', sourceName: 'Outrider', source: [evidence('Elven Outrider lifepath', 137)] }] },
+      ],
+    } }),
+  define('mouth-of-hell-wise', 'Mouth of Hell-wise', 284, 'Knowledge of the Mouth of Hell.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'mouth-of-hell' } }),
+  define('mule-wise', 'Mule-wise', 284, 'Knowledge of mules.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'mule' } }),
+
 ];
 
 export const iMIntegrations: readonly SkillIntegration[] = [
+  { id: 'mounted-combat-external', skillId: 'mounted-combat-training', subsystem: 'mounted-combat',
+    summary: 'See Riding and Mounted Combat for combat consequences; source options do not implement them.', source: [evidence('Mounted Combat Training', 284)] },
   { id: 'meditation-sustaining', skillId: 'meditation', subsystem: 'magic',
     sustainedSpellReference: { actorRole: 'sorcerer', while: 'using-owning-skill', permission: 'maintain-sustained-spells',
       requiredRetest: { kind: 'tax', rules: { kind: 'external-subsystem-rule', subsystem: 'magic', sourceName: 'The Power Still Flows Through Him' } } },

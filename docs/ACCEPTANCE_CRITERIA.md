@@ -181,7 +181,7 @@ When implemented:
 ### Skill Catalog schema foundation — Issue #20
 
 - Define stock-independent skill metadata separately from rule evaluators, character state, UI and subsystem integrations.
-- Represent single, combined, attribute and conditional roots; Training has no exponent, no normal advancement and an aptitude/practice root purpose independent of Skill Type.
+- Represent single, combined, attribute and conditional roots; Training has no exponent, no normal advancement and explicit source-supported root usage independent of Skill Type.
 - Separate printed markers from unconditional/conditional open-ended behavior.
 - FoRK suggestions are guidance with manual contextual additions, and retain typed skill/category/type/Wise/context references. Astrology-style contributor behavior preserves provenance and is shared with Rune Casting.
 - Distinguish availability scope, opening requirements and use requirements; never infer Gifted as Sorcery's opening requirement.
@@ -502,3 +502,14 @@ A Character Burner feature is done only when:
   magic rules, independently of rest substitution.
 - All descriptors serialize and validate; no formula DSL or duration, recovery,
   linked-test, awareness, Tax or conflict evaluator is added.
+
+## Training root usage and source options (D-026)
+
+- All seven explicit General footnotes preserve rootUsage aptitude-only, separately
+  from practice/instruction learning methods. Unfootnoted Training does not inherit it.
+- Mounted Combat Training and Mounted Combat: Bowman Training have distinct stable
+  ids/source labels. Selection is scoped to source acquisition, ownership independent.
+- Elven Outrider resolves to Bowman; Elven Lancer resolves to ordinary Training.
+  The source character example can list both; no global XOR or fake Lancer identity.
+- Metadata serializes and rejects invalid root usage, learning methods or option
+  references. No Training learning, character ownership or combat evaluator is added.

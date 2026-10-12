@@ -1,4 +1,4 @@
-import { combined, define, expendable, fork, forks, generic, guidance, item, magical, none, only, sourceFork, stat, training, workshop, writingTools } from './shared';
+import { combined, define, expendable, fork, forks, generic, guidance, item, magical, none, only, sourceFork, stat, aptitudeTraining, workshop, writingTools } from './shared';
 
 const per = stat('perception');
 const perAgi = combined('perception', 'agility');
@@ -63,7 +63,7 @@ export const eFSkills = [
     rootRule: perAgi, skillType: 'Special', tools: expendable,
     forkSuggestions: forks('calligraphy', 'read', 'write', 'illuminations', 'whitesmith') }),
   define('formation-fighting', 'Formation Fighting', 274, 'Fight alongside allies in formation; maneuver assistance and outnumbered penalties use the combat subsystems.', {
-    rootRule: stat('will'), skillType: 'Military Training', tools: none, training, printedMarkers: ['*'],
+    rootRule: stat('will'), skillType: 'Military Training', tools: none, training: aptitudeTraining, printedMarkers: ['*'],
     integrationTags: ['fight', 'range-and-cover'] }),
   define('fortifications', 'Fortifications', 274, 'Construct defensible positions for combat.', {
     rootRule: per, skillType: 'Military', tools: generic, integrationTags: ['range-and-cover'],

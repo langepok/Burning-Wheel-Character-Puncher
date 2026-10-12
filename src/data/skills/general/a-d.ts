@@ -1,6 +1,6 @@
 import type { SkillDefinition } from '../types';
 import { combined, define, evidence, expendable, fork, forks, generic, guidance, hatred, item,
-  magical, melee, none, only, sourceFork, stat, training, traveling, workshop, writingTools } from './shared';
+  magical, melee, none, only, sourceFork, stat, aptitudeTraining, traveling, workshop, writingTools } from './shared';
 
 const per = stat('perception');
 const will = stat('will');
@@ -38,7 +38,7 @@ export const aDSkills: readonly SkillDefinition[] = [
       { kind: 'skill', skillId: 'field-dressing' }, { kind: 'skill', skillId: 'apothecary' },
     ] }, context: { kind: 'activity', activity: 'tending-wounds-and-illness' } }] }),
   define('antiphon-union-training', 'Antiphon Union Training', 255, 'Imbue an item created through a skill song with a spell song.', {
-    rootRule: will, skillType: 'Artisan', tools: none, training, printedMarkers: ['*'], availabilityRestrictions: only(['elf']),
+    rootRule: will, skillType: 'Artisan', tools: none, training: aptitudeTraining, printedMarkers: ['*'], availabilityRestrictions: only(['elf']),
     integrationTags: ['magic'], capabilities: [{ kind: 'subsystem-capability', id: 'antiphon-base-item-creation', integrationId: 'antiphon-creation' }] }),
   define('apothecary', 'Apothecary', 255, 'Preparations for ailments and wound symptoms.', {
     rootRule: per, skillType: 'Medicinal', tools: expendable, forkSuggestions: forks('herbalism'), integrationTags: ['injury'] }),
@@ -56,7 +56,7 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('architect', 'Architect', 256, 'Plans and navigation of complex structures.', {
     rootRule: per, skillType: 'Academic', tools: workshop, forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), fork('mason'), sourceFork('Carpenter', 'carpentry')) }),
   define('armor-training', 'Armor Training', 256, 'Training mitigates armor and armor-fatigue penalties; Clumsy Weight remains.', {
-    rootRule: combined('power', 'speed'), skillType: 'Martial Training', tools: none, training, printedMarkers: ['*'], integrationTags: ['equipment'] }),
+    rootRule: combined('power', 'speed'), skillType: 'Martial Training', tools: none, training: aptitudeTraining, printedMarkers: ['*'], integrationTags: ['equipment'] }),
   define('armorer', 'Armorer', 256, 'Manufacture armor and shields.', { rootRule: perAgi, skillType: 'Craftsman', tools: workshop,
     forkSuggestions: forks('blacksmith', 'sewing', 'tanner'), integrationTags: ['equipment'] }),
   define('arson', 'Arson', 257, 'Set buildings ablaze with common materials.', {

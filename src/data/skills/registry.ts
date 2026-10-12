@@ -304,6 +304,39 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         }
       }
     }
+    if (metadata.training?.kind === 'training') {
+      const training = metadata.training;
+      if (Object.keys(training).some(key => !['kind', 'rootUsage', 'learningMethods', 'exponent', 'advancement', 'openingCost'].includes(key)) ||
+          (training.rootUsage !== undefined && training.rootUsage !== 'aptitude-only') ||
+          !Array.isArray(training.learningMethods) || !training.learningMethods.length ||
+          new Set(training.learningMethods).size !== training.learningMethods.length ||
+          training.learningMethods.some(method => !['practice', 'instruction'].includes(method)) ||
+          training.exponent !== 'none' || training.advancement !== 'none' || training.openingCost !== 2) {
+        throw new Error('Invalid Training metadata');
+      }
+    }
+    if (metadata.trainingSourceChoice) {
+      const choice = metadata.trainingSourceChoice;
+      if (metadata.training?.kind !== 'training' || choice.kind !== 'training-source-options' ||
+          choice.selectionScope !== 'source-acquisition' || choice.ownership !== 'independent' ||
+          choice.appropriateness !== 'character-and-setting' ||
+          Object.keys(choice).some(key => !['kind', 'selectionScope', 'ownership', 'appropriateness', 'options'].includes(key))) {
+        throw new Error('Invalid Training source choice');
+      }
+      validateOperands(choice.options);
+      if (new Set(choice.options.map(option => option.id)).size !== choice.options.length) throw new Error('Duplicate Training option');
+      for (const option of choice.options) {
+        requireSkill(option.id);
+        if (typeof option.archetype !== 'string' || !option.archetype.trim() || !Array.isArray(option.source) || !option.source.length ||
+            !Array.isArray(option.sourceMappings) || Object.keys(option).some(key => !['id', 'sourceLabel', 'archetype', 'source', 'sourceMappings'].includes(key)) ||
+            option.sourceLabel !== (skills.get(option.id) ?? references.get(option.id))?.sourceName) throw new Error('Invalid Training option identity');
+        for (const mapping of option.sourceMappings) {
+          if (mapping.kind !== 'lifepath' || !mapping.stockId?.trim() || !mapping.sourceName?.trim() || !mapping.source.length) {
+            throw new Error('Invalid Training source mapping');
+          }
+        }
+      }
+    }
     if (metadata.tools) validateTools(metadata.tools, requireSkill);
     if (metadata.useContext) validateContext(metadata.useContext, requireSkill);
     for (const interaction of metadata.resourceInteractions ?? []) {

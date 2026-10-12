@@ -1,7 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
-import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, TrainingBehavior, ToolRequirement } from '../../src/data/skills';
-import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
+import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
 
 const catalog = createSkillCatalog(skillFixtureContent);
@@ -117,15 +116,5 @@ describe('General Skill List source corrections', () => {
   });
   it.each(['then', 'otherwise'] as const)('validates the conditional %s branch recursively', branch => {
     expect(() => registerTools({ ...writingTools, [branch]: { kind: 'allOf', requirements: [] } } as unknown as ToolRequirement)).toThrow('at least two operands');
-  });
-});
-
-/** Mounted Combat Training, book 284 / PDF 286: root-purpose/source-choice gap. */
-describe('Pending Training root-purpose resolution', () => {
-  it('cannot represent the printed aptitude-only purpose or claim Mounted Combat complete', () => {
-    expectTypeOf<'aptitude-only'>().not.toExtend<Extract<TrainingBehavior, { kind: 'training' }>['rootPurpose']>();
-    const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('mounted-combat-training')).toBe(false);
-    expect(production.references.get('mounted-combat-training')?.sourceName).toBe('Mounted Combat Training');
   });
 });
