@@ -468,3 +468,12 @@ modifier: double base obstacle/opponent successes before other modifiers, not th
 final modified obstacle. Skill data stores its name and scope; execution semantics
 are deferred to the rules engine. No automatic stat-versus-skill penalty inference,
 calculation or subsystem rule transcription is added.
+
+
+EquipmentResult extends created-object metadata with enchantment-combination
+acquisition and a skill-test-dice-bonus for the equipment user. allOf components
+reference registered Training or external magic spell-song source names. Existing
+generic Antiphon references and the preceding base-item-creation abstraction retain
+their meanings; a specific result is not a duplicate tool inheritance mechanism.
+This descriptor is distinct from EquipmentUseEffect crafting costs, valuation and
+structure resistance. Validation resolves references but executes no magic or use.

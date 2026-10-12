@@ -461,3 +461,15 @@ A Character Burner feature is done only when:
   engine. Existing fixed/contextual opposing profiles remain unchanged.
 - Invalid references, empty/duplicate alternatives and numeric/formula additions
   to the named modifier are rejected. Stat ids retain the existing kind/id boundary.
+
+## Enchantment-acquired equipment results
+
+- Leathercraft boots require both Antiphon Union Training and Song of Silence,
+  and give one die specifically to Stealthy tests by the equipment user.
+- Training resolves as Training; the spell song is an external magic source-name
+  reference, not a fake General skill identity or unresolved source typo.
+- Acquisition has no crafting obstacle cost, tool inheritance or evaluator.
+- EquipmentResult is distinct from crafting-tradeoff EquipmentUseEffect, valuation
+  and structure resistance. References and effects serialize and validate.
+- The Doom of Strength belt remains a source-backed magic summary without an
+  invented numeric effect. Existing Antiphon integrations keep their meaning.

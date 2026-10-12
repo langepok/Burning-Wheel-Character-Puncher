@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
-import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
+import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, SkillTestProfile, ToolRequirement } from '../../src/data/skills';
 import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
 
@@ -120,13 +120,15 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Leathercraft, book 280 / PDF 282: enchantment-conditioned equipment bonus. */
-describe('Pending Leathercraft result effect', () => {
-  it('cannot use a crafting-obstacle tradeoff for the Song of Silence enchantment', () => {
-    const effect = { kind: 'enchantment', skillId: 'song-of-silence', dice: 1, skillTest: 'stealthy' } as const;
-    expectTypeOf<typeof effect>().not.toExtend<NonNullable<Extract<SkillIntegration, { subsystem: 'equipment' }>['equipmentUseEffect']>>();
+/** Logistics, book 281-282 / PDF 283-284: force/environment contextual modifiers. */
+describe('Pending Logistics contextual profile', () => {
+  it('cannot preserve the Hatred-majority advantage as an additive obstacle modifier', () => {
+    const source = { kind: 'advantage-dice', dice: 1,
+      when: { kind: 'force-composition', proportion: 'majority', attributeId: 'hatred' } } as const;
+    expectTypeOf<typeof source>().not.toExtend<NonNullable<SkillTestProfile['modifiers']>[number]>();
+    expectTypeOf<typeof source.when>().not.toExtend<SkillContext>();
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('leathercraft')).toBe(false);
-    expect(production.references.get('leathercraft')?.sourceName).toBe('Leathercraft');
+    expect(production.skills.has('logistics')).toBe(false);
+    expect(production.references.get('logistics')?.sourceName).toBe('Logistics');
   });
 });

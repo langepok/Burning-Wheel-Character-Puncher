@@ -322,6 +322,34 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         } else throw new Error('Invalid wager settlement outcome');
       }
     }
+    if (integration.equipmentResult !== undefined) {
+      const result = integration.equipmentResult;
+      const acquisition = result?.acquisition;
+      if (integration.subsystem !== 'equipment' || result?.target?.kind !== 'created-equipment' ||
+          typeof result.target.equipmentKindId !== 'string' || !result.target.equipmentKindId.trim() ||
+          acquisition?.kind !== 'enchantment-combination' || acquisition.requires?.kind !== 'allOf' ||
+          Object.keys(acquisition).some(key => !['kind', 'requires'].includes(key)) ||
+          result.effect?.kind !== 'skill-test-dice-bonus' || result.effect.recipient !== 'equipment-user' ||
+          !Number.isInteger(result.effect.dice) || result.effect.dice <= 0) throw new Error('Invalid equipment result');
+      requireSkill(result.effect.skillId);
+      validateOperands(acquisition.requires.operands);
+      const componentIds = new Set<string>();
+      for (const component of acquisition.requires.operands) {
+        let key: string;
+        if (component?.kind === 'training') {
+          requireSkill(component.skillId);
+          if (skills.get(component.skillId)?.training?.kind !== 'training' ||
+              Object.keys(component).some(field => !['kind', 'skillId'].includes(field))) throw new Error('Invalid enchantment Training reference');
+          key = `training:${component.skillId}`;
+        } else if (component?.kind === 'spell-song' && component.subsystem === 'magic' &&
+            typeof component.sourceName === 'string' && component.sourceName.trim() &&
+            Object.keys(component).every(field => ['kind', 'subsystem', 'sourceName'].includes(field))) {
+          key = `spell-song:${component.sourceName}`;
+        } else throw new Error('Invalid enchantment component');
+        if (componentIds.has(key)) throw new Error('Duplicate enchantment component');
+        componentIds.add(key);
+      }
+    }
     if (integration.equipmentUseEffect !== undefined) {
       const use = integration.equipmentUseEffect;
       const acquisition = use?.acquisition;

@@ -307,3 +307,13 @@ doubles base obstacle/opponent successes before other modifiers; modifiers are
 not doubled. This is descriptive metadata, not a final-obstacle multiplier or +2.
 Escape Artist has only identity/provenance from the Knots reference, not an
 invented full skill definition. No test or obstacle calculation is executed.
+
+
+## Leathercraft enchantment results (BWGR 280 / PDF 282)
+
+Leathercraft with Antiphon Union and Song of Silence can produce Elven boots
+granting one die to Stealthy. Store both components and the specific skill benefit
+without a crafting-obstacle cost or tool inheritance. Antiphon Union is Training;
+Song of Silence is an external magic source reference, not a General skill record.
+The Doom of Strength belt example has no numeric effect in this entry; retain
+only its source-backed magic summary. Metadata does not enchant or equip items.

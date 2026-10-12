@@ -320,20 +320,34 @@ Escape Artist is registered only as the identity/provenance named by Knots; ther
 is no invented complete General entry, root, type, alias or opening behavior.
 Stat/attribute references retain the existing nonempty kind/id integrity boundary.
 
-## Pending L schema case: Leathercraft enchanted equipment benefit
+## Resolved L schema case: Leathercraft enchanted equipment benefit
 
-Visually verified book 280 / PDF 282. Leathercraft combined with Antiphon Union
-and Song of Silence can produce boots granting +1D to Stealthy. The current
-EquipmentUseEffect only models a crafting-obstacle tradeoff and bonuses to tests
-using equipment. It cannot encode the enchantment prerequisites and named Stealthy
-bonus without falsely inventing an obstacle cost or broadening its scope to every
-equipment-use test. The Doom of Strength belt example gives no numeric benefit;
-do not invent one from its description.
-Leathercraft remains identity-only. Minimal proposed direction: equipment-result
-metadata with an enchantment acquisition reference (Antiphon Union + Song of
-Silence), boots target and a +1D effect specifically for Stealthy. Preserve separate
-magic integration and do not calculate/enchant/propagate bonuses automatically.
-A type-level gap test records the absent acquisition/effect shape.
+Visually verified book 280 / PDF 282. EquipmentResult stores boots, allOf
+Antiphon Union Training plus the external magic spell-song Song of Silence,
+and one die specifically to the equipment user's Stealthy tests. Training is
+validated as Training, never an ordinary exponent skill. The song is intentionally
+outside the General catalog; no fake owned identity, default or alias is added.
+Existing generic Antiphon integrations remain unchanged, while Leathercraft's
+magic reference retains the Doom of Strength belt example without a numeric effect.
+No cost, inherited tools, enchanting/equip/use evaluator or dice calculation.
+D-025 now explicitly covers enchantment-acquired equipment results.
+
+## Pending L schema case: Logistics force/environment modifiers
+
+Visually verified book 281-282 / PDF 283-284. Logistics supplies a force and
+has +1D when most troops have Hatred, plus six independent contextual obstacle
+modifiers: non-Dwarven force in mountains/underground (+1), war mounts in heavily
+wooded countryside (+1), anyone with Prince of the Blood/Aman/Fea/Dvergar (+1),
+enemy scorched-earth devastation (+2), another Logistics test in that countryside
+within the last Resources maintenance cycle (+2), and winter with war/riding/pack
+animals (+2). The current SkillTestProfile lacks a contextual advantage-dice
+modifier and force composition, environment and maintenance-cycle history nodes.
+Do not substitute target-stock for force composition, infer effects from Tools,
+turn the advantage into an obstacle delta, or invent force quantifiers.
+Logistics remains identity-only. Minimal proposed direction: typed contextual
+skill-test dice modifiers and narrowly scoped force/environment/history context
+nodes. No supply, campaign, Resources-cycle or test-history evaluator.
+A type-level gap test preserves the Hatred-majority source case.
 
 ## Formalization policy through General A–Z completion
 
@@ -414,11 +428,15 @@ Javelin uses thrown-weapon subsystem references; Knives remains close-quarters.
 J–K is now complete against the independent manifest. Added Knots, Lance,
 Lapidary, Latrine-wise and Lazy Bastard-wise: 222 complete production definitions.
 Lance retains its Agility/Power root and mounted-combat reference; Lapidary remains
-Perception-rooted. L pauses at Leathercraft; later L-M records remain untranscribed.
+Perception-rooted. Added Leathercraft, Ledger-wise, Leverage-wise, Links, Lithography, Lock Pick
+and Locksmith: 229 complete production definitions. Links keeps the printed
+Will/Forte root and character-burning Dwarf restriction, with continuation
+provenance. Locksmith includes Lock Pick capability without inheriting its tools.
+L now pauses at Logistics; later L-M records remain untranscribed.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (567 tests
-in 23 files), npm run build and git diff --check. L-M and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (588 tests
+in 24 files), npm run build and git diff --check. L-M and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Leathercraft enchantment-conditioned equipment benefit.
+Production transcription pauses at Logistics contextual force/environment modifiers.

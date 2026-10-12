@@ -7,9 +7,18 @@ const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
   ['E', 'F', 'G', 'H', 'I', 'J', 'K'].includes(entry.sourceName[0]) ||
-  ['lance', 'lapidary', 'latrine-wise', 'lazy-bastard-wise'].includes(entry.id));
+  ['lance', 'lapidary', 'latrine-wise', 'lazy-bastard-wise', 'leathercraft', 'ledger-wise', 'leverage-wise', 'links', 'lithography', 'lock-pick', 'locksmith'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('preserves the reviewed L roots, restrictions and scoped capability inclusion', () => {
+    expect(catalog.skills.get('links')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'forte' }] });
+    expect(catalog.skills.get('links')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['dwarf'], scope: 'character-burning' }]);
+    expect(catalog.skills.get('lithography')?.printedMarkers).toEqual(['§']);
+    expect(catalog.skills.get('lithography')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['dwarf'], scope: 'always' }]);
+    expect(catalog.skills.get('locksmith')?.relations).toEqual([{ kind: 'includes-capability', target: { kind: 'skill', id: 'lock-pick' } }]);
+    expect(catalog.skills.get('locksmith')?.tools).toEqual({ kind: 'workshop' });
+    expect(catalog.skills.get('lock-pick')?.tools).toEqual({ kind: 'generic' });
+  });
   it('preserves the separate J–K roots, restrictions, tools and subsystem references', () => {
     const jewelcraft = catalog.skills.get('jewelcraft');
     expect(jewelcraft?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'agility' }] });
@@ -26,7 +35,7 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(catalog.skills.get('knives')?.tools).toEqual({ kind: 'specific-item', item: 'something knife-like' });
     expect(catalog.skills.get('knives')?.integrationTags).toEqual(['fight']);
   });
-  it('covers every reviewed A–K and pre-Leathercraft entry exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed A–K and pre-Logistics entry exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {

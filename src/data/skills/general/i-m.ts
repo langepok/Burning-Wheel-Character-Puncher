@@ -88,9 +88,46 @@ export const iMSkills = [
   define('lazy-bastard-wise', 'Lazy Bastard-wise', 280, 'Knowledge of lazy bastards.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'lazy-bastard' } }),
 
+  define('leathercraft', 'Leathercraft', 280, 'Craft Elven leather goods; specified Antiphon/spell-song combinations can enchant boots or belts.', {
+    rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: workshop, ...magical,
+    availabilityRestrictions: only(['elf']), forkSuggestions: forks('weaving-way'), integrationTags: ['magic', 'equipment'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'leathercraft-boots', integrationId: 'leathercraft-boots' },
+      { kind: 'subsystem-capability', id: 'leathercraft-antiphon', integrationId: 'leathercraft-antiphon' }] }),
+  define('ledger-wise', 'Ledger-wise', 280, 'Knowledge of ledgers.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'ledger' } }),
+  define('leverage-wise', 'Leverage-wise', 280, 'Knowledge of leverage.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'leverage' } }),
+  { ...define('links', 'Links', 280, 'Perform and decode Dwarven military horn signals.', {
+    rootRule: combined('will', 'forte'), skillType: 'Academic', tools: item('a big brass horn'),
+    availabilityRestrictions: only(['dwarf'], 'character-burning'), forkSuggestions: forks('stentorious-singing'),
+    integrationTags: ['battlefield-communication'] }), source: [evidence('Links', 280), evidence('Links continuation', 281)] },
+  define('lithography', 'Lithography', 281, 'Inscribe runes and images into stone or print from carved blocks.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Artisan', tools: workshop, ...magical,
+    availabilityRestrictions: only(['dwarf']), forkSuggestions: forks('dwarven-rune-script', 'symbology', 'engraving', 'dye-manufacture') }),
+  define('lock-pick', 'Lock Pick', 281, 'Disable and disarm mechanical locks.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Special', tools: generic,
+    forkSuggestions: forks('locksmith', 'sleight-of-hand') }),
+  define('locksmith', 'Locksmith', 281, 'Build, maintain and disarm locks, including Lock Pick capabilities.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('lock-pick'),
+    relations: [{ kind: 'includes-capability', target: { kind: 'skill', id: 'lock-pick' } }] }),
+
 ];
 
 export const iMIntegrations: readonly SkillIntegration[] = [
+  { id: 'leathercraft-boots', skillId: 'leathercraft', subsystem: 'equipment',
+    equipmentResult: {
+      target: { kind: 'created-equipment', equipmentKindId: 'boots' },
+      acquisition: { kind: 'enchantment-combination', requires: { kind: 'allOf', operands: [
+        { kind: 'training', skillId: 'antiphon-union-training' },
+        { kind: 'spell-song', subsystem: 'magic', sourceName: 'Song of Silence' },
+      ] } },
+      effect: { kind: 'skill-test-dice-bonus', recipient: 'equipment-user', skillId: 'stealthy', dice: 1 },
+    }, summary: 'Elven boots enchanted through this combination grant one die specifically to Stealthy.', source: [evidence('Leathercraft', 280)] },
+  { id: 'leathercraft-antiphon', skillId: 'leathercraft', subsystem: 'magic',
+    createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
+    summary: 'Antiphon Union with Song of Silence can enchant boots; with Doom of Strength it can create a belt of terrible fortitude. The entry gives no numeric belt effect.',
+    source: [evidence('Leathercraft', 280)] },
+
   { id: 'jewelcraft-antiphon', skillId: 'jewelcraft', subsystem: 'magic',
     createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
     summary: 'Created jewelry may be enchanted with Antiphon Union and appropriate spell songs, including Paean of Deeds, Ballad of Rage and Strain of Far Sight.',

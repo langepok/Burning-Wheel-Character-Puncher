@@ -178,6 +178,17 @@ export interface EquipmentUseEffect {
     readonly repeatability: 'single-tradeoff' | 'per-increment' | 'unspecified';
     readonly requiresSuccessfulCreation: true };
 }
+/** External spell-song source identities are not owned General skill records. */
+export type EnchantmentComponent =
+  | { readonly kind: 'training'; readonly skillId: SkillId }
+  | { readonly kind: 'spell-song'; readonly subsystem: 'magic'; readonly sourceName: string };
+export interface EquipmentResult {
+  readonly target: { readonly kind: 'created-equipment'; readonly equipmentKindId: string };
+  readonly acquisition: { readonly kind: 'enchantment-combination';
+    readonly requires: { readonly kind: 'allOf'; readonly operands: Operands<EnchantmentComponent> } };
+  readonly effect: { readonly kind: 'skill-test-dice-bonus'; readonly recipient: 'equipment-user';
+    readonly skillId: SkillId; readonly dice: number };
+}
 export type PrizeObstacleReference = { readonly kind: 'same-as-prize-obstacle' };
 export type WagerSettlementOutcome =
   | { readonly when: 'loser-resources-test-passed'; readonly recipient: 'winner';
@@ -214,13 +225,13 @@ export interface StructureResistance {
 }
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly baseItemCreation?: MagicBaseItemCreation;
-      readonly createdItemReference?: MagicCreatedItemReference; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
+      readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
   | { readonly subsystem: 'equipment'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
-      readonly equipmentUseEffect?: EquipmentUseEffect; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: StructureResistance }
+      readonly equipmentUseEffect?: EquipmentUseEffect; readonly equipmentResult?: EquipmentResult; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: StructureResistance }
   | { readonly subsystem: 'resources'; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
-      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly structureResistance?: never }
+      readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly structureResistance?: never }
   | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>;
-      readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
+      readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
 );
 
 /** Reference to the target's live ability value; no lookup/calculation is performed. */

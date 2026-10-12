@@ -344,6 +344,15 @@ leave repeatability unspecified. This is neither a use bonus to the equipment
 user nor Resources valuation. No HP, durability, stacking or destruction engine
 follows from this descriptor; the equipment integration boundary is unchanged.
 
+The confirmed Leathercraft (280/282) audit extends result acquisition with
+EquipmentResult: a named equipment target, an allOf enchantment combination
+and a skill-specific use effect. Training components resolve as Training;
+spell-song source names remain external magic references, not General skills.
+This does not duplicate the existing generic Antiphon/matrix cross-reference:
+it records the particular combination and resulting benefit. No crafting cost,
+tool inheritance or enchanting/equipment-use execution is implied. The belt
+example supplies no numeric effect and remains a source-backed magic summary.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:
