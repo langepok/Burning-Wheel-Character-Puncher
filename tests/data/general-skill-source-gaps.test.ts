@@ -120,15 +120,14 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Logistics, book 281-282 / PDF 283-284: force/environment contextual modifiers. */
-describe('Pending Logistics contextual profile', () => {
-  it('cannot preserve the Hatred-majority advantage as an additive obstacle modifier', () => {
-    const source = { kind: 'advantage-dice', dice: 1,
-      when: { kind: 'force-composition', proportion: 'majority', attributeId: 'hatred' } } as const;
-    expectTypeOf<typeof source>().not.toExtend<NonNullable<SkillTestProfile['modifiers']>[number]>();
-    expectTypeOf<typeof source.when>().not.toExtend<SkillContext>();
+/** Meditation, book 283 / PDF 285: rest equivalence and linked-test centering. */
+describe('Pending Meditation procedural metadata', () => {
+  it('cannot preserve centering as an unconditional contextual die bonus', () => {
+    const source = { kind: 'linked-test-centering', opponent: 'opponent-skill',
+      onWin: { kind: 'dice-bonus', dice: 1 } } as const;
+    expectTypeOf<typeof source>().not.toExtend<SkillTestProfile>();
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('logistics')).toBe(false);
-    expect(production.references.get('logistics')?.sourceName).toBe('Logistics');
+    expect(production.skills.has('meditation')).toBe(false);
+    expect(production.references.get('meditation')?.sourceName).toBe('Meditation');
   });
 });

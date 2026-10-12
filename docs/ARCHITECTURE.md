@@ -477,3 +477,14 @@ generic Antiphon references and the preceding base-item-creation abstraction ret
 their meanings; a specific result is not a duplicate tool inheritance mechanism.
 This descriptor is distinct from EquipmentUseEffect crafting costs, valuation and
 structure resistance. Validation resolves references but executes no magic or use.
+
+
+ContextualTestModifier pairs an effect with SkillContext. Dice-bonus and
+obstacle-modifier are distinct typed effects; the earlier Inconspicuous obstacle
+metadata uses this shared shape with identical values/conditions. A contextual
+profile stores source-guided test effects without inventing an obstacle basis or
+opposing ability. Force is an aggregate context, not a target stock. Majority
+attribute conditions and trait/mount presence remain distinct; non-Dwarven is a
+source-defined classification without population thresholds. Prior-test contexts
+retain both area and Resources-cycle scope. Validation resolves skill references
+in contexts, including recursively composed/tool/integration contexts. No evaluator.

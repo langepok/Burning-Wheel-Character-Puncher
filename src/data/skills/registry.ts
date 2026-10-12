@@ -34,8 +34,43 @@ function validateOperands(nodes: readonly unknown[]): void {
   if (!Array.isArray(nodes) || nodes.length < 2) throw new Error('Composition requires at least two operands');
 }
 
-function validateContext(context: SkillContext): void {
+function validateContext(context: SkillContext, requireSkill: (id: string) => void): void {
   if (!context || typeof context !== 'object') throw new Error('Invalid context');
+  const forceLeaves = {
+    'force-attribute': ['kind', 'quantifier', 'attributeId'], 'force-classification': ['kind', 'classification'],
+    'force-contains-mount': ['kind', 'mountKind'], 'force-contains-trait': ['kind', 'traitId'],
+    terrain: ['kind', 'terrain'], season: ['kind', 'season'], 'area-condition': ['kind', 'condition'],
+    'prior-test-in-context': ['kind', 'skillId', 'area', 'within'],
+  } as const;
+  if (context.kind in forceLeaves) {
+    const fields = forceLeaves[context.kind as keyof typeof forceLeaves] as readonly string[];
+    if (Object.keys(context).some(field => !fields.includes(field))) throw new Error('Invalid force/environment/history context');
+    switch (context.kind) {
+      case 'force-attribute':
+        if (context.quantifier !== 'majority-of-troops' || typeof context.attributeId !== 'string' || !context.attributeId.trim()) throw new Error('Invalid force majority');
+        break;
+      case 'force-classification':
+        if (context.classification !== 'non-dwarven') throw new Error('Invalid force classification');
+        break;
+      case 'force-contains-mount':
+        if (!['war-mount', 'riding-mount', 'pack-animal'].includes(context.mountKind)) throw new Error('Invalid force mount');
+        break;
+      case 'force-contains-trait':
+        if (typeof context.traitId !== 'string' || !context.traitId.trim()) throw new Error('Invalid force trait presence');
+        break;
+      case 'terrain':
+        if (!['mountains', 'underground', 'heavily-wooded-countryside'].includes(context.terrain)) throw new Error('Invalid terrain');
+        break;
+      case 'season': if (context.season !== 'winter') throw new Error('Invalid season'); break;
+      case 'area-condition': if (context.condition !== 'enemy-scorched-earth') throw new Error('Invalid area condition'); break;
+      case 'prior-test-in-context':
+        if (typeof context.skillId !== 'string' || !context.skillId.trim() || context.area !== 'same-countryside' ||
+            context.within !== 'last-resources-maintenance-cycle') throw new Error('Invalid prior test context');
+        requireSkill(context.skillId);
+        break;
+    }
+    return;
+  }
   if (context.kind === 'outside-subsystem') {
     if (!['fight', 'range-and-cover', 'duel-of-wits', 'injury', 'resources', 'magic', 'equipment',
       'mounted-combat', 'military-campaign', 'poisons', 'ambush', 'battlefield-communication'].includes(context.subsystem)) {
@@ -57,11 +92,11 @@ function validateContext(context: SkillContext): void {
     }
   } else if (context.kind === 'allOf' || context.kind === 'anyOf') {
     validateOperands(context.conditions);
-    context.conditions.forEach(validateContext);
+    context.conditions.forEach(condition => validateContext(condition, requireSkill));
   } else {
     const fields = { circumstance: 'circumstanceId', subject: 'subject', activity: 'activity', culture: 'cultureId', stock: 'stockId',
       'target-trait': 'traitId', 'target-stock': 'stockId', 'target-culture': 'cultureId', 'target-origin': 'originId' } as const;
-    const field = fields[context.kind];
+    const field = fields[context.kind as keyof typeof fields];
     const value = field && (context as unknown as Record<string, unknown>)[field];
     if (typeof value !== 'string' || !value.trim()) throw new Error('Context ids must be nonempty');
     if (context.kind === 'activity' && !['potion-work', 'wound-treatment', 'hauling', 'crafting', 'pursuit', 'travel', 'field-maneuver', 'reading', 'writing', 'tending-wounds-and-illness', 'securing-a-person'].includes(value)) {
@@ -70,14 +105,14 @@ function validateContext(context: SkillContext): void {
   }
 }
 
-function validateTools(tools: ToolRequirement): void {
+function validateTools(tools: ToolRequirement, requireSkill: (id: string) => void): void {
   if (tools.kind === 'conditional') {
-    validateContext(tools.when);
-    validateTools(tools.then);
-    validateTools(tools.otherwise);
+    validateContext(tools.when, requireSkill);
+    validateTools(tools.then, requireSkill);
+    validateTools(tools.otherwise, requireSkill);
   } else if (tools.kind === 'allOf' || tools.kind === 'anyOf') {
     validateOperands(tools.requirements);
-    tools.requirements.forEach(validateTools);
+    tools.requirements.forEach(requirement => validateTools(requirement, requireSkill));
   } else if (tools.kind === 'specific-item' && !tools.item.trim()) {
     throw new Error('Tool item must be nonempty');
   }
@@ -171,12 +206,14 @@ export function createSkillCatalog(content: SkillCatalogContent) {
               if (adjustment.source !== 'situational-disadvantage' || !Array.isArray(adjustment.examples) || !adjustment.examples.length) {
                 throw new Error('Invalid manual adjustment examples');
               }
-              adjustment.examples.forEach(validateContext);
+              adjustment.examples.forEach((example: SkillContext) => validateContext(example, requireSkill));
             }
           }
         }
+      } else if (profile?.kind === 'contextual') {
+        if ('base' in profile || 'adjustments' in profile || 'opposingAbilities' in profile) throw new Error('Invalid contextual test profile');
       } else throw new Error('Invalid skill test profile');
-      if (profile.context !== undefined) validateContext(profile.context);
+      if (profile.context !== undefined) validateContext(profile.context, requireSkill);
       if (profile.followUps !== undefined) {
         if (!Array.isArray(profile.followUps)) throw new Error('Invalid skill test follow-ups');
         for (const followUp of profile.followUps) {
@@ -185,7 +222,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
               !Array.isArray(followUp.modifiers) || !followUp.modifiers.length) {
             throw new Error('Invalid skill test follow-up');
           }
-          validateContext(followUp.context);
+          validateContext(followUp.context, requireSkill);
           const ability = followUp.test.ability;
           if (!ability || !['skill', 'stat', 'attribute'].includes(ability.kind) ||
               typeof ability.id !== 'string' || !ability.id.trim()) throw new Error('Invalid follow-up ability');
@@ -200,17 +237,20 @@ export function createSkillCatalog(content: SkillCatalogContent) {
       if (profile.modifiers !== undefined) {
         if (!Array.isArray(profile.modifiers)) throw new Error('Invalid skill test modifiers');
         for (const modifier of profile.modifiers) {
-          if (modifier?.kind !== 'obstacle' || !Number.isSafeInteger(modifier.delta) || modifier.delta === 0 || !modifier.when) {
+          const effect = modifier?.effect;
+          if (!modifier?.when || !effect ||
+              (effect.kind === 'obstacle-modifier' ? (!Number.isSafeInteger(effect.delta) || effect.delta === 0 || Object.keys(effect).length !== 2) :
+               effect.kind === 'dice-bonus' ? (!Number.isSafeInteger(effect.dice) || effect.dice <= 0 || Object.keys(effect).length !== 2) : true)) {
             throw new Error('Invalid skill test modifier');
           }
-          validateContext(modifier.when);
+          validateContext(modifier.when, requireSkill);
         }
       }
     }
-    if (metadata.tools) validateTools(metadata.tools);
-    if (metadata.useContext) validateContext(metadata.useContext);
+    if (metadata.tools) validateTools(metadata.tools, requireSkill);
+    if (metadata.useContext) validateContext(metadata.useContext, requireSkill);
     for (const interaction of metadata.resourceInteractions ?? []) {
-      if (interaction.context !== undefined) validateContext(interaction.context);
+      if (interaction.context !== undefined) validateContext(interaction.context, requireSkill);
     }
     if (metadata.baseOpeningCostOverride) {
       const { points, source } = metadata.baseOpeningCostOverride;
@@ -240,21 +280,21 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         if (new Set(sources.map(source => source.skillId)).size !== sources.length) {
           throw new Error('Obstacle-reference alternatives must be distinct');
         }
-        validateContext(relation.context);
+        validateContext(relation.context, requireSkill);
       } else {
         if (relation.target.kind === 'skill') requireSkill(relation.target.id);
-        if ('context' in relation && relation.context) validateContext(relation.context);
+        if ('context' in relation && relation.context) validateContext(relation.context, requireSkill);
       }
     }
     for (const { target, context } of metadata.forkSuggestions?.suggestions ?? []) {
       validateForkTarget(target);
-      if (context) validateContext(context);
+      if (context) validateContext(context, requireSkill);
     }
     if (metadata.specialForkBehaviorId && !forkBehaviors.has(metadata.specialForkBehaviorId)) {
       throw new Error(`Unknown special FoRK behavior: ${metadata.specialForkBehaviorId}`);
     }
     for (const capability of metadata.capabilities ?? []) {
-      if (capability.kind === 'literacy' && capability.context) validateContext(capability.context);
+      if (capability.kind === 'literacy' && capability.context) validateContext(capability.context, requireSkill);
       if (capability.kind === 'subsystem-capability' && !integrations.has(capability.integrationId)) {
         throw new Error(`Unknown integration: ${capability.integrationId}`);
       }
@@ -273,7 +313,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
     requireSkill(integration.skillId);
-    if (integration.context) validateContext(integration.context);
+    if (integration.context) validateContext(integration.context, requireSkill);
     if (integration.structureResistance !== undefined) {
       const resistance = integration.structureResistance;
       const acquisition = resistance?.acquisition;

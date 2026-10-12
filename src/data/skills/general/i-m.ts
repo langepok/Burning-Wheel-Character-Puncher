@@ -1,5 +1,5 @@
 import type { SkillIntegration } from '../types';
-import { define, expendable, generic, forks, guidance, fork, none, stat, evidence, combined, magical, only, workshop, item, melee } from './shared';
+import { define, expendable, generic, forks, guidance, fork, none, stat, evidence, combined, magical, only, workshop, item, melee, sourceFork } from './shared';
 
 /** Reviewed I–M production records; transcription remains in progress. */
 export const iMSkills = [
@@ -10,10 +10,10 @@ export const iMSkills = [
   define('inconspicuous', 'Inconspicuous', 278, 'Blend into a crowd without attracting notice.', {
     rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('acting'),
     testProfile: { kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'observation' }], modifiers: [
-      { kind: 'obstacle', delta: 1, when: { kind: 'anyOf', conditions: [{ kind: 'attire', attire: 'garish' }, { kind: 'attire', attire: 'inappropriate' }] } },
-      { kind: 'obstacle', delta: 1, when: { kind: 'anyOf', conditions: [{ kind: 'social-station-mismatch', position: 'above', relativeTo: 'appropriate-social-station' }, { kind: 'social-station-mismatch', position: 'below', relativeTo: 'appropriate-social-station' }] } },
-      { kind: 'obstacle', delta: 1, when: { kind: 'regional-origin-mismatch', relativeTo: 'current-region' } },
-      { kind: 'obstacle', delta: 2, when: { kind: 'stock-mismatch', relativeTo: 'target-crowd' } },
+      { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'anyOf', conditions: [{ kind: 'attire', attire: 'garish' }, { kind: 'attire', attire: 'inappropriate' }] } },
+      { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'anyOf', conditions: [{ kind: 'social-station-mismatch', position: 'above', relativeTo: 'appropriate-social-station' }, { kind: 'social-station-mismatch', position: 'below', relativeTo: 'appropriate-social-station' }] } },
+      { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'regional-origin-mismatch', relativeTo: 'current-region' } },
+      { effect: { kind: 'obstacle-modifier', delta: 2 }, when: { kind: 'stock-mismatch', relativeTo: 'target-crowd' } },
     ] } }),
   define('infection-wise', 'Infection-wise', 278, 'Knowledge of infections.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'infection' } }),
@@ -110,6 +110,54 @@ export const iMSkills = [
   define('locksmith', 'Locksmith', 281, 'Build, maintain and disarm locks, including Lock Pick capabilities.', {
     rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('lock-pick'),
     relations: [{ kind: 'includes-capability', target: { kind: 'skill', id: 'lock-pick' } }] }),
+
+  { ...define('logistics', 'Logistics', 281, 'Supply an army on campaign, with source-defined force and environmental test modifiers.', {
+    rootRule: stat('perception'), skillType: 'Military', tools: item('supplies for an army'), integrationTags: ['military-campaign'],
+    testProfile: { kind: 'contextual', modifiers: [
+      { effect: { kind: 'dice-bonus', dice: 1 }, when: { kind: 'force-attribute', quantifier: 'majority-of-troops', attributeId: 'hatred' } },
+      { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'allOf', conditions: [
+        { kind: 'force-classification', classification: 'non-dwarven' },
+        { kind: 'anyOf', conditions: [{ kind: 'terrain', terrain: 'mountains' }, { kind: 'terrain', terrain: 'underground' }] },
+      ] } },
+      { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'allOf', conditions: [
+        { kind: 'terrain', terrain: 'heavily-wooded-countryside' }, { kind: 'force-contains-mount', mountKind: 'war-mount' },
+      ] } },
+      { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'anyOf', conditions: [
+        { kind: 'force-contains-trait', traitId: 'prince-of-the-blood' }, { kind: 'force-contains-trait', traitId: 'aman' },
+        { kind: 'force-contains-trait', traitId: 'fea' }, { kind: 'force-contains-trait', traitId: 'dvergar' },
+      ] } },
+      { effect: { kind: 'obstacle-modifier', delta: 2 }, when: { kind: 'area-condition', condition: 'enemy-scorched-earth' } },
+      { effect: { kind: 'obstacle-modifier', delta: 2 }, when: { kind: 'prior-test-in-context', skillId: 'logistics',
+        area: 'same-countryside', within: 'last-resources-maintenance-cycle' } },
+      { effect: { kind: 'obstacle-modifier', delta: 2 }, when: { kind: 'allOf', conditions: [
+        { kind: 'season', season: 'winter' }, { kind: 'anyOf', conditions: [
+          { kind: 'force-contains-mount', mountKind: 'war-mount' }, { kind: 'force-contains-mount', mountKind: 'riding-mount' },
+          { kind: 'force-contains-mount', mountKind: 'pack-animal' },
+        ] },
+      ] } },
+    ] } }), source: [evidence('Logistics', 281), evidence('Logistics continuation', 282)] },
+  define('lost-treasures-wise', 'Lost Treasures-wise', 282, 'Knowledge of lost treasures.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'lost-treasures' } }),
+  define('lyric-of-law', 'Lyric of Law', 282, 'Elven law preserved and applied through song.', {
+    rootRule: stat('perception'), skillType: 'Academic', tools: none, ...magical, availabilityRestrictions: only(['elf']), semanticCategories: ['song'],
+    forkSuggestions: guidance({ target: { kind: 'anyOf', targets: [
+      { kind: 'skill-family', familyId: 'history', relevance: 'appropriate' }, { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' },
+      { kind: 'category', category: 'song', relevance: 'appropriate' },
+    ] } }) }),
+  define('mace', 'Mace', 282, 'Fight with a short metal-flanged club.', {
+    rootRule: combined('power', 'agility'), skillType: 'Martial', tools: item('mace'), semanticCategories: ['melee-weapon'],
+    forkSuggestions: forks('cudgel', 'brawling'), integrationTags: ['fight'] }),
+  define('makers-mark-wise', "Maker's Mark-wise", 282, 'Knowledge of maker marks.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'makers-mark' } }),
+  define('man-wise', 'Man-wise', 282, 'Knowledge of men.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'man' } }),
+  { ...define('martial-arts', 'Martial Arts', 282, 'Specialist unarmed fighting using Boxing mechanics, with a separate skill identity.', {
+    rootRule: combined('power', 'agility'), skillType: 'Martial', tools: none, forkSuggestions: guidance(fork('brawling'), melee), integrationTags: ['fight'],
+    relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'boxing' } }] }),
+    source: [evidence('Martial Arts', 282), evidence('Referenced Boxing mechanics', 261)] },
+  define('mason', 'Mason', 282, 'Shape stone, mix mortar, set foundations and build structures.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Artisan', tools: workshop,
+    forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), fork('architect')) }),
 
 ];
 

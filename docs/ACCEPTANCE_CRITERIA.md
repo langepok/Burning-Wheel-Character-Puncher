@@ -473,3 +473,16 @@ A Character Burner feature is done only when:
   and structure resistance. References and effects serialize and validate.
 - The Doom of Strength belt remains a source-backed magic summary without an
   invented numeric effect. Existing Antiphon integrations keep their meaning.
+
+## Logistics contextual test metadata
+
+- Logistics stores one contextual +1D bonus for a majority of troops with Hatred,
+  separately from six obstacle modifiers (+1/+1/+1/+2/+2/+2).
+- Common modifier shapes distinguish dice-bonus from obstacle-modifier effects;
+  existing Inconspicuous obstacle values and conditions remain unchanged.
+- Typed force conditions preserve majority versus presence, source-defined
+  non-Dwarven classification without a threshold, and mount/trait alternatives.
+- The repeated-test condition preserves the same area and the last Resources
+  maintenance cycle. Terrain, season and scorched-earth conditions compose normally.
+- No army, calendar, terrain, Resources-cycle, history or test evaluator is added.
+- Metadata serializes; malformed leaves, compositions, effects and references fail.

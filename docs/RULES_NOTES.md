@@ -317,3 +317,16 @@ without a crafting-obstacle cost or tool inheritance. Antiphon Union is Training
 Song of Silence is an external magic source reference, not a General skill record.
 The Doom of Strength belt example has no numeric effect in this entry; retain
 only its source-backed magic summary. Metadata does not enchant or equip items.
+
+
+## Logistics contextual effects (BWGR 281-282 / PDF 283-284)
+
+A force with a majority of troops having Hatred grants +1D. Separately, +1 Ob
+applies to a non-Dwarven force in mountains/underground; war mounts in heavily
+wooded countryside; and presence of anyone with Prince of the Blood, Aman, Fea
+or Dvergar. War-mount source examples are destriers/coursers. +2 Ob applies to
+enemy scorched-earth countryside; the same countryside with a prior Logistics
+test within the last Resources maintenance cycle; and winter with war mounts,
+riding mounts or pack animals. Store all seven independently, preserving the
+printed composition/quantifiers rather than substituting a target stock or
+inventing thresholds. These are skill-test facts, not an army/supply evaluator.

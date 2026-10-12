@@ -6,10 +6,10 @@ import { testProfileFixtureContent } from '../../src/data/skills/test-profile-fi
 
 const expected = {
   kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'observation' }], modifiers: [
-    { kind: 'obstacle', delta: 1, when: { kind: 'anyOf', conditions: [{ kind: 'attire', attire: 'garish' }, { kind: 'attire', attire: 'inappropriate' }] } },
-    { kind: 'obstacle', delta: 1, when: { kind: 'anyOf', conditions: [{ kind: 'social-station-mismatch', position: 'above', relativeTo: 'appropriate-social-station' }, { kind: 'social-station-mismatch', position: 'below', relativeTo: 'appropriate-social-station' }] } },
-    { kind: 'obstacle', delta: 1, when: { kind: 'regional-origin-mismatch', relativeTo: 'current-region' } },
-    { kind: 'obstacle', delta: 2, when: { kind: 'stock-mismatch', relativeTo: 'target-crowd' } },
+    { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'anyOf', conditions: [{ kind: 'attire', attire: 'garish' }, { kind: 'attire', attire: 'inappropriate' }] } },
+    { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'anyOf', conditions: [{ kind: 'social-station-mismatch', position: 'above', relativeTo: 'appropriate-social-station' }, { kind: 'social-station-mismatch', position: 'below', relativeTo: 'appropriate-social-station' }] } },
+    { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'regional-origin-mismatch', relativeTo: 'current-region' } },
+    { effect: { kind: 'obstacle-modifier', delta: 2 }, when: { kind: 'stock-mismatch', relativeTo: 'target-crowd' } },
   ],
 } as const;
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
@@ -22,7 +22,7 @@ describe('Skill-level opposed-test metadata', () => {
   it('preserves all four independent Inconspicuous penalties and Observation opposition', () => {
     expectTypeOf<typeof expected>().toExtend<SkillTestProfile>();
     expect(catalog.skills.get('inconspicuous')?.testProfile).toEqual(expected);
-    expect(expected.modifiers.map(modifier => modifier.delta)).toEqual([1, 1, 1, 2]);
+    expect(expected.modifiers.map(modifier => modifier.effect.delta)).toEqual([1, 1, 1, 2]);
     expect(catalog.skills.get('inconspicuous')?.integrationTags).toEqual([]);
     expect(catalog.skills.get('inconspicuous')?.resourceInteractions).toEqual([]);
   });
@@ -51,9 +51,9 @@ describe('Skill-level opposed-test metadata', () => {
     { ...expected, opposingAbilities: [{ kind: 'stat', id: 'perception' }] },
     { ...expected, opposingAbilities: [{ kind: 'skill', skillId: '' }] },
     { ...expected, modifiers: 'dress penalty' },
-    ...[0, 1.5, NaN, Infinity].map(delta => ({ ...expected, modifiers: [{ kind: 'obstacle', delta, when: expected.modifiers[2].when }] })),
+    ...[0, 1.5, NaN, Infinity].map(delta => ({ ...expected, modifiers: [{ effect: { kind: 'obstacle-modifier', delta }, when: expected.modifiers[2].when }] })),
     { ...expected, modifiers: [{ kind: 'dice', delta: 1, when: expected.modifiers[2].when }] },
-    { ...expected, modifiers: [{ kind: 'obstacle', delta: 1 }] },
+    { ...expected, modifiers: [{ effect: { kind: 'obstacle-modifier', delta: 1 } }] },
   ])('rejects malformed profiles/modifiers %j', value => {
     expect(() => register(value)).toThrow();
   });
@@ -67,6 +67,6 @@ describe('Skill-level opposed-test metadata', () => {
     { kind: 'anyOf', conditions: [{ kind: 'attire', attire: 'garish' }] },
     { kind: 'anyOf', conditions: [{ kind: 'attire', attire: 'garish' }, { kind: 'attire', attire: 'unknown' }] },
   ])('rejects malformed structured context %j', when => {
-    expect(() => register({ ...expected, modifiers: [{ kind: 'obstacle', delta: 1, when }] })).toThrow();
+    expect(() => register({ ...expected, modifiers: [{ effect: { kind: 'obstacle-modifier', delta: 1 }, when }] })).toThrow();
   });
 });

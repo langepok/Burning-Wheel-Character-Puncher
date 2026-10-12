@@ -332,22 +332,42 @@ magic reference retains the Doom of Strength belt example without a numeric effe
 No cost, inherited tools, enchanting/equip/use evaluator or dice calculation.
 D-025 now explicitly covers enchantment-acquired equipment results.
 
-## Pending L schema case: Logistics force/environment modifiers
+## Resolved L schema case: Logistics force/environment modifiers
 
-Visually verified book 281-282 / PDF 283-284. Logistics supplies a force and
-has +1D when most troops have Hatred, plus six independent contextual obstacle
-modifiers: non-Dwarven force in mountains/underground (+1), war mounts in heavily
-wooded countryside (+1), anyone with Prince of the Blood/Aman/Fea/Dvergar (+1),
-enemy scorched-earth devastation (+2), another Logistics test in that countryside
-within the last Resources maintenance cycle (+2), and winter with war/riding/pack
-animals (+2). The current SkillTestProfile lacks a contextual advantage-dice
-modifier and force composition, environment and maintenance-cycle history nodes.
-Do not substitute target-stock for force composition, infer effects from Tools,
-turn the advantage into an obstacle delta, or invent force quantifiers.
-Logistics remains identity-only. Minimal proposed direction: typed contextual
-skill-test dice modifiers and narrowly scoped force/environment/history context
-nodes. No supply, campaign, Resources-cycle or test-history evaluator.
-A type-level gap test preserves the Hatred-majority source case.
+Visually verified book 281-282 / PDF 283-284; all seven effects confirmed by the
+user. ContextualTestModifier uses an effect/when pair: one dice-bonus and six
+obstacle-modifier effects. Existing Inconspicuous values/conditions are preserved
+in this common shape. The contextual profile describes effects on source-guided
+tests without inventing a versus opponent or target-exponent obstacle basis.
+
+Force leaves preserve majority-of-troops Hatred separately from presence of a
+qualifying trait/mount. Non-Dwarven is a source-defined force classification,
+not a target-stock or an inferred Dwarf percentage. Terrain/season/area leaves
+compose with allOf/anyOf; prior-test-in-context includes the same countryside
+and last Resources maintenance cycle, with a catalog-validated Logistics reference.
+The trait alternative preserves Prince of the Blood, Aman, Fea and Dvergar;
+war-mount source examples are destriers/coursers, without a horse-name parser.
+No force, calendar, terrain, history, Resources-cycle or test evaluator.
+This extends D-023/D-024 descriptive context metadata, not the general architecture.
+
+## Pending M schema case: Meditation rest / centering procedures
+
+Visually verified book 283 / PDF 285. Meditation may replace sleep: each hour
+counts as rest for wounds/Tax, its test obstacle equals the selected hours (Ob 1
+plus one per additional hour), and failure means falling asleep at some point.
+Centering is a linked test; for versus tests or detailed conflict it opposes the
+opponent's skill and grants +1D advantage if Meditation wins. Existing contextual
+modifiers cannot encode this result-conditioned linked-test benefit or hourly
+rest equivalence without flattening away the procedure.
+
+The entry also permits Perception/Observation to detect Stealthy characters while
+meditating, and sustaining spells with Tax retests under The Power Still Flows
+Through Him. Preserve these as separate ability/magic references, not automatic
+Meditation tests or invented Tax calculations. Meditation remains identity-only.
+Minimal proposed direction: small rest-equivalence/hour-based test metadata and
+linked-test-centering result metadata, with structured opposing participant skill
+reference and conditional benefit. No generic formula DSL, recovery/Tax/conflict
+engine or automatic execution. A type-level gap test records the centering case.
 
 ## Formalization policy through General A–Z completion
 
@@ -432,11 +452,17 @@ Perception-rooted. Added Leathercraft, Ledger-wise, Leverage-wise, Links, Lithog
 and Locksmith: 229 complete production definitions. Links keeps the printed
 Will/Forte root and character-burning Dwarf restriction, with continuation
 provenance. Locksmith includes Lock Pick capability without inheriting its tools.
-L now pauses at Logistics; later L-M records remain untranscribed.
+Added Logistics, Lost Treasures-wise, Lyric of Law, Mace, Maker's Mark-wise,
+Man-wise, Martial Arts and Mason: 237 complete production definitions. L is
+complete against the manifest. Martial Arts keeps its own identity and printed
+root, with a same-mechanics Boxing relation and the referenced Boxing provenance;
+it does not become an alias or duplicate a combat implementation. Lyric of Law
+preserves the appropriate History/Wise/song FoRK alternative and Elven restriction.
+M pauses at Meditation; later M records remain untranscribed.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (588 tests
-in 24 files), npm run build and git diff --check. L-M and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (615 tests
+in 25 files), npm run build and git diff --check. L-M and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Logistics contextual force/environment modifiers.
+Production transcription pauses at Meditation rest and centering metadata.

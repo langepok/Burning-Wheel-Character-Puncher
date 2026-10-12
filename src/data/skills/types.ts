@@ -38,6 +38,15 @@ export type RollBehavior =
 /** Attire and mismatch leaves describe the skill user relative to their environment.
  * Stock mismatch preserves the source race/crowd comparison without fixing a stock. */
 export type SkillContext =
+  | { readonly kind: 'force-attribute'; readonly quantifier: 'majority-of-troops'; readonly attributeId: string }
+  | { readonly kind: 'force-classification'; readonly classification: 'non-dwarven' }
+  | { readonly kind: 'force-contains-mount'; readonly mountKind: 'war-mount' | 'riding-mount' | 'pack-animal' }
+  | { readonly kind: 'force-contains-trait'; readonly traitId: string }
+  | { readonly kind: 'terrain'; readonly terrain: 'mountains' | 'underground' | 'heavily-wooded-countryside' }
+  | { readonly kind: 'season'; readonly season: 'winter' }
+  | { readonly kind: 'area-condition'; readonly condition: 'enemy-scorched-earth' }
+  | { readonly kind: 'prior-test-in-context'; readonly skillId: SkillId;
+      readonly area: 'same-countryside'; readonly within: 'last-resources-maintenance-cycle' }
   | { readonly kind: 'outside-subsystem'; readonly subsystem: IntegrationTag }
   | { readonly kind: 'target-belief'; readonly constraint: 'prevents-disclosure-of-sought-information' }
   | { readonly kind: 'attire'; readonly attire: 'garish' | 'inappropriate' }
@@ -272,12 +281,20 @@ export interface OpposingAbilityAlternative {
 }
 export type OpposingAbilities = readonly [OpposingAbilityReference, ...OpposingAbilityReference[]] |
   { readonly kind: 'anyOf'; readonly operands: Operands<OpposingAbilityAlternative> };
+/** Contextual effects keep dice and obstacle units separate. */
+export type ContextualTestEffect =
+  | { readonly kind: 'dice-bonus'; readonly dice: number }
+  | { readonly kind: 'obstacle-modifier'; readonly delta: number };
+export interface ContextualTestModifier {
+  readonly effect: ContextualTestEffect;
+  readonly when: SkillContext;
+}
 /** Descriptive skill-level test facts, not a roll-building or arbitration engine.
  * Missing modifiers remain untranscribed; manual adjustments explicitly lack deltas. */
 export type SkillTestProfile = {
   readonly context?: SkillContext;
   readonly followUps?: readonly SkillTestFollowUp[];
-  readonly modifiers?: readonly { readonly kind: 'obstacle'; readonly delta: number; readonly when: SkillContext }[];
+  readonly modifiers?: readonly ContextualTestModifier[];
 } & (
   | { readonly kind: 'versus';
       /** Potential opponents, not simultaneous tests against every ability. */
@@ -285,6 +302,8 @@ export type SkillTestProfile = {
       readonly base?: never; readonly adjustments?: never }
   | { readonly kind: 'obstacle'; readonly base: ObstacleBasis;
       readonly adjustments?: readonly ManualTestAdjustment[]; readonly opposingAbilities?: never }
+  /** Effects on source-guided tests, without inventing an obstacle basis or opponent. */
+  | { readonly kind: 'contextual'; readonly base?: never; readonly adjustments?: never; readonly opposingAbilities?: never }
 );
 
 export interface SkillMetadata {

@@ -6,10 +6,20 @@ import { generalSkillManifest } from './general-skill-manifest';
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
-  ['E', 'F', 'G', 'H', 'I', 'J', 'K'].includes(entry.sourceName[0]) ||
-  ['lance', 'lapidary', 'latrine-wise', 'lazy-bastard-wise', 'leathercraft', 'ledger-wise', 'leverage-wise', 'links', 'lithography', 'lock-pick', 'locksmith'].includes(entry.id));
+  ['E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'].includes(entry.sourceName[0]) ||
+  ['mace', 'makers-mark-wise', 'man-wise', 'martial-arts', 'mason'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('preserves Martial Arts identity and the law-song FoRK alternatives', () => {
+    expect(catalog.skills.get('martial-arts')?.id).not.toBe(catalog.skills.get('boxing')?.id);
+    expect(catalog.skills.get('martial-arts')?.relations).toEqual([{ kind: 'same-mechanics', target: { kind: 'skill', id: 'boxing' } }]);
+    expect(catalog.skills.get('martial-arts')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'power' }, { kind: 'stat', id: 'agility' }] });
+    expect(catalog.skills.get('lyric-of-law')?.forkSuggestions?.suggestions).toEqual([{ target: {
+      kind: 'anyOf', targets: [{ kind: 'skill-family', familyId: 'history', relevance: 'appropriate' },
+        { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' }, { kind: 'category', category: 'song', relevance: 'appropriate' }],
+    } }]);
+    expect(catalog.skills.get('lyric-of-law')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['elf'], scope: 'always' }]);
+  });
   it('preserves the reviewed L roots, restrictions and scoped capability inclusion', () => {
     expect(catalog.skills.get('links')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'forte' }] });
     expect(catalog.skills.get('links')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['dwarf'], scope: 'character-burning' }]);
@@ -35,7 +45,7 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(catalog.skills.get('knives')?.tools).toEqual({ kind: 'specific-item', item: 'something knife-like' });
     expect(catalog.skills.get('knives')?.integrationTags).toEqual(['fight']);
   });
-  it('covers every reviewed A–K and pre-Logistics entry exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed A–L and pre-Meditation entry exactly with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {
