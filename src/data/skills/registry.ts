@@ -239,6 +239,33 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     }
     if (metadata.testProfile !== undefined) {
       const profile = metadata.testProfile;
+      if (!profile || typeof profile !== 'object') throw new Error('Invalid skill test profile');
+      if (profile.outcomes !== undefined) {
+        if (!Array.isArray(profile.outcomes) || !profile.outcomes.length) throw new Error('Invalid skill test outcome');
+        const triggers = new Set<string>();
+        for (const outcome of profile.outcomes) {
+          if (!outcome || Object.keys(outcome).some(key => !['trigger', 'effects'].includes(key)) ||
+              !['success', 'failure'].includes(outcome.trigger?.kind) || Object.keys(outcome.trigger).length !== 1 ||
+              triggers.has(outcome.trigger.kind) || !Array.isArray(outcome.effects) || !outcome.effects.length) {
+            throw new Error('Invalid skill test outcome');
+          }
+          triggers.add(outcome.trigger.kind);
+          for (const effect of outcome.effects) {
+            if (!effect || !['primary-actor', 'target'].includes(effect.recipient)) throw new Error('Invalid skill test outcome recipient');
+            if (effect.kind === 'name-bestowal' || effect.kind === 'name-bestowal-denied') {
+              if (Object.keys(effect).some(key => !['kind', 'recipient'].includes(key))) throw new Error('Invalid skill test outcome naming effect');
+            } else if (effect.kind === 'reputation') {
+              if (Object.keys(effect).some(key => !['kind', 'recipient', 'reputationKind', 'dice'].includes(key)) ||
+                  !['ordinary', 'infamous'].includes(effect.reputationKind) || !effect.dice ||
+                  (effect.dice.kind === 'fixed' ? (!Number.isSafeInteger(effect.dice.value) || effect.dice.value <= 0 || Object.keys(effect.dice).length !== 2) :
+                   effect.dice.kind === 'unspecified' ? Object.keys(effect.dice).length !== 1 : true)) {
+                throw new Error('Invalid skill test outcome reputation');
+              }
+            } else throw new Error('Invalid skill test outcome effect');
+          }
+        }
+      }
+
       if (profile?.kind === 'versus') {
         if ('base' in profile || 'adjustments' in profile) {
           throw new Error('Invalid skill test profile');

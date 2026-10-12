@@ -11,10 +11,11 @@ import { itemValueIntegrations } from './item-value';
 import { structureResistanceIntegrations } from './structure-resistance';
 import { hWises } from './h-wises';
 import { iMIntegrations, iMSkills } from './i-m';
+import { nRSkills } from './n-r';
 import { generalNameReferences } from './references';
 import { evidence, none, stat } from './shared';
 
-const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises, ...gHSkills, ...gWises, ...hWises, ...iMSkills];
+const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises, ...gHSkills, ...gWises, ...hWises, ...iMSkills, ...nRSkills];
 const loadedIds = new Set(skills.map(skill => skill.id));
 
 /** Work in progress: complete records for reviewed blocks, identity-only references elsewhere.

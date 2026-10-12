@@ -364,3 +364,11 @@ mood grants canonical Advantage; this entry specifies no fixed dice amount.
 The typed effect delegates general Advantage semantics to external rules/context,
 separate from fixed dice, obstacle modifiers and manual obstacle adjustments.
 The suitability leaf preserves the relation without a mood taxonomy or evaluator.
+
+**RAW — Name Ritual test outcomes** (book 285 / PDF 287): obstacle is target
+Will. Success bestows a name and 1D ordinary reputation on the character being
+named. Failure denies naming and gives an infamous reputation with explicitly
+unspecified magnitude. It is not inferred from other reputation examples or
+represented as zero. Reputation is a character/world-state outcome, not bonus
+dice on the ritual. No audience, reputation scope, permanent naming restriction,
+merging or Circles procedure is supplied by this entry or added to metadata.

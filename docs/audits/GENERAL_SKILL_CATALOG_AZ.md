@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (708 tests
-in 29 files), npm run build and git diff --check. N and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (729 tests
+in 30 files), npm run build and git diff --check. N and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
 Production transcription continues through Munitions and Music Composition:
-254 complete definitions: M complete, with N and later entries pending.
+256 complete definitions: M complete, N reviewed through Navigation; Nogger and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -533,18 +533,38 @@ source examples in the summary, not a closed choice list or invented named skill
 identities. The entry is not forced into Wises-style ownership/family semantics.
 No instrument ownership, mood, linked-test or Advantage evaluator is introduced.
 Mystery Meat-wise completes M against the independent manifest. There are now
-254 complete definitions. N begins with Name Ritual and remains pending.
+254 complete definitions. At that checkpoint N paused at Name Ritual.
 
-## Pending N source case: Name Ritual test outcomes
+## Resolved Name Ritual test outcomes and N progress
 
-Visually reviewed book 285 / PDF 287: a successful ritual bestows a name and
-+1D reputation; failure means the character cannot be named and earns an infamous
-reputation. The failure reputation has no numeric dice amount in this entry.
-Its obstacle uses target Will; the character-burning restriction is Orc-only.
-Current SkillTestProfile has modifiers and follow-ups, but no structured result
-for granting a name/reputation or the distinct failed-ritual consequences. These
-are not unconditional dice bonuses, Resources effects or Munitions zero-successes
-adverse outcomes. Name Ritual stays identity-only pending a minimal typed
-skill-test outcome descriptor. No naming, reputation or test-result engine is
-proposed, and no permanent naming restriction or failure reputation number is
-inferred. The rest of N has not been marked complete ahead of this blocker.
+Verified 285/287. SkillTestProfile now supports separate typed success/failure
+outcomes with local actor roles, reusing primary-actor/target. Name Ritual directs
+all effects to the target being named. Success gives a name and fixed 1D ordinary
+reputation; failure denies naming and gives infamous reputation with explicitly
+unspecified magnitude. No inference from other infamous examples, zero fallback,
+audience, permanence or reputation merging is made. The vocabulary is skill-level
+result metadata; no naming/reputation/Circles evaluator or world-state commands
+are implemented. Reputation results remain distinct from test dice/Advantage.
+
+Navigation is complete at 285/287: Perception, Seafaring, generic tools, Astrology,
+Orienteering and Pilot FoRKs. It is not relabelled Seafarer. There are now 256
+complete production definitions; N pauses at Nogger, which remains partial only
+in the foundation fixtures and identity-only in production.
+
+## Pending Nogger crafted-consumable effects
+
+Visually reviewed 285–286 / 287–288. These rules describe drinking the crafted
+brew, not making a Nogger test: a Dwarf's full draught grants 1D to the next Health
+test and +1 Ob to social tests for the scene, with only one such bonus/penalty
+regardless of additional drinking. Steins at least equal to the Dwarf's Forte
+cause drunkenness (+1 Ob to all tests) for hours equal to 10 minus Health. Other
+creatures become drunk on a mouthful and receive no benefit. Do not infer their
+drunkenness duration from the Dwarf sentence or invent a clamp on 10 minus Health.
+
+Existing equipment-result metadata covers valuation, use bonuses, structures
+and enchanting combinations, not consumable doses, recipient stock, attribute
+thresholds, next-test/scene scopes and derived duration. It cannot preserve these
+facts without an approved minimal crafted-consumable-effect descriptor. A Nogger
+skill-test outcome would put the effects on the wrong event/recipient. No brewing,
+drinking, intoxication, Health or time evaluator is proposed. Nogger and subsequent
+entries remain incomplete pending this source/schema decision.

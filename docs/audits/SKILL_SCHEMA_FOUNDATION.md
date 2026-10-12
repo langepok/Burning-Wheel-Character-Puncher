@@ -142,3 +142,8 @@ Canonical contextual Advantage references general BW procedure and stores no fix
 dice amount. Musical Instrument (285/287) supplies its structured music/mood
 suitability case. It is distinct from fixed dice bonuses, obstacle modifiers and
 manual obstacle adjustments. General/context resolution remains outside data.
+
+Skill-test outcomes can describe name bestowal/denial and reputation grants
+without executing character/world-state changes. Fixed reputation dice and
+explicitly unspecified dice are different shapes; neither is a test modifier.
+Name Ritual (285/287) supplies success/failure and target-recipient regressions.

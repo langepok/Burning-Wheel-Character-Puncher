@@ -536,3 +536,14 @@ A Character Burner feature is done only when:
 - Musical Instrument stays a source entry; no Wises-style family ownership is
   inferred. Additional instrument FoRK guidance uses an explicit curated category.
 - No Advantage, mood, music or linked-test evaluator is added.
+
+## Name Ritual typed skill-test outcomes
+
+- Target Will is the obstacle basis; target is the character being named.
+- Separate success/failure outcomes: success bestows a name and fixed 1D ordinary
+  reputation; failure denies naming and gives infamous reputation with explicitly
+  unspecified magnitude. Unspecified is not zero, 1D or missing transcription.
+- Reputation outcomes are character/world-state facts, distinct from test dice,
+  Advantage and obstacle changes. No audience/scope or permanent naming ban inferred.
+- Serializable typed outcome metadata rejects malformed triggers, recipients,
+  effects and dice shapes. No naming/reputation/Circles execution or merging added.

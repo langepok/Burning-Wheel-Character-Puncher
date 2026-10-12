@@ -307,9 +307,22 @@ export interface ContextualTestModifier {
   readonly effect: ContextualTestEffect;
   readonly when: SkillContext;
 }
+/** Character/world-state results, never test-pool modifiers. */
+export type SkillTestOutcomeEffect =
+  | { readonly kind: 'name-bestowal' | 'name-bestowal-denied'; readonly recipient: SkillTestActor }
+  | { readonly kind: 'reputation'; readonly recipient: SkillTestActor;
+      readonly reputationKind: 'ordinary' | 'infamous';
+      readonly dice: { readonly kind: 'fixed'; readonly value: number } |
+        { readonly kind: 'unspecified'; readonly value?: never } };
+export interface SkillTestOutcome {
+  readonly trigger: { readonly kind: 'success' | 'failure' };
+  readonly effects: readonly [SkillTestOutcomeEffect, ...SkillTestOutcomeEffect[]];
+}
+
 /** Descriptive skill-level test facts, not a roll-building or arbitration engine.
  * Missing modifiers remain untranscribed; manual adjustments explicitly lack deltas. */
 export type SkillTestProfile = {
+  readonly outcomes?: readonly SkillTestOutcome[];
   readonly context?: SkillContext;
   readonly followUps?: readonly SkillTestFollowUp[];
   readonly modifiers?: readonly ContextualTestModifier[];

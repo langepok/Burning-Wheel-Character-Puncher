@@ -120,11 +120,12 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Name Ritual, book 285 / PDF 287: named test outcomes are not profile modifiers. */
-describe('Pending Name Ritual character/reputation outcomes', () => {
-  it('does not invent source outcome metadata or declare Name Ritual complete', () => {
+/** Nogger, book 285–286 / PDF 287–288: consuming the crafted brew has effects. */
+describe('Pending Nogger consumption-result metadata', () => {
+  it('does not confuse the brewing skill with drinking its product or claim it complete', () => {
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('name-ritual')).toBe(false);
-    expect(production.references.get('name-ritual')?.sourceName).toBe('Name Ritual');
+    expect(production.skills.has('nogger')).toBe(false);
+    expect(production.references.get('nogger')?.sourceName).toBe('Nogger');
+    expect(catalog.skills.get('nogger')?.coverage).toBe('partial');
   });
 });
