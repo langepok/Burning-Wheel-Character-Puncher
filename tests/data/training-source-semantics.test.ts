@@ -92,10 +92,8 @@ describe('Training root usage and source identities (D-026)', () => {
     expect(notes).not.toContain('aptitude-and-' + 'practice');
     expect(notes).toContain('Elven Outrider grants Bowman');
   });
-  it('keeps combat execution external and Munitions incomplete at the next source gap', () => {
+  it('keeps combat execution external', () => {
     expect(mounted.integrationTags).toContain('mounted-combat');
     expect(production.integrations.get('mounted-combat-external')?.subsystem).toBe('mounted-combat');
-    expect(production.skills.has('munitions')).toBe(false);
-    expect(production.references.get('munitions')?.sourceName).toBe('Munitions');
   });
 });

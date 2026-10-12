@@ -36,9 +36,16 @@ export type RollBehavior =
   | { readonly kind: 'conditional'; readonly whenRoot: RootAbility;
       readonly then: 'open-ended'; readonly otherwise: 'standard' };
 
+/** Source-defined manufacturing subjects, with no runtime category inference. */
+export interface CraftingSubjectContext {
+  readonly kind: 'crafting-subject';
+  readonly operation: 'manufacturing';
+  readonly anyOf: Operands<{ readonly category: string }>;
+}
 /** Attire and mismatch leaves describe the skill user relative to their environment.
  * Stock mismatch preserves the source race/crowd comparison without fixing a stock. */
 export type SkillContext =
+  | CraftingSubjectContext
   | { readonly kind: 'test-context'; readonly context: 'versus-test' | 'detailed-conflict' }
   | { readonly kind: 'force-attribute'; readonly quantifier: 'majority-of-troops'; readonly attributeId: string }
   | { readonly kind: 'force-classification'; readonly classification: 'non-dwarven' }
@@ -314,6 +321,18 @@ export type SkillTestProfile = {
   | { readonly kind: 'contextual'; readonly base?: never; readonly adjustments?: never; readonly opposingAbilities?: never }
 );
 
+/** Source-defined created-item damage remains a reference, never a fixed wound. */
+export interface SkillAdverseOutcome {
+  readonly trigger: { readonly kind: 'zero-successes' };
+  readonly when: CraftingSubjectContext;
+  readonly sourceOutcomeLabels: readonly [string, ...string[]];
+  readonly outcome: {
+    readonly kind: 'damage'; readonly recipient: 'maker';
+    readonly severity: { readonly kind: 'created-item-damage-reference'; readonly result: 'mark';
+      readonly resolution: 'manual-contextual' };
+  };
+}
+
 /** A closed progression descriptor, not a formula or a duration evaluator. */
 export interface DurationRestSubstitution {
   readonly kind: 'duration-rest-substitution'; readonly substitutesFor: 'sleep-rest';
@@ -359,6 +378,7 @@ export interface TrainingSourceChoice {
 }
 
 export interface SkillMetadata {
+  readonly adverseOutcomes?: readonly SkillAdverseOutcome[];
   readonly trainingSourceChoice?: TrainingSourceChoice;
   readonly procedures?: readonly SkillProcedure[];
   readonly activityFacts?: readonly SkillActivityFact[];

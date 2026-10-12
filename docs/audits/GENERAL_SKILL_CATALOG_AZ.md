@@ -490,15 +490,40 @@ Mill-wise, Miller, Mimicry, Mining and Monk-wise: 247 complete definitions.
 Mending keeps appropriate Craftsman FoRK guidance and expendable tools; Miller's
 workshop is a mill, not an invented generic-tools-plus-mill conjunction. Midwifery
 retains its Will/Perception root and no-tools requirement. Added Mounted Combat Training, Mouth of Hell-wise and Mule-wise: 250 complete
-definitions. M now pauses at Munitions; it and later entries remain identity-only.
+definitions. At that checkpoint M paused at Munitions; it remained identity-only.
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (667 tests
-in 27 files), npm run build and git diff --check. L-M and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (692 tests
+in 28 files), npm run build and git diff --check. M and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription pauses at Munitions (284/286): zero-success failure
-while making powder/explosives causes cook-off/misfire and the maker takes the
-Mark result of the device being built. Existing metadata does not represent
-this trigger with a created-device damage-result reference. No injury/damage
-number or engine is invented; user resolution of the minimal descriptor is needed.
+Production transcription continues through Munitions and Music Composition:
+252 complete definitions, with Musical Instrument and later entries pending.
+
+## Resolved Munitions adverse-outcome gap
+
+The user confirmed the minimal skill-level SkillAdverseOutcome. Its explicit
+zero-successes trigger is distinct from ordinary failure. CraftingSubjectContext
+stores manufacturing and an anyOf of powder/explosive categories. Cook-off/misfire
+remain source outcome labels; the maker receives damage from the created item's
+Mark reference with manual/contextual resolution. No numeric fallback is present.
+
+Visually reviewed 284/286. Independent item-source facts are small bomb B4,
+medium bomb B6, large bomb B8 and very large bomb B12. These are not copied into
+adverse metadata, and no equipment catalog is introduced. Powder has an obstacle
+but no separate numeric Mark here. It stays in scope with the unresolved/contextual
+created-item reference. Tests cover exact trigger, both subjects, source labels,
+recipient/reference, serialization, generic categories and malformed descriptors.
+D-023/D-024 already cover skill facts separate from subsystem execution.
+
+## Pending Musical Instrument contextual advantage
+
+Visually reviewed book 285 / PDF 287. The obstacle uses the listener's Will;
+when music suits the mood, add advantage. The entry does not specify dice count.
+ContextualTestEffect currently requires a numeric dice bonus; ManualTestAdjustment
+represents obstacle adjustments, not unquantified advantage dice. Neither should
+silently become +1D or an obstacle reduction. The proposed next minimal extension
+is a typed manual/unquantified contextual advantage with a structured music/mood
+suitability condition, distinct from fixed dice and obstacle effects. No music,
+linked-test or advantage evaluator is proposed. Musical Instrument stays an
+identity-only reference until resolution; no subsequent M/N entries are completed.

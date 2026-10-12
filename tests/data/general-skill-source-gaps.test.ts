@@ -1,6 +1,7 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
-import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
+import type { ContextualTestEffect, MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
+import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
 
 const catalog = createSkillCatalog(skillFixtureContent);
@@ -116,5 +117,15 @@ describe('General Skill List source corrections', () => {
   });
   it.each(['then', 'otherwise'] as const)('validates the conditional %s branch recursively', branch => {
     expect(() => registerTools({ ...writingTools, [branch]: { kind: 'allOf', requirements: [] } } as unknown as ToolRequirement)).toThrow('at least two operands');
+  });
+});
+
+/** Musical Instrument, book 285 / PDF 287: advantage without a numeric amount. */
+describe('Pending source-supported unquantified contextual advantage', () => {
+  it('does not invent a fixed dice value or declare Musical Instrument complete', () => {
+    expectTypeOf<{ kind: 'manual-advantage' }>().not.toExtend<ContextualTestEffect>();
+    const production = createSkillCatalog(generalSkillTranscriptionContent);
+    expect(production.skills.has('musical-instrument')).toBe(false);
+    expect(production.references.get('musical-instrument')?.sourceName).toBe('Musical Instrument');
   });
 });

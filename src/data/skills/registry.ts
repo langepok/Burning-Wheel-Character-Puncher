@@ -43,6 +43,18 @@ function validateOperands(nodes: readonly unknown[]): void {
 
 function validateContext(context: SkillContext, requireSkill: (id: string) => void): void {
   if (!context || typeof context !== 'object') throw new Error('Invalid context');
+  if (context.kind === 'crafting-subject') {
+    if (context.operation !== 'manufacturing' || Object.keys(context).some(key => !['kind', 'operation', 'anyOf'].includes(key))) {
+      throw new Error('Invalid crafting subject');
+    }
+    validateOperands(context.anyOf);
+    const categories = context.anyOf.map(subject => {
+      if (typeof subject?.category !== 'string' || !subject.category.trim() || Object.keys(subject).length !== 1) throw new Error('Invalid crafting subject category');
+      return subject.category;
+    });
+    if (new Set(categories).size !== categories.length) throw new Error('Duplicate crafting subject category');
+    return;
+  }
   if (context.kind === 'test-context') {
     if (!['versus-test', 'detailed-conflict'].includes(context.context)) throw new Error('Invalid test context');
     return;
@@ -159,6 +171,22 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (ability.kind === 'skill') requireSkill(ability.id);
   };
   const validateMetadata = (metadata: Partial<SkillMetadata>) => {
+    if (metadata.adverseOutcomes !== undefined) {
+      if (!Array.isArray(metadata.adverseOutcomes)) throw new Error('Invalid adverse outcomes');
+      for (const adverse of metadata.adverseOutcomes) {
+        if (!adverse || Object.keys(adverse).some(key => !['trigger', 'when', 'sourceOutcomeLabels', 'outcome'].includes(key)) ||
+            adverse.trigger?.kind !== 'zero-successes' || Object.keys(adverse.trigger).length !== 1 ||
+            adverse.when?.kind !== 'crafting-subject' || !Array.isArray(adverse.sourceOutcomeLabels) || !adverse.sourceOutcomeLabels.length ||
+            adverse.sourceOutcomeLabels.some((label: unknown) => typeof label !== 'string' || !label.trim()) ||
+            adverse.outcome?.kind !== 'damage' || adverse.outcome.recipient !== 'maker' || Object.keys(adverse.outcome).length !== 3 ||
+            adverse.outcome.severity?.kind !== 'created-item-damage-reference' || adverse.outcome.severity.result !== 'mark' ||
+            adverse.outcome.severity.resolution !== 'manual-contextual' || Object.keys(adverse.outcome.severity).length !== 3) {
+          throw new Error('Invalid adverse outcome');
+        }
+        validateContext(adverse.when, requireSkill);
+      }
+    }
+
     if (metadata.procedures !== undefined) {
       if (!Array.isArray(metadata.procedures)) throw new Error('Invalid skill procedures');
       for (const procedure of metadata.procedures) {

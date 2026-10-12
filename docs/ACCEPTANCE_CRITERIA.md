@@ -513,3 +513,14 @@ A Character Burner feature is done only when:
   The source character example can list both; no global XOR or fake Lancer identity.
 - Metadata serializes and rejects invalid root usage, learning methods or option
   references. No Training learning, character ownership or combat evaluator is added.
+
+## Munitions crafting adverse outcome
+
+- The trigger is zero successes, distinct from ordinary failure with successes.
+- Manufacturing powder OR explosives is structured scope; recipient is the maker.
+- Cook-off/misfire labels are retained. Damage refers to the created item's Mark,
+  with contextual/manual source resolution and no copied or invented numeric damage.
+- Powder remains in scope despite no audited Mark value. Bomb item values are
+  separate source facts, not adverse-outcome constants or a new equipment catalog.
+- Serialization and integrity validation reject malformed trigger/scope/outcome.
+  No injury, explosive, damage lookup, destruction or result evaluator is added.

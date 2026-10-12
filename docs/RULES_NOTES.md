@@ -350,3 +350,10 @@ Vague awareness remains separate, as do Perception/Observation tests to detect
 Stealthy characters. A Sorcerer may sustain spells while meditating and retests Tax
 under The Power Still Flows Through Him. No ability named Awareness or recovery,
 Tax, duration, centering or conflict evaluator is introduced.
+
+**RAW — Munitions adverse crafting outcome** (book 284 / PDF 286): zero
+successes when manufacturing powder or explosives cause cook-off/misfire; the
+maker takes the Mark result of the device being built. This is not every failed
+test. Skill metadata preserves the source-defined item reference without looking
+up damage or assigning a Mark to powder. Bomb Marks belong to item source facts,
+not a constant embedded in the consequence. No injury/detonation engine follows.

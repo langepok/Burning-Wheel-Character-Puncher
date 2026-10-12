@@ -218,6 +218,19 @@ export const iMSkills = [
   define('mule-wise', 'Mule-wise', 284, 'Knowledge of mules.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'mule' } }),
 
+  define('munitions', 'Munitions', 284, 'Manufacture firearms, powder, shot and bombs; absolute failure making powder/explosives risks source-defined device damage.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Artisan', tools: workshop,
+    forkSuggestions: forks('alchemy'), availabilityRestrictions: only(['human'], 'character-burning'),
+    integrationTags: ['equipment', 'injury'], adverseOutcomes: [{
+      trigger: { kind: 'zero-successes' },
+      when: { kind: 'crafting-subject', operation: 'manufacturing', anyOf: [{ category: 'powder' }, { category: 'explosive' }] },
+      sourceOutcomeLabels: ['cook-off', 'misfire'],
+      outcome: { kind: 'damage', recipient: 'maker', severity: {
+        kind: 'created-item-damage-reference', result: 'mark', resolution: 'manual-contextual' } },
+    }] }),
+  define('music-composition', 'Music Composition', 285, 'Write musical notation and compose songs for voices or instruments.', {
+    rootRule: combined('will', 'perception'), skillType: 'Musical', tools: expendable }),
+
 ];
 
 export const iMIntegrations: readonly SkillIntegration[] = [
