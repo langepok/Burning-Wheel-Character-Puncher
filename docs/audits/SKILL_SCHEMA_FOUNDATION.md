@@ -152,3 +152,7 @@ Crafted consumables can have recipient/dose-dependent effects of consumption,
 with separate next-test/scene scopes, non-stacking, threshold and bounded derived
 duration metadata. Nogger (285–286/287–288) motivates the D-025 extension. These
 results remain equipment data, separate from crafting test outcomes or Resources.
+
+ObstacleBasis distinguishes single-target live exponent from crowd live exponent
+with most-common statistic. Oratory (286/288) supplies the crowd case. No tie
+policy, average, extrema, rounding or aggregation evaluator is encoded.

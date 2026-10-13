@@ -494,11 +494,12 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (755 tests
-in 31 files), npm run build and git diff --check. O and later blocks, final counts
+Checkpoint verification passed: npm run typecheck, npm test (771 tests
+in 32 files), npm run build and git diff --check; npm ci passed at the preceding
+checkpoint with unchanged dependencies. O and later blocks, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Nogger and Observation:
-261 complete definitions: A–N complete, O reviewed through Observation; Oratory and later entries pending.
+Production transcription continues through Oratory, Orc-wise and Ore-wise:
+264 complete definitions: A–N complete, O reviewed through Ore-wise; Orienteering and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -575,12 +576,28 @@ production definitions. Observation preserves its four opposed skills and the
 separate warning against substituting it for ordinary Perception; no detection
 or perception/trait engine is introduced. O pauses at Oratory.
 
-## Pending Oratory crowd obstacle basis
+## Resolved Oratory crowd obstacle basis
 
-Visually reviewed 286/288: Oratory's obstacle is the most common Will exponent
-in the crowd. Current target-ability-exponent describes one target, not a crowd
-aggregate. Do not substitute average/highest Will or assume a majority threshold.
-The proposed minimal obstacle basis references crowd, Will and the most-common
-exponent statistic. No tie handling, crowd state, voting, aggregation or Duel of
-Wits evaluator is inferred. Oratory and later entries remain identity-only pending
-resolution; no further O–R records are marked complete ahead of this blocker.
+Visually reviewed 286/288. Crowd-ability-exponent references current Will and
+most-common exponent statistic, distinct from the single-target basis. No tie
+handling, average/extrema, rounding or crowd grouping is inferred; validation
+rejects unsupported statistics and extra tie/weight fields. Oratory preserves
+Command/Persuasion/Rhetoric FoRKs, Social type, Will root, no tools and separate
+Duel of Wits integration tag. No crowd or conflict evaluator is introduced.
+Orc-wise and Ore-wise complete the next named topics: 264 complete definitions.
+
+## Pending Orienteering journey outcomes
+
+Visually reviewed 286/288. Orienteering permits navigation with or without maps;
+maps give Advantage, not a tools requirement or fixed invented dice amount.
+Success finds the way without delay. Failure loses the way and has alternatives:
+miss appointments but still arrive at the destination, OR arrive at an unintended
+location. Existing typed outcomes describe naming/reputation, not wayfinding,
+delay or destination results. A prose-only complete record would drop this
+structured procedure. Orienteering and later records remain identity-only.
+
+Proposed minimal source-shaped journey outcome metadata should preserve success
+without delay and failure lost-way with these two alternatives. Do not infer
+travel duration, random destination, appointment counts or automatic selection
+between alternatives; no journey/navigation evaluator is proposed. Map Advantage
+can reuse canonical Advantage and the existing structured circumstance leaf.

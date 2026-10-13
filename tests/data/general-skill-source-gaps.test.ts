@@ -120,11 +120,11 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Oratory, book 286 / PDF 288: base uses most common Will in the crowd. */
-describe('Pending Oratory aggregate obstacle basis', () => {
-  it('does not substitute a single target Will or claim Oratory complete', () => {
+/** Orienteering, book 286 / PDF 288: losing the way has alternative journey outcomes. */
+describe('Pending Orienteering journey outcomes', () => {
+  it('does not claim a complete entry before structured journey outcomes are resolved', () => {
     const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('oratory')).toBe(false);
-    expect(production.references.get('oratory')?.sourceName).toBe('Oratory');
+    expect(production.skills.has('orienteering')).toBe(false);
+    expect(production.references.get('orienteering')?.sourceName).toBe('Orienteering');
   });
 });

@@ -381,3 +381,9 @@ Health hours. Other creatures become drunk on a mouthful, receive no restorative
 benefit and have no separately specified duration in this sentence. Do not inherit
 the Dwarf duration or invent a clamp. Equipment integration stores these independent
 consumption cases; no effects are applied at the Nogger crafting test. See D-025.
+
+**RAW — Oratory crowd obstacle** (book 286 / PDF 288): the obstacle is the
+most common current Will exponent in the crowd, not one target's Will. The entry
+specifies neither averaging/extrema nor tie resolution. Metadata references this
+source-defined aggregation without performing it. Duel of Wits use is a separate
+subsystem fact; Command, Persuasion and Rhetoric remain the printed FoRKs.

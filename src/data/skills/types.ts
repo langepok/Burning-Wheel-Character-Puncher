@@ -287,10 +287,11 @@ export type SkillIntegration = SkillIntegrationIdentity & (
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
 );
 
-/** Reference to the target's live ability value; no lookup/calculation is performed. */
-export type ObstacleBasis = {
-  readonly kind: 'target-ability-exponent'; readonly targetRole?: 'listener'; readonly ability: RootAbility; readonly snapshot: 'current';
-};
+/** Live ability exponent references; no lookup, aggregation or tie resolution. */
+export type ObstacleBasis =
+  | { readonly kind: 'target-ability-exponent'; readonly targetRole?: 'listener'; readonly ability: RootAbility; readonly snapshot: 'current' }
+  | { readonly kind: 'crowd-ability-exponent'; readonly ability: RootAbility;
+      readonly statistic: 'most-common'; readonly snapshot: 'current' };
 /** Unquantified is an audited fact, not a default zero or an omitted numeric value. */
 export type ManualTestAdjustment = {
   readonly kind: 'manual'; readonly quantity: 'unquantified'; readonly delta?: never;

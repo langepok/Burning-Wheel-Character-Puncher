@@ -35,4 +35,12 @@ export const nRSkills = [
       { kind: 'skill', skillId: 'inconspicuous' }, { kind: 'skill', skillId: 'stealthy' },
       { kind: 'skill', skillId: 'sleight-of-hand' }, { kind: 'skill', skillId: 'trapper' },
     ] } }),
+  define('oratory', 'Oratory', 286, 'Rouse a crowd through speeches; also used in Duel of Wits, whose rules remain external.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('command', 'persuasion', 'rhetoric'),
+    integrationTags: ['duel-of-wits'], testProfile: { kind: 'obstacle', base: {
+      kind: 'crowd-ability-exponent', ability: { kind: 'stat', id: 'will' }, statistic: 'most-common', snapshot: 'current' } } }),
+  define('orc-wise', 'Orc-wise', 286, 'Knowledge of Orcs.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'orc' } }),
+  define('ore-wise', 'Ore-wise', 286, 'Knowledge of ore.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'ore' } }),
 ];

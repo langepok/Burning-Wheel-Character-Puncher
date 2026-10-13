@@ -561,3 +561,12 @@ A Character Burner feature is done only when:
   does not establish a permission or numeric default. No formula string or clamp.
 - Metadata serializes and validates stock/ability ids, dose, scopes, units and
   duration shapes. No inventory, drinking, Health/Forte, scene or state evaluator.
+
+## Oratory crowd obstacle basis
+
+- Oratory uses current crowd Will exponent with most-common aggregation, distinct
+  from a single-target basis. No average/max/min, weights, rounding or tie policy.
+- Typed basis serializes and validates; malformed ability, snapshot, statistic
+  and additional aggregation/tie fields are rejected.
+- Command/Persuasion/Rhetoric FoRKs and the separate Duel of Wits reference persist.
+- No crowd state, aggregation, NPC grouping or Duel of Wits evaluator is added.

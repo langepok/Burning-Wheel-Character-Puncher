@@ -309,10 +309,19 @@ export function createSkillCatalog(content: SkillCatalogContent) {
       } else if (profile?.kind === 'obstacle') {
         if ('opposingAbilities' in profile) throw new Error('Invalid skill test profile');
         const base = profile.base;
-        if (base?.kind !== 'target-ability-exponent' || base.snapshot !== 'current' ||
-            (base.targetRole !== undefined && base.targetRole !== 'listener') ||
-            !base.ability || !['stat', 'attribute'].includes(base.ability.kind) ||
+        if (!base || base.snapshot !== 'current' || !base.ability ||
+            !['stat', 'attribute'].includes(base.ability.kind) ||
             typeof base.ability.id !== 'string' || !base.ability.id.trim()) {
+          throw new Error('Invalid obstacle basis');
+        }
+        if (base.kind === 'crowd-ability-exponent') {
+          if (base.statistic !== 'most-common' ||
+              Object.keys(base).some(key => !['kind', 'ability', 'statistic', 'snapshot'].includes(key)) ||
+              Object.keys(base.ability).some(key => !['kind', 'id'].includes(key))) {
+            throw new Error('Invalid obstacle basis');
+          }
+        } else if (base.kind !== 'target-ability-exponent' ||
+            (base.targetRole !== undefined && base.targetRole !== 'listener')) {
           throw new Error('Invalid obstacle basis');
         }
         if (profile.adjustments !== undefined) {
