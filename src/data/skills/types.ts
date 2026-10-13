@@ -276,14 +276,34 @@ export interface CraftedConsumableEffect {
   }[];
 }
 
+/** Product effects are not crafting-test modifiers or created-device Mark references. */
+export type PoisonEffect =
+  | { readonly kind: 'obstacle-penalty'; readonly delta: number; readonly scope: 'source-unspecified' }
+  | { readonly kind: 'fixed-wound'; readonly severity: { readonly shade: 'black'; readonly exponent: number } };
+export type PoisonPotency =
+  | { readonly kind: 'sickening' | 'debilitating'; readonly craftingObstacle: number;
+      readonly effect: Extract<PoisonEffect, { kind: 'obstacle-penalty' }> }
+  | { readonly kind: 'deadly'; readonly craftingObstacle: number;
+      readonly effect: Extract<PoisonEffect, { kind: 'fixed-wound' }> };
+export interface PoisonDelivery {
+  readonly kind: 'ingestion' | 'blade' | 'inhaled-vapor' | 'contact';
+  readonly craftingObstacleDelta: number;
+}
+/** Independent source-defined dimensions; no twelve-row expansion or evaluator. */
+export interface CraftedPoison {
+  readonly target: 'created-poison';
+  readonly potencies: readonly PoisonPotency[];
+  readonly deliveries: readonly PoisonDelivery[];
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
-  | { readonly subsystem: 'magic'; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
+  | { readonly subsystem: 'magic'; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
-  | { readonly subsystem: 'equipment'; readonly craftedConsumableEffect?: CraftedConsumableEffect; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
+  | { readonly subsystem: 'equipment'; readonly craftedPoison?: CraftedPoison; readonly craftedConsumableEffect?: CraftedConsumableEffect; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
       readonly equipmentUseEffect?: EquipmentUseEffect; readonly equipmentResult?: EquipmentResult; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: StructureResistance }
-  | { readonly subsystem: 'resources'; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
+  | { readonly subsystem: 'resources'; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly structureResistance?: never }
-  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
+  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
 );
 

@@ -162,3 +162,9 @@ travelling-party lost state followed by two source-defined alternatives on failu
 No alternative selection, travel timing or location generation is encoded.
 Orienteering (286/288) also supplies a separate fixed map die, not canonical
 unquantified Advantage; existing name/reputation outcomes retain their recipients.
+
+CraftedPoison keeps potency/base crafting obstacle/product effect independent of
+intended delivery/crafting delta. Source-unspecified penalty scope is explicit;
+fixed black wound exponent differs from created-device Mark and damage dice.
+Poisons (288–289/290–291) supplies the audited cases; no exposure/wound engine or
+generic formula facility is added (D-025).

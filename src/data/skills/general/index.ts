@@ -12,6 +12,7 @@ import { structureResistanceIntegrations } from './structure-resistance';
 import { hWises } from './h-wises';
 import { iMIntegrations, iMSkills } from './i-m';
 import { consumableIntegrations } from './consumable-results';
+import { poisonIntegrations } from './poison-results';
 import { nRSkills } from './n-r';
 import { generalNameReferences } from './references';
 import { evidence, none, stat } from './shared';
@@ -44,7 +45,7 @@ export const generalSkillTranscriptionContent: SkillCatalogContent = {
   forkBehaviors: [{ id: 'astrology-fork', target: { kind: 'any-skill-except-types', excluded: ['Martial', 'Physical'] },
     die: { six: 'reroll-normally', one: { action: 'reroll', onFailure: { subtractSuccesses: 1 } } },
     alternative: { kind: 'linked-test', usesSpecialForkDie: false }, source: [evidence('Astrology', 257)] }],
-  integrations: [...aDIntegrations, ...iMIntegrations, ...consumableIntegrations, ...equipmentUseIntegrations, ...resourceIntegrations,
+  integrations: [...aDIntegrations, ...iMIntegrations, ...consumableIntegrations, ...poisonIntegrations, ...equipmentUseIntegrations, ...resourceIntegrations,
     ...itemValueIntegrations.filter(integration => loadedIds.has(integration.skillId)),
     ...structureResistanceIntegrations.filter(integration => loadedIds.has(integration.skillId))],
 };

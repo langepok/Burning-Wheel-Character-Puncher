@@ -121,11 +121,11 @@ describe('General Skill List source corrections', () => {
 });
 
 
-/** Poisons, book 288–289 / PDF 290–291: crafted harmful products, not maker-test effects. */
-describe('Pending Poisons crafted-product effects', () => {
-  it('does not force harmful-product effects into Nogger intoxication or maker outcomes', () => {
+/** Polearm, book 289 / PDF 291: choose cutting or thrusting combat use. */
+describe('Pending Polearm combat-use choice metadata', () => {
+  it('does not declare a complete entry before its explicit combat choice is represented', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('poisons')).toBe(false);
-    expect(catalog.references.get('poisons')?.sourceName).toBe('Poisons');
+    expect(catalog.skills.has('polearm')).toBe(false);
+    expect(catalog.references.get('polearm')?.sourceName).toBe('Polearm');
   });
 });

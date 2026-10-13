@@ -1,4 +1,4 @@
-import { combined, define, forks, fork, guidance, generic, none, only, stat, workshop, magical, evidence, expendable, hatred } from './shared';
+import { combined, define, forks, fork, guidance, sourceFork, generic, none, only, stat, workshop, magical, evidence, expendable, hatred } from './shared';
 
 /** Reviewed N–R entries only; later records remain identity references. */
 export const nRSkills = [
@@ -90,4 +90,9 @@ export const nRSkills = [
     availabilityRestrictions: only(['orc']), forkSuggestions: forks('falsehood', 'persuasion'), integrationTags: ['duel-of-wits'],
     relations: ['persuasion', 'soothing-platitudes'].map(id => ({ kind: 'includes-capability', target: { kind: 'skill', id } })),
     testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } }),
+  { ...define('poisons', 'Poisons', 288, 'Make harmful products from botanical, mineral and animal ingredients; product effects and delivery costs are equipment metadata.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: expendable,
+    forkSuggestions: guidance(fork('herbalism'), fork('apothecary'), sourceFork('Alchemical', 'alchemy')),
+    integrationTags: ['equipment', 'poisons'], capabilities: [{ kind: 'subsystem-capability', id: 'crafted-poison', integrationId: 'poisons-crafted-product' }] }),
+    source: [evidence('Poisons', 288), evidence('Poisons continuation', 289)] },
 ];

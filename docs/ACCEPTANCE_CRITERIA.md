@@ -592,3 +592,15 @@ A Character Burner feature is done only when:
 - Poisonous Platitudes retains Hatred root/open-ended behavior, both included
   skill capabilities, target Will, Orc restriction and external Duel of Wits fact.
 - Named Wises, roots, printed types, tools and source pages match reviewed source.
+
+## Poisons crafted-product integration
+
+- Potency and intended delivery are independent: sickening Ob 2/+1 Ob,
+  debilitating Ob 3/+2 Ob, deadly Ob 4/B10 wound.
+- Ingestion is baseline with zero delivery crafting delta; blade/vapor/contact
+  add 1/2/3 crafting Ob, never changing product potency or effects.
+- Penalty scope is explicitly source-unspecified; no all-tests, duration,
+  resistance, onset, repeated exposure or recovery rules inferred.
+- Typed descriptors serialize independently and reject malformed/invented fields.
+  All twelve totals are checked only in tests, not stored or evaluated in production.
+- Printed Alchemical FoRK remains unresolved; no exposure, wound or poison engine.

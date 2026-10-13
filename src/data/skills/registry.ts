@@ -1,3 +1,4 @@
+import { validateCraftedPoison } from './poisons';
 import { validateCraftedConsumable } from './consumables';
 import type {
   AbilityReference, OpposingAbilityReference, ForkTarget, OwnedSkillTopic, RootRule, SkillCatalogContent, SkillContext, SkillFamilyDefinition, SkillMetadata, ToolRequirement,
@@ -491,6 +492,10 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   }
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
+    if (integration.craftedPoison !== undefined) {
+      if (integration.subsystem !== 'equipment') throw new Error('Invalid crafted poison subsystem');
+      validateCraftedPoison(integration.craftedPoison);
+    }
     if (integration.craftedConsumableEffect !== undefined) {
       if (integration.subsystem !== 'equipment') throw new Error('Invalid crafted consumable subsystem');
       validateCraftedConsumable(integration.craftedConsumableEffect);

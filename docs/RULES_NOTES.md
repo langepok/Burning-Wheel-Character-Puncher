@@ -402,3 +402,11 @@ retains Write as an opening requirement. Poetry adds 1 Ob when imitating another
 poet's style. Poisonous Platitudes combines Persuasion/Soothing Platitudes, uses
 Hatred with open-ended rolls, targets victim Will and separately refers to Duel
 of Wits. None of these metadata facts executes subsystem rules.
+
+**RAW — Poisons potency and delivery** (book 288–289 / PDF 290–291): sickening
+requires crafting Ob 2 and gives +1 Ob; debilitating Ob 3/+2 Ob; deadly Ob 4/B10
+wound. The entry gives no penalty test scope, duration, resistance, onset or
+recovery. Ingestion is baseline; blade, inhaled vapor and contact add 1/2/3 to
+crafting Ob respectively, not to product effect. Store independent dimensions
+without exposure/wound execution. Alchemical remains the printed unresolved FoRK,
+not silently Alchemy. See D-025.

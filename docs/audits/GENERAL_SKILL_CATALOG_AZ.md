@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (796 tests
-in 33 files), npm run build and git diff --check. Remaining P–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (829 tests
+in 34 files), npm run build and git diff --check. Remaining P–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Poisonous Platitudes:
-278 complete definitions: A–O complete, P reviewed through Poisonous Platitudes; Poisons and later entries pending.
+Production transcription continues through Poisons:
+279 complete definitions: A–O complete, P reviewed through Poisons; Polearm and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -611,19 +611,33 @@ and Poetry retain independent contextual +1 Ob modifiers. Poisonous Platitudes
 has both capability relations, current target Will, Hatred root/open-ended rolls,
 Orc restriction and separate Duel of Wits reference. No new subsystem execution.
 
-## Pending Poisons crafted-product effects
+## Resolved Poisons crafted-product effects
 
-Visually reviewed 288–289/290–291. The products can inflict source-defined
-obstacle penalties (sickening +1 Ob; debilitating +2 Ob) or a B10 wound (deadly).
-Crafting obstacles are 2/3/4 respectively. The baseline is imbibed/ingested;
-blade delivery adds 1 crafting Ob, inhaled vapor adds 2, contact adds 3. These are
-product/exposure effects and delivery-dependent crafting costs, not bonuses to
-the maker's test, naming results or Nogger's intoxication-specific outcome.
-The current types cannot preserve all these facts without a minimal approved
-harmful-product descriptor. Poisons and later entries remain identity-only.
+Visually reviewed 288–289/290–291. CraftedPoison stores independent potency and
+intended delivery dimensions, not twelve pre-expanded combinations. Potencies
+preserve sickening Ob 2/+1 Ob, debilitating Ob 3/+2 Ob, deadly Ob 4/B10 wound.
+Penalty scope is explicitly source-unspecified: no all-tests, duration, resistance,
+onset or recovery inferred. Wound shade/exponent is distinct from Munitions'
+created-device Mark reference. Ingestion is baseline delta zero; blade/vapor/contact
+add 1/2/3 crafting Ob without altering potency/effect. Tests alone check totals.
 
-A proposed equipment/poisons integration should separate obstacle-penalty from
-fixed wound shade/exponent, and preserve delivery/crafting modifiers without
-computing exposure, wounds, duration or recovery. No evaluator is proposed. The
-printed Alchemical FoRK remains the previously audited unresolved source reference;
-this schema gap does not authorize silently replacing it with Alchemy.
+The equipment integration is also indexed for poisons; tools are expendable,
+root Perception, type Special, and FoRKs Herbalism/Apothecary/printed Alchemical.
+Alchemical remains unresolved; probable Alchemy is preserved as the existing
+audit hint, not a resolved FoRK or runtime/default fallback.
+Validation checks serializable dimensions, effect units and malformed fields, not
+exposure or wounds. D-025 extended; 279 complete definitions through Poisons.
+
+## Pending Polearm combat-use choice
+
+Visually reviewed 289/291. The player must choose blade cutting versus beak or
+blade-tip thrusting when using the weapon in combat; the two uses have different
+damage and weapon lengths. The skill entry gives no numeric values. Current
+Fight integration can index external rules but cannot retain a typed choice and
+its distinct damage/length profile references. Do not guess these values, infer
+two skill identities or treat the source choice as a lifepath acquisition option.
+
+Proposed minimal combat-use metadata should retain cutting/thrusting options and
+external damage/weapon-length profile references, without lookup, attack selection
+or Fight execution. Polearm and subsequent entries remain identity-only pending
+this schema resolution. No further P records are marked complete ahead of it.

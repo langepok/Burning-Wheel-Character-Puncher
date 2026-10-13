@@ -366,6 +366,17 @@ engine assumptions, inventory consumption, scene clock, drinking, intoxication,
 Health/Forte or duration evaluator follows. Consumable results are distinct from
 valuation, tool-use bonuses and skill-test outcomes.
 
+The confirmed Poisons audit (288–289 / 290–291) extends this boundary with
+CraftedPoison: independent potency and intended-delivery dimensions for a created
+product. Potency stores base crafting obstacle plus obstacle penalty or fixed
+wound shade/exponent; delivery stores its own crafting-obstacle delta. Penalty
+scope is source-unspecified, not all-tests. No duration, onset, resistance,
+recovery or repeated-exposure semantics are inferred. B10 wound is not created
+device Mark, damage dice or weapon damage. Composition totals belong to tests;
+no arithmetic, exposure or wound processing follows from descriptor validation.
+The equipment integration is indexed for the poisons subsystem separately from
+Nogger consumption and skill-test outcome metadata.
+
 ## D-026 — Training root usage, learning methods and source options
 
 **Status:** Accepted — explicit user resolution and verified BWGR source audit
