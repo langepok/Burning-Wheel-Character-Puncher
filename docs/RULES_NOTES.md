@@ -387,3 +387,18 @@ most common current Will exponent in the crowd, not one target's Will. The entry
 specifies neither averaging/extrema nor tie resolution. Metadata references this
 source-defined aggregation without performing it. Duel of Wits use is a separate
 subsystem fact; Command, Persuasion and Rhetoric remain the printed FoRKs.
+
+**RAW — Orienteering journey results** (book 286 / PDF 288): success finds the
+intended way without delay. Failure makes the traveller and companions lost;
+they either reach the intended destination but miss relevant appointments, or
+reach an unintended location. No method for selecting an alternative, travel
+duration or distance is stated. A map supplies one advantage die to the test:
+fixed 1D, distinct from Musical Instrument's unquantified canonical Advantage.
+Maps are optional; Tools remains none.
+
+**RAW — P before Poisons** (book 287–288 / PDF 289–290): Paean of Deeds uses
+Conspicuous mechanics. Persuasion uses the intended victim's Will. Playwright
+retains Write as an opening requirement. Poetry adds 1 Ob when imitating another
+poet's style. Poisonous Platitudes combines Persuasion/Soothing Platitudes, uses
+Hatred with open-ended rolls, targets victim Will and separately refers to Duel
+of Wits. None of these metadata facts executes subsystem rules.

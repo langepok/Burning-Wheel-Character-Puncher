@@ -252,6 +252,22 @@ export function createSkillCatalog(content: SkillCatalogContent) {
           }
           triggers.add(outcome.trigger.kind);
           for (const effect of outcome.effects) {
+            if (effect?.kind === 'journey-navigation') {
+              const only = (value: object, fields: readonly string[]) => Object.keys(value).every(key => fields.includes(key));
+              if ('state' in effect) {
+                if (outcome.trigger.kind !== 'failure' || effect.state !== 'lost' || effect.recipient !== 'travelling-party' ||
+                    !only(effect, ['kind', 'recipient', 'state', 'alternatives']) ||
+                    !Array.isArray(effect.alternatives) || effect.alternatives.length !== 2 ||
+                    effect.alternatives[0]?.arrival !== 'intended-destination' ||
+                    effect.alternatives[0].appointments !== 'missed-if-applicable' ||
+                    !only(effect.alternatives[0], ['arrival', 'appointments']) ||
+                    effect.alternatives[1]?.arrival !== 'unintended-location' ||
+                    !only(effect.alternatives[1], ['arrival'])) throw new Error('Invalid journey outcome');
+              } else if (outcome.trigger.kind !== 'success' || effect.recipient !== 'primary-actor' ||
+                  effect.result !== 'intended-destination' || effect.delay !== 'none' ||
+                  !only(effect, ['kind', 'recipient', 'result', 'delay'])) throw new Error('Invalid journey outcome');
+              continue;
+            }
             if (!effect || !['primary-actor', 'target'].includes(effect.recipient)) throw new Error('Invalid skill test outcome recipient');
             if (effect.kind === 'name-bestowal' || effect.kind === 'name-bestowal-denied') {
               if (Object.keys(effect).some(key => !['kind', 'recipient'].includes(key))) throw new Error('Invalid skill test outcome naming effect');

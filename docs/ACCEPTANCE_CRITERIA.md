@@ -570,3 +570,25 @@ A Character Burner feature is done only when:
   and additional aggregation/tie fields are rejected.
 - Command/Persuasion/Rhetoric FoRKs and the separate Duel of Wits reference persist.
 - No crowd state, aggregation, NPC grouping or Duel of Wits evaluator is added.
+
+## Orienteering journey outcomes
+
+- Success reaches the intended destination without delay. Failure establishes lost
+  for the travelling party (actor plus companions), then two alternatives:
+  intended destination plus missed appointments if applicable, or unintended location.
+- Alternatives have no selection policy, numeric delay, distance or location generator.
+- Map use gives fixed 1D through contextual dice metadata, distinct from canonical
+  unquantified Advantage; maps are not required tools.
+- Typed outcomes serialize/validate, rejecting malformed recipients/alternatives
+  and invented timing, selection or generation fields. No travel evaluator added.
+
+## Reviewed P entries before Poisons
+
+- Paean of Deeds retains Conspicuous mechanics reference, Elven restriction and
+  Silent Fury FoRK. Persuasion uses target Will without invented adjustments.
+- Philosophy's History FoRK remains open family guidance; Playwright preserves
+  its existing known-Write opening requirement.
+- Poetry preserves a separate +1 Ob when imitating another poet's style.
+- Poisonous Platitudes retains Hatred root/open-ended behavior, both included
+  skill capabilities, target Will, Orc restriction and external Duel of Wits fact.
+- Named Wises, roots, printed types, tools and source pages match reviewed source.

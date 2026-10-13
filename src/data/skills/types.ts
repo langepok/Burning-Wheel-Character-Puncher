@@ -337,7 +337,17 @@ export interface ContextualTestModifier {
   readonly when: SkillContext;
 }
 /** Character/world-state results, never test-pool modifiers. */
+export type JourneyNavigationOutcome =
+  | { readonly kind: 'journey-navigation'; readonly recipient: 'primary-actor';
+      readonly result: 'intended-destination'; readonly delay: 'none' }
+  | { readonly kind: 'journey-navigation'; readonly recipient: 'travelling-party'; readonly state: 'lost';
+      /** Actor plus companions; alternatives have no inferred selection policy. */
+      readonly alternatives: readonly [
+        { readonly arrival: 'intended-destination'; readonly appointments: 'missed-if-applicable' },
+        { readonly arrival: 'unintended-location' },
+      ] };
 export type SkillTestOutcomeEffect =
+  | JourneyNavigationOutcome
   | { readonly kind: 'name-bestowal' | 'name-bestowal-denied'; readonly recipient: SkillTestActor }
   | { readonly kind: 'reputation'; readonly recipient: SkillTestActor;
       readonly reputationKind: 'ordinary' | 'infamous';

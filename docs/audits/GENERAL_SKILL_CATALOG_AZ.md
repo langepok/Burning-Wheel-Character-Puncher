@@ -494,12 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm run typecheck, npm test (771 tests
-in 32 files), npm run build and git diff --check; npm ci passed at the preceding
-checkpoint with unchanged dependencies. O and later blocks, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (796 tests
+in 33 files), npm run build and git diff --check. Remaining P–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Oratory, Orc-wise and Ore-wise:
-264 complete definitions: A–N complete, O reviewed through Ore-wise; Orienteering and later entries pending.
+Production transcription continues through Poisonous Platitudes:
+278 complete definitions: A–O complete, P reviewed through Poisonous Platitudes; Poisons and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -586,18 +585,45 @@ Command/Persuasion/Rhetoric FoRKs, Social type, Will root, no tools and separate
 Duel of Wits integration tag. No crowd or conflict evaluator is introduced.
 Orc-wise and Ore-wise complete the next named topics: 264 complete definitions.
 
-## Pending Orienteering journey outcomes
+## Resolved Orienteering journey outcomes and O completion
 
-Visually reviewed 286/288. Orienteering permits navigation with or without maps;
-maps give Advantage, not a tools requirement or fixed invented dice amount.
-Success finds the way without delay. Failure loses the way and has alternatives:
-miss appointments but still arrive at the destination, OR arrive at an unintended
-location. Existing typed outcomes describe naming/reputation, not wayfinding,
-delay or destination results. A prose-only complete record would drop this
-structured procedure. Orienteering and later records remain identity-only.
+Visually reviewed 286/288. Success reaches the intended destination without
+delay. Failure establishes lost for actor plus companions as travelling-party,
+then two alternatives: intended arrival with appointments missed if applicable,
+or unintended arrival. No numeric delay, distance, destination generation or
+alternative selection is inferred. Validation rejects invented fields and keeps
+these effects distinct from naming/reputation and test modifiers.
 
-Proposed minimal source-shaped journey outcome metadata should preserve success
-without delay and failure lost-way with these two alternatives. Do not infer
-travel duration, random destination, appointment counts or automatic selection
-between alternatives; no journey/navigation evaluator is proposed. Map Advantage
-can reuse canonical Advantage and the existing structured circumstance leaf.
+Correction to the earlier pending audit: the entry specifies one advantage die
+from maps, not unquantified canonical Advantage. It is fixed 1D under the existing
+using-map circumstance, independently of optional maps/Tools none. All O entries
+are complete: 265 definitions at this checkpoint. No journey evaluator added.
+
+## Reviewed P before Poisons
+
+Visually reviewed 287–288/289–290. Added Paean of Deeds, Painting, Pattern-wise,
+Personal Effects-wise, Persuasion, Philosophy, Pilgrimage-wise, Pilot, Playwright,
+Plumbing, Poetry, Poison-wise and Poisonous Platitudes: 278 complete definitions.
+Paean preserves its Conspicuous mechanics relation; Philosophy preserves open
+History family FoRK guidance. Playwright retains the existing known-Write
+requirement, without reinterpreting literacy capability as sufficient. Painting
+and Poetry retain independent contextual +1 Ob modifiers. Poisonous Platitudes
+has both capability relations, current target Will, Hatred root/open-ended rolls,
+Orc restriction and separate Duel of Wits reference. No new subsystem execution.
+
+## Pending Poisons crafted-product effects
+
+Visually reviewed 288–289/290–291. The products can inflict source-defined
+obstacle penalties (sickening +1 Ob; debilitating +2 Ob) or a B10 wound (deadly).
+Crafting obstacles are 2/3/4 respectively. The baseline is imbibed/ingested;
+blade delivery adds 1 crafting Ob, inhaled vapor adds 2, contact adds 3. These are
+product/exposure effects and delivery-dependent crafting costs, not bonuses to
+the maker's test, naming results or Nogger's intoxication-specific outcome.
+The current types cannot preserve all these facts without a minimal approved
+harmful-product descriptor. Poisons and later entries remain identity-only.
+
+A proposed equipment/poisons integration should separate obstacle-penalty from
+fixed wound shade/exponent, and preserve delivery/crafting modifiers without
+computing exposure, wounds, duration or recovery. No evaluator is proposed. The
+printed Alchemical FoRK remains the previously audited unresolved source reference;
+this schema gap does not authorize silently replacing it with Alchemy.

@@ -156,3 +156,9 @@ results remain equipment data, separate from crafting test outcomes or Resources
 ObstacleBasis distinguishes single-target live exponent from crowd live exponent
 with most-common statistic. Oratory (286/288) supplies the crowd case. No tie
 policy, average, extrema, rounding or aggregation evaluator is encoded.
+
+Journey-navigation outcomes preserve intended arrival/no delay on success and
+travelling-party lost state followed by two source-defined alternatives on failure.
+No alternative selection, travel timing or location generation is encoded.
+Orienteering (286/288) also supplies a separate fixed map die, not canonical
+unquantified Advantage; existing name/reputation outcomes retain their recipients.

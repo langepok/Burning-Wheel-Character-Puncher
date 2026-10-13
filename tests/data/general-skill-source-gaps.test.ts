@@ -1,7 +1,7 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
+import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { createSkillCatalog } from '../../src/data/skills';
 import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
-import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
 
 const catalog = createSkillCatalog(skillFixtureContent);
@@ -120,11 +120,12 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Orienteering, book 286 / PDF 288: losing the way has alternative journey outcomes. */
-describe('Pending Orienteering journey outcomes', () => {
-  it('does not claim a complete entry before structured journey outcomes are resolved', () => {
-    const production = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(production.skills.has('orienteering')).toBe(false);
-    expect(production.references.get('orienteering')?.sourceName).toBe('Orienteering');
+
+/** Poisons, book 288–289 / PDF 290–291: crafted harmful products, not maker-test effects. */
+describe('Pending Poisons crafted-product effects', () => {
+  it('does not force harmful-product effects into Nogger intoxication or maker outcomes', () => {
+    const catalog = createSkillCatalog(generalSkillTranscriptionContent);
+    expect(catalog.skills.has('poisons')).toBe(false);
+    expect(catalog.references.get('poisons')?.sourceName).toBe('Poisons');
   });
 });

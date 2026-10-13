@@ -1,4 +1,4 @@
-import { combined, define, forks, generic, none, only, stat, workshop, magical, evidence } from './shared';
+import { combined, define, forks, fork, guidance, generic, none, only, stat, workshop, magical, evidence, expendable, hatred } from './shared';
 
 /** Reviewed N–R entries only; later records remain identity references. */
 export const nRSkills = [
@@ -43,4 +43,51 @@ export const nRSkills = [
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'orc' } }),
   define('ore-wise', 'Ore-wise', 286, 'Knowledge of ore.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'ore' } }),
+  define('orienteering', 'Orienteering', 286, 'Navigate overland with or without maps. Compass guidance: familiar/day Ob 1, familiar/night Ob 2, unfamiliar Ob 3, unfamiliar/night Ob 4, familiar/storm Ob 5, storm/night Ob 6.', {
+    rootRule: stat('perception'), skillType: 'Forester', tools: none, forkSuggestions: forks('navigation'),
+    testProfile: { kind: 'contextual',
+      modifiers: [{ effect: { kind: 'dice-bonus', dice: 1 }, when: { kind: 'circumstance', circumstanceId: 'using-map' } }],
+      outcomes: [
+        { trigger: { kind: 'success' }, effects: [{ kind: 'journey-navigation', recipient: 'primary-actor',
+          result: 'intended-destination', delay: 'none' }] },
+        { trigger: { kind: 'failure' }, effects: [{ kind: 'journey-navigation', recipient: 'travelling-party', state: 'lost',
+          alternatives: [{ arrival: 'intended-destination', appointments: 'missed-if-applicable' }, { arrival: 'unintended-location' }] }] },
+      ] } }),
+  define('paean-of-deeds', 'Paean of Deeds', 287, 'An Elven song announcing confident arrival, using Conspicuous mechanics.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: forks('silent-fury'), relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'conspicuous' } }] }),
+  define('painting', 'Painting', 287, 'Paint images on surfaces. Guidance: simple monochrome Ob 1, caricature Ob 2, complex monochrome/simple polychrome Ob 3, likeness Ob 4, complex polychrome Ob 5; wet plaster adds 1 Ob.', {
+    rootRule: combined('will', 'agility'), skillType: 'Artist', tools: expendable, forkSuggestions: forks('illuminations'),
+    testProfile: { kind: 'contextual', modifiers: [{ effect: { kind: 'obstacle-modifier', delta: 1 },
+      when: { kind: 'circumstance', circumstanceId: 'painting-on-wet-plaster' } }] } }),
+  define('pattern-wise', 'Pattern-wise', 287, 'Knowledge of patterns.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'pattern' } }),
+  define('personal-effects-wise', 'Personal Effects-wise', 287, 'Knowledge of personal effects.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'personal-effects' } }),
+  define('persuasion', 'Persuasion', 287, 'Convince another to act on your behalf, often through agreements or a carefully framed suggestion.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('falsehood', 'haggling', 'soothing-platitudes', 'ugly-truth'),
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } }),
+  define('philosophy', 'Philosophy', 287, 'Discuss wisdom and the divine. Guidance: sacred object Ob 2, school symbols Ob 3, social futility Ob 4, a summoned demon\'s original purpose Ob 5, divine mystery Ob 6, explaining angel counts to a child Ob 10.', {
+    rootRule: combined('will', 'perception'), skillType: 'School of Thought', tools: none,
+    forkSuggestions: guidance(fork('doctrine'), fork('rule-of-law'), { target: { kind: 'skill-family', familyId: 'history', relevance: 'any' } }) }),
+  define('pilgrimage-wise', 'Pilgrimage-wise', 287, 'Knowledge of pilgrimages.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'pilgrimage' } }),
+  define('pilot', 'Pilot', 288, 'Steer ships. Port guidance: large Ob 1, busy Ob 2, small/busy Ob 3; narrow/shallow channels Ob 4, dangerous waters Ob 5.', {
+    rootRule: combined('perception', 'power'), skillType: 'Seafaring', tools: none, forkSuggestions: forks('navigation') }),
+  define('playwright', 'Playwright', 288, 'Compose scripts for stage performance. Genre guidance: religion/farce Ob 1, history/drama Ob 2, tragedy Ob 3, comedy Ob 4.', {
+    rootRule: combined('will', 'perception'), skillType: 'Academic', tools: expendable,
+    openingRequirements: [{ kind: 'known-skill', skillId: 'write' }], forkSuggestions: forks('composition', 'obscure-history', 'philosophy') }),
+  define('plumbing', 'Plumbing', 288, 'Design water conveyance. Guidance: well Ob 1, troughs/ducts Ob 2, pump Ob 3, plumbing Ob 4, hot/cold running water Ob 5.', {
+    rootRule: stat('perception'), skillType: 'Artisan', tools: generic }),
+  define('poetry', 'Poetry', 288, 'Express ideas in verse. Guidance: crude verse Ob 1, atmosphere Ob 2, sorrow/tragedy Ob 3, love Ob 4, life truths/mysteries Ob 5.', {
+    rootRule: stat('will'), skillType: 'Musical', tools: none, forkSuggestions: forks('sing'),
+    testProfile: { kind: 'contextual', modifiers: [{ effect: { kind: 'obstacle-modifier', delta: 1 },
+      when: { kind: 'circumstance', circumstanceId: 'mimicking-another-poets-style' } }] } }),
+  define('poison-wise', 'Poison-wise', 288, 'Knowledge of poisons.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'poison' } }),
+  define('poisonous-platitudes', 'Poisonous Platitudes', 288, 'Orc flattery combining Persuasion and Soothing Platitudes; Duel of Wits execution remains external.', {
+    rootRule: hatred, skillType: 'Social', tools: none, printedMarkers: ['§'], rollBehavior: { kind: 'open-ended', basis: 'attribute-root' },
+    availabilityRestrictions: only(['orc']), forkSuggestions: forks('falsehood', 'persuasion'), integrationTags: ['duel-of-wits'],
+    relations: ['persuasion', 'soothing-platitudes'].map(id => ({ kind: 'includes-capability', target: { kind: 'skill', id } })),
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } }),
 ];
