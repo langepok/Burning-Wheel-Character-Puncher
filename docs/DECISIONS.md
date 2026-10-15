@@ -400,6 +400,29 @@ Training (137/139). The Elven Lancer example owns both (130/132). Source mapping
 are content, not stock-specific engine assumptions. Combat consequences stay
 external subsystem references; no ownership, learning or combat evaluator follows.
 
+## D-027 — Physical equipment identity and combat-use profiles are separate
+
+**Status:** Accepted — explicit user resolution and verified Polearm source audit
+
+Physical equipment identity is separate from combat-use profiles. A single physical
+weapon may expose multiple combat/use profiles with different combat statistics
+where the source establishes them; this is not a requirement for all weapons.
+Selecting a profile for an attack does not create a separate inventory item.
+Equipment-level state such as possession, loss, repair, quality, enchantment and
+similar whole-item properties belongs to the physical item unless a source rule
+explicitly targets a specific profile.
+
+Fight/UI may render combat profiles as separate attacks or action rows while
+retaining one underlying equipment identity. This is presentation, not two items.
+
+Polearm is the first confirmed case: BWGR 289 / PDF 291 distinguishes blade cutting
+from beak/blade-tip thrusting, with different damage and weapon length. Weapons
+Appendix 554 / PDF 556 names Polearm Axe Strike and Polearm Thrust. Skill metadata
+stores stable typed external profile references without duplicating numeric stats.
+The profiles may remain unloaded; they are not dangling General skill identities.
+No inventory runtime, profile generation, equipment modifications or Fight evaluator
+is introduced by this decision.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:

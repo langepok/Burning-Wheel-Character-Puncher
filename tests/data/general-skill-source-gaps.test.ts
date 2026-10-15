@@ -1,5 +1,5 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
 import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
 import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
@@ -121,11 +121,12 @@ describe('General Skill List source corrections', () => {
 });
 
 
-/** Polearm, book 289 / PDF 291: choose cutting or thrusting combat use. */
-describe('Pending Polearm combat-use choice metadata', () => {
-  it('does not declare a complete entry before its explicit combat choice is represented', () => {
+
+/** Rituals of Night, book 292 / PDF 294: spells separately purchased or learned. */
+describe('Pending external spell acquisition metadata', () => {
+  it('does not imply that knowing Rituals of Night grants every spell in its external list', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('polearm')).toBe(false);
-    expect(catalog.references.get('polearm')?.sourceName).toBe('Polearm');
+    expect(catalog.skills.has('rituals-of-night')).toBe(false);
+    expect(catalog.references.get('rituals-of-night')?.sourceName).toBe('Rituals of Night');
   });
 });

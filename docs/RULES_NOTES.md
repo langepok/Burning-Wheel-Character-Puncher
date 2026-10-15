@@ -410,3 +410,19 @@ recovery. Ingestion is baseline; blade, inhaled vapor and contact add 1/2/3 to
 crafting Ob respectively, not to product effect. Store independent dimensions
 without exposure/wound execution. Alchemical remains the printed unresolved FoRK,
 not silently Alchemy. See D-025.
+
+**RAW — Polearm combat profiles** (book 289 / PDF 291; Weapons Appendix book
+554 / PDF 556): one weapon can cut with the blade or thrust with beak/blade tip;
+these uses differ in damage and weapon length. Appendix names Polearm Axe Strike
+and Polearm Thrust. Skill metadata points to these external profiles and contains
+no copied numeric stats. D-027 separates physical item identity from use profiles;
+it does not create inventory items, grant weapon modifications or run Fight.
+
+**RAW — remaining P and reviewed early R** (book 289–292 / PDF 291–294):
+Purple Song and Riddle of Steel retain Antiphon references without invented wine
+or weapon enchantment bonuses. Ratiquette substitutes for Etiquette only with
+rats/relatives. Read is distinct from Write and adds 1 Ob for silent reading.
+Religious Diatribe uses interlocutor Will; Rhetoric uses victim Perception.
+Rhyme of the Gatherer/Mariner/Pathfinder explicitly act as Foraging/Rigging/Tracking;
+printed Seafarer and Seafaring remain distinct. Rituals of Blood references the
+Orc magic chapter, without implementing spells or their effects.

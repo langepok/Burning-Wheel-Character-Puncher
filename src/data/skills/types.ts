@@ -452,7 +452,19 @@ export interface TrainingSourceChoice {
   }>;
 }
 
+/** A named external profile, not a skill or an inventory item; it need not be loaded. */
+export interface ExternalCombatProfileReference {
+  readonly kind: 'external-combat-profile'; readonly subsystem: 'fight'; readonly catalog: 'weapon-appendix';
+  readonly id: string; readonly sourceName: string;
+}
+export interface CombatUseChoice {
+  readonly kind: 'combat-use-choice';
+  readonly weaponIdentity: 'shared-physical-item'; readonly selection: 'per-combat-use';
+  readonly options: Operands<{ readonly id: string; readonly combatProfileRef: ExternalCombatProfileReference }>;
+}
+
 export interface SkillMetadata {
+  readonly combatUseChoice?: CombatUseChoice;
   readonly adverseOutcomes?: readonly SkillAdverseOutcome[];
   readonly trainingSourceChoice?: TrainingSourceChoice;
   readonly procedures?: readonly SkillProcedure[];

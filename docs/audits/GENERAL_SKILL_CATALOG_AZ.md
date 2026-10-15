@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (829 tests
-in 34 files), npm run build and git diff --check. Remaining P–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (850 tests
+in 35 files), npm run build and git diff --check. Remaining R–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Poisons:
-279 complete definitions: A–O complete, P reviewed through Poisons; Polearm and later entries pending.
+Production transcription continues through Rituals of Blood:
+301 complete definitions: A–P complete, R reviewed through Rituals of Blood; Rituals of Night and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -628,16 +628,48 @@ audit hint, not a resolved FoRK or runtime/default fallback.
 Validation checks serializable dimensions, effect units and malformed fields, not
 exposure or wounds. D-025 extended; 279 complete definitions through Poisons.
 
-## Pending Polearm combat-use choice
+## Resolved Polearm physical identity / combat profiles
 
-Visually reviewed 289/291. The player must choose blade cutting versus beak or
-blade-tip thrusting when using the weapon in combat; the two uses have different
-damage and weapon lengths. The skill entry gives no numeric values. Current
-Fight integration can index external rules but cannot retain a typed choice and
-its distinct damage/length profile references. Do not guess these values, infer
-two skill identities or treat the source choice as a lifepath acquisition option.
+Visually reviewed 289/291 and Weapons Appendix 554/556. The skill exposes cutting
+and thrusting per-combat-use choices sharing one physical weapon. Cutting points
+to external Polearm Axe Strike, thrusting to external Polearm Thrust. Distinct
+stable profile ids are not skills or inventory items; unloaded external references
+validate without a Weapon Appendix production catalog. No numeric weapon stats,
+quality-dependent profile selection, equipment modifications or Fight evaluator
+are added. D-027 records the physical-item/profile boundary and whole-item state.
+Tests cover exact choices, reference shape, serialization, generic synthetic ids
+and rejection of duplicated identities, copied stats or inventory acquisition.
 
-Proposed minimal combat-use metadata should retain cutting/thrusting options and
-external damage/weapon-length profile references, without lookup, attack selection
-or Fight execution. Polearm and subsequent entries remain identity-only pending
-this schema resolution. No further P records are marked complete ahead of it.
+## P completion and reviewed R before Rituals of Night
+
+Potter, Prospecting, Protector-wise and Purple Song complete P (284 definitions).
+Prospecting keeps open appropriate Wises guidance. Purple Song retains Workshop,
+Elven restriction, magical rolls and the existing Antiphon created-item reference;
+Lyric of Healing/Doom of Strength/Mirrorwine remain concise source-backed external
+examples with no invented numeric effects. No Tinkersmend rules are inherited from
+the source comparison. Printed Rhyme of Rules remains unresolved as previously
+audited, not silently normalized.
+
+Visually reviewed 289–292/291–294. Ratiquette, Read, Reason of Old Stone, Religious
+Diatribe, Reputation-wise, Research, Rhetoric, the three Rhyme skills, Rhythm of the
+City-wise, Riddle of Steel, Ridiculous Request-wise, Riding, Rigging, Ritual and
+Rituals of Blood bring production to 301 complete definitions. Source roots, types,
+tools and restrictions stay explicit. Read does not imply Write; silence is a
+contextual +1 Ob. Rhetoric's target Perception is distinct from Diatribe's target
+Will and Oratory's crowd basis. Rhyme of the Mariner remains Seafarer, Rigging
+Seafaring. Antiphon, Riding chapter and Orc magic references stay subsystem facts.
+
+## Pending Rituals of Night separately acquired spells
+
+Visually reviewed 292/294: knowing Rituals of Night permits use of its external
+spell list, but the spells must be purchased or learned separately. The current
+schema has General known-skill opening requirements and limited capability/trait
+use requirements, not a typed external spell-list access/acquisition descriptor.
+Do not imply that opening the skill grants its entire spell list or convert spells
+into fake General skill identities.
+
+Proposed minimal magic integration metadata should reference the external Rituals
+of Night list and preserve separate purchase-or-learning acquisition, without
+transcribing spells, choosing acquisition costs or implementing a spell/state
+evaluator. Rituals of Night and later entries remain identity-only pending this
+source/schema resolution.

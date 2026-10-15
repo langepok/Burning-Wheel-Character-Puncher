@@ -179,6 +179,28 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (ability.kind === 'skill') requireSkill(ability.id);
   };
   const validateMetadata = (metadata: Partial<SkillMetadata>) => {
+    if (metadata.combatUseChoice !== undefined) {
+      const choice = metadata.combatUseChoice;
+      const only = (value: object, fields: readonly string[]) => Object.keys(value).every(key => fields.includes(key));
+      const text = (value: unknown) => typeof value === 'string' && value.trim().length > 0;
+      if (!choice || choice.kind !== 'combat-use-choice' || choice.weaponIdentity !== 'shared-physical-item' ||
+          choice.selection !== 'per-combat-use' || !only(choice, ['kind', 'weaponIdentity', 'selection', 'options']) ||
+          !Array.isArray(choice.options) || choice.options.length < 2) throw new Error('Invalid combat-use choice');
+      const optionIds = new Set<string>();
+      const profileIds = new Set<string>();
+      for (const option of choice.options) {
+        const reference = option?.combatProfileRef;
+        if (!option || !text(option.id) || optionIds.has(option.id) || !only(option, ['id', 'combatProfileRef']) ||
+            !reference || reference.kind !== 'external-combat-profile' || reference.subsystem !== 'fight' ||
+            reference.catalog !== 'weapon-appendix' || !text(reference.id) || !text(reference.sourceName) ||
+            profileIds.has(reference.id) || !only(reference, ['kind', 'subsystem', 'catalog', 'id', 'sourceName'])) {
+          throw new Error('Invalid combat-use choice');
+        }
+        optionIds.add(option.id);
+        profileIds.add(reference.id);
+        // External subsystem references are not resolved as owned General skills.
+      }
+    }
     if (metadata.adverseOutcomes !== undefined) {
       if (!Array.isArray(metadata.adverseOutcomes)) throw new Error('Invalid adverse outcomes');
       for (const adverse of metadata.adverseOutcomes) {

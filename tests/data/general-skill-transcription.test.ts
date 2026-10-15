@@ -7,7 +7,7 @@ const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'd' ||
   ('sourceParent' in entry && entry.sourceParent === 'doctrine') ||
   ['E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'].includes(entry.sourceName[0]) ||
-  ['mace', 'makers-mark-wise', 'man-wise', 'martial-arts', 'mason', 'meditation', 'mending', 'mercenary-company-wise', 'metal-wise', 'midwifery', 'mill-wise', 'miller', 'mimicry', 'mining', 'monk-wise', 'mounted-combat-training', 'mouth-of-hell-wise', 'mule-wise', 'munitions', 'music-composition', 'musical-instrument', 'mystery-meat-wise', 'name-ritual', 'navigation', 'nogger', 'oath-wise', 'obligation-wise', 'obscure-text-wise', 'observation', 'oratory', 'orc-wise', 'ore-wise', 'orienteering', 'paean-of-deeds', 'painting', 'pattern-wise', 'personal-effects-wise', 'persuasion', 'philosophy', 'pilgrimage-wise', 'pilot', 'playwright', 'plumbing', 'poetry', 'poison-wise', 'poisonous-platitudes', 'poisons'].includes(entry.id));
+  ['mace', 'makers-mark-wise', 'man-wise', 'martial-arts', 'mason', 'meditation', 'mending', 'mercenary-company-wise', 'metal-wise', 'midwifery', 'mill-wise', 'miller', 'mimicry', 'mining', 'monk-wise', 'mounted-combat-training', 'mouth-of-hell-wise', 'mule-wise', 'munitions', 'music-composition', 'musical-instrument', 'mystery-meat-wise', 'name-ritual', 'navigation', 'nogger', 'oath-wise', 'obligation-wise', 'obscure-text-wise', 'observation', 'oratory', 'orc-wise', 'ore-wise', 'orienteering', 'paean-of-deeds', 'painting', 'pattern-wise', 'personal-effects-wise', 'persuasion', 'philosophy', 'pilgrimage-wise', 'pilot', 'playwright', 'plumbing', 'poetry', 'poison-wise', 'poisonous-platitudes', 'poisons', 'polearm', 'potter', 'prospecting', 'protector-wise', 'purple-song', 'ratiquette', 'read', 'reason-of-old-stone', 'religious-diatribe', 'reputation-wise', 'research', 'rhetoric', 'rhyme-of-the-gatherer', 'rhyme-of-the-mariner', 'rhyme-of-the-pathfinder', 'rhythm-of-the-city-wise', 'riddle-of-steel', 'ridiculous-request-wise', 'riding', 'rigging', 'ritual', 'rituals-of-blood'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
   it('preserves P source relations, requirements and contextual modifiers before Poisons', () => {
@@ -25,6 +25,35 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(poisonous?.relations).toEqual(['persuasion', 'soothing-platitudes'].map(id => ({ kind: 'includes-capability', target: { kind: 'skill', id } })));
     expect(poisonous?.testProfile?.base).toEqual({ kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' });
     expect(poisonous?.integrationTags).toEqual(['duel-of-wits']);
+  });
+  it('completes P with separate crafting roots, open Wises and source-backed magic reference', () => {
+    expect(catalog.skills.get('potter')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'perception' }, { kind: 'stat', id: 'agility' }] });
+    expect(catalog.skills.get('potter')?.tools).toEqual({ kind: 'generic', expendable: true });
+    expect(catalog.skills.get('prospecting')?.forkSuggestions?.suggestions).toEqual([
+      { target: { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' } },
+      { target: { kind: 'skill', skillId: 'mining' } }, { target: { kind: 'skill', skillId: 'mason' } },
+    ]);
+    expect(catalog.skills.get('purple-song')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['elf'], scope: 'always' }]);
+    expect(catalog.skills.get('purple-song')?.tools).toEqual({ kind: 'workshop' });
+    expect(catalog.skills.get('purple-song')?.rollBehavior).toEqual({ kind: 'open-ended', basis: 'magical' });
+    expect(catalog.integrations.get('purple-song-antiphon')?.createdItemReference).toEqual({ kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' });
+    expect(catalog.integrations.get('purple-song-antiphon')?.equipmentResult).toBeUndefined();
+    expect(catalog.skills.get('purple-song')?.relations).toEqual([]);
+  });
+  it('preserves reviewed R contexts, literacy, roots, mechanics references and printed Seafaring labels', () => {
+    expect(catalog.skills.get('ratiquette')?.relations).toEqual([{ kind: 'contextual-substitution', target: { kind: 'skill', id: 'etiquette' }, context: { kind: 'subject', subject: 'rats-and-relatives' } }]);
+    expect(catalog.skills.get('read')?.capabilities).toEqual([{ kind: 'literacy', actions: ['read'] }]);
+    expect(catalog.skills.get('read')?.testProfile?.modifiers).toEqual([{ effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'circumstance', circumstanceId: 'reading-silently' } }]);
+    for (const [id, ability] of [['religious-diatribe', 'will'], ['rhetoric', 'perception']]) {
+      expect(catalog.skills.get(id)?.testProfile?.base).toEqual({ kind: 'target-ability-exponent', ability: { kind: 'stat', id: ability }, snapshot: 'current' });
+    }
+    for (const [id, target] of [['rhyme-of-the-gatherer', 'foraging'], ['rhyme-of-the-mariner', 'rigging'], ['rhyme-of-the-pathfinder', 'tracking']]) {
+      expect(catalog.skills.get(id)?.relations).toEqual([{ kind: 'same-mechanics', target: { kind: 'skill', id: target } }]);
+    }
+    expect(catalog.skills.get('rhyme-of-the-mariner')?.skillType).toBe('Seafarer');
+    expect(catalog.skills.get('rigging')?.skillType).toBe('Seafaring');
+    expect(catalog.skills.get('reason-of-old-stone')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['dwarf'], scope: 'always' }]);
+    expect(catalog.integrations.get('riddle-of-steel-antiphon')?.createdItemReference).toEqual({ kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' });
   });
   it('preserves Martial Arts identity and the law-song FoRK alternatives', () => {
     expect(catalog.skills.get('martial-arts')?.id).not.toBe(catalog.skills.get('boxing')?.id);
@@ -61,7 +90,7 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(catalog.skills.get('knives')?.tools).toEqual({ kind: 'specific-item', item: 'something knife-like' });
     expect(catalog.skills.get('knives')?.integrationTags).toEqual(['fight']);
   });
-  it('covers every reviewed A–M and A–O and through-Poisons entry exactly with the correct record kind/name/page', () => {
+  it('covers every reviewed entry through Rituals of Blood with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {

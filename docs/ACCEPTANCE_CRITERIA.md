@@ -604,3 +604,36 @@ A Character Burner feature is done only when:
 - Typed descriptors serialize independently and reject malformed/invented fields.
   All twelve totals are checked only in tests, not stored or evaluated in production.
 - Printed Alchemical FoRK remains unresolved; no exposure, wound or poison engine.
+
+## Polearm combat-use profiles
+
+- One Polearm skill exposes cutting and thrusting combat-use options sharing one
+  physical weapon identity; use selection does not create inventory items.
+- Cutting references external Weapon Appendix Polearm Axe Strike; thrusting
+  references Polearm Thrust. Stable profile ids are distinct, not SkillIds.
+- Unloaded external Fight profiles remain explicit, serializable and valid;
+  malformed references, duplicate options/profile ids and copied stats are rejected.
+- No Pow/Add/WS/VA/WL values, inventory runtime or Fight evaluator are introduced.
+- D-027 records physical item vs combat profile ownership/presentation boundaries.
+
+## Remaining P source entries
+
+- Potter/Prospecting preserve roots, printed types, tools and source guidance.
+- Prospecting's appropriate Wises remain open family guidance, not a closed list.
+- Purple Song remains Elven, magical, Workshop, with existing Antiphon created-item
+  reference. Named spell-song examples stay external summary references; no invented
+  wine effects, ageing engine or inheritance from Tinkersmend.
+- Protector-wise keeps independent Wises ownership and canonical name.
+
+## Reviewed R entries before Rituals of Night
+
+- Ratiquette's Etiquette substitution stays scoped to rats/relatives. Read gives
+  general read capability only; silent reading adds 1 Ob.
+- Religious Diatribe targets Will; Rhetoric targets Perception. Their Duel of Wits
+  facts stay separate from test bases. Open History FoRK guidance stays a family.
+- Rhyme songs retain explicit mechanics references and printed Seafarer vs
+  Seafaring labels; no root/tool inheritance is implied.
+- Riddle of Steel retains Antiphon cross-reference without invented enchantment
+  effects. Riding/Rituals of Blood keep external chapter/subsystem references.
+- Rituals of Night remains incomplete pending representation of separately
+  purchased/learned spells; no fake General skill identities or spell engine.

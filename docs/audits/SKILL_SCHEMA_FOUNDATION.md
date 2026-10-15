@@ -168,3 +168,10 @@ intended delivery/crafting delta. Source-unspecified penalty scope is explicit;
 fixed black wound exponent differs from created-device Mark and damage dice.
 Poisons (288–289/290–291) supplies the audited cases; no exposure/wound engine or
 generic formula facility is added (D-025).
+
+CombatUseChoice stores per-use options sharing a physical weapon identity. Typed
+ExternalCombatProfileReference points into Fight/Weapon Appendix by stable id and
+source name, explicitly allowing unloaded profiles rather than General skill or
+inventory references. Polearm (289/291; Appendix 554/556) supplies cutting/Axe
+Strike and thrusting/Thrust. No numeric stats or runtime profile generation is
+added; D-027 defines whole-item state vs use-profile boundaries.
