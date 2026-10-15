@@ -1,3 +1,4 @@
+import { validateShieldUse } from './shields';
 import { validateItemSearch } from './item-search';
 import { validateFatePronouncement, validateRuneCastingFateObstacle } from './fate';
 import { validateCraftedPoison } from './poisons';
@@ -522,6 +523,15 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   }
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
+    if (integration.shieldUse !== undefined) {
+      if (integration.subsystem !== 'fight') throw new Error('Invalid shield-use subsystem');
+      validateShieldUse(integration.shieldUse, ability => {
+        validateAbility(ability);
+        if (ability.kind === 'skill' && skills.get(ability.id)?.training?.kind === 'training') {
+          throw new Error('Invalid acting ability: Training has no exponent');
+        }
+      });
+    }
     if (integration.fatePronouncement !== undefined) {
       if (integration.subsystem !== 'magic') throw new Error('Invalid fate pronouncement subsystem');
       validateFatePronouncement(integration.fatePronouncement);

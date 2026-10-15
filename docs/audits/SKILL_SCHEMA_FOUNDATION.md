@@ -195,3 +195,11 @@ explicit no-specific/no-unique constraints, contextual location requirement and
 category obstacle guidance. All example locations/items are non-exhaustive.
 Scavenging (294/296) supplies the source case; no NLP/taxonomy, world lookup, loot
 generation, inventory or Resources evaluator follows from content validation.
+
+ShieldUse belongs to Fight integration. Action-scoped trained/untrained shield
+contributions and Block & Strike access are separate from shield Strike's
+ActingAbilityChoice. Fixed options reuse AbilityReference; appropriate Boxing is
+a manual context-resolved actor skill, not an opponent, alias, default or family.
+Known Training definitions cannot be referenced as rolled abilities. Source: Shield
+Training 295/297 and Armor and Shields 481/483, 483/485. No passive defense or
+Fight resolution/pool/VA/damage engine is introduced.

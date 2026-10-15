@@ -125,11 +125,12 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Shield Training, book 295 / PDF 297: trained defense and mixed acting abilities. */
-describe('Pending Shield Training combat-use metadata', () => {
-  it('does not coerce shield Strike choices into opposing abilities or weapon profiles', () => {
+
+/** Ship Management, book 295 / PDF 297: voyage supply shortage and serious consequences. */
+describe('Pending Ship Management supply outcomes', () => {
+  it('does not equate supply shortage with navigation loss or automatic item/death execution', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('shield-training')).toBe(false);
-    expect(catalog.references.get('shield-training')?.sourceName).toBe('Shield Training');
+    expect(catalog.skills.has('ship-management')).toBe(false);
+    expect(catalog.references.get('ship-management')?.sourceName).toBe('Ship Management');
   });
 });

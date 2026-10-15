@@ -330,6 +330,26 @@ export interface FatePronouncement {
   ];
 }
 
+/** Contextual actor skill selection is not an opposing ability or a source typo. */
+export type ActingAbilityReference = AbilityReference | {
+  readonly kind: 'context-resolved-skill'; readonly role: 'appropriate-boxing-skill'; readonly resolution: 'manual';
+};
+export interface ActingAbilityChoice {
+  readonly kind: 'one-of'; readonly options: Operands<ActingAbilityReference>;
+}
+/** Shield-related contributions/access only, not general availability of other actions. */
+export interface ShieldUse {
+  readonly kind: 'shield-use';
+  readonly trainedDefenseAccess: readonly [
+    { readonly action: 'block'; readonly shieldContribution: 'defense-dice' },
+    { readonly action: 'counterstrike'; readonly shieldContribution: 'defensive-portion' },
+    { readonly action: 'block-and-strike'; readonly access: 'enabled'; readonly shieldContribution: 'defensive-portion' },
+  ];
+  readonly untrainedDefenseAccess: readonly [{ readonly action: 'block'; readonly shieldContribution: 'defense-dice' }];
+  readonly shieldStrike: { readonly action: 'strike'; readonly implement: 'shield'; readonly actor: 'primary-actor';
+    readonly actingAbility: ActingAbilityChoice };
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
@@ -339,6 +359,9 @@ export type SkillIntegration = SkillIntegrationIdentity & (
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly structureResistance?: never }
   | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
+) & (
+  | { readonly subsystem: 'fight'; readonly shieldUse?: ShieldUse }
+  | { readonly subsystem: Exclude<IntegrationTag, 'fight'>; readonly shieldUse?: never }
 );
 
 /** Closed source-shaped alternatives, not reusable arithmetic expressions. */

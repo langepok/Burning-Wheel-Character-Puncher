@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (937 tests
-in 38 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (962 tests
+in 39 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Sewing:
-320 complete definitions: A–R complete, S reviewed through Sewing; Shield Training and later entries pending.
+Production transcription continues through Shield Training:
+321 complete definitions: A–R complete, S reviewed through Shield Training; Ship Management and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -737,19 +737,40 @@ restriction. Seduction uses current target Will with separate Duel of Wits use.
 Sewing preserves printed Weaver with its previously accepted probable Weaving
 audit hint as unresolved guidance, not a resolved skill reference.
 
-## Pending Shield Training combat-use metadata
+## Resolved Shield Training action-scoped Fight metadata
 
-Visually reviewed 295/297. Trained characters incorporate a shield into defense;
-untrained characters must actively block to benefit. A shield Strike uses Brawling,
-an appropriate Boxing skill, or Agility. Current opposing-ability alternatives
-describe opponents, not the actor's governing ability. CombatUseChoice refers to
-weapon profiles, not skill/stat alternatives or an appropriate Boxing selector.
-Do not reinterpret these alternatives as opponents, invent a default, collapse
-Boxing/Martial Arts identities or use weapon-profile ids as ability ids.
+Visually reviewed 295/297 and Armor and Shields 481/483 plus Shields in Brief
+483/485. Trained use is action-scoped, not passive/always-on defense. Shield dice
+contribute to Block, the defensive portion of Counterstrike, and the defensive
+portion of enabled Block & Strike. Untrained shield contribution is limited to
+Block and does not enable Block & Strike. These lists describe shield-related
+access/contributions, not general availability of other Fight actions.
 
-Proposed minimal Fight integration metadata should retain the trained/untrained
-defense distinction and source-backed acting-ability selection for a shield
-Strike, with a contextual appropriate-Boxing reference and no combat evaluator.
-The explicit Aptitude-only footnote stays preserved in the existing audited
-Training fixtures (D-026); the complete production entry and later skills remain
-identity-only pending this source/schema resolution.
+A separate shield Strike descriptor uses the actor's Brawling, manually selected
+appropriate Boxing skill, or Agility stat. ActingAbilityChoice reuses fixed
+AbilityReference forms and preserves contextual Boxing without a fixed/default id,
+alias or fake universal family. It is distinct from opposing-ability alternatives
+and weapon profiles. Training itself has no exponent and cannot be a rolled
+acting ability. Shield Training preserves Agility Aptitude-only semantics and
+separate learning methods under D-026. Boxing/Martial Arts identities remain intact.
+
+Content validation rejects malformed references, known Training-as-roll, invented
+passive properties and unsupported action entries. The fixture/source root audit
+remains covered. No Block/Counterstrike/Block & Strike resolution, pool division,
+shield VA/damage, positioning or other combat evaluator is added. No new durable
+Decision is required by this extension. Production reaches 321 definitions.
+
+## Pending Ship Management supply outcomes
+
+Visually reviewed 295/297. Success indicates no supply problem; failure runs the
+ship short of critically needed supplies (food, water, medicine, lumber, ammunition
+and other examples), causing serious complications; the entry describes sailors
+dying from the resulting deprivation and harm to morale. No fixed item quantity,
+time to death, death count or deterministic inventory/death procedure is given.
+
+Current skill-test outcomes describe naming/reputation and navigation, not voyage
+supply shortage and its serious crew consequences. Do not flatten shortage to
+lost navigation, infer Resources loss, generate supplies, or apply automatic death.
+A proposed minimal supply-management outcome descriptor should preserve success
+and failure source facts with contextual/manual consequence details. Ship Management
+and later entries remain identity-only pending this schema resolution.

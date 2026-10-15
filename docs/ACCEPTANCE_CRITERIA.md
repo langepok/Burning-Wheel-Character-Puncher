@@ -711,3 +711,21 @@ A Character Burner feature is done only when:
   probable Weaving audit hint, never a silently resolved FoRK.
 - Shield Training remains incomplete pending combat-use/acting-ability metadata;
   its already audited Aptitude-only root semantics remain preserved in fixtures.
+
+## Shield Training Fight integration
+
+- Martial Training keeps Agility rootUsage aptitude-only, no exponent, and separate
+  practice/instruction learning methods (D-026).
+- Shield contributions are action-scoped: trained Block defense, Counterstrike
+  defensive portion, and enabled Block & Strike defensive portion. Untrained
+  shield use augments only Block and does not grant Block & Strike. No passive
+  or always-on defense is represented.
+- Shield Strike separately selects the actor's Brawling skill, manual contextual
+  appropriate-Boxing skill, or Agility stat through existing AbilityReference forms.
+  Shield Training is not the rolled ability; acting choices are not opponents.
+- Contextual Boxing selection has no fixed/default skill id or fake Boxing family;
+  Boxing and Martial Arts keep distinct identities.
+- Typed metadata serializes and rejects malformed action permissions, fixed/dangling
+  ability refs, Training-as-roll and invented passive/execution fields.
+- No Fight action resolution, pool splitting, VA/damage/positioning rules or engine
+  are added; detailed Armor and Shields rules remain external.

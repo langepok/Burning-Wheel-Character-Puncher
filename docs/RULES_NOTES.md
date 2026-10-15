@@ -474,3 +474,17 @@ uses target Will and separately refers to Duel of Wits; intercourse is not requi
 Servant-wise prints Wise (not Special) and restricts Orcs only in character burning.
 Sewing retains printed Weaver as unresolved with the existing probable Weaving
 audit hint; it is not a silently resolved FoRK.
+
+**RAW — Shield Training action-scoped use** (book 295 / PDF 297; Armor and
+Shields book 481/483 / PDF 483/485): trained use adds shield dice to Block and the
+defensive portion of Counterstrike, and grants Block & Strike with shield
+contribution to its defensive portion. Untrained use augments only Block and
+does not grant Block & Strike. This is not passive/always-on defense.
+
+When Striking with the shield itself, choose Brawling, a contextually appropriate
+Boxing skill, or Agility. This actor's ability choice is separate from action
+access, opposing abilities and the Training root. Shield Training remains
+Martial Training with Agility root for Aptitude only (D-026), not a rolled skill.
+Boxing selection remains manual, with no fixed/default id or new family; Boxing
+and Martial Arts stay distinct (D-024). Block resolution, pool division, VA, shield
+failure, positioning and other Fight details remain external rules.

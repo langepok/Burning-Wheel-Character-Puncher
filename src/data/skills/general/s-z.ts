@@ -1,4 +1,4 @@
-import { combined, define, expendable, fork, forks, generic, guidance, none, only, sourceFork, stat, workshop } from './shared';
+import { aptitudeTraining, combined, define, expendable, fork, forks, generic, guidance, none, only, sourceFork, stat, workshop } from './shared';
 
 /** Reviewed S–Z records only; later entries remain identity references. */
 export const sZSkills = [
@@ -36,4 +36,7 @@ export const sZSkills = [
     forkSuggestions: forks('great-and-black-wise'), familyMembership: { familyId: 'wises', topicId: 'servant' } }),
   define('sewing', 'Sewing', 295, 'Make and mend cloth garments and household textiles. Guidance: simple linens/sashes/scarves Ob 1, repair Ob 2, clothing Ob 3, fancy clothing Ob 4.', {
     rootRule: stat('agility'), skillType: 'Peasant', tools: expendable, forkSuggestions: guidance(sourceFork('Weaver', 'weaving'), fork('embroidery')) }),
+  define('shield-training', 'Shield Training', 295, 'Training permits action-scoped shield defense and Block & Strike. A shield Strike uses separate acting ability choices; combat resolution stays external.', {
+    rootRule: stat('agility'), skillType: 'Martial Training', tools: none, training: aptitudeTraining, printedMarkers: ['*'], integrationTags: ['fight'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'shield-use', integrationId: 'shield-training-use' }] }),
 ];
