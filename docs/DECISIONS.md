@@ -423,6 +423,31 @@ The profiles may remain unloaded; they are not dangling General skill identities
 No inventory runtime, profile generation, equipment modifications or Fight evaluator
 is introduced by this decision.
 
+## D-028 — Free-form narrative content and structured mechanical relationships
+
+**Status:** Accepted — explicit user resolution and verified Rune Casting audit
+
+Narrative content remains free-form while mechanical relationships to narrative
+content are structured. Beliefs, Instincts and similar player-authored narrative
+elements are not catalog entries and are not semantically interpreted by the
+rules engine. Such entities should have stable runtime identity and may expose
+machine-trackable metadata such as ownership, revision/version and status.
+Rules may reference those entities and react to structural changes, while
+judgments about meaning, thematic correspondence, fulfillment or appropriateness
+remain manual/table adjudication unless RAW provides an objective procedure.
+
+Rune Casting (BWGR 293 / PDF 295) is the first explicit motivating case. Its
+integration distinguishes one target Belief from the caster character's commitment
+Belief, preserves manual meaning/link judgments, and records missing/changed
+commitment invalidation. A future runtime can bind those roles to concrete entity
+identities and revisions without parsing narrative text. Fulfillment, fatal
+fulfillment and target agency stay human decisions; their typed rewards are
+metadata, not automatic character/campaign changes.
+
+This decision adds no Belief catalog, predefined Belief types, semantic classifier,
+text matching, narrative mutation/revision runtime, or Belief/Artha/fate/death/
+campaign evaluator. It does not expand implementation to Instincts or Traits.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:

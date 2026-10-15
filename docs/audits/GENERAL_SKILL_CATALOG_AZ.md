@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (869 tests
-in 36 files), npm run build and git diff --check. Remaining R–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (910 tests
+in 37 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Rumor-wise:
-310 complete definitions: A–P complete, R reviewed through Rumor-wise; Rune Casting and later entries pending.
+Production transcription continues through Saint-wise:
+313 complete definitions: A–R complete, S reviewed through Saint-wise; Scavenging and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -688,23 +688,44 @@ the existing unresolved-source-reference representation. No General Skill id or
 probable target is invented; external target classification remains unresolved.
 Printed Rhyme of Rules keeps its existing unresolved treatment.
 
-## Pending Rune Casting fate procedure and obstacle basis
+## Resolved Rune Casting fate procedure and R completion
 
-Visually reviewed 293/295. Astrology-style FoRK reuse is already represented by a
-partial fixture, but does not describe the complete Rune Casting entry. Success
-permits the caster player to inspect target Beliefs and pronounce a suitably dire
-fate linked to one. The caster must change a Belief to match it for the fate to
-remain valid; not doing so or changing that Belief invalidates the fate. Target
-choice, scene fulfillment, deeds award and next-character award on fatal fulfillment
-are separate source facts, not test dice bonuses or automatic character actions.
+Visually reviewed 293/295. Named rune-casting-fate-obstacle stores exactly two
+ten-minus source candidates and lower-obstacle selection, with no generic arithmetic
+AST, clamp or value lookup. The target social-standing components are Circles,
+reputation and affiliation; the other candidate is the most expensive non-common
+trait point value. The basis and success-triggered integration are scoped to
+pronouncing fate, not writing moon runes (Ob 1) or carving casting stones (Ob 2).
 
-The pronouncement obstacle uses the lower of 10 minus the target's highest
-Circles+reputation+affiliation dice total and 10 minus the point value of the most
-expensive non-common trait. Current target/crowd ability bases do not represent
-this source-specific combined-value comparison. Do not invent an arbitrary formula
-DSL, evaluator, trait cost, Belief state machine or artha engine.
+FatePronouncement permits caster-player inspection and a manually selected target
+Belief link. Suitably-dire examples are non-exhaustive. A separate caster-owned
+commitment Belief must manually match the fate; missing it or later changing it
+are explicit invalidators. Player agency and both fulfillment determinations remain
+manual. Independent typed rewards preserve one Deeds for the fated player and
+one starting Deeds for their next campaign character on fatal fulfillment.
 
-Proposed minimal metadata should separately preserve a named pronouncement
-obstacle basis and the fate/Belief/fulfillment procedure under magic integration.
-Rune Casting and later entries remain identity-only pending this source/schema
-resolution; the existing partial FoRK fixture remains partial.
+Special Astrology-style FoRK remains shared; no generic fixed-die replacement.
+D-028 records that Beliefs are free-form future runtime entities, not catalog
+entries. Metadata roles can bind later to entity ids/revisions without parsing
+text. No Belief/Artha/fate/death/campaign runtime is introduced. Validation only
+checks content structure; it does not make narrative or arithmetic decisions.
+R is complete: 311 definitions. The independent manifest oracle now covers all
+A–R rather than a growing list of individual reviewed ids.
+
+## First S entries and pending Scavenging search-request constraints
+
+Visually reviewed 294/296. Saddlery and Saint-wise bring production to 313 complete
+definitions. Saddlery retains Perception/Agility, Craftsman, Workshop, Tanner FoRK
+and its obstacle guidance; Saint-wise is an independent Wises topic.
+
+Scavenging lets the player declare any item type but not a specific or unique
+thing, in a suitable location (source examples: midden, ruin, battlefield). Current
+SkillContext can retain a suitable-place circumstance, but the schema lacks a
+structured search-request selector distinguishing item types from specific/unique
+item requests. Do not encode this as a fake equipment requirement, automatic loot
+lookup or an opaque conjunction hiding the request constraints.
+
+Proposed minimal item-search metadata should retain player declaration, type-level
+request, exclusion of specific/unique items and suitable-location context; source
+locations remain examples, not a whitelist. No inventory/loot/search evaluator is
+proposed. Scavenging and later entries remain identity-only pending resolution.

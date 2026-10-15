@@ -14,10 +14,11 @@ import { iMIntegrations, iMSkills } from './i-m';
 import { consumableIntegrations } from './consumable-results';
 import { poisonIntegrations } from './poison-results';
 import { nRIntegrations, nRSkills } from './n-r';
+import { sZSkills } from './s-z';
 import { generalNameReferences } from './references';
 import { evidence, none, stat } from './shared';
 
-const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises, ...gHSkills, ...gWises, ...hWises, ...iMSkills, ...nRSkills];
+const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises, ...gHSkills, ...gWises, ...hWises, ...iMSkills, ...nRSkills, ...sZSkills];
 const loadedIds = new Set(skills.map(skill => skill.id));
 
 /** Work in progress: complete records for reviewed blocks, identity-only references elsewhere.

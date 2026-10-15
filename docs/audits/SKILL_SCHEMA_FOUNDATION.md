@@ -182,3 +182,10 @@ Skill ownership, list identity and individual spell ownership remain distinct.
 Unloaded lists validate without a General skill lookup; no spell data, costs or
 learning/casting engine are added. Rituals of Night (292/294) supplies the source
 case; Rituals of Blood does not inherit its acquisition rule by analogy.
+
+Rune Casting (293/295) adds a closed named fate-obstacle basis and FatePronouncement
+magic metadata. Target Belief inspection/reference and caster commitment are
+separate role bindings for future narrative entity identities/revisions. Meaning,
+dire appropriateness and fulfillment stay manual; missing/changed commitment and
+Deeds rewards stay typed. No Belief catalog, semantic parsing, narrative state or
+Artha/fate execution is added. D-028 records this boundary.

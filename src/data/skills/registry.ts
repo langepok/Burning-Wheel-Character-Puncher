@@ -1,3 +1,4 @@
+import { validateFatePronouncement, validateRuneCastingFateObstacle } from './fate';
 import { validateCraftedPoison } from './poisons';
 import { validateCraftedConsumable } from './consumables';
 import type {
@@ -348,20 +349,24 @@ export function createSkillCatalog(content: SkillCatalogContent) {
       } else if (profile?.kind === 'obstacle') {
         if ('opposingAbilities' in profile) throw new Error('Invalid skill test profile');
         const base = profile.base;
-        if (!base || base.snapshot !== 'current' || !base.ability ||
-            !['stat', 'attribute'].includes(base.ability.kind) ||
-            typeof base.ability.id !== 'string' || !base.ability.id.trim()) {
-          throw new Error('Invalid obstacle basis');
-        }
-        if (base.kind === 'crowd-ability-exponent') {
-          if (base.statistic !== 'most-common' ||
-              Object.keys(base).some(key => !['kind', 'ability', 'statistic', 'snapshot'].includes(key)) ||
-              Object.keys(base.ability).some(key => !['kind', 'id'].includes(key))) {
+        if (base?.kind === 'rune-casting-fate-obstacle') {
+          validateRuneCastingFateObstacle(base);
+        } else {
+          if (!base || base.snapshot !== 'current' || !base.ability ||
+              !['stat', 'attribute'].includes(base.ability.kind) ||
+              typeof base.ability.id !== 'string' || !base.ability.id.trim()) {
             throw new Error('Invalid obstacle basis');
           }
-        } else if (base.kind !== 'target-ability-exponent' ||
-            (base.targetRole !== undefined && base.targetRole !== 'listener')) {
-          throw new Error('Invalid obstacle basis');
+          if (base.kind === 'crowd-ability-exponent') {
+            if (base.statistic !== 'most-common' ||
+                Object.keys(base).some(key => !['kind', 'ability', 'statistic', 'snapshot'].includes(key)) ||
+                Object.keys(base.ability).some(key => !['kind', 'id'].includes(key))) {
+              throw new Error('Invalid obstacle basis');
+            }
+          } else if (base.kind !== 'target-ability-exponent' ||
+              (base.targetRole !== undefined && base.targetRole !== 'listener')) {
+            throw new Error('Invalid obstacle basis');
+          }
         }
         if (profile.adjustments !== undefined) {
           if (!Array.isArray(profile.adjustments)) throw new Error('Invalid manual test adjustments');
@@ -514,6 +519,10 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   }
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
+    if (integration.fatePronouncement !== undefined) {
+      if (integration.subsystem !== 'magic') throw new Error('Invalid fate pronouncement subsystem');
+      validateFatePronouncement(integration.fatePronouncement);
+    }
     if (integration.spellListCasting !== undefined) {
       const casting = integration.spellListCasting;
       const only = (value: object, fields: readonly string[]) => Object.keys(value).every(key => fields.includes(key));

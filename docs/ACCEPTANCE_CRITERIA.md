@@ -661,3 +661,29 @@ A Character Burner feature is done only when:
 - Rule of Law keeps researching-case and presenting-case FoRK guidance separate.
 - Named Wises preserve canonical names and independent topic identities.
 - Rune Casting remains incomplete pending typed fate procedure/obstacle metadata.
+
+## Rune Casting fate metadata
+
+- Pronouncement uses exactly two named ten-minus candidates (highest target
+  Circles/reputation/affiliation total; most expensive non-common trait point cost),
+  choosing the lower obstacle. No general arithmetic AST, rounding/clamp or evaluator.
+- Successful test permits caster-player pronouncement and target-Belief inspection.
+  One manually selected target Belief is linked manually to the suitably dire fate.
+  Examples remain non-exhaustive, never a semantic classifier or Belief catalog.
+- Caster's own commitment Belief is distinct from target's Belief. Manual matching
+  and typed missing/changed-commitment invalidation preserve future identity/revision
+  compatibility without implementing Belief state or text matching.
+- Target retains player choice; fulfillment and fatal fulfillment are manual.
+  Fulfillment gives the fated-character player 1 Deeds; fatal fulfillment gives
+  their next character in this campaign 1 starting Deeds. No reward engine.
+- Astrology special-FoRK semantics remain shared, not ordinary fixed bonus dice.
+- Serializable metadata rejects malformed roles, bases, validity, rewards and
+  invented procedure/semantic-evaluation fields. D-028 records the narrative boundary.
+
+## R completion and first S records
+
+- Independent manifest/oracle covers the complete A–R block after Rune Casting.
+- Saddlery retains Perception/Agility root, Craftsman type, Workshop and Tanner
+  FoRK; Saint-wise keeps separate Wises topic identity.
+- Scavenging remains incomplete pending typed search-request constraints; do not
+  invent item lookup, unique-item selection or loot generation.

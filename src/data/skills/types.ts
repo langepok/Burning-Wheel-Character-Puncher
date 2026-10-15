@@ -305,19 +305,54 @@ export interface SpellListCasting {
   readonly acquisition: { readonly kind: 'separate-purchase-or-learning' };
 }
 
+/** Catalog role relationships only; no Belief ids, text, catalog or runtime state. */
+export interface FatePronouncement {
+  readonly kind: 'fate-pronouncement'; readonly trigger: { readonly kind: 'test-success' };
+  readonly pronouncement: { readonly actorRole: 'caster-player'; readonly permission: 'may-pronounce-target-fate' };
+  readonly targetBeliefInspection: { readonly entityKind: 'belief'; readonly ownerRole: 'target';
+    readonly readerRole: 'caster-player'; readonly permission: 'may-inspect' };
+  readonly targetBeliefReference: { readonly entityKind: 'belief'; readonly ownerRole: 'target'; readonly selection: 'manual' };
+  readonly targetBeliefLink: { readonly cardinality: 'one'; readonly resolution: 'manual' };
+  readonly suitablyDire: { readonly resolution: 'manual'; readonly examplesPolicy: 'non-exhaustive'; readonly examples: readonly string[] };
+  /** Caster/target are characters; caster-player is the caster character's player. */
+  readonly casterCommitment: { readonly entityKind: 'belief'; readonly ownerRole: 'caster'; readonly action: 'change';
+    readonly mustMatchPronouncedFate: { readonly resolution: 'manual' } };
+  readonly validity: { readonly requiresCasterCommitmentBelief: true;
+    readonly invalidatedBy: readonly ['missing-caster-belief-commitment', 'caster-commitment-belief-changed'] };
+  readonly targetAgency: { readonly resolution: 'player-choice'; readonly fateDoesNotCompelBehavior: true };
+  readonly fulfillmentDetermination: 'manual'; readonly fatalFulfillmentDetermination: 'manual';
+  /** Independently conditioned source facts, not an execution order or exclusive branches. */
+  readonly fulfillmentRewards: readonly [
+    { readonly trigger: { readonly kind: 'manual-fate-fulfilled' }; readonly recipient: 'fated-character-player';
+      readonly reward: { readonly kind: 'artha'; readonly arthaType: 'deeds'; readonly amount: 1 } },
+    { readonly trigger: { readonly kind: 'manual-fatal-fate-fulfillment' }; readonly recipient: 'fated-character-player-next-campaign-character';
+      readonly reward: { readonly kind: 'starting-artha'; readonly arthaType: 'deeds'; readonly amount: 1 } },
+  ];
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
-  | { readonly subsystem: 'magic'; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
+  | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
-  | { readonly subsystem: 'equipment'; readonly spellListCasting?: never; readonly craftedPoison?: CraftedPoison; readonly craftedConsumableEffect?: CraftedConsumableEffect; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
+  | { readonly subsystem: 'equipment'; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: CraftedPoison; readonly craftedConsumableEffect?: CraftedConsumableEffect; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
       readonly equipmentUseEffect?: EquipmentUseEffect; readonly equipmentResult?: EquipmentResult; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: StructureResistance }
-  | { readonly subsystem: 'resources'; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
+  | { readonly subsystem: 'resources'; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly structureResistance?: never }
-  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
+  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
 );
 
+/** Closed source-shaped alternatives, not reusable arithmetic expressions. */
+export interface RuneCastingFateObstacle {
+  readonly kind: 'rune-casting-fate-obstacle'; readonly targetRole: 'target';
+  readonly candidates: readonly [
+    { readonly kind: 'ten-minus-highest-social-standing-total'; readonly components: readonly ['circles', 'reputation', 'affiliation'] },
+    { readonly kind: 'ten-minus-most-expensive-non-common-trait' },
+  ];
+  readonly choose: 'lower-obstacle';
+}
 /** Live ability exponent references; no lookup, aggregation or tie resolution. */
 export type ObstacleBasis =
+  | RuneCastingFateObstacle
   | { readonly kind: 'target-ability-exponent'; readonly targetRole?: 'listener'; readonly ability: RootAbility; readonly snapshot: 'current' }
   | { readonly kind: 'crowd-ability-exponent'; readonly ability: RootAbility;
       readonly statistic: 'most-common'; readonly snapshot: 'current' };

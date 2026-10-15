@@ -123,11 +123,12 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Rune Casting, book 293 / PDF 295: fate/Belief procedure and special obstacle. */
-describe('Pending Rune Casting fate procedure', () => {
-  it('does not claim its complete procedure from the partial Astrology-style FoRK fixture', () => {
+
+/** Scavenging, book 294 / PDF 296: type request cannot name a specific/unique item. */
+describe('Pending Scavenging search-request constraints', () => {
+  it('does not declare a complete search procedure from the partial FoRK fixture', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('rune-casting')).toBe(false);
-    expect(catalog.references.get('rune-casting')?.sourceName).toBe('Rune Casting');
+    expect(catalog.skills.has('scavenging')).toBe(false);
+    expect(catalog.references.get('scavenging')?.sourceName).toBe('Scavenging');
   });
 });

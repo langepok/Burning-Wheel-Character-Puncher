@@ -1,3 +1,4 @@
+import { fateIntegrations, runeCastingFateObstacle } from './fate';
 import type { SkillIntegration } from '../types';
 import { combined, define, forks, fork, guidance, sourceFork, generic, none, only, stat, workshop, magical, evidence, expendable, hatred } from './shared';
 
@@ -196,9 +197,16 @@ export const nRSkills = [
   define('rumor-wise', 'Rumor-wise', 293, 'Knowledge of rumors.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'rumor' } }),
 
+  define('rune-casting', 'Rune Casting', 293, 'Dwarven runes pronounce fate; writing moon runes is Ob 1 and carving casting stones Ob 2. Pronouncement uses separate named obstacle and magic integration metadata.', {
+    rootRule: combined('will', 'perception'), skillType: 'Sorcerous', tools: { kind: 'specific-item', item: 'rune-stones' },
+    ...magical, availabilityRestrictions: only(['dwarf']), specialForkBehaviorId: 'astrology-fork', integrationTags: ['magic'],
+    testProfile: { kind: 'obstacle', context: { kind: 'circumstance', circumstanceId: 'pronouncing-fate' }, base: runeCastingFateObstacle },
+    capabilities: [{ kind: 'subsystem-capability', id: 'fate-pronouncement', integrationId: 'rune-casting-fate' }] }),
+
 ];
 
 export const nRIntegrations: readonly SkillIntegration[] = [
+  ...fateIntegrations,
   { id: 'purple-song-antiphon', skillId: 'purple-song', subsystem: 'magic',
     createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
     summary: 'Antiphon Union with Lyric of Healing or Doom of Strength can imbue Purple Song wine, producing Elven Mirrorwine; the entry gives no numeric effect.',

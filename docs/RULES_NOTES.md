@@ -441,3 +441,20 @@ Traveling Gear or Elven Rope. Round of Harvest follows Farming rules. Rule of La
 separates researching-case FoRKs from presenting-case FoRKs. Rude Carpentry's
 Orc restriction applies to character burning. Weathersong is retained as printed
 unresolved FoRK guidance, without inventing a General Skill identity.
+
+**RAW — Rune Casting fate** (book 293 / PDF 295): pronouncement uses the lower
+of two named obstacles: ten minus the target's highest Circles/reputation/affiliation
+dice total, or ten minus their most expensive non-common trait point value. This
+is source-shaped metadata, not an arithmetic expression language or evaluator.
+
+After success, caster player may inspect target Beliefs and pronounce a suitably
+dire fate tied manually to one target Belief. The caster must change their own
+character's Belief to match it; missing that commitment or changing it later
+invalidates the fate. Target and caster Beliefs are different narrative entities.
+The target retains choice; meaning and fulfillment, including fatal fulfillment,
+are manual/table judgments. A fulfilled scene awards the fated player one Deeds;
+fatal fulfillment gives their next character in this campaign one starting Deeds.
+Standard Belief artha rules remain external. Rewards are independent conditional
+facts, not automatic execution or an exclusivity rule. Astrology special-FoRK
+semantics are preserved. D-028 defines the free-form narrative/structured-reference
+boundary without implementing Belief identity/revision state or text matching.
