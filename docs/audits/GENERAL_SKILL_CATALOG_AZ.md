@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (850 tests
-in 35 files), npm run build and git diff --check. Remaining R–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (869 tests
+in 36 files), npm run build and git diff --check. Remaining R–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Rituals of Blood:
-301 complete definitions: A–P complete, R reviewed through Rituals of Blood; Rituals of Night and later entries pending.
+Production transcription continues through Rumor-wise:
+310 complete definitions: A–P complete, R reviewed through Rumor-wise; Rune Casting and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -659,17 +659,52 @@ contextual +1 Ob. Rhetoric's target Perception is distinct from Diatribe's targe
 Will and Oratory's crowd basis. Rhyme of the Mariner remains Seafarer, Rigging
 Seafaring. Antiphon, Riding chapter and Orc magic references stay subsystem facts.
 
-## Pending Rituals of Night separately acquired spells
+## Resolved Rituals of Night separately acquired spells
 
-Visually reviewed 292/294: knowing Rituals of Night permits use of its external
-spell list, but the spells must be purchased or learned separately. The current
-schema has General known-skill opening requirements and limited capability/trait
-use requirements, not a typed external spell-list access/acquisition descriptor.
-Do not imply that opening the skill grants its entire spell list or convert spells
-into fake General skill identities.
+Visually reviewed 292/294. SpellListCasting references external Rituals of Night,
+with obstacleSource referenced-spell-list and separate-purchase-or-learning
+acquisition. Skill id and spell-list id have separate typed namespaces even when
+the source labels coincide; individual spell acquisition/state remains later work.
+No spells, costs, learning procedures, automatic grants or casting engine are
+encoded. Unloaded lists are valid external references, never fake General skills.
+Validation rejects invented ownership/cost fields and malformed references.
+Rituals of Blood retains only its audited external Orc magic reference, without
+copying this explicit acquisition rule. No new Decision is needed (D-023/D-024).
 
-Proposed minimal magic integration metadata should reference the external Rituals
-of Night list and preserve separate purchase-or-learning acquisition, without
-transcribing spells, choosing acquisition costs or implementing a spell/state
-evaluator. Rituals of Night and later entries remain identity-only pending this
-source/schema resolution.
+## Reviewed later R before Rune Casting
+
+Rituals-wise, Road-wise, Rope Chant, Round of Harvest, Royal Secret-wise, Rude
+Carpentry, Rule of Law and Rumor-wise bring production to 310 complete definitions
+with Rituals of Night. Visually reviewed 292–293/294–295. Rope Chant retains its
+Knots-with-additions relation, repair/weaving/untangling guidance and source tool
+alternatives; Antiphon/Rhyme of Rules/Song of Merriment remain a source-backed
+created-item reference and concise magic summary, without invented item bonuses.
+Round of Harvest explicitly reuses Farming. Rude Carpentry does not inherit
+Carpentry mechanics from a comparison; its stock restriction is character-burning.
+Rule of Law keeps seven FoRK suggestions scoped to research or presentation.
+
+The printed Weathersong suggestion is absent from the General manifest and uses
+the existing unresolved-source-reference representation. No General Skill id or
+probable target is invented; external target classification remains unresolved.
+Printed Rhyme of Rules keeps its existing unresolved treatment.
+
+## Pending Rune Casting fate procedure and obstacle basis
+
+Visually reviewed 293/295. Astrology-style FoRK reuse is already represented by a
+partial fixture, but does not describe the complete Rune Casting entry. Success
+permits the caster player to inspect target Beliefs and pronounce a suitably dire
+fate linked to one. The caster must change a Belief to match it for the fate to
+remain valid; not doing so or changing that Belief invalidates the fate. Target
+choice, scene fulfillment, deeds award and next-character award on fatal fulfillment
+are separate source facts, not test dice bonuses or automatic character actions.
+
+The pronouncement obstacle uses the lower of 10 minus the target's highest
+Circles+reputation+affiliation dice total and 10 minus the point value of the most
+expensive non-common trait. Current target/crowd ability bases do not represent
+this source-specific combined-value comparison. Do not invent an arbitrary formula
+DSL, evaluator, trait cost, Belief state machine or artha engine.
+
+Proposed minimal metadata should separately preserve a named pronouncement
+obstacle basis and the fate/Belief/fulfillment procedure under magic integration.
+Rune Casting and later entries remain identity-only pending this source/schema
+resolution; the existing partial FoRK fixture remains partial.

@@ -637,3 +637,27 @@ A Character Burner feature is done only when:
   effects. Riding/Rituals of Blood keep external chapter/subsystem references.
 - Rituals of Night remains incomplete pending representation of separately
   purchased/learned spells; no fake General skill identities or spell engine.
+
+## Rituals of Night spell-list casting
+
+- A separate Sorcerous skill governs casting from a typed external Rituals of Night
+  spell list. Spell obstacles remain in that list; no spell definitions are inlined.
+- Acquisition is explicitly separate-purchase-or-learning: owning the skill does
+  not grant individual spells. No cost, learning procedure or character state added.
+- Spell-list references are not General skill references and may be unloaded.
+  Descriptor serializes and rejects malformed references and invented grant/cost fields.
+- Rituals of Blood retains its source-shaped external magic reference without
+  acquiring the explicit separate-purchase-or-learning requirement by analogy.
+- No spell, magic, purchase or learning evaluator; no new durable Decision required.
+
+## Reviewed R before Rune Casting
+
+- Rope Chant retains Knots reuse-with-additions, repair/weaving/untangling guidance,
+  Elven restriction and Traveling Gear OR Elven Rope. Antiphon combination stays
+  external; no tools inheritance or invented rope use bonus.
+- Round of Harvest explicitly reuses Farming mechanics. Rude Carpentry's comparison
+  to Carpentry does not imply a full mechanics inheritance or broaden its Orc
+  character-burning restriction.
+- Rule of Law keeps researching-case and presenting-case FoRK guidance separate.
+- Named Wises preserve canonical names and independent topic identities.
+- Rune Casting remains incomplete pending typed fate procedure/obstacle metadata.

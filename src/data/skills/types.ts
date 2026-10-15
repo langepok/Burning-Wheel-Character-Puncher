@@ -296,14 +296,23 @@ export interface CraftedPoison {
   readonly deliveries: readonly PoisonDelivery[];
 }
 
+/** Governing skill/list access is distinct from individual spell ownership/state. */
+export interface SpellListCasting {
+  readonly kind: 'spell-list-casting';
+  readonly spellListRef: { readonly kind: 'external-spell-list'; readonly subsystem: 'magic';
+    readonly id: string; readonly sourceName: string };
+  readonly obstacleSource: 'referenced-spell-list';
+  readonly acquisition: { readonly kind: 'separate-purchase-or-learning' };
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
-  | { readonly subsystem: 'magic'; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
+  | { readonly subsystem: 'magic'; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
-  | { readonly subsystem: 'equipment'; readonly craftedPoison?: CraftedPoison; readonly craftedConsumableEffect?: CraftedConsumableEffect; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
+  | { readonly subsystem: 'equipment'; readonly spellListCasting?: never; readonly craftedPoison?: CraftedPoison; readonly craftedConsumableEffect?: CraftedConsumableEffect; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
       readonly equipmentUseEffect?: EquipmentUseEffect; readonly equipmentResult?: EquipmentResult; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: StructureResistance }
-  | { readonly subsystem: 'resources'; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
+  | { readonly subsystem: 'resources'; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly structureResistance?: never }
-  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
+  | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly structureResistance?: never }
 );
 

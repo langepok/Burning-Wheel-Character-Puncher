@@ -514,6 +514,19 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   }
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
+    if (integration.spellListCasting !== undefined) {
+      const casting = integration.spellListCasting;
+      const only = (value: object, fields: readonly string[]) => Object.keys(value).every(key => fields.includes(key));
+      const text = (value: unknown) => typeof value === 'string' && value.trim().length > 0;
+      if (integration.subsystem !== 'magic' || !casting || casting.kind !== 'spell-list-casting' ||
+          !only(casting, ['kind', 'spellListRef', 'obstacleSource', 'acquisition']) ||
+          casting.spellListRef?.kind !== 'external-spell-list' || casting.spellListRef.subsystem !== 'magic' ||
+          !text(casting.spellListRef.id) || !text(casting.spellListRef.sourceName) ||
+          !only(casting.spellListRef, ['kind', 'subsystem', 'id', 'sourceName']) ||
+          casting.obstacleSource !== 'referenced-spell-list' || casting.acquisition?.kind !== 'separate-purchase-or-learning' ||
+          !only(casting.acquisition, ['kind'])) throw new Error('Invalid spell-list casting metadata');
+      // External spell-list ids are not General skill ids or acquired spell records.
+    }
     if (integration.craftedPoison !== undefined) {
       if (integration.subsystem !== 'equipment') throw new Error('Invalid crafted poison subsystem');
       validateCraftedPoison(integration.craftedPoison);

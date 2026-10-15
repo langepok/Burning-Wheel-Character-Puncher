@@ -426,3 +426,18 @@ Religious Diatribe uses interlocutor Will; Rhetoric uses victim Perception.
 Rhyme of the Gatherer/Mariner/Pathfinder explicitly act as Foraging/Rigging/Tracking;
 printed Seafarer and Seafaring remain distinct. Rituals of Blood references the
 Orc magic chapter, without implementing spells or their effects.
+
+**RAW — Rituals of Night spell-list casting** (book 292 / PDF 294): this
+Sorcerous skill governs casting from its external spell list, whose entries own
+the spell obstacles. Individual spells must be purchased or learned separately;
+owning the skill does not grant them. Typed magic integration preserves this
+requirement without prices, learning procedure or spell records/state. Rituals
+of Blood keeps its existing Orc-chapter reference; its audited entry does not
+state this acquisition sentence and does not inherit it by analogy.
+
+**RAW — later R before Rune Casting** (book 292–293 / PDF 294–295): Rope Chant
+reuses Knots with additional rope creation/repair/untangling guidance and permits
+Traveling Gear or Elven Rope. Round of Harvest follows Farming rules. Rule of Law
+separates researching-case FoRKs from presenting-case FoRKs. Rude Carpentry's
+Orc restriction applies to character burning. Weathersong is retained as printed
+unresolved FoRK guidance, without inventing a General Skill identity.

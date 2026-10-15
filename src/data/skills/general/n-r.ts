@@ -165,6 +165,37 @@ export const nRSkills = [
     rootRule: stat('will'), skillType: 'Sorcerous', tools: { kind: 'specific-item', item: 'ritual knives' }, ...magical, availabilityRestrictions: only(['orc']),
     forkSuggestions: forks('doctrine-of-nights-blood'), integrationTags: ['magic'] }),
 
+  define('rituals-of-night', 'Rituals of Night', 292, 'Governs casting from the external Rituals of Night spell list; individual spells must be purchased or learned separately.', {
+    rootRule: stat('perception'), skillType: 'Sorcerous', tools: none, ...magical, availabilityRestrictions: only(['orc']),
+    forkSuggestions: forks('doctrine-of-nights-blood'), integrationTags: ['magic'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'rituals-of-night-casting', integrationId: 'rituals-of-night-casting' }] }),
+
+  define('rituals-wise', 'Rituals-wise', 292, 'Knowledge of rituals.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'rituals' } }),
+  define('road-wise', 'Road-wise', 292, 'Knowledge of roads.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'road' } }),
+  define('rope-chant', 'Rope Chant', 292, 'Elven rope work extends Knots. Repair Ob 1, weave ordinary rope Ob 2, Elven rope Ob 5. Untangle twist/snarl/forced knot/complex tangle/Gordian knot at Ob 1/2/3/4/5.', {
+    rootRule: stat('agility'), skillType: 'Seafarer', tools: { kind: 'anyOf', requirements: [{ kind: 'traveling-gear' }, { kind: 'specific-item', item: 'elven-rope' }] },
+    ...magical, availabilityRestrictions: only(['elf']), forkSuggestions: guidance(fork('threading-chant'), sourceFork('Rhyme of Rules'), fork('rhyme-of-the-mariner')),
+    relations: [{ kind: 'mechanics-reuse-with-additions', target: { kind: 'skill', id: 'knots' } }], integrationTags: ['magic'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'rope-chant-antiphon', integrationId: 'rope-chant-antiphon' }] }),
+  define('round-of-harvest', 'Round of Harvest', 292, 'Elven planting and harvesting following Farming rules.', {
+    rootRule: stat('perception'), skillType: 'Peasant', tools: generic, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: guidance(fork('grain-song'), sourceFork('Weathersong'), sourceFork('Rhyme of Rules')),
+    relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'farming' } }] }),
+  define('royal-secret-wise', 'Royal Secret-wise', 292, 'Knowledge of royal secrets.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'royal-secret' } }),
+  define('rude-carpentry', 'Rude Carpentry', 293, 'Rough Orc woodwork, compared to Carpentry without finished surfaces. Guidance: spikes Ob 1, goblin frame pack Ob 2, barricade/cart Ob 3, mine supports Ob 4, shelter Ob 5.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: generic, availabilityRestrictions: only(['orc'], 'character-burning'), forkSuggestions: forks('mending') }),
+  define('rule-of-law', 'Rule of Law', 293, 'Act within a legal system. Guidance: jurisdiction Ob 1, common law Ob 2, royal law Ob 3, commercial law Ob 4, technicality Ob 5.', {
+    rootRule: stat('perception'), skillType: 'School of Thought', tools: none,
+    forkSuggestions: guidance(
+      ...[fork('doctrine'), fork('philosophy'), { target: { kind: 'skill-family', familyId: 'history', relevance: 'any' } } as const, fork('research')]
+        .map(value => ({ ...value, context: { kind: 'circumstance', circumstanceId: 'researching-legal-case' } as const })),
+      ...['oratory', 'rhetoric', 'ugly-truth'].map(id => ({ ...fork(id), context: { kind: 'circumstance', circumstanceId: 'presenting-legal-case' } as const }))) }),
+  define('rumor-wise', 'Rumor-wise', 293, 'Knowledge of rumors.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'rumor' } }),
+
 ];
 
 export const nRIntegrations: readonly SkillIntegration[] = [
@@ -180,5 +211,17 @@ export const nRIntegrations: readonly SkillIntegration[] = [
     summary: 'Obstacle guidance is external in Riding and Mounted Combat.', source: [evidence('Riding', 291)] },
   { id: 'rituals-of-blood-external', skillId: 'rituals-of-blood', subsystem: 'magic',
     summary: 'Spell effects and obstacle guidance remain in the Orc chapter Rituals of Night and Blood section.', source: [evidence('Rituals of Blood', 292)] },
+
+  { id: 'rituals-of-night-casting', skillId: 'rituals-of-night', subsystem: 'magic',
+    spellListCasting: { kind: 'spell-list-casting', spellListRef: { kind: 'external-spell-list', subsystem: 'magic',
+      id: 'rituals-of-night', sourceName: 'Rituals of Night' }, obstacleSource: 'referenced-spell-list',
+      acquisition: { kind: 'separate-purchase-or-learning' } },
+    summary: 'The skill governs casting; individual spells require separate acquisition. Spell data and obstacles remain external.',
+    source: [evidence('Rituals of Night', 292)] },
+
+  { id: 'rope-chant-antiphon', skillId: 'rope-chant', subsystem: 'magic',
+    createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
+    summary: 'Elven rope may combine Rope Chant, Antiphon Union, printed Rhyme of Rules and Song of Merriment; no numeric result effect is specified here.',
+    source: [evidence('Rope Chant', 292)] },
 
 ];

@@ -175,3 +175,10 @@ source name, explicitly allowing unloaded profiles rather than General skill or
 inventory references. Polearm (289/291; Appendix 554/556) supplies cutting/Axe
 Strike and thrusting/Thrust. No numeric stats or runtime profile generation is
 added; D-027 defines whole-item state vs use-profile boundaries.
+
+SpellListCasting is magic integration: a typed external spell-list reference,
+referenced-list obstacle source and separate-purchase-or-learning acquisition.
+Skill ownership, list identity and individual spell ownership remain distinct.
+Unloaded lists validate without a General skill lookup; no spell data, costs or
+learning/casting engine are added. Rituals of Night (292/294) supplies the source
+case; Rituals of Blood does not inherit its acquisition rule by analogy.

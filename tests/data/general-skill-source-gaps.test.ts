@@ -122,11 +122,12 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Rituals of Night, book 292 / PDF 294: spells separately purchased or learned. */
-describe('Pending external spell acquisition metadata', () => {
-  it('does not imply that knowing Rituals of Night grants every spell in its external list', () => {
+
+/** Rune Casting, book 293 / PDF 295: fate/Belief procedure and special obstacle. */
+describe('Pending Rune Casting fate procedure', () => {
+  it('does not claim its complete procedure from the partial Astrology-style FoRK fixture', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('rituals-of-night')).toBe(false);
-    expect(catalog.references.get('rituals-of-night')?.sourceName).toBe('Rituals of Night');
+    expect(catalog.skills.has('rune-casting')).toBe(false);
+    expect(catalog.references.get('rune-casting')?.sourceName).toBe('Rune Casting');
   });
 });
