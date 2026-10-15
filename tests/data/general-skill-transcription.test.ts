@@ -5,7 +5,7 @@ import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
   it('preserves P source relations, requirements and contextual modifiers before Poisons', () => {
@@ -72,6 +72,19 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(catalog.skills.get('saddlery')?.tools).toEqual({ kind: 'workshop' });
     expect(catalog.skills.get('saddlery')?.forkSuggestions?.suggestions).toEqual([{ target: { kind: 'skill', skillId: 'tanner' } }]);
     expect(catalog.skills.get('saint-wise')?.familyMembership).toEqual({ familyId: 'wises', topicId: 'saint' });
+  });
+  it('preserves reviewed S roots, labels, restrictions and unresolved Weaver guidance', () => {
+    expect(catalog.skills.get('sculpture')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'agility' }] });
+    expect(catalog.skills.get('seamanship')?.skillType).toBe('Seafaring');
+    expect(catalog.skills.get('seduction')?.testProfile?.base).toEqual({ kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' });
+    expect(catalog.skills.get('seduction')?.integrationTags).toEqual(['duel-of-wits']);
+    expect(catalog.skills.get('servant-wise')?.skillType).toBe('Wise');
+    expect(catalog.skills.get('servant-wise')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['orc'], scope: 'character-burning' }]);
+    expect(catalog.skills.get('sewing')?.forkSuggestions?.suggestions).toEqual([
+      { target: { kind: 'unresolved-source-reference', sourceLabel: 'Weaver', probableTargetSkillId: 'weaving' } },
+      { target: { kind: 'skill', skillId: 'embroidery' } },
+    ]);
+    expect(catalog.skills.get('sewing')?.tools).toEqual({ kind: 'generic', expendable: true });
   });
   it('preserves Martial Arts identity and the law-song FoRK alternatives', () => {
     expect(catalog.skills.get('martial-arts')?.id).not.toBe(catalog.skills.get('boxing')?.id);

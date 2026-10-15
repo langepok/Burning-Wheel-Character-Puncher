@@ -458,3 +458,19 @@ Standard Belief artha rules remain external. Rewards are independent conditional
 facts, not automatic execution or an exclusivity rule. Astrology special-FoRK
 semantics are preserved. D-028 defines the free-form narrative/structured-reference
 boundary without implementing Belief identity/revision state or text matching.
+
+**RAW — Scavenging item-search** (book 294 / PDF 296): a player declares an
+item type, excluding a specific or unique thing, in a contextually suitable place.
+Midden/ruin/battlefield are illustrative locations. Structured obstacle guidance
+keeps junk Ob 1, household goods Ob 2, hard-to-find items Ob 3, valuables Ob 4,
+rare objects Ob 5, obscure/out-of-place items Ob 6, with non-exhaustive examples.
+Neither request specificity nor location suitability is classified automatically.
+This is request legality/source guidance, not inventory lookup, item generation,
+Resources valuation or a success-to-equipment grant. D-028's manual/structured
+boundary applies; no new durable Decision is needed.
+
+**RAW — later S before Shield Training** (book 294–295 / PDF 296–297): Seduction
+uses target Will and separately refers to Duel of Wits; intercourse is not required.
+Servant-wise prints Wise (not Special) and restricts Orcs only in character burning.
+Sewing retains printed Weaver as unresolved with the existing probable Weaving
+audit hint; it is not a silently resolved FoRK.

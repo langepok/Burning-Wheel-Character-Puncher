@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (910 tests
-in 37 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (937 tests
+in 38 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Saint-wise:
-313 complete definitions: A–R complete, S reviewed through Saint-wise; Scavenging and later entries pending.
+Production transcription continues through Sewing:
+320 complete definitions: A–R complete, S reviewed through Sewing; Shield Training and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -712,20 +712,44 @@ checks content structure; it does not make narrative or arithmetic decisions.
 R is complete: 311 definitions. The independent manifest oracle now covers all
 A–R rather than a growing list of individual reviewed ids.
 
-## First S entries and pending Scavenging search-request constraints
+## First S entries and resolved Scavenging search request
 
-Visually reviewed 294/296. Saddlery and Saint-wise bring production to 313 complete
-definitions. Saddlery retains Perception/Agility, Craftsman, Workshop, Tanner FoRK
-and its obstacle guidance; Saint-wise is an independent Wises topic.
+Visually reviewed 294/296. Saddlery and Saint-wise brought production to 313
+complete definitions. Scavenging now stores ItemSearch procedural metadata. The
+player declares an item-type request, explicitly excluding specific/unique things.
+Suitability is contextual; midden, ruin and battlefield are examples, not allowed
+location ids. Category guidance preserves six obstacles and every audited example:
+junk 1, common household goods 2, hard-to-find items 3, valuables 4, rare objects 5,
+obscure/out-of-place items 6. Example items are not exhaustive category memberships.
 
-Scavenging lets the player declare any item type but not a specific or unique
-thing, in a suitable location (source examples: midden, ruin, battlefield). Current
-SkillContext can retain a suitable-place circumstance, but the schema lacks a
-structured search-request selector distinguishing item types from specific/unique
-item requests. Do not encode this as a fake equipment requirement, automatic loot
-lookup or an opaque conjunction hiding the request constraints.
+Typed validation checks metadata shapes and serializes them without classifying
+request prose, evaluating locations, finding items, generating loot, valuing
+Resources or creating Equipment records. Skill metadata retains Perception,
+Peasant, Tools none and Foraging/appropriate Wise FoRK guidance. No new Decision;
+D-028 applies to structured constraints and manual semantic adjudication.
 
-Proposed minimal item-search metadata should retain player declaration, type-level
-request, exclusion of specific/unique items and suitable-location context; source
-locations remain examples, not a whitelist. No inventory/loot/search evaluator is
-proposed. Scavenging and later entries remain identity-only pending resolution.
+## Reviewed S through Sewing
+
+Sculpture, Scutwork-wise, Seamanship, Seduction, Servant-wise and Sewing bring
+production to 320 complete definitions with Scavenging. Visually reviewed
+294–295/296–297. Servant-wise preserves printed Wise and the Orc character-burning
+restriction. Seduction uses current target Will with separate Duel of Wits use.
+Sewing preserves printed Weaver with its previously accepted probable Weaving
+audit hint as unresolved guidance, not a resolved skill reference.
+
+## Pending Shield Training combat-use metadata
+
+Visually reviewed 295/297. Trained characters incorporate a shield into defense;
+untrained characters must actively block to benefit. A shield Strike uses Brawling,
+an appropriate Boxing skill, or Agility. Current opposing-ability alternatives
+describe opponents, not the actor's governing ability. CombatUseChoice refers to
+weapon profiles, not skill/stat alternatives or an appropriate Boxing selector.
+Do not reinterpret these alternatives as opponents, invent a default, collapse
+Boxing/Martial Arts identities or use weapon-profile ids as ability ids.
+
+Proposed minimal Fight integration metadata should retain the trained/untrained
+defense distinction and source-backed acting-ability selection for a shield
+Strike, with a contextual appropriate-Boxing reference and no combat evaluator.
+The explicit Aptitude-only footnote stays preserved in the existing audited
+Training fixtures (D-026); the complete production entry and later skills remain
+identity-only pending this source/schema resolution.

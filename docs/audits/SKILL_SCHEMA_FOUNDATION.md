@@ -189,3 +189,9 @@ separate role bindings for future narrative entity identities/revisions. Meaning
 dire appropriateness and fulfillment stay manual; missing/changed commitment and
 Deeds rewards stay typed. No Belief catalog, semantic parsing, narrative state or
 Artha/fate execution is added. D-028 records this boundary.
+
+ItemSearch is typed procedural skill metadata: player-declared item-type request,
+explicit no-specific/no-unique constraints, contextual location requirement and
+category obstacle guidance. All example locations/items are non-exhaustive.
+Scavenging (294/296) supplies the source case; no NLP/taxonomy, world lookup, loot
+generation, inventory or Resources evaluator follows from content validation.

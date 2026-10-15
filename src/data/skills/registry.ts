@@ -1,3 +1,4 @@
+import { validateItemSearch } from './item-search';
 import { validateFatePronouncement, validateRuneCastingFateObstacle } from './fate';
 import { validateCraftedPoison } from './poisons';
 import { validateCraftedConsumable } from './consumables';
@@ -221,7 +222,9 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (metadata.procedures !== undefined) {
       if (!Array.isArray(metadata.procedures)) throw new Error('Invalid skill procedures');
       for (const procedure of metadata.procedures) {
-        if (procedure?.kind === 'duration-rest-substitution') {
+        if (procedure?.kind === 'item-search') {
+          validateItemSearch(procedure);
+        } else if (procedure?.kind === 'duration-rest-substitution') {
           const { obstacle, effect, onFailure } = procedure;
           if (Object.keys(procedure).some(key => !['kind', 'substitutesFor', 'obstacle', 'effect', 'onFailure'].includes(key)) ||
               procedure.substitutesFor !== 'sleep-rest' || obstacle?.kind !== 'duration-based-obstacle' || obstacle.unit !== 'hour' ||

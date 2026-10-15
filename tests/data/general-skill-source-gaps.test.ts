@@ -124,11 +124,12 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Scavenging, book 294 / PDF 296: type request cannot name a specific/unique item. */
-describe('Pending Scavenging search-request constraints', () => {
-  it('does not declare a complete search procedure from the partial FoRK fixture', () => {
+
+/** Shield Training, book 295 / PDF 297: trained defense and mixed acting abilities. */
+describe('Pending Shield Training combat-use metadata', () => {
+  it('does not coerce shield Strike choices into opposing abilities or weapon profiles', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('scavenging')).toBe(false);
-    expect(catalog.references.get('scavenging')?.sourceName).toBe('Scavenging');
+    expect(catalog.skills.has('shield-training')).toBe(false);
+    expect(catalog.references.get('shield-training')?.sourceName).toBe('Shield Training');
   });
 });

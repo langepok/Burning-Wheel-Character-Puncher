@@ -687,3 +687,27 @@ A Character Burner feature is done only when:
   FoRK; Saint-wise keeps separate Wises topic identity.
 - Scavenging remains incomplete pending typed search-request constraints; do not
   invent item lookup, unique-item selection or loot generation.
+
+## Scavenging item-search metadata
+
+- Player declares an item-type request; specific items and unique things are
+  explicitly disallowed. Meaning/classification stays manual; no NLP classifier.
+- A suitable scavenging location is required with contextual adjudication. Midden,
+  ruin and battlefield are non-exhaustive examples, never allowed-location ids.
+- Structured source obstacle guidance preserves Ob 1 junk, Ob 2 household goods,
+  Ob 3 hard-to-find items, Ob 4 valuables, Ob 5 rare objects, Ob 6 obscure/out-of-place
+  items and all audited examples. Examples are not exhaustive item memberships.
+- Typed search procedure serializes and validates without inventory lookup, item
+  generation, Resources valuation, world-location evaluation or automatic loot grants.
+
+## Reviewed S before Shield Training
+
+- Sculpture, Scutwork-wise, Seamanship, Seduction, Servant-wise and Sewing retain
+  source roots, tools, types, FoRKs and restrictions.
+- Seduction uses target Will and references Duel of Wits separately; no forced
+  action or sexual-intercourse requirement is inferred.
+- Servant-wise preserves printed Wise type and Orc character-burning restriction.
+- Sewing retains printed Weaver as unresolved source-reference with the existing
+  probable Weaving audit hint, never a silently resolved FoRK.
+- Shield Training remains incomplete pending combat-use/acting-ability metadata;
+  its already audited Aptitude-only root semantics remain preserved in fixtures.

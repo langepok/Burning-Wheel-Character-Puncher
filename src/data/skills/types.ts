@@ -471,7 +471,19 @@ export interface LinkedPretest {
     readonly onWin: { readonly kind: 'dice-bonus'; readonly dice: number; readonly appliesTo: 'linked-target-test' };
   };
 }
-export type SkillProcedure = DurationRestSubstitution | LinkedPretest;
+/** Request legality and manual obstacle guidance, not an inventory/world query. */
+export interface ItemSearch {
+  readonly kind: 'item-search';
+  readonly request: { readonly declaredBy: 'player'; readonly granularity: 'item-type';
+    readonly specificItemAllowed: false; readonly uniqueItemAllowed: false; readonly resolution: 'manual' };
+  readonly contextRequirement: { readonly kind: 'suitable-location'; readonly purpose: 'scavenging';
+    readonly resolution: 'contextual'; readonly examplesPolicy: 'non-exhaustive'; readonly examples: readonly string[] };
+  readonly obstacleGuidance: { readonly kind: 'category-based'; readonly resolution: 'contextual';
+    readonly examplesPolicy: 'non-exhaustive'; readonly categories: readonly {
+      readonly id: string; readonly label: string; readonly obstacle: number; readonly examples: readonly string[];
+    }[] };
+}
+export type SkillProcedure = DurationRestSubstitution | LinkedPretest | ItemSearch;
 /** Facts during use of the owning skill; no new ability named Awareness. */
 export type SkillActivityFact =
   | { readonly kind: 'vague-surroundings-awareness' }
