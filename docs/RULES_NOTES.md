@@ -488,3 +488,15 @@ Martial Training with Agility root for Aptitude only (D-026), not a rolled skill
 Boxing selection remains manual, with no fixed/default id or new family; Boxing
 and Martial Arts stay distinct (D-024). Block resolution, pool division, VA, shield
 failure, positioning and other Fight details remain external rules.
+
+
+### Ship Management: voyage supply outcomes (BWGR book 295 / PDF 297)
+
+Success avoids supply trouble. Failure causes a shortage of critically needed
+supplies, serious complications, the beginning of crew mortality, and qualitative
+morale harm. The listed supplies are illustrative; selection is contextual. The
+entry gives neither casualty quantities/timing nor numeric morale mechanics.
+Vessel base Ob: rowboat/skiff 1, longboat 2, junk 3, caravel 4, carrack 5, felucca 6,
+treasure ship 7. Journey modifiers: moderate +1, long +2, ocean crossing +3 Ob.
+These are catalog facts; inventory, crew, voyage and consequence execution remain
+outside the skill catalog.

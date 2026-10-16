@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (962 tests
-in 39 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (996 tests
+in 40 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Shield Training:
-321 complete definitions: A–R complete, S reviewed through Shield Training; Ship Management and later entries pending.
+Production transcription continues through Shortcut-wise:
+325 complete definitions: A–R complete, S reviewed through Shortcut-wise; Shrewd Appraisal and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -760,17 +760,48 @@ remains covered. No Block/Counterstrike/Block & Strike resolution, pool division
 shield VA/damage, positioning or other combat evaluator is added. No new durable
 Decision is required by this extension. Production reaches 321 definitions.
 
-## Pending Ship Management supply outcomes
+## Resolved Ship Management supply outcomes
 
-Visually reviewed 295/297. Success indicates no supply problem; failure runs the
-ship short of critically needed supplies (food, water, medicine, lumber, ammunition
-and other examples), causing serious complications; the entry describes sailors
-dying from the resulting deprivation and harm to morale. No fixed item quantity,
-time to death, death count or deterministic inventory/death procedure is given.
+Visually reviewed book 295 / PDF 297. SupplyManagement is a source-shaped
+SkillProcedure: success has no supply problem; failure establishes a critical
+supply shortage, serious complications, beginning crew mortality and qualitative
+morale harm. Supply selection is contextual; food, water, medicine, lumber and
+ammunition remain non-exhaustive examples, not supply ids or a closed catalog.
+Mortality is not weakened to possible death: its onset is begins, while casualty
+quantity and timing remain source-unspecified. No Health/wound procedure or
+numeric morale modifier is invented. Tuple order describes source facts, not
+scheduled execution. The seven vessel base obstacles and the three journey
+modifiers are explicit rows, without a voyage formula or selection evaluator.
 
-Current skill-test outcomes describe naming/reputation and navigation, not voyage
-supply shortage and its serious crew consequences. Do not flatten shortage to
-lost navigation, infer Resources loss, generate supplies, or apply automatic death.
-A proposed minimal supply-management outcome descriptor should preserve success
-and failure source facts with contextual/manual consequence details. Ship Management
-and later entries remain identity-only pending this schema resolution.
+Integrity validation rejects malformed outcomes, invented selection policies,
+casualty counts/timers, morale mechanics and downstream execution fields.
+No inventory, Resources, voyage, mortality or morale evaluator is added. This
+extends existing typed procedural metadata; no new durable Decision is needed.
+
+## Reviewed S through Shortcut-wise
+
+Ship Management, Ship-wise, Shipwright and Shortcut-wise bring production to 325
+complete definitions. Shipwright preserves its source obstacle guidance, including
+the jump from carrack Ob 6 to caravel Ob 8. Printed Engineer and Carpenter FoRKs
+remain unresolved source labels with probable Engineering/Carpentry audit hints,
+not silently resolved references. Ship-wise and Shortcut-wise use the previously
+audited bare-Wise defaults. Visually reviewed 295–296/297–298.
+
+## Pending Shrewd Appraisal price-reduction metadata
+
+Visually reviewed book 296 / PDF 298. The skill identifies flaws in an existing
+item and thereby reduces its price. The entry gives common/expensive/rare/unique
+goods Ob 2/3/4/5, appropriate Wise and Haggling FoRKs, Social type, Perception
+root, no tools, Dwarves-only restriction and the magical marker. It specifies no
+amount of price reduction or separate versus negotiation procedure.
+
+PurchaseNegotiation requires a versus buyer/seller negotiation and numeric
+obstacle adjustment; using it here would invent both. CreatedItemValueEffect
+instead modifies a manufactured item's Resources obstacle/value dice with numeric
+deltas; it cannot describe unquantified appraisal of an existing item. Neither
+ResourceInteraction nor a prose-only integration summary preserves this separate
+price effect structurally. Shrewd Appraisal remains identity-only, as do later
+entries, pending approval of a minimal Resources integration descriptor for
+appraised-item price reduction with source-unspecified magnitude. No -1 Ob,
+Resources dice/obstacle unit, discount percentage, transaction or evaluator is
+inferred. No new descriptor has been implemented without approval.

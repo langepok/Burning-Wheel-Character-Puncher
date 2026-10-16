@@ -203,3 +203,15 @@ a manual context-resolved actor skill, not an opponent, alias, default or family
 Known Training definitions cannot be referenced as rolled abilities. Source: Shield
 Training 295/297 and Armor and Shields 481/483, 483/485. No passive defense or
 Fight resolution/pool/VA/damage engine is introduced.
+
+
+### Supply-management outcomes
+
+SupplyManagement extends SkillProcedure with distinct success/failure facts,
+contextual critical supply shortage and non-exhaustive examples. Serious
+complications, beginning crew mortality (quantity/timing source-unspecified), and
+qualitative morale harm are independent source consequences, not executable
+commands. Explicit vessel obstacle rows and journey modifiers preserve source
+guidance without a voyage formula. Integrity validation checks the full nested
+shape; no inventory, Resources, voyage, crew, mortality or morale evaluator is
+introduced. Source: Ship Management, BWGR book 295 / PDF 297.

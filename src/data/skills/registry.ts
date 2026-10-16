@@ -1,3 +1,4 @@
+import { validateSupplyManagement } from './supply-management';
 import { validateShieldUse } from './shields';
 import { validateItemSearch } from './item-search';
 import { validateFatePronouncement, validateRuneCastingFateObstacle } from './fate';
@@ -223,7 +224,9 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (metadata.procedures !== undefined) {
       if (!Array.isArray(metadata.procedures)) throw new Error('Invalid skill procedures');
       for (const procedure of metadata.procedures) {
-        if (procedure?.kind === 'item-search') {
+        if (procedure?.kind === 'supply-management') {
+          validateSupplyManagement(procedure);
+        } else if (procedure?.kind === 'item-search') {
           validateItemSearch(procedure);
         } else if (procedure?.kind === 'duration-rest-substitution') {
           const { obstacle, effect, onFailure } = procedure;

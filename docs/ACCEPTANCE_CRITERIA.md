@@ -729,3 +729,15 @@ A Character Burner feature is done only when:
   ability refs, Training-as-roll and invented passive/execution fields.
 - No Fight action resolution, pool splitting, VA/damage/positioning rules or engine
   are added; detailed Armor and Shields rules remain external.
+
+
+### Ship Management supply-management metadata (295/297)
+
+- Preserve success without supply problems and failure with contextual critical shortage.
+- Supply examples are non-exhaustive; serious complications, beginning crew mortality
+  (quantity/timing unspecified), and qualitative morale harm remain separate facts.
+- Preserve all seven vessel obstacles and three journey obstacle modifiers.
+- Serialize and validate structured outcomes; reject invented numeric mortality,
+  morale modifiers, selection procedures and downstream execution fields.
+- No inventory, Resources, voyage, mortality or morale evaluator. Continue S only
+  while the next source case is representable without an unapproved extension.

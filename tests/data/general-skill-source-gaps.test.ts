@@ -126,11 +126,11 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Ship Management, book 295 / PDF 297: voyage supply shortage and serious consequences. */
-describe('Pending Ship Management supply outcomes', () => {
-  it('does not equate supply shortage with navigation loss or automatic item/death execution', () => {
+/** Shrewd Appraisal, book 296 / PDF 298: appraisal lowers price without a stated magnitude. */
+describe('Pending Shrewd Appraisal price-reduction metadata', () => {
+  it('does not invent Haggling versus/-1 Ob semantics or change a created item value', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('ship-management')).toBe(false);
-    expect(catalog.references.get('ship-management')?.sourceName).toBe('Ship Management');
+    expect(catalog.skills.has('shrewd-appraisal')).toBe(false);
+    expect(catalog.references.get('shrewd-appraisal')?.sourceName).toBe('Shrewd Appraisal');
   });
 });

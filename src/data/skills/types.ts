@@ -506,7 +506,27 @@ export interface ItemSearch {
       readonly id: string; readonly label: string; readonly obstacle: number; readonly examples: readonly string[];
     }[] };
 }
-export type SkillProcedure = DurationRestSubstitution | LinkedPretest | ItemSearch;
+/** Source-shaped voyage supply consequences, without downstream crew/inventory execution. */
+export interface SupplyManagement {
+  readonly kind: 'supply-management';
+  readonly success: { readonly kind: 'no-supply-problem' };
+  readonly failure: {
+    readonly shortage: { readonly kind: 'critical-supply-shortage'; readonly supplySelection: 'contextual';
+      readonly examplesPolicy: 'non-exhaustive'; readonly examples: readonly string[] };
+    readonly consequences: readonly [
+      { readonly kind: 'serious-complications'; readonly resolution: 'contextual' },
+      { readonly kind: 'crew-mortality'; readonly onset: 'begins'; readonly quantity: 'source-unspecified';
+        readonly timing: 'source-unspecified'; readonly cause: 'shortage-of-critical-supply' },
+      { readonly kind: 'morale-harm'; readonly magnitude: 'source-unspecified' },
+    ];
+  };
+  /** Explicit source rows only; no duration, supply or voyage formula. */
+  readonly obstacleGuidance: {
+    readonly vessels: readonly { readonly vessels: readonly string[]; readonly obstacle: number }[];
+    readonly journeyModifiers: readonly { readonly journey: string; readonly obstacleDelta: number }[];
+  };
+}
+export type SkillProcedure = DurationRestSubstitution | LinkedPretest | ItemSearch | SupplyManagement;
 /** Facts during use of the owning skill; no new ability named Awareness. */
 export type SkillActivityFact =
   | { readonly kind: 'vague-surroundings-awareness' }

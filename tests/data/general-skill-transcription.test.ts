@@ -5,9 +5,26 @@ import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('preserves Shipwright source spellings as unresolved FoRK guidance and the following bare Wises', () => {
+    const shipwright = catalog.skills.get('shipwright');
+    expect(shipwright?.rootRule).toEqual({ kind: 'single', ability: { kind: 'stat', id: 'perception' } });
+    expect(shipwright?.skillType).toBe('Craftsman');
+    expect(shipwright?.tools).toEqual({ kind: 'workshop' });
+    expect(shipwright?.forkSuggestions?.suggestions).toEqual([
+      { target: { kind: 'unresolved-source-reference', sourceLabel: 'Engineer', probableTargetSkillId: 'engineering' } },
+      { target: { kind: 'unresolved-source-reference', sourceLabel: 'Carpenter', probableTargetSkillId: 'carpentry' } },
+      { target: { kind: 'skill', skillId: 'boatwright' } },
+    ]);
+    for (const topic of ['ship', 'shortcut']) {
+      expect(catalog.skills.get(`${topic}-wise`)).toMatchObject({
+        coverage: 'complete', rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } },
+        skillType: 'Special', tools: { kind: 'none', expendable: false }, familyMembership: { familyId: 'wises', topicId: topic },
+      });
+    }
+  });
   it('preserves P source relations, requirements and contextual modifiers before Poisons', () => {
     expect(catalog.skills.get('paean-of-deeds')?.relations).toEqual([{ kind: 'same-mechanics', target: { kind: 'skill', id: 'conspicuous' } }]);
     expect(catalog.skills.get('paean-of-deeds')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['elf'], scope: 'always' }]);

@@ -39,4 +39,27 @@ export const sZSkills = [
   define('shield-training', 'Shield Training', 295, 'Training permits action-scoped shield defense and Block & Strike. A shield Strike uses separate acting ability choices; combat resolution stays external.', {
     rootRule: stat('agility'), skillType: 'Martial Training', tools: none, training: aptitudeTraining, printedMarkers: ['*'], integrationTags: ['fight'],
     capabilities: [{ kind: 'subsystem-capability', id: 'shield-use', integrationId: 'shield-training-use' }] }),
+  define('ship-management', 'Ship Management', 295, 'Manage voyage supplies and cargo. Success avoids supply problems; failure causes a critical shortage with serious crew and morale consequences.', {
+    rootRule: stat('perception'), skillType: 'Seafaring', tools: none, forkSuggestions: forks('accounting', 'logistics'),
+    procedures: [{ kind: 'supply-management', success: { kind: 'no-supply-problem' },
+      failure: { shortage: { kind: 'critical-supply-shortage', supplySelection: 'contextual', examplesPolicy: 'non-exhaustive',
+        examples: ['food', 'water', 'medicine', 'lumber', 'ammunition'] }, consequences: [
+        { kind: 'serious-complications', resolution: 'contextual' },
+        { kind: 'crew-mortality', onset: 'begins', quantity: 'source-unspecified', timing: 'source-unspecified', cause: 'shortage-of-critical-supply' },
+        { kind: 'morale-harm', magnitude: 'source-unspecified' },
+      ] }, obstacleGuidance: { vessels: [
+        { vessels: ['rowboat', 'skiff'], obstacle: 1 }, { vessels: ['longboat'], obstacle: 2 },
+        { vessels: ['junk'], obstacle: 3 }, { vessels: ['caravel'], obstacle: 4 },
+        { vessels: ['carrack'], obstacle: 5 }, { vessels: ['felucca'], obstacle: 6 }, { vessels: ['treasure-ship'], obstacle: 7 },
+      ], journeyModifiers: [
+        { journey: 'moderate', obstacleDelta: 1 }, { journey: 'long', obstacleDelta: 2 }, { journey: 'ocean-crossing', obstacleDelta: 3 },
+      ] } }],
+  }),
+  define('ship-wise', 'Ship-wise', 295, 'Knowledge of ships.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'ship' } }),
+  define('shipwright', 'Shipwright', 295, 'Design and construct seagoing vessels. Guidance: rowboat/skiff Ob 1, barge Ob 2, longboat Ob 3, cog/junk Ob 4, felucca/longship/galley Ob 5, carrack Ob 6, caravel Ob 8, treasure ship Ob 9.', {
+    rootRule: stat('perception'), skillType: 'Craftsman', tools: workshop,
+    forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), sourceFork('Carpenter', 'carpentry'), fork('boatwright')) }),
+  define('shortcut-wise', 'Shortcut-wise', 296, 'Knowledge of shortcuts.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'shortcut' } }),
 ];
