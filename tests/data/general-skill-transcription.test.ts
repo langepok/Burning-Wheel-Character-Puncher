@@ -5,7 +5,7 @@ import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
   it('preserves Shipwright source spellings as unresolved FoRK guidance and the following bare Wises', () => {

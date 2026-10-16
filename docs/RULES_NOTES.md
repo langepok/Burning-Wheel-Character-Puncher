@@ -500,3 +500,14 @@ Vessel base Ob: rowboat/skiff 1, longboat 2, junk 3, caravel 4, carrack 5, feluc
 treasure ship 7. Journey modifiers: moderate +1, long +2, ocean crossing +3 Ob.
 These are catalog facts; inventory, crew, voyage and consequence execution remain
 outside the skill catalog.
+
+
+### Shrewd Appraisal: identified flaws reduce price (BWGR book 296 / PDF 298)
+
+Shrewd Appraisal identifies flaws in the appraised item and thereby reduces its
+price. The entry establishes no reduction amount, Resources obstacle change,
+percentage, currency/value dice, bargaining procedure, minimum price or stacking
+behavior. Preserve the economic effect with source-unspecified magnitude.
+Common/expensive/rare/unique goods use Ob 2/3/4/5. Ordinary Appraisal instead
+supports accurate pricing before a Resources test; do not grant it this distinct
+price-reduction effect by analogy. Execution remains outside the catalog.

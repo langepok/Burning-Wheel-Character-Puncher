@@ -1,4 +1,4 @@
-import { aptitudeTraining, combined, define, expendable, fork, forks, generic, guidance, none, only, sourceFork, stat, workshop } from './shared';
+import { aptitudeTraining, combined, define, expendable, fork, forks, generic, guidance, magical, none, only, sourceFork, stat, workshop } from './shared';
 
 /** Reviewed S–Z records only; later entries remain identity references. */
 export const sZSkills = [
@@ -62,4 +62,8 @@ export const sZSkills = [
     forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), sourceFork('Carpenter', 'carpentry'), fork('boatwright')) }),
   define('shortcut-wise', 'Shortcut-wise', 296, 'Knowledge of shortcuts.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'shortcut' } }),
+  define('shrewd-appraisal', 'Shrewd Appraisal', 296, 'Identify item flaws to reduce its price by a source-unspecified amount. Guidance: Common goods Ob 2, Expensive goods Ob 3, Rare goods Ob 4, Unique goods Ob 5.', {
+    rootRule: stat('perception'), skillType: 'Social', tools: none, ...magical, availabilityRestrictions: only(['dwarf']),
+    forkSuggestions: guidance({ target: { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' } }, fork('haggling')),
+    integrationTags: ['resources'], capabilities: [{ kind: 'subsystem-capability', id: 'appraised-item-price-reduction', integrationId: 'shrewd-appraisal-price-reduction' }] }),
 ];

@@ -215,3 +215,14 @@ commands. Explicit vessel obstacle rows and journey modifiers preserve source
 guidance without a voyage formula. Integrity validation checks the full nested
 shape; no inventory, Resources, voyage, crew, mortality or morale evaluator is
 introduced. Source: Ship Management, BWGR book 295 / PDF 297.
+
+
+### Appraised-item price reduction
+
+AppraisedItemPriceReduction is a Resources integration descriptor for the semantic
+effect of identified flaws reducing the appraised item's price, with magnitude
+explicitly source-unspecified. It is separate from direct character Resources
+interactions, numeric created-item valuation and buyer/seller negotiation. Its
+exact nested shape rejects invented numeric, transaction and execution fields.
+Ordinary Appraisal does not inherit it. Source: Shrewd Appraisal, BWGR 296/298.
+No economic/Resources evaluator or new durable architecture boundary is added.

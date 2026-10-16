@@ -126,11 +126,11 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Shrewd Appraisal, book 296 / PDF 298: appraisal lowers price without a stated magnitude. */
-describe('Pending Shrewd Appraisal price-reduction metadata', () => {
-  it('does not invent Haggling versus/-1 Ob semantics or change a created item value', () => {
+/** Siege Engineer, book 296 / PDF 298: created war machines count as tools against structures. */
+describe('Pending Siege Engineer created-equipment tool role', () => {
+  it('does not substitute a numeric use bonus or a structure-resistance effect for tool applicability', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('shrewd-appraisal')).toBe(false);
-    expect(catalog.references.get('shrewd-appraisal')?.sourceName).toBe('Shrewd Appraisal');
+    expect(catalog.skills.has('siege-engineer')).toBe(false);
+    expect(catalog.references.get('siege-engineer')?.sourceName).toBe('Siege Engineer');
   });
 });

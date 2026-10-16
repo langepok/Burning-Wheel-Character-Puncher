@@ -586,6 +586,15 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         throw new Error('Invalid structure resistance');
       }
     }
+    if (integration.priceReduction !== undefined) {
+      const effect = integration.priceReduction;
+      if (integration.subsystem !== 'resources' || !effect || effect.kind !== 'appraised-item-price-reduction' ||
+          effect.target !== 'appraised-item' || effect.basis?.kind !== 'identified-flaws' ||
+          Object.keys(effect.basis).length !== 1 || effect.magnitude !== 'source-unspecified' ||
+          Object.keys(effect).length !== 4) {
+        throw new Error('Invalid appraised-item price reduction');
+      }
+    }
     if (integration.purchaseNegotiation !== undefined) {
       const purchase = integration.purchaseNegotiation;
       const adjustment = purchase?.buyerObstacleAdjustment;

@@ -741,3 +741,16 @@ A Character Burner feature is done only when:
   morale modifiers, selection procedures and downstream execution fields.
 - No inventory, Resources, voyage, mortality or morale evaluator. Continue S only
   while the next source case is representable without an unapproved extension.
+
+
+### Shrewd Appraisal economic effect (296/298)
+
+- A typed Resources integration stores price reduction of the appraised item,
+  based on identified flaws, with source-unspecified magnitude.
+- No numeric Resources obstacle, cash/value dice, percentage, currency, minimum
+  price, stacking, negotiation or pricing procedure is inferred.
+- Preserve common/expensive/rare/unique goods at Ob 2/3/4/5; Perception, Social,
+  no tools, Dwarves only, appropriate Wise/Haggling FoRKs and magical marker.
+- Ordinary Appraisal remains distinct and does not inherit price reduction.
+- Serialization and integrity validation reject malformed effects and numeric
+  substitutions; no economic/Resources/flaw-generation evaluator is introduced.

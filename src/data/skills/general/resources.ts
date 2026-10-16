@@ -2,6 +2,11 @@ import type { SkillIntegration } from '../types';
 import { evidence } from './shared';
 
 export const resourceIntegrations: readonly SkillIntegration[] = [
+  { id: 'shrewd-appraisal-price-reduction', skillId: 'shrewd-appraisal', subsystem: 'resources',
+    priceReduction: { kind: 'appraised-item-price-reduction', target: 'appraised-item',
+      basis: { kind: 'identified-flaws' }, magnitude: 'source-unspecified' },
+    summary: 'Successful appraisal identifies flaws and reduces the item price; no numeric or transaction procedure is specified.',
+    source: [evidence('Shrewd Appraisal', 296)] },
   { id: 'haggling-negotiation', skillId: 'haggling', subsystem: 'resources',
     purchaseNegotiation: {
       kind: 'purchase-negotiation', roles: ['buyer', 'seller'], test: { kind: 'versus' },

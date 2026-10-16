@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (996 tests
-in 40 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1028 tests
+in 41 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Shortcut-wise:
-325 complete definitions: A–R complete, S reviewed through Shortcut-wise; Shrewd Appraisal and later entries pending.
+Production transcription continues through Shrewd Appraisal:
+326 complete definitions: A–R complete, S reviewed through Shrewd Appraisal; Siege Engineer and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -787,21 +787,44 @@ remain unresolved source labels with probable Engineering/Carpentry audit hints,
 not silently resolved references. Ship-wise and Shortcut-wise use the previously
 audited bare-Wise defaults. Visually reviewed 295–296/297–298.
 
-## Pending Shrewd Appraisal price-reduction metadata
+## Resolved Shrewd Appraisal price-reduction metadata
 
-Visually reviewed book 296 / PDF 298. The skill identifies flaws in an existing
-item and thereby reduces its price. The entry gives common/expensive/rare/unique
-goods Ob 2/3/4/5, appropriate Wise and Haggling FoRKs, Social type, Perception
-root, no tools, Dwarves-only restriction and the magical marker. It specifies no
-amount of price reduction or separate versus negotiation procedure.
+Visually reviewed book 296 / PDF 298. AppraisedItemPriceReduction belongs to the
+Resources integration boundary: it targets the appraised item, uses identified
+flaws as its basis, and leaves magnitude source-unspecified. The successful
+appraisal's semantic price effect is distinct from ordinary Appraisal's accurate
+pricing before Resources tests. Neither identity is an alias or upgrade of the
+other. Haggling remains a separate versus-negotiation descriptor.
 
-PurchaseNegotiation requires a versus buyer/seller negotiation and numeric
-obstacle adjustment; using it here would invent both. CreatedItemValueEffect
-instead modifies a manufactured item's Resources obstacle/value dice with numeric
-deltas; it cannot describe unquantified appraisal of an existing item. Neither
-ResourceInteraction nor a prose-only integration summary preserves this separate
-price effect structurally. Shrewd Appraisal remains identity-only, as do later
-entries, pending approval of a minimal Resources integration descriptor for
-appraised-item price reduction with source-unspecified magnitude. No -1 Ob,
-Resources dice/obstacle unit, discount percentage, transaction or evaluator is
-inferred. No new descriptor has been implemented without approval.
+No Resources obstacle delta, percentage, cash/value dice, currency amount,
+minimum price or stacking semantics are inferred. The effect's exact nested
+shape is validated and serializable; unsupported fields and other subsystem
+placements are rejected. No pricing, Resources, transaction, bargaining, item
+valuation or flaw-generation evaluator is introduced. No new Decision is needed.
+
+Production now has 326 complete definitions, through Shrewd Appraisal. Its
+Perception root, Social type, no tools, Dwarves-only restriction, appropriate Wise
+and Haggling FoRKs, and magical marker/open-ended behavior are preserved. Source
+obstacle guidance remains in the concise authored summary, like other ordinary
+fixed tables: common goods Ob 2, expensive Ob 3, rare Ob 4, unique Ob 5. These
+source categories do not establish a production item-price taxonomy.
+
+## Pending Siege Engineer created-equipment tool role
+
+Visually reviewed book 296 / PDF 298. Siege Engineer builds war machines that
+then count as tools for destroying structures. This is a semantic role of the
+created equipment, not a numeric dice advantage, a valuation effect, an intrinsic
+skill bonus or resistance of a created structure. Current EquipmentUseEffect
+requires advantage dice and a crafting-obstacle tradeoff; EquipmentResult
+requires an enchantment combination and a skill-specific bonus. Neither fits
+without inventing mechanics. SkillIntegration summary/tags alone would leave
+the tool role unstructured.
+
+Propose minimal equipment integration metadata for a created war-machine result
+with tool applicability to destroying structures. No dice bonus, damage value,
+destruction procedure, inventory creation or siege/equipment evaluator follows.
+The entry's building guidance is simple ram/scaling ladder Ob 1, metal-capped
+ram Ob 2, covered ram/siege tower Ob 3, massive traction trebuchet Ob 4, massive
+metal-capped covered ram Ob 5; Perception, Artisan, generic tools, Blacksmith,
+Munitions and Rude Carpentry FoRKs, Orc-only in character burning. Siege Engineer
+and later S entries remain identity-only pending approval of this extension.
