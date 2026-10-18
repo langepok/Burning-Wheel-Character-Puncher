@@ -1,3 +1,4 @@
+import { validateWeaponImprovements, validateSourceSpecificQualities, validateCraftingShadeRequirement } from './equipment-crafting';
 import { validateBattlefieldCommandBroadcast } from './battlefield-communication';
 import { validateTwoWeaponUse } from './two-weapons';
 import { validateDeclaredIntent, validateHighestTargetAbilities, validateDebilitatingTraitGrant, validateGmConsequence } from './intent-outcomes';
@@ -579,6 +580,18 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   }
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
+    if (integration.weaponImprovements !== undefined) {
+      if (integration.subsystem !== 'equipment') throw new Error('Invalid weapon improvement subsystem');
+      validateWeaponImprovements(integration.weaponImprovements);
+    }
+    if (integration.sourceSpecificQualities !== undefined) {
+      if (integration.subsystem !== 'equipment') throw new Error('Invalid source-specific quality subsystem');
+      validateSourceSpecificQualities(integration.sourceSpecificQualities, integration.skillId);
+    }
+    if (integration.craftingShadeRequirement !== undefined) {
+      if (integration.subsystem !== 'equipment') throw new Error('Invalid crafting shade subsystem');
+      validateCraftingShadeRequirement(integration.craftingShadeRequirement);
+    }
     if (integration.poisonTreatment !== undefined) {
       if (integration.subsystem !== 'injury') throw new Error('Invalid poison treatment subsystem');
       validatePoisonTreatment(integration.poisonTreatment, requireSkill);

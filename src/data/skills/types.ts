@@ -204,6 +204,39 @@ export interface EquipmentUseEffect {
     readonly repeatability: 'single-tradeoff' | 'per-increment' | 'unspecified';
     readonly requiresSuccessfulCreation: true };
 }
+/** Source-shaped crafting options; costs are not arbitrary expressions. */
+export type WeaponImprovement = { readonly kind: 'weapon-improvement'; readonly repeatability: 'once-per-physical-weapon' } & (
+  | { readonly improvement: 'versus-armor'; readonly delta: number; readonly craftingObstacle: { readonly kind: 'current-weapon-va-plus-one' } }
+  | { readonly improvement: 'balance-die'; readonly dice: number; readonly craftingObstacleAdjustment: number;
+      readonly capabilityRef: { readonly kind: 'external-equipment-capability'; readonly id: 'balance-dice' } }
+  | { readonly improvement: 'weapon-power'; readonly delta: number; readonly craftingObstacle: { readonly kind: 'current-weapon-power' } }
+);
+export interface WeaponImprovementOptions {
+  readonly kind: 'weapon-improvement-options'; readonly target: 'physical-weapon'; readonly selection: 'independent-options';
+  readonly options: readonly WeaponImprovement[];
+}
+/** Entry-specific results deliberately do not import global equipment-quality semantics. */
+export interface SourceSpecificEquipmentQualities {
+  readonly kind: 'source-specific-equipment-qualities'; readonly sourceSkillId: SkillId;
+  readonly combination: 'source-unspecified';
+  readonly reconciliation: { readonly kind: 'unresolved-source-conflict'; readonly auditId: string; readonly deferredTo: 'equipment-audit' };
+  readonly options: readonly ({ readonly sourceLabel: string; readonly craftingObstacleAdjustment: number } & (
+    | { readonly quality: 'dwarven-made'; readonly outputs: readonly ['armor', 'shield'];
+        readonly effect: { readonly kind: 'source-specific-reroll'; readonly face: 1; readonly selection: 'one-rolled-one'; readonly recurrence: 'once' } }
+    | { readonly quality: 'superior'; readonly outputs: readonly ['armor'];
+        readonly effect: { readonly kind: 'source-specific-reroll'; readonly face: 1; readonly selection: 'all-rolled-ones'; readonly recurrence: 'every-applicable-roll' } }
+  ))[];
+}
+/** Eligibility of the skill performing this crafting test, never an unrelated owned skill. */
+export interface CraftingShadeRequirement {
+  readonly kind: 'crafting-shade-requirement'; readonly outputShade: 'gray'; readonly requiredCraftingAbilityShade: 'gray';
+  readonly ability: { readonly kind: 'effective-crafting-skill'; readonly source: 'owning-skill'; readonly snapshot: 'at-test' };
+  readonly qualification: { readonly kind: 'anyOf'; readonly paths: readonly [
+    { readonly kind: 'actual-skill-shade' },
+    { readonly kind: 'temporary-shade-shift'; readonly source: { readonly kind: 'external-rule'; readonly subsystem: 'artha'; readonly id: 'temporary-epiphany' } },
+  ] };
+}
+
 /** External spell-song source identities are not owned General skill records. */
 export type EnchantmentComponent =
   | { readonly kind: 'training'; readonly skillId: SkillId }
@@ -479,6 +512,11 @@ export type SkillIntegration = SkillIntegrationIdentity & (
 ) & (
   | { readonly subsystem: 'battlefield-communication'; readonly battlefieldCommandBroadcast?: BattlefieldCommandBroadcast }
   | { readonly subsystem: Exclude<IntegrationTag, 'battlefield-communication'>; readonly battlefieldCommandBroadcast?: never }
+) & (
+  | { readonly subsystem: 'equipment'; readonly weaponImprovements?: WeaponImprovementOptions;
+      readonly sourceSpecificQualities?: SourceSpecificEquipmentQualities; readonly craftingShadeRequirement?: CraftingShadeRequirement }
+  | { readonly subsystem: Exclude<IntegrationTag, 'equipment'>; readonly weaponImprovements?: never;
+      readonly sourceSpecificQualities?: never; readonly craftingShadeRequirement?: never }
 );
 
 /** Closed source-shaped alternatives, not reusable arithmetic expressions. */

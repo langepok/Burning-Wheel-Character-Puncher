@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1386 tests
-in 51 files), npm run build and git diff --check. Remaining W–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1421 tests
+in 52 files), npm run build and git diff --check. Remaining W–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Waiting Tables:
-407 complete definitions: A–V complete, W reviewed through Waiting Tables; War Art and later entries pending.
+Production transcription continues through War Engineer:
+409 complete definitions: A–V complete, W reviewed through War Engineer; Weaponsmith and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -1081,12 +1081,24 @@ The effect is can-hear-command, at any distance within battlefield context for c
 
 Wagon-wise and Waiting Tables on 307/309 are also complete. Waiting Tables preserves Will, Special, no tools, direct taxed-Resources recovery and cafe/bar/restaurant/royal/imperial Ob 1–5 guidance. It does not inherit Blacksmith's context. Production reaches 407 complete definitions, through Waiting Tables.
 
-## Pending War Art equipment properties and quality
+## War Art metadata implemented; armor-quality conflict remains unresolved
 
-Visually reviewed book 307 / PDF 309. Existing created-object descriptors support valuation, use dice, structure resistance and fixed capabilities, but do not preserve these War Art mechanics structurally:
+Visually reviewed book 307 / PDF 309 with the user-confirmed packet. The complete record preserves Will/Agility, Craftsman, Workshop, Dwarves-only, printed magical marker, Black-Metal Artifice FoRK, base weapon guidance (knives 1; hammer/axe/sword 2; spear/polearm 3; arbalest 4; bolts 2) and armor guidance (pot helmet 1; light mail 2; heavy mail 3; plated mail 4).
 
-- Once per weapon, +1 VA with obstacle equal to current VA plus one; balance die at +2 Ob; +1 weapon Power with obstacle equal to current weapon Power. Source-defined obstacle bases must remain distinct from added obstacle modifiers.
-- Armor/shields may be Dwarven-made at +1 Ob, rerolling one 1 once. Superior armor at +3 Ob rerolls all 1s all the time. These are equipment-result qualities, not a skill's intrinsic dice bonus or Resources value.
-- Gray devices require the artificer's skill to be gray, either by actual shade or temporary Epiphany; this is crafting eligibility, not character-burning Gray opening metadata.
+WeaponImprovementOptions contains three independent source options targeting the physical weapon. VA +1 references current weapon VA plus one as its test obstacle. A balance die adds +2 crafting Ob and references external Balance Dice semantics. Weapon Power +1 references current weapon Power as obstacle, never Power+1. Accepted interpretation: each same improvement is once per physical weapon, while distinct improvements are not XOR. No repeat stacking, profile reset, stat generation or arithmetic AST.
 
-Propose bounded created-equipment improvement/quality descriptors with source-specific obstacle references, once-per-weapon limits, reroll policy references and a gray-device creator-skill shade requirement that admits temporary Epiphany. Keep weapon/item/use-profile identity separate under D-027. No arbitrary formula tree, equipment stat generation, reroll/crafting/shade/Fight evaluator, stacking or invented source parameters. War Art and later entries remain untranscribed pending approval.
+SourceSpecificEquipmentQualities keeps Dwarven-made armor/shield +1 Ob with one rolled 1 rerolled once; superior armor +3 Ob with all 1s rerolled every applicable roll. Superior does not include shields here. Quality combination stays source-unspecified: no stacking, replacement/upgrading or exclusivity policy.
+
+### WAR ART / ARMOR QUALITY SOURCE CONFLICT
+
+The entry's parenthetical reroll statements do not literally match general equipment-quality rules elsewhere. Its sourceSkillId, integration source and unresolved-source-conflict marker (war-art-armor-quality-source-conflict, deferred equipment-audit) deliberately preserve this discrepancy. No normalization or RAW reconciliation is claimed. The later Equipment audit must revisit both source accounts before introducing global execution semantics.
+
+CraftingShadeRequirement requires the effective owning crafting skill to be gray at test time to create gray devices. Actual shade or temporary Epiphany can qualify; unrelated gray skills cannot. The latter is an external eligibility path, not an Artha activation/cost/timer or permanent progression. No weapon/armor/balance shade stats are generated. Strict serialization/integrity validation covers all three equipment-only descriptors. D-025 is extended, D-027 identity remains intact, and no new Decision or crafting/equipment/shade/quality evaluator is added.
+
+War Engineer is also complete on 307/309, retaining Will/Perception, Artisan, Workshop, building guidance Ob 1–6 and an external Materials reference for destruction obstacles. The printed entry does not state a stock restriction, so Dwarven-host lore does not create one. Nor is Siege Engineer's distinct counts-as-tool capability copied. Production reaches 409 complete definitions, through War Engineer.
+
+## Pending Weaponsmith created-output quality
+
+Visually reviewed book 308 / PDF 310. Weaponsmith's base guidance is knife Ob 1; spear/short sword/mace/light axe Ob 2; arming/long sword Ob 3; polearm Ob 4. It explicitly offers superior-quality weapons at +2 crafting Ob and poor-quality weapons through a failed test. Root is Perception/Agility, type Craftsman, Workshop tools, Blacksmith FoRK.
+
+Current source-specific quality descriptors intentionally preserve War Art's conflicting armor/shield rerolls. They cannot stand in for a generic superior/poor weapon-quality result or a failed-crafting output consequence without inventing/importing execution effects. Propose minimal created-equipment quality metadata with an external global-equipment-quality reference: superior weapon option at +2 crafting Ob, and poor weapon output on failed test. Preserve source labels without numeric damage/VA/reroll invention, deliberate-failure procedure, quality lookup, stat generation or crafting evaluator. Weaponsmith and later entries remain untranscribed pending approval.

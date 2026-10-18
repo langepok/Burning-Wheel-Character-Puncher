@@ -951,3 +951,16 @@ A Character Burner feature is done only when:
 - Continue sequentially to the next unsupported source case; dependency installation, typecheck, full tests, build and diff whitespace validation must pass.
 
 - Wagon-wise preserves its bare Wise topic identity. Waiting Tables preserves Will, Special, no tools, Ob 1–5 guidance and direct taxed-Resources recovery without an invented workplace condition. War Art remains identity-only pending structured equipment improvements/qualities and shade eligibility.
+
+
+### War Art source-specific crafting results
+
+- Preserve Will/Agility, Craftsman, Black-Metal Artifice, Workshop, Dwarves-only and source weapon/armor Ob guidance (307/309).
+- Three independent options target the physical weapon; each same improvement is once per physical weapon (accepted interpretation), with no choose-one or stacking inference. VA +1 uses current-weapon-va-plus-one Ob; balance die uses +2 crafting Ob and external Balance Dice semantics; weapon Power +1 uses current-weapon-power Ob, not Power+1.
+- War Art-specific Dwarven-made armor/shield quality costs +1 Ob and retains one rolled 1 rerolled once. Superior armor costs +3 Ob and retains all 1s rerolled every applicable roll; shields are not included in that option.
+- Quality combination remains source-unspecified. Preserve an unresolved WAR ART / ARMOR QUALITY SOURCE CONFLICT marker and provenance for later Equipment audit; do not reconcile with global quality rules.
+- Gray-device crafting eligibility requires the effective owning crafting skill to be gray at test time, by actual shade or temporary Epiphany; unrelated gray skills do not qualify. No global Burner opening change, Artha activation, timing or stat generation.
+- Strict serialization/integrity validation covers all descriptors and rejects formula ASTs, wrong obstacle basis, inferred quality scope/combination and unrelated-skill shade conditions. No crafting/equipment/quality/shade evaluator.
+- Continue W–Z sequentially until the next genuinely unsupported source case; run npm ci, typecheck, full tests, build and diff checks.
+
+- War Engineer preserves Will/Perception, Artisan, Workshop and Ob 1–6 building guidance; Materials destruction guidance remains external. Do not infer a Dwarf restriction from descriptive lore or a Siege Engineer counts-as-tool capability. Weaponsmith remains identity-only if its generic superior/poor output qualities cannot be represented without borrowing War Art-specific conflicting semantics.

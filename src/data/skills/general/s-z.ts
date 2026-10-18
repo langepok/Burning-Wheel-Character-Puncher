@@ -345,9 +345,42 @@ export const sZSkills = [
   define('waiting-tables', 'Waiting Tables', 307, 'Serve customers while replenishing taxed Resources. Guidance: sleepy cafe Ob 1; small bar Ob 2; busy restaurant Ob 3; royal table Ob 4; imperial table Ob 5.', {
     rootRule: stat('will'), skillType: 'Special', tools: none, resourceInteractions: [{ kind: 'recover-taxed-resources' }] }),
 
+  define('war-art', 'War Art', 307, 'Craft weapons and armor. Weapon guidance: knives Ob 1; hammer/axe/sword Ob 2; spear/polearm Ob 3; arbalest Ob 4; crossbow/arbalest bolts Ob 2. Armor guidance: pot helmet Ob 1; light mail Ob 2; heavy mail Ob 3; plated mail Ob 4. Improvements, source-specific quality results and gray crafting eligibility remain separate equipment metadata.', {
+    rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: workshop, ...magical,
+    availabilityRestrictions: only(['dwarf']), forkSuggestions: forks('black-metal-artifice'), integrationTags: ['equipment'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'equipment-crafting-results', integrationId: 'war-art-results' }] }),
+
+  define('war-engineer', 'War Engineer', 307, 'Build and field war engines and undermine fortifications. Building guidance: battering ram Ob 1; small war tower Ob 2; covered ram Ob 3; small stone thrower Ob 4; siege arbalest Ob 5; large trebuchet Ob 6. Destruction obstacles reference Materials.', {
+    rootRule: combined('will', 'perception'), skillType: 'Artisan', tools: workshop, ...magical, integrationTags: ['equipment'] }),
+
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'war-engineer-materials', skillId: 'war-engineer', subsystem: 'equipment',
+    summary: 'Materials supplies external building-destruction obstacles; construction guidance is separate, with no destruction/equipment evaluator or inferred Siege Engineer capability.',
+    source: [evidence('War Engineer', 307)] },
+
+  { id: 'war-art-results', skillId: 'war-art', subsystem: 'equipment',
+    weaponImprovements: { kind: 'weapon-improvement-options', target: 'physical-weapon', selection: 'independent-options', options: [
+      { kind: 'weapon-improvement', improvement: 'versus-armor', delta: 1, craftingObstacle: { kind: 'current-weapon-va-plus-one' }, repeatability: 'once-per-physical-weapon' },
+      { kind: 'weapon-improvement', improvement: 'balance-die', dice: 1, capabilityRef: { kind: 'external-equipment-capability', id: 'balance-dice' }, craftingObstacleAdjustment: 2, repeatability: 'once-per-physical-weapon' },
+      { kind: 'weapon-improvement', improvement: 'weapon-power', delta: 1, craftingObstacle: { kind: 'current-weapon-power' }, repeatability: 'once-per-physical-weapon' },
+    ] },
+    sourceSpecificQualities: { kind: 'source-specific-equipment-qualities', sourceSkillId: 'war-art', combination: 'source-unspecified',
+      reconciliation: { kind: 'unresolved-source-conflict', auditId: 'war-art-armor-quality-source-conflict', deferredTo: 'equipment-audit' }, options: [
+        { quality: 'dwarven-made', sourceLabel: 'Dwarven-made', outputs: ['armor', 'shield'], craftingObstacleAdjustment: 1,
+          effect: { kind: 'source-specific-reroll', face: 1, selection: 'one-rolled-one', recurrence: 'once' } },
+        { quality: 'superior', sourceLabel: 'superior quality', outputs: ['armor'], craftingObstacleAdjustment: 3,
+          effect: { kind: 'source-specific-reroll', face: 1, selection: 'all-rolled-ones', recurrence: 'every-applicable-roll' } },
+      ] },
+    craftingShadeRequirement: { kind: 'crafting-shade-requirement', outputShade: 'gray', requiredCraftingAbilityShade: 'gray',
+      ability: { kind: 'effective-crafting-skill', source: 'owning-skill', snapshot: 'at-test' },
+      qualification: { kind: 'anyOf', paths: [{ kind: 'actual-skill-shade' },
+        { kind: 'temporary-shade-shift', source: { kind: 'external-rule', subsystem: 'artha', id: 'temporary-epiphany' } },
+      ] } },
+    summary: 'Each distinct improvement is once per physical weapon by accepted interpretation. WAR ART / ARMOR QUALITY SOURCE CONFLICT remains unresolved; qualities retain entry-specific rerolls and no combination policy. Gray eligibility concerns the effective crafting skill, not unrelated owned skills.',
+    source: [evidence('War Art', 307)] },
+
   { id: 'voice-communication', skillId: 'voice-of-thunder', subsystem: 'battlefield-communication',
     battlefieldCommandBroadcast: { kind: 'battlefield-command-broadcast',
       extends: { kind: 'skill', skillId: 'command', aspect: 'audibility-distance' },

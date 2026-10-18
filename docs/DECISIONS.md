@@ -393,6 +393,19 @@ six-plus-victim-Forte exchange delay preserve the additional wound without hit,
 Health or timer execution. No dose, coating persistence, stacking, recovery or
 arbitrary formula semantics are inferred. These remain crafted-output facts.
 
+The confirmed War Art audit (307/309) adds equipment-result metadata for independent
+physical-weapon improvement options, source-specific armor/shield qualities and
+effective crafting-skill shade eligibility. Named current-weapon VA/Power obstacle
+references are distinct from a fixed crafting-obstacle adjustment; Balance Dice
+remain an external equipment capability. Accepted interpretation: each distinct
+improvement may occur once per physical weapon, without a choose-one restriction.
+War Art's armor-quality rerolls retain source-specific provenance and an unresolved
+source-conflict marker for the later Equipment audit, without normalization or a
+stacking/exclusivity policy. Gray-device eligibility concerns the effective crafting
+skill at test time, through actual shade or temporary Epiphany, never any unrelated
+gray skill. No global quality reconciliation, arithmetic DSL, Artha activation,
+shade runtime or equipment stat generator is introduced.
+
 ## D-026 — Training root usage, learning methods and source options
 
 **Status:** Accepted — explicit user resolution and verified BWGR source audit

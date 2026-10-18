@@ -120,11 +120,11 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** War Art, book 307 / PDF 309: weapon/armor properties, rerolls and shade eligibility. */
-describe('Pending War Art equipment-result metadata', () => {
-  it('retains identity without flattening property-specific costs, quality rerolls or gray-device restrictions', () => {
+/** Weaponsmith, book 308 / PDF 310: generic output quality and failed-crafting outcome. */
+describe('Pending Weaponsmith output-quality metadata', () => {
+  it('retains identity without importing War Art conflicting rerolls or inventing quality stats', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('war-art')).toBe(false);
-    expect(catalog.references.get('war-art')?.sourceName).toBe('War Art');
+    expect(catalog.skills.has('weaponsmith')).toBe(false);
+    expect(catalog.references.get('weaponsmith')?.sourceName).toBe('Weaponsmith');
   });
 });
