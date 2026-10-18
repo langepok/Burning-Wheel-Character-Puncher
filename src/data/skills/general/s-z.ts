@@ -335,9 +335,33 @@ export const sZSkills = [
   define('visage-wise', 'Visage-wise', 307, 'Knowledge of visages.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'visage' } }),
 
+  define('voice-of-thunder', 'Voice of Thunder', 307, 'Use Command mechanics, with an additional audibility exception for qualifying soldiers on the battlefield. Sword Singers and vassals are descriptive context, not an audience whitelist.', {
+    rootRule: combined('will', 'forte'), skillType: 'Social', tools: none, ...magical, availabilityRestrictions: only(['elf']),
+    relations: [{ kind: 'mechanics-reuse-with-additions', target: { kind: 'skill', id: 'command' }, additionalCapabilityIds: ['battlefield-communication'] }],
+    capabilities: [{ kind: 'subsystem-capability', id: 'battlefield-communication', integrationId: 'voice-communication' }], integrationTags: ['battlefield-communication'] }),
+
+  define('wagon-wise', 'Wagon-wise', 307, 'Knowledge of wagons.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'wagon' } }),
+  define('waiting-tables', 'Waiting Tables', 307, 'Serve customers while replenishing taxed Resources. Guidance: sleepy cafe Ob 1; small bar Ob 2; busy restaurant Ob 3; royal table Ob 4; imperial table Ob 5.', {
+    rootRule: stat('will'), skillType: 'Special', tools: none, resourceInteractions: [{ kind: 'recover-taxed-resources' }] }),
+
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'voice-communication', skillId: 'voice-of-thunder', subsystem: 'battlefield-communication',
+    battlefieldCommandBroadcast: { kind: 'battlefield-command-broadcast',
+      extends: { kind: 'skill', skillId: 'command', aspect: 'audibility-distance' },
+      trigger: { kind: 'issues-command', actorRole: 'commander' },
+      audience: { role: 'soldier', roleResolution: 'manual-contextual', quantifier: 'all-qualifying',
+        relationshipToCommander: { kind: 'anyOf', entityKinds: ['trait', 'instinct', 'belief'], ownerRole: 'recipient',
+          relation: 'about-character', characterRole: 'commander',
+          resolution: { kind: 'manual-or-structured-reference', entityIdentity: 'stable-runtime-id',
+            aboutCharacterIdentity: 'must-match-commander', otherwise: 'manual-contextual' } } },
+      range: { kind: 'any-distance-within-battlefield', participants: ['commander', 'recipient'] },
+      effect: { kind: 'can-hear-command' } },
+    summary: 'Qualifying soldiers hear this commander at any battlefield distance. Stable narrative/entity and commander identity references may bind the relation; otherwise semantic matching remains manual. Command execution is separate.',
+    source: [evidence('Voice of Thunder', 307)] },
+
   { id: 'two-fisted-fighting-use', skillId: 'two-fisted-fighting-training', subsystem: 'fight',
     twoWeaponUse: { kind: 'two-weapon-use', equipmentRequirements: {
       weaponCount: 2, eachWeapon: { handedness: 'one-handed', maxWeaponLength: 'long' },

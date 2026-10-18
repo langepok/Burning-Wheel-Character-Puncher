@@ -938,3 +938,16 @@ A Character Burner feature is done only when:
 - Continue V sequentially until the next unrepresentable RAW fact; run dependency installation, typecheck, full tests, build and diff whitespace validation.
 
 - Village Secret-wise, Vine-wise, Vintage-wise, Vintner and Visage-wise retain their independently audited source identities and metadata. Voice of Thunder remains partial/identity-only pending structured audience/commander narrative relationship and battlefield-distance hearing semantics.
+
+
+### Voice of Thunder battlefield audibility
+
+- BWGR 307 / PDF 309: Will/Forte, Social, no tools, Elves-only and printed magical marker. Preserve Command mechanics-reuse-with-additions without copying or globally changing Command.
+- Separate battlefield-command-broadcast metadata extends Command audibility/distance: trigger is issuing a command, not successful Command test.
+- All qualifying soldiers must have a trait, Instinct OR Belief about this issuing commander. Soldier role is contextual, not a setting/lifepath/ally or flavor-group whitelist.
+- D-028 reference policy permits stable runtime entity identity and an about-character reference matching the issuing commander's identity; otherwise matching is manual/contextual. Catalog stores the binding contract, not character state, narrative catalogs or NLP/name matching.
+- Effect is can-hear-command at any distance within battlefield context for commander/recipient, never global communication, obedience, automatic success or shield/hesitation effects.
+- Descriptor serializes, validates nested shape and references, and rejects invented audience/range/outcomes. No communication, battlefield, obedience or narrative evaluator.
+- Continue sequentially to the next unsupported source case; dependency installation, typecheck, full tests, build and diff whitespace validation must pass.
+
+- Wagon-wise preserves its bare Wise topic identity. Waiting Tables preserves Will, Special, no tools, Ob 1–5 guidance and direct taxed-Resources recovery without an invented workplace condition. War Art remains identity-only pending structured equipment improvements/qualities and shade eligibility.

@@ -439,6 +439,25 @@ export interface PoisonTreatment {
   ];
 }
 
+/** A role-bound audience rule, not stored character state or narrative text matching.
+ * Future runtimes may bind entity/character roles to stable ids under D-028. */
+export interface BattlefieldCommandBroadcast {
+  readonly kind: 'battlefield-command-broadcast';
+  readonly extends: { readonly kind: 'skill'; readonly skillId: SkillId; readonly aspect: 'audibility-distance' };
+  readonly trigger: { readonly kind: 'issues-command'; readonly actorRole: 'commander' };
+  readonly audience: {
+    readonly role: 'soldier'; readonly roleResolution: 'manual-contextual'; readonly quantifier: 'all-qualifying';
+    readonly relationshipToCommander: {
+      readonly kind: 'anyOf'; readonly entityKinds: readonly ['trait', 'instinct', 'belief'];
+      readonly ownerRole: 'recipient'; readonly relation: 'about-character'; readonly characterRole: 'commander';
+      readonly resolution: { readonly kind: 'manual-or-structured-reference'; readonly entityIdentity: 'stable-runtime-id';
+        readonly aboutCharacterIdentity: 'must-match-commander'; readonly otherwise: 'manual-contextual' };
+    };
+  };
+  readonly range: { readonly kind: 'any-distance-within-battlefield'; readonly participants: readonly ['commander', 'recipient'] };
+  readonly effect: { readonly kind: 'can-hear-command' };
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
@@ -457,6 +476,9 @@ export type SkillIntegration = SkillIntegrationIdentity & (
 ) & (
   | { readonly subsystem: 'injury'; readonly poisonTreatment?: PoisonTreatment }
   | { readonly subsystem: Exclude<IntegrationTag, 'injury'>; readonly poisonTreatment?: never }
+) & (
+  | { readonly subsystem: 'battlefield-communication'; readonly battlefieldCommandBroadcast?: BattlefieldCommandBroadcast }
+  | { readonly subsystem: Exclude<IntegrationTag, 'battlefield-communication'>; readonly battlefieldCommandBroadcast?: never }
 );
 
 /** Closed source-shaped alternatives, not reusable arithmetic expressions. */

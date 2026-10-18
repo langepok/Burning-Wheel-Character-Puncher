@@ -1,3 +1,4 @@
+import { validateBattlefieldCommandBroadcast } from './battlefield-communication';
 import { validateTwoWeaponUse } from './two-weapons';
 import { validateDeclaredIntent, validateHighestTargetAbilities, validateDebilitatingTraitGrant, validateGmConsequence } from './intent-outcomes';
 import { validatePoisonTreatment } from './poison-treatment';
@@ -588,6 +589,10 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         requireSkill(id);
         if (skills.get(id)?.training?.kind !== 'training') throw new Error('Invalid cooperation Training reference');
       });
+    }
+    if (integration.battlefieldCommandBroadcast !== undefined) {
+      if (integration.subsystem !== 'battlefield-communication') throw new Error('Invalid battlefield-command-broadcast subsystem');
+      validateBattlefieldCommandBroadcast(integration.battlefieldCommandBroadcast, requireSkill);
     }
     if (integration.twoWeaponUse !== undefined) {
       if (integration.subsystem !== 'fight' || skills.get(integration.skillId)?.training?.kind !== 'training') {

@@ -120,11 +120,11 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Voice of Thunder, book 307 / PDF 309: narrative-linked audience and battlefield hearing. */
-describe('Pending Voice of Thunder communication metadata', () => {
-  it('retains identity without inventing narrative classification, obedience or distance resolution', () => {
+/** War Art, book 307 / PDF 309: weapon/armor properties, rerolls and shade eligibility. */
+describe('Pending War Art equipment-result metadata', () => {
+  it('retains identity without flattening property-specific costs, quality rerolls or gray-device restrictions', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('voice-of-thunder')).toBe(false);
-    expect(catalog.references.get('voice-of-thunder')?.sourceName).toBe('Voice of Thunder');
+    expect(catalog.skills.has('war-art')).toBe(false);
+    expect(catalog.references.get('war-art')?.sourceName).toBe('War Art');
   });
 });

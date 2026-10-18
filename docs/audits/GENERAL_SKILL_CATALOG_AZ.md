@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1352 tests
-in 50 files), npm run build and git diff --check. Remaining V–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1386 tests
+in 51 files), npm run build and git diff --check. Remaining W–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Visage-wise:
-404 complete definitions: A–U complete, V reviewed through Visage-wise; Voice of Thunder and later entries pending.
+Production transcription continues through Waiting Tables:
+407 complete definitions: A–V complete, W reviewed through Waiting Tables; War Art and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -1071,12 +1071,22 @@ No batch doses, coating persistence, missed-hit expenditure, armor interaction o
 
 Village Secret-wise, Vine-wise, Vintage-wise, Vintner and Visage-wise (306–307 / 308–309) are also complete. Vintner preserves Will/Perception, Peasant, Workshop, Farming/Brewer and swill/drinkable/good/excellent/legendary wine guidance Ob 1–5. Bare Wise topics retain separate identities. Production reaches 404 complete definitions, through Visage-wise.
 
-## Pending Voice of Thunder battlefield communication
+## Resolved Voice of Thunder battlefield communication
 
-Visually reviewed book 307 / PDF 309. The existing representative fixture records Command reuse plus a battlefield-communication summary, but lacks the following structured source facts required for a complete entry:
+Visually verified book 307 / PDF 309 against the confirmed packet. The complete record retains Will/Forte, Social, no tools, Elf-only availability and printed magical marker. Command reuse remains a mechanics-reuse-with-additions relation; a separate BattlefieldCommandBroadcast extends audibility-distance through a validated Command reference. No Command procedure is copied or globally changed.
 
-- When the commander issues commands, all soldiers with a trait, Instinct OR Belief about that commander can hear the voice.
-- The relationship is about the commander; it is not a fixed named trait or a catalog of permitted narrative text.
-- Distance does not limit this hearing while they are on the battlefield. No numeric or unlimited-world range is stated.
+The issuing-command trigger selects all qualifying soldiers with a trait, Instinct OR Belief about this issuing commander. Soldier is a manual/contextual audience role rather than a stock, setting, lifepath, weapon holder or all-allies test. Sword Singers/vassals remain flavor, not a whitelist. D-028 resolution metadata permits binding stable runtime entity identity and matching the about-character identity to the commander; otherwise semantic judgment stays manual/contextual. The catalog contains symbolic roles/policy only, not actual character/entity state, catalogs of narrative text or a resolver.
 
-Current integration/capability identity references do not express that audience relationship and distance rule. Propose a small battlefield-command-broadcast descriptor with source trigger, soldiers audience, anyOf trait/Instinct/Belief-about-commander references with manual semantic matching under D-028, and battlefield scope irrespective of distance. Keep Command reuse separate. Do not infer automatic obedience, successful Command test, hearing through every barrier, global range, narrative classification or a communication evaluator. Voice of Thunder and later entries remain untranscribed pending approval.
+The effect is can-hear-command, at any distance within battlefield context for commander/recipient. It supplies no automatic obedience, Command success, hesitation relief, linked-test bonus, global communication or barrier rule. Serialization preserves this distinction. Integrity validation checks nested shapes, policy/reference constraints and integration subsystem; no narrative, geometry, communication or obedience evaluator and no new Decision.
+
+Wagon-wise and Waiting Tables on 307/309 are also complete. Waiting Tables preserves Will, Special, no tools, direct taxed-Resources recovery and cafe/bar/restaurant/royal/imperial Ob 1–5 guidance. It does not inherit Blacksmith's context. Production reaches 407 complete definitions, through Waiting Tables.
+
+## Pending War Art equipment properties and quality
+
+Visually reviewed book 307 / PDF 309. Existing created-object descriptors support valuation, use dice, structure resistance and fixed capabilities, but do not preserve these War Art mechanics structurally:
+
+- Once per weapon, +1 VA with obstacle equal to current VA plus one; balance die at +2 Ob; +1 weapon Power with obstacle equal to current weapon Power. Source-defined obstacle bases must remain distinct from added obstacle modifiers.
+- Armor/shields may be Dwarven-made at +1 Ob, rerolling one 1 once. Superior armor at +3 Ob rerolls all 1s all the time. These are equipment-result qualities, not a skill's intrinsic dice bonus or Resources value.
+- Gray devices require the artificer's skill to be gray, either by actual shade or temporary Epiphany; this is crafting eligibility, not character-burning Gray opening metadata.
+
+Propose bounded created-equipment improvement/quality descriptors with source-specific obstacle references, once-per-weapon limits, reroll policy references and a gray-device creator-skill shade requirement that admits temporary Epiphany. Keep weapon/item/use-profile identity separate under D-027. No arbitrary formula tree, equipment stat generation, reroll/crafting/shade/Fight evaluator, stacking or invented source parameters. War Art and later entries remain untranscribed pending approval.
