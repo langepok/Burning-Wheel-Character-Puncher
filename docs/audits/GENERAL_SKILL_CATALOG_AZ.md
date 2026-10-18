@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1066 tests
-in 42 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1097 tests
+in 43 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Sing:
-331 complete definitions: A–R complete, S reviewed through Sing; Skirmish Tactics and later entries pending.
+Production transcription continues through Song of Paths and Ways:
+343 complete definitions: A–R complete, S reviewed through Song of Paths and Ways; Song of Soothing and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -841,23 +841,70 @@ canonical Advantage/mood-suitability representation, never invented +1D. Its
 ordinary linked-test and communication uses remain concise source summaries,
 as with Musical Instrument; Meditation's special opposed procedure is not copied.
 
-## Pending Skirmish Tactics structured cooperation metadata
+## Resolved Skirmish Tactics cooperation constraints
 
-Visually reviewed book 297 / PDF 299. This Will/Perception-rooted Military Training
-has no tools and an explicit Aptitude-only root footnote under D-026. It permits
-fighters with the Training to help another trained fighter on the same team with
-maneuver rolls in Range and Cover. The entry limits mutually helping skirmishers
-to five. No help-die amount or additional subsystem procedure is specified here.
+Visually reviewed book 297 / PDF 299. Cooperation belongs to the Range and Cover
+integration and explicitly references only its external maneuver roll. Helper and
+recipient are named roles; each-participant requires Skirmish Tactics Training,
+and team must be same. maxParticipants 5 limits the mutually helping group,
+not five helpers plus a primary. It is not a dice cap or contribution formula.
 
-The existing partial fixture stores a skirmisher-help integration id and field-
-maneuver context, but same-team identity, participants' shared Training requirement
-and the up-to-five source limit survive only in summary prose. Current integrations
-have no typed cooperation descriptor for these constraints. A skill modifier,
-FoRK or Training exponent would change the source mechanics.
+Production and the existing partial fixture now carry the same structured source
+facts. Integrity checks require a loaded Training reference, validate nested
+shapes/roles and reject wrong subsystem/action, helper-only requirements,
+maxHelpers, bonus dice and execution fields. Training remains Will/Perception,
+Military Training, no tools, with the explicit Aptitude-only footnote and separate
+practice/instruction learning methods under D-026. No team, helping, maneuver or
+Range and Cover evaluator is added; no new durable Decision is required.
 
-Propose minimal Range and Cover cooperation metadata: maneuver help, same-team
-participants, shared Training reference, and a source-shaped limit of up to five
-mutually helping skirmishers. Do not infer five helpers plus a recipient, a dice
-bonus, stacking rules, group-state machinery or a Range and Cover/help evaluator.
-Skirmish Tactics remains a partial fixture/production identity reference; the
-complete production entry and later S records await approval of this extension.
+## Reviewed S through Song of Paths and Ways
+
+Production reaches 343 complete definitions. Visually reviewed 297–299/299–301.
+Slave Deck-wise uses bare-Wise defaults; Sleight of Hand's Observation versus
+profile is scoped to victim-directed legerdemain, not its simple card/parlor
+tricks. Slip of Currents preserves Seafarer and Navigation mechanics. Smithcraft
+has separate crafting capability and obstacle-guidance references to Blacksmith,
+Whitesmith and Coppersmith; these do not become simultaneous tests, inherited
+tools/roots or an evaluated selection policy. Its continuation source on 298/300
+is included. Soldiering retains the combined Will/Perception root and generic tools.
+
+Song of the Eldar preserves its unmarked source heading and Astrology mechanics
+relation, never deriving magic from its name. Song of Feasting, Flocks and Herds,
+and Paths and Ways reference Cooking, Animal Husbandry and Orienteering
+respectively. Lordship reuses the audited anyOf Etharchal/Fea/Aman trait context.
+Rhyme of Rules and Weathersong remain unresolved printed FoRK labels. Song of
+Form retains source-specific Artist type, Will root, generic tools and Ob 1/2/3/5
+guidance; no nonexistent Ob 4 row is filled in.
+
+Smithcraft, Feasting and Form reuse the established Antiphon magic reference and
+concise external spell-song combination summaries, matching Jewelcraft and the
+accepted nonnumeric Leathercraft belt treatment. No spell-song is coerced into a
+General skill, tools are not inherited, and unstated equipment/food/statue effects
+are not invented or evaluated. These examples do not add a new enchantment model.
+
+## Pending Song of Soothing poison-treatment procedures
+
+Visually reviewed book 299 / PDF 301. The skill treats injuries using Herbalism
+mechanics but also gives three distinct poison-treatment cases:
+
+- Injury-causing poison: use Herbalism's obstacle for that wound; success reduces
+  the poison's die penalties by half, rounded up, as described by the source.
+- Obstacle-penalty poison: cure obstacle equals the penalty; extra successes reduce
+  the penalty. Do not turn these into dice or a wound.
+- Direct dice-subtraction poison: obstacle is twice the dice subtracted; each extra
+  success restores one die.
+
+Current ObstacleBasis cannot reference poison-effect magnitude or Herbalism's
+wound-based obstacle. Current outcomes cannot express these conditional treatment
+changes. Created-poison crafting metadata describes manufacture/potency/delivery,
+not treatment, and named double-obstacle-penalty is not a substitute for an
+explicit source-shaped twice-dice-subtracted obstacle basis.
+
+Propose a minimal typed treatment procedure with three source cases, explicit
+obstacle sources and success/extra-success references, preserving the half/round-up
+wording without a general formula DSL or poison/Injury evaluator. Do not infer
+resistance, duration, onset, wound healing, minimum/clamping, failure consequences
+or treatment timing. Song of Soothing remains identity-only, as do later S entries,
+pending agreement on this extension. It retains a verified Will/Perception root,
+Medicinal type, generic tools, magical marker and Elves-only restriction for the
+future complete record.

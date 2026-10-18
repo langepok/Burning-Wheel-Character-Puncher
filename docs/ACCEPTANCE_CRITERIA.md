@@ -778,3 +778,28 @@ A Character Burner feature is done only when:
 - Silver Trumpet preserves its Elven instrument requirement and character-burning
   restriction; Sing preserves listener Will and canonical unquantified Advantage
   when the music suits the mood, without inventing fixed dice or Meditation procedures.
+
+
+### Skirmish Tactics cooperation (297/299)
+
+- Military Training, combined Will/Perception Aptitude-only root, no tools;
+  practice/instruction learning methods remain separate from root usage.
+- Typed cooperation targets external Range and Cover maneuver rolls only.
+- Helper and recipient each need the referenced Training and must share a team.
+- maxParticipants = 5 limits the cooperating group, never five helpers plus primary.
+- No contribution dice, formula, Fight/general-roll permission or evaluator.
+- Serialize and validate nested metadata, Training references and subsystem boundary;
+  preserve existing fixture metadata and all Training-root regressions.
+
+### Following S through Song of Paths and Ways (297–299/299–301)
+
+- Preserve bare Wise defaults, Sleight of Hand versus Observation, Slip of
+  Currents/Navigation relation and printed Seafarer type.
+- Smithcraft keeps three crafting capabilities and obstacle-guidance references,
+  Workshop tools and separate external Antiphon combinations.
+- Song of the Eldar has no invented magical marker; printed song skill roots,
+  types, tools, restrictions and mechanics references remain source-specific.
+- Song of Lordship uses the existing anyOf target-trait context. Unresolved
+  Rhyme of Rules/Weathersong labels remain source references, never normalized ids.
+- Enchantment examples without numeric rules remain external magic summaries,
+  following the accepted Jewelcraft/Leathercraft pattern; no spell effects inferred.

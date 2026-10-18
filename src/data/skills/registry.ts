@@ -1,3 +1,4 @@
+import { validateCooperation } from './cooperation';
 import { validateSupplyManagement } from './supply-management';
 import { validateShieldUse } from './shields';
 import { validateItemSearch } from './item-search';
@@ -526,6 +527,13 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   }
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
+    if (integration.cooperation !== undefined) {
+      if (integration.subsystem !== 'range-and-cover') throw new Error('Invalid cooperation subsystem');
+      validateCooperation(integration.cooperation, id => {
+        requireSkill(id);
+        if (skills.get(id)?.training?.kind !== 'training') throw new Error('Invalid cooperation Training reference');
+      });
+    }
     if (integration.shieldUse !== undefined) {
       if (integration.subsystem !== 'fight') throw new Error('Invalid shield-use subsystem');
       validateShieldUse(integration.shieldUse, ability => {

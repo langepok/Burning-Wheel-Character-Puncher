@@ -322,7 +322,11 @@ export const skillFixtureContent: SkillCatalogContent = {
       source: [pdfAudit('Antiphon Union: creation-stage cross-reference', 255)],
     },
     { id: 'brawling-fight', skillId: 'brawling', subsystem: 'fight', summary: 'Fight action permissions require later subsystem implementation.', source: [source('Brawling', 261)] },
-    { id: 'skirmish-help', skillId: 'skirmish-tactics', subsystem: 'range-and-cover', context: { kind: 'activity', activity: 'field-maneuver' }, summary: 'Same-team characters with this Training can help each other on maneuvers; at most five skirmishers.', source: [source('Skirmish Tactics', 297)] },
+    { id: 'skirmish-help', skillId: 'skirmish-tactics', subsystem: 'range-and-cover', cooperation: { kind: 'cooperation',
+      appliesTo: { kind: 'external-subsystem-roll', subsystem: 'range-and-cover', roll: 'maneuver' },
+      participants: { roles: ['helper', 'recipient'],
+        requirement: { kind: 'known-training', skillId: 'skirmish-tactics', appliesTo: 'each-participant' },
+        relationship: { team: 'same' }, maxParticipants: 5 } }, context: { kind: 'activity', activity: 'field-maneuver' }, summary: 'Same-team characters with this Training can help each other on maneuvers; at most five skirmishers.', source: [source('Skirmish Tactics', 297)] },
     { id: 'voice-communication', skillId: 'voice-of-thunder', subsystem: 'battlefield-communication', summary: 'Battlefield communication in addition to Command mechanics; execution deferred.', source: [source('Voice of Thunder', 307)] },
   ],
 };

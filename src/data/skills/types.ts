@@ -363,6 +363,18 @@ export interface ShieldUse {
     readonly actingAbility: ActingAbilityChoice };
 }
 
+/** Permission constraints only; participant limit is not a helper/dice cap. */
+export interface Cooperation {
+  readonly kind: 'cooperation';
+  readonly appliesTo: { readonly kind: 'external-subsystem-roll'; readonly subsystem: 'range-and-cover'; readonly roll: 'maneuver' };
+  readonly participants: {
+    readonly roles: readonly ['helper', 'recipient'];
+    readonly requirement: { readonly kind: 'known-training'; readonly skillId: SkillId; readonly appliesTo: 'each-participant' };
+    readonly relationship: { readonly team: 'same' };
+    readonly maxParticipants: number;
+  };
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
@@ -375,6 +387,9 @@ export type SkillIntegration = SkillIntegrationIdentity & (
 ) & (
   | { readonly subsystem: 'fight'; readonly shieldUse?: ShieldUse }
   | { readonly subsystem: Exclude<IntegrationTag, 'fight'>; readonly shieldUse?: never }
+) & (
+  | { readonly subsystem: 'range-and-cover'; readonly cooperation?: Cooperation }
+  | { readonly subsystem: Exclude<IntegrationTag, 'range-and-cover'>; readonly cooperation?: never }
 );
 
 /** Closed source-shaped alternatives, not reusable arithmetic expressions. */

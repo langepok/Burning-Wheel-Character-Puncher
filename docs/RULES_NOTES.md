@@ -529,3 +529,23 @@ mechanics with its own identity. Silver Trumpet uses an Elven silver trumpet. Si
 uses listener Will and canonical Advantage when the music suits the mood; the
 entry specifies no fixed advantage dice. Linked-test use does not import
 Meditation's special opposed procedure. These records add no subsystem execution.
+
+
+### Skirmish Tactics cooperation (BWGR 297 / PDF 299)
+
+Trained fighters may help other fighters with the same Training, on the same
+team, on Range and Cover maneuver rolls. The source limits mutually helping
+skirmishers to five: store a cooperating-group participant limit, not five helpers
+plus a primary. No contribution dice or helping calculation is specified here.
+Training's combined Will/Perception root is explicitly Aptitude-only; practice and
+instruction remain learning methods. Cooperation metadata grants no broader Fight
+or generic-test permission and executes no subsystem rules.
+
+### Subsequent S source distinctions (BWGR 297–299 / PDF 299–301)
+
+Sleight of Hand uses Observation opposition for victim-directed legerdemain.
+Smithcraft includes three metalworking capabilities and their obstacle guidance.
+Song of the Eldar is explicitly unmarked despite its Astrology mechanics relation.
+Elven spell-song crafting combinations remain external magic references with
+concise summaries, without invented spell/equipment effects. Song of Lordship
+retains the curated Etharchal/Fea/Aman target-trait context.

@@ -5,9 +5,55 @@ import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('preserves later S Wise, Sleight of Hand and Slip of Currents identities and mechanics', () => {
+    expect(catalog.skills.get('slave-deck-wise')?.familyMembership).toEqual({ familyId: 'wises', topicId: 'slave-deck' });
+    expect(catalog.skills.get('sleight-of-hand')).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'agility' } },
+      skillType: 'Special', tools: { kind: 'none', expendable: false },
+      testProfile: { kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'observation' }],
+        context: { kind: 'circumstance', circumstanceId: 'picking-pockets-or-similar-legerdemain-on-victim' } } });
+    expect(catalog.skills.get('slip-of-currents')).toMatchObject({ skillType: 'Seafarer', printedMarkers: ['§'],
+      relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'navigation' } }] });
+    expect(catalog.skills.get('slip-of-currents')?.forkSuggestions?.suggestions).toEqual([
+      { target: { kind: 'unresolved-source-reference', sourceLabel: 'Rhyme of Rules' } },
+      { target: { kind: 'skill', skillId: 'rhyme-of-the-mariner' } },
+    ]);
+  });
+  it('preserves Smithcraft crafting capabilities, separate obstacle sources and external Antiphon use', () => {
+    const craft = { kind: 'activity', activity: 'crafting' };
+    for (const id of ['blacksmith', 'whitesmith', 'coppersmith']) {
+      expect(catalog.skills.get('smithcraft')?.relations).toContainEqual({ kind: 'includes-capability', target: { kind: 'skill', id }, context: craft });
+      expect(catalog.skills.get('smithcraft')?.relations).toContainEqual({ kind: 'obstacle-reference', targets: { kind: 'skill', skillId: id }, context: craft });
+    }
+    expect(catalog.skills.get('smithcraft')?.tools).toEqual({ kind: 'workshop' });
+    expect(catalog.integrations.get('smithcraft-antiphon')?.createdItemReference).toEqual({ kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' });
+    expect(catalog.integrations.get('smithcraft-antiphon')?.equipmentResult).toBeUndefined();
+    expect(catalog.skills.get('soldiering')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'perception' }] });
+  });
+  it('preserves explicit song mechanics links without deriving a magical marker from their names', () => {
+    for (const [id, target] of [['song-of-the-eldar', 'astrology'], ['song-of-feasting', 'cooking'],
+      ['song-of-flocks-and-herds', 'animal-husbandry'], ['song-of-paths-and-ways', 'orienteering']]) {
+      expect(catalog.skills.get(id)?.relations).toEqual([{ kind: 'same-mechanics', target: { kind: 'skill', id: target } }]);
+    }
+    expect(catalog.skills.get('song-of-the-eldar')).toMatchObject({ skillType: 'Academic', printedMarkers: [], rollBehavior: { kind: 'standard' } });
+    expect(catalog.skills.get('song-of-feasting')?.tools).toEqual({ kind: 'generic', expendable: true });
+    expect(catalog.skills.get('song-of-flocks-and-herds')?.tools).toEqual({ kind: 'none', expendable: false });
+    expect(catalog.integrations.get('song-of-feasting-antiphon')?.summary).toContain('Lyric of Healing or Doom of Strength');
+    expect(catalog.integrations.get('song-of-form-antiphon')?.summary).toContain('Alarm');
+    expect(catalog.skills.get('song-of-paths-and-ways')?.forkSuggestions?.suggestions).toEqual([
+      { target: { kind: 'unresolved-source-reference', sourceLabel: 'Weathersong' } },
+      { target: { kind: 'unresolved-source-reference', sourceLabel: 'Rhyme of Rules' } },
+    ]);
+  });
+  it('preserves Song of Lordship trait alternatives and independent Elven restriction', () => {
+    expect(catalog.skills.get('song-of-lordship')?.relations).toEqual([{ kind: 'contextual-substitution',
+      target: { kind: 'skill', id: 'etiquette' }, context: { kind: 'anyOf', conditions: [
+        { kind: 'target-trait', traitId: 'etharchal' }, { kind: 'target-trait', traitId: 'fea' }, { kind: 'target-trait', traitId: 'aman' },
+      ] } }]);
+    expect(catalog.skills.get('song-of-lordship')?.availabilityRestrictions).toEqual([{ kind: 'stock-only', stockIds: ['elf'], scope: 'always' }]);
+  });
   it('preserves Signaling tool alternatives and source metadata', () => {
     expect(catalog.skills.get('signaling')).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } },
       skillType: 'Seafaring', tools: { kind: 'anyOf', requirements: [

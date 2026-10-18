@@ -237,3 +237,14 @@ not the owning skill's construction ToolRequirement. No operator, numeric use
 bonus, damage or destruction procedure is implicit. Exact nested validation and
 serialization preserve this separation and compatibility with structure resistance.
 Source: Siege Engineer, BWGR 296/298. No evaluator or new durable boundary follows.
+
+
+### Cooperation permission constraints
+
+Cooperation is Range and Cover integration metadata with an explicit external
+maneuver-roll reference, helper/recipient roles, Training requirement applying to
+each participant, same-team relation and maxParticipants. The limit counts the
+cooperating group, never five helpers plus a primary or helping dice. Both loaded
+production and partial fixtures validate the nested shape and Training reference.
+No helping, team, maneuver or Range and Cover execution is introduced. Source:
+Skirmish Tactics, BWGR 297/299; its Aptitude-only root remains separate under D-026.

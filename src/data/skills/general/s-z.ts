@@ -84,9 +84,75 @@ export const sZSkills = [
     rootRule: stat('will'), skillType: 'Musical', tools: none, forkSuggestions: forks('poetry'),
     testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', targetRole: 'listener', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' },
       modifiers: [{ effect: { kind: 'advantage', resolution: 'canonical' }, when: { kind: 'music-mood-suitability', relation: 'suitable' } }] } }),
+  define('skirmish-tactics', 'Skirmish Tactics', 297, 'Cooperate in dispersed formations: same-team trained fighters may help each other on Range and Cover maneuver rolls, in a group of up to five skirmishers.', {
+    rootRule: combined('will', 'perception'), skillType: 'Military Training', tools: none, training: aptitudeTraining, printedMarkers: ['*'],
+    integrationTags: ['range-and-cover'], capabilities: [{ kind: 'subsystem-capability', id: 'skirmisher-help', integrationId: 'skirmish-help' }] }),
+  define('slave-deck-wise', 'Slave Deck-wise', 297, 'Knowledge of slave decks.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'slave-deck' } }),
+  define('sleight-of-hand', 'Sleight of Hand', 297, 'Perform small-object tricks or surreptitiously place/remove objects on a person. Guidance: simple card tricks Ob 1, parlor tricks Ob 2; victim-directed legerdemain uses a versus test.', {
+    rootRule: stat('agility'), skillType: 'Special', tools: none,
+    testProfile: { kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'observation' }],
+      context: { kind: 'circumstance', circumstanceId: 'picking-pockets-or-similar-legerdemain-on-victim' } } }),
+  define('slip-of-currents', 'Slip of Currents', 297, 'Elven sea navigation using Navigation mechanics.', {
+    rootRule: stat('perception'), skillType: 'Seafarer', tools: none, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: guidance(sourceFork('Rhyme of Rules'), fork('rhyme-of-the-mariner')),
+    relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'navigation' } }] }),
+  { ...define('smithcraft', 'Smithcraft', 297, 'Fabricate metalwork using Blacksmith, Whitesmith or Coppersmith capabilities and their obstacle guidance. Antiphon enchantments remain external.', {
+    rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: workshop, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: forks('gemcraft', 'jewelcraft', 'riddle-of-steel'),
+    relations: ['blacksmith', 'whitesmith', 'coppersmith'].flatMap(id => [
+      { kind: 'includes-capability' as const, target: { kind: 'skill' as const, id }, context: { kind: 'activity' as const, activity: 'crafting' as const } },
+      { kind: 'obstacle-reference' as const, targets: { kind: 'skill' as const, skillId: id }, context: { kind: 'activity' as const, activity: 'crafting' as const } },
+    ]), integrationTags: ['magic', 'equipment'], capabilities: [{ kind: 'subsystem-capability', id: 'smithcraft-antiphon', integrationId: 'smithcraft-antiphon' }] }),
+    source: [evidence('Smithcraft', 297), evidence('Smithcraft continuation', 298)] },
+  define('soldiering', 'Soldiering', 298, 'Manage routine soldiering duties. Guidance: marching Ob 1, latrines/foxholes Ob 2, forage/shelter Ob 3, procedure Ob 4, payment Ob 5.', {
+    rootRule: combined('will', 'perception'), skillType: 'Military', tools: generic }),
+  define('song-of-the-eldar', 'Song of the Eldar', 298, 'Study stellar cycles using Astrology mechanics; the source heading has no magical marker.', {
+    rootRule: stat('perception'), skillType: 'Academic', tools: none, availabilityRestrictions: only(['elf']),
+    forkSuggestions: guidance(sourceFork('Rhyme of Rules'), fork('slip-of-currents')),
+    relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'astrology' } }] }),
+  define('song-of-feasting', 'Song of Feasting', 298, 'Elven cooking through song. Antiphon Union with Lyric of Healing or Doom of Strength creates Elven Bread; spell and bread effects remain external.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Peasant', tools: expendable, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: guidance(sourceFork('Rhyme of Rules')), relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'cooking' } }],
+    integrationTags: ['magic'], capabilities: [{ kind: 'subsystem-capability', id: 'song-of-feasting-antiphon', integrationId: 'song-of-feasting-antiphon' }] }),
+  define('song-of-flocks-and-herds', 'Song of Flocks and Herds', 298, 'Elven animal husbandry through song, using Animal Husbandry mechanics.', {
+    rootRule: stat('will'), skillType: 'Peasant', tools: none, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: guidance(sourceFork('Rhyme of Rules')), relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'animal-husbandry' } }] }),
+  define('song-of-form', 'Song of Form', 298, 'Shape stone through song. Guidance: simple shape Ob 1, crude mimicry Ob 2, anatomical approximation Ob 3, expressionistic depiction Ob 5. Statue enchantments remain external.', {
+    rootRule: stat('will'), skillType: 'Artist', tools: generic, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: forks('stonecraft', 'gemcraft'), integrationTags: ['magic'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'song-of-form-antiphon', integrationId: 'song-of-form-antiphon' }] }),
+  define('song-of-lordship', 'Song of Lordship', 299, 'Elven rulership etiquette among characters with the Etharchal, Fea or Aman traits.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, ...magical, availabilityRestrictions: only(['elf']), forkSuggestions: forks('code-of-citadels', 'etiquette'),
+    relations: [{ kind: 'contextual-substitution', target: { kind: 'skill', id: 'etiquette' }, context: { kind: 'anyOf', conditions: [
+      { kind: 'target-trait', traitId: 'etharchal' }, { kind: 'target-trait', traitId: 'fea' }, { kind: 'target-trait', traitId: 'aman' },
+    ] } }] }),
+  define('song-of-paths-and-ways', 'Song of Paths and Ways', 299, 'Elven Orienteering through song.', {
+    rootRule: stat('perception'), skillType: 'Forester', tools: none, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: guidance(sourceFork('Weathersong'), sourceFork('Rhyme of Rules')),
+    relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'orienteering' } }] }),
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'smithcraft-antiphon', skillId: 'smithcraft', subsystem: 'magic',
+    createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
+    summary: 'With Antiphon Union: Gift of Speed on horseshoes; Lay of the Horse on a whistle; Air of Gates on a headband; Voice of Ages on a clasp. Effects belong to the external spell-song subsystem.',
+    source: [evidence('Smithcraft', 297), evidence('Smithcraft continuation', 298)] },
+  { id: 'song-of-feasting-antiphon', skillId: 'song-of-feasting', subsystem: 'magic',
+    createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
+    summary: 'Antiphon Union with Lyric of Healing or Doom of Strength produces Elven Bread; no bread mechanics are specified by this entry.',
+    source: [evidence('Song of Feasting', 298)] },
+  { id: 'song-of-form-antiphon', skillId: 'song-of-form', subsystem: 'magic',
+    createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
+    summary: 'Antiphon Union plus Alarm creates a warding statue; Discerner and Voice of Ages create a statue that speaks of deceit; Voice of Ages and Strain of Farsight create one that sees and speaks of distant lands. Spell execution remains external.',
+    source: [evidence('Song of Form', 298)] },
+  { id: 'skirmish-help', skillId: 'skirmish-tactics', subsystem: 'range-and-cover', cooperation: { kind: 'cooperation',
+      appliesTo: { kind: 'external-subsystem-roll', subsystem: 'range-and-cover', roll: 'maneuver' },
+      participants: { roles: ['helper', 'recipient'],
+        requirement: { kind: 'known-training', skillId: 'skirmish-tactics', appliesTo: 'each-participant' },
+        relationship: { team: 'same' }, maxParticipants: 5 } },
+    summary: 'Same-team participants each need the Training; at most five skirmishers cooperate on maneuver rolls, without a specified dice contribution.',
+    source: [evidence('Skirmish Tactics', 297)] },
   { id: 'siege-engineer-output', skillId: 'siege-engineer', subsystem: 'equipment',
     createdEquipmentCapability: { kind: 'created-equipment-capability',
       output: { kind: 'created-equipment', equipmentKindId: 'war-machine' },

@@ -126,12 +126,11 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Skirmish Tactics, book 297 / PDF 299: same-team trained maneuver help, up to five skirmishers. */
-describe('Pending Skirmish Tactics structured cooperation metadata', () => {
-  it('keeps the complete production entry pending rather than losing trained-team/group-limit semantics', () => {
+/** Song of Soothing, book 299 / PDF 301: three distinct poison-treatment procedures. */
+describe('Pending Song of Soothing poison-treatment metadata', () => {
+  it('keeps the complete record pending rather than reducing treatment to generic Herbalism reuse', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('skirmish-tactics')).toBe(false);
-    expect(catalog.references.get('skirmish-tactics')?.sourceName).toBe('Skirmish Tactics');
-    expect(createSkillCatalog(skillFixtureContent).skills.get('skirmish-tactics')?.coverage).toBe('partial');
+    expect(catalog.skills.has('song-of-soothing')).toBe(false);
+    expect(catalog.references.get('song-of-soothing')?.sourceName).toBe('Song of Soothing');
   });
 });
