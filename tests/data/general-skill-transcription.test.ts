@@ -5,9 +5,39 @@ import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('preserves Signaling tool alternatives and source metadata', () => {
+    expect(catalog.skills.get('signaling')).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } },
+      skillType: 'Seafaring', tools: { kind: 'anyOf', requirements: [
+        { kind: 'specific-item', item: 'signaling-lantern' }, { kind: 'specific-item', item: 'signal-flags' },
+      ] }, forkSuggestions: { suggestions: [{ target: { kind: 'skill', skillId: 'cryptography' } }] } });
+  });
+  it('preserves Silent Fury as a distinct magical Elven identity using Intimidation mechanics', () => {
+    expect(catalog.skills.get('silent-fury')).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'will' } },
+      skillType: 'Social', tools: { kind: 'none', expendable: false }, printedMarkers: ['§'],
+      rollBehavior: { kind: 'open-ended', basis: 'magical' },
+      availabilityRestrictions: [{ kind: 'stock-only', stockIds: ['elf'], scope: 'always' }],
+      relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'intimidation' } }],
+      forkSuggestions: { suggestions: [{ target: { kind: 'skill', skillId: 'paean-of-deeds' } }] },
+      testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } });
+    expect(catalog.skills.get('silent-fury')?.sourceAliases).toBeUndefined();
+  });
+  it('preserves Silver Trumpet instrument and Elven character-burning restriction', () => {
+    expect(catalog.skills.get('silver-trumpet')).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'will' } },
+      skillType: 'Musical', tools: { kind: 'specific-item', item: 'elven-silver-trumpet' },
+      availabilityRestrictions: [{ kind: 'stock-only', stockIds: ['elf'], scope: 'character-burning' }], printedMarkers: [] });
+  });
+  it('preserves Sing listener Will and canonical Advantage without an invented fixed bonus or opposed pretest', () => {
+    expect(catalog.skills.get('sing')).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'will' } },
+      skillType: 'Musical', tools: { kind: 'none', expendable: false },
+      forkSuggestions: { suggestions: [{ target: { kind: 'skill', skillId: 'poetry' } }] },
+      testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', targetRole: 'listener', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' },
+        modifiers: [{ effect: { kind: 'advantage', resolution: 'canonical' }, when: { kind: 'music-mood-suitability', relation: 'suitable' } }] } });
+    expect(catalog.skills.get('sing')?.procedures).toBeUndefined();
+    expect(catalog.skills.get('sing')?.summary).toContain('linked tests');
+  });
   it('preserves Shipwright source spellings as unresolved FoRK guidance and the following bare Wises', () => {
     const shipwright = catalog.skills.get('shipwright');
     expect(shipwright?.rootRule).toEqual({ kind: 'single', ability: { kind: 'stat', id: 'perception' } });

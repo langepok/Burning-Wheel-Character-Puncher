@@ -336,6 +336,12 @@ or prohibition. A single-tradeoff value is available for sources that establish 
 Do not add a maximum, evaluate stacking or convert use bonuses into skill bonuses
 or Resources value. Descriptor validation is content integrity, not rules execution.
 
+The confirmed Siege Engineer audit (296/298) adds CreatedEquipmentCapability:
+completed war machines count as tools for destroying structures. A purpose-scoped
+capability of crafted equipment is independent of construction ToolRequirement,
+numeric use bonuses and structure resistance. Do not infer operating abilities,
+damage or destruction execution from this role. This extends the same boundary.
+
 The confirmed Hallmaster (276/278) and Stone Artifice (301/303) audit extends
 created-object/result metadata to structures. A distinct StructureResistance
 stores the created structure, optional building-obstacle cost and the obstacle

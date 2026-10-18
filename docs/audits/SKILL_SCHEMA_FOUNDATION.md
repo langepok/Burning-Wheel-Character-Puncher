@@ -226,3 +226,14 @@ interactions, numeric created-item valuation and buyer/seller negotiation. Its
 exact nested shape rejects invented numeric, transaction and execution fields.
 Ordinary Appraisal does not inherit it. Source: Shrewd Appraisal, BWGR 296/298.
 No economic/Resources evaluator or new durable architecture boundary is added.
+
+
+### Created-equipment capabilities
+
+CreatedEquipmentCapability belongs to equipment integration under D-025. Its
+output is created-equipment with a source-authored equipmentKindId; its capability
+is counts-as-tool for destroying structures. It describes the completed output,
+not the owning skill's construction ToolRequirement. No operator, numeric use
+bonus, damage or destruction procedure is implicit. Exact nested validation and
+serialization preserve this separation and compatibility with structure resistance.
+Source: Siege Engineer, BWGR 296/298. No evaluator or new durable boundary follows.

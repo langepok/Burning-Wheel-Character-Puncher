@@ -586,6 +586,16 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         throw new Error('Invalid structure resistance');
       }
     }
+    if (integration.createdEquipmentCapability !== undefined) {
+      const result = integration.createdEquipmentCapability;
+      if (integration.subsystem !== 'equipment' || !result || result.kind !== 'created-equipment-capability' ||
+          Object.keys(result).length !== 3 || result.output?.kind !== 'created-equipment' ||
+          typeof result.output.equipmentKindId !== 'string' || !result.output.equipmentKindId.trim() ||
+          Object.keys(result.output).length !== 2 || result.capability?.kind !== 'counts-as-tool' ||
+          result.capability.purpose !== 'destroying-structures' || Object.keys(result.capability).length !== 2) {
+        throw new Error('Invalid created-equipment capability');
+      }
+    }
     if (integration.priceReduction !== undefined) {
       const effect = integration.priceReduction;
       if (integration.subsystem !== 'resources' || !effect || effect.kind !== 'appraised-item-price-reduction' ||

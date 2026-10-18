@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1028 tests
-in 41 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1066 tests
+in 42 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Shrewd Appraisal:
-326 complete definitions: A–R complete, S reviewed through Shrewd Appraisal; Siege Engineer and later entries pending.
+Production transcription continues through Sing:
+331 complete definitions: A–R complete, S reviewed through Sing; Skirmish Tactics and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -809,22 +809,55 @@ obstacle guidance remains in the concise authored summary, like other ordinary
 fixed tables: common goods Ob 2, expensive Ob 3, rare Ob 4, unique Ob 5. These
 source categories do not establish a production item-price taxonomy.
 
-## Pending Siege Engineer created-equipment tool role
+## Resolved Siege Engineer created-equipment tool role
 
-Visually reviewed book 296 / PDF 298. Siege Engineer builds war machines that
-then count as tools for destroying structures. This is a semantic role of the
-created equipment, not a numeric dice advantage, a valuation effect, an intrinsic
-skill bonus or resistance of a created structure. Current EquipmentUseEffect
-requires advantage dice and a crafting-obstacle tradeoff; EquipmentResult
-requires an enchantment combination and a skill-specific bonus. Neither fits
-without inventing mechanics. SkillIntegration summary/tags alone would leave
-the tool role unstructured.
+Visually reviewed book 296 / PDF 298. CreatedEquipmentCapability extends D-025
+with an output-owned counts-as-tool capability for destroying structures. Output
+uses the existing created-equipment kind and a source-authored equipmentKindId;
+it does not create an inventory entry or bind an operating ability. Siege Engineer
+retains its own generic Tools requirement independently of the completed war machine.
 
-Propose minimal equipment integration metadata for a created war-machine result
-with tool applicability to destroying structures. No dice bonus, damage value,
-destruction procedure, inventory creation or siege/equipment evaluator follows.
-The entry's building guidance is simple ram/scaling ladder Ob 1, metal-capped
-ram Ob 2, covered ram/siege tower Ob 3, massive traction trebuchet Ob 4, massive
-metal-capped covered ram Ob 5; Perception, Artisan, generic tools, Blacksmith,
-Munitions and Rude Carpentry FoRKs, Orc-only in character burning. Siege Engineer
-and later S entries remain identity-only pending approval of this extension.
+The complete entry preserves Perception, Artisan, Blacksmith/Munitions/Rude Carpentry
+FoRKs and Orc-only in character burning. Source building guidance remains concise
+summary data: simple ram/scaling ladder Ob 1; metal-capped ram Ob 2; covered
+ram/siege tower Ob 3; massive traction trebuchet Ob 4; massive metal-capped covered
+ram Ob 5. These are not operating, destruction, resistance or Resources obstacles.
+No numeric bonus, damage, IMS/VA, crew/ammunition requirement, attack procedure or
+operating ability is inferred. Exact nested integrity validation rejects invented
+fields and wrong subsystem placement. Serialization, independence of construction
+tools and compatibility with Hallmaster/Stone Artifice resistance are tested.
+No equipment or destruction evaluator is added; no new Decision is needed.
+
+## Reviewed S through Sing
+
+Siege Engineer, Signaling, Silent Fury, Silver Trumpet and Sing bring production
+to 331 complete definitions. Visually reviewed book 296–297 / PDF 298–299.
+Signaling retains source lantern/flags tool alternatives and Cryptography FoRK.
+Silent Fury remains a distinct magical Social skill with an explicit mechanics
+relation to Intimidation, Will obstacle and Elves-only restriction; mechanics are
+not duplicated into an evaluator. Silver Trumpet uses its named instrument and
+Elven character-burning restriction. Sing uses listener Will and the existing
+canonical Advantage/mood-suitability representation, never invented +1D. Its
+ordinary linked-test and communication uses remain concise source summaries,
+as with Musical Instrument; Meditation's special opposed procedure is not copied.
+
+## Pending Skirmish Tactics structured cooperation metadata
+
+Visually reviewed book 297 / PDF 299. This Will/Perception-rooted Military Training
+has no tools and an explicit Aptitude-only root footnote under D-026. It permits
+fighters with the Training to help another trained fighter on the same team with
+maneuver rolls in Range and Cover. The entry limits mutually helping skirmishers
+to five. No help-die amount or additional subsystem procedure is specified here.
+
+The existing partial fixture stores a skirmisher-help integration id and field-
+maneuver context, but same-team identity, participants' shared Training requirement
+and the up-to-five source limit survive only in summary prose. Current integrations
+have no typed cooperation descriptor for these constraints. A skill modifier,
+FoRK or Training exponent would change the source mechanics.
+
+Propose minimal Range and Cover cooperation metadata: maneuver help, same-team
+participants, shared Training reference, and a source-shaped limit of up to five
+mutually helping skirmishers. Do not infer five helpers plus a recipient, a dice
+bonus, stacking rules, group-state machinery or a Range and Cover/help evaluator.
+Skirmish Tactics remains a partial fixture/production identity reference; the
+complete production entry and later S records await approval of this extension.

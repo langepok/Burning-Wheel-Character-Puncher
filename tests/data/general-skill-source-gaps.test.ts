@@ -126,11 +126,12 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Siege Engineer, book 296 / PDF 298: created war machines count as tools against structures. */
-describe('Pending Siege Engineer created-equipment tool role', () => {
-  it('does not substitute a numeric use bonus or a structure-resistance effect for tool applicability', () => {
+/** Skirmish Tactics, book 297 / PDF 299: same-team trained maneuver help, up to five skirmishers. */
+describe('Pending Skirmish Tactics structured cooperation metadata', () => {
+  it('keeps the complete production entry pending rather than losing trained-team/group-limit semantics', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('siege-engineer')).toBe(false);
-    expect(catalog.references.get('siege-engineer')?.sourceName).toBe('Siege Engineer');
+    expect(catalog.skills.has('skirmish-tactics')).toBe(false);
+    expect(catalog.references.get('skirmish-tactics')?.sourceName).toBe('Skirmish Tactics');
+    expect(createSkillCatalog(skillFixtureContent).skills.get('skirmish-tactics')?.coverage).toBe('partial');
   });
 });

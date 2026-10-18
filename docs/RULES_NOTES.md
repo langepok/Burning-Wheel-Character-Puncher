@@ -511,3 +511,21 @@ behavior. Preserve the economic effect with source-unspecified magnitude.
 Common/expensive/rare/unique goods use Ob 2/3/4/5. Ordinary Appraisal instead
 supports accurate pricing before a Resources test; do not grant it this distinct
 price-reduction effect by analogy. Execution remains outside the catalog.
+
+
+### Siege Engineer: construction input vs equipment output (BWGR 296 / PDF 298)
+
+Siege Engineer requires tools for its building tests. Completed war machines are
+separate outputs that count as tools for destroying structures. The entry does
+not name an operating ability, bonus, damage or destruction procedure. Building
+guidance runs from Ob 1 for a simple ram/scaling ladder through Ob 5 for a massive
+metal-capped covered ram; these are construction obstacles only. Equipment output
+capability and construction tools remain independent under D-025.
+
+### Following S entries (BWGR 296–297 / PDF 298–299)
+
+Signaling uses a signal lantern or flags. Silent Fury explicitly uses Intimidation
+mechanics with its own identity. Silver Trumpet uses an Elven silver trumpet. Sing
+uses listener Will and canonical Advantage when the music suits the mood; the
+entry specifies no fixed advantage dice. Linked-test use does not import
+Meditation's special opposed procedure. These records add no subsystem execution.

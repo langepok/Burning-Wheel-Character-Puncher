@@ -754,3 +754,27 @@ A Character Burner feature is done only when:
 - Ordinary Appraisal remains distinct and does not inherit price reduction.
 - Serialization and integrity validation reject malformed effects and numeric
   substitutions; no economic/Resources/flaw-generation evaluator is introduced.
+
+
+### Siege Engineer crafted-output capability (296/298)
+
+- CreatedEquipmentCapability describes a completed war-machine output that counts
+  as tools for destroying structures; no operating ability or numeric effect.
+- Siege Engineer's own generic Tools requirement remains independent of its output.
+- Preserve five building obstacle rows: simple ram/scaling ladder 1; metal-capped
+  ram 2; covered ram/siege tower 3; massive traction trebuchet 4; massive
+  metal-capped covered ram 5. These are not destruction/attack/value obstacles.
+- Preserve Perception, Artisan, Blacksmith/Munitions/Rude Carpentry FoRKs and
+  Orcs-only restriction in character burning.
+- Serialization/integrity validation reject invented numeric/damage/operating
+  mechanics; existing structure-resistance integrations remain unchanged.
+- No equipment, structure-destruction or combat evaluator; extend D-025 metadata only.
+
+### Following S records (296–297/298–299)
+
+- Signaling retains Perception, Seafaring, Cryptography and signaling lantern/flag alternatives.
+- Silent Fury preserves Elves-only magical Social skill, Will, no tools, Paean of
+  Deeds FoRK and explicit same-mechanics relation to Intimidation.
+- Silver Trumpet preserves its Elven instrument requirement and character-burning
+  restriction; Sing preserves listener Will and canonical unquantified Advantage
+  when the music suits the mood, without inventing fixed dice or Meditation procedures.

@@ -1,4 +1,5 @@
-import { aptitudeTraining, combined, define, expendable, fork, forks, generic, guidance, magical, none, only, sourceFork, stat, workshop } from './shared';
+import type { SkillIntegration } from '../types';
+import { aptitudeTraining, combined, define, evidence, expendable, fork, forks, generic, guidance, item, magical, none, only, sourceFork, stat, workshop } from './shared';
 
 /** Reviewed S–Z records only; later entries remain identity references. */
 export const sZSkills = [
@@ -66,4 +67,30 @@ export const sZSkills = [
     rootRule: stat('perception'), skillType: 'Social', tools: none, ...magical, availabilityRestrictions: only(['dwarf']),
     forkSuggestions: guidance({ target: { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' } }, fork('haggling')),
     integrationTags: ['resources'], capabilities: [{ kind: 'subsystem-capability', id: 'appraised-item-price-reduction', integrationId: 'shrewd-appraisal-price-reduction' }] }),
+  define('siege-engineer', 'Siege Engineer', 296, 'Build war machines that serve as tools for destroying structures. Building guidance: Simple ram or scaling ladder Ob 1, Metal-capped ram Ob 2, Covered ram or siege tower Ob 3, Massive traction trebuchet Ob 4, Massive metal-capped covered ram Ob 5.', {
+    rootRule: stat('perception'), skillType: 'Artisan', tools: generic, forkSuggestions: forks('blacksmith', 'munitions', 'rude-carpentry'),
+    availabilityRestrictions: only(['orc'], 'character-burning'), integrationTags: ['equipment'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'created-equipment-capability', integrationId: 'siege-engineer-output' }] }),
+  define('signaling', 'Signaling', 296, 'Relay predetermined codes over distance with a specially designed signaling lantern or signal flags. Guidance: simple commands Ob 1, questions Ob 2, complicated orders Ob 3.', {
+    rootRule: stat('perception'), skillType: 'Seafaring', tools: { kind: 'anyOf', requirements: [item('signaling-lantern'), item('signal-flags')] },
+    forkSuggestions: forks('cryptography') }),
+  define('silent-fury', 'Silent Fury', 296, 'An Elven captain intimidates with a glare, following Intimidation mechanics.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: forks('paean-of-deeds'), relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'intimidation' } }],
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } }),
+  define('silver-trumpet', 'Silver Trumpet', 296, 'Herald Elven dignitaries with silver trumpet calls. Guidance: morning Ob 1, danger/warning Ob 2, funerary Ob 3, arrival of Fea Ob 4, Song of the Aman Ob 5.', {
+    rootRule: stat('will'), skillType: 'Musical', tools: item('elven-silver-trumpet'), availabilityRestrictions: only(['elf'], 'character-burning') }),
+  define('sing', 'Sing', 297, 'Communicate and celebrate through voice and verse; soothe, invigorate or inform, convey ideas, or provide linked tests.', {
+    rootRule: stat('will'), skillType: 'Musical', tools: none, forkSuggestions: forks('poetry'),
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', targetRole: 'listener', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' },
+      modifiers: [{ effect: { kind: 'advantage', resolution: 'canonical' }, when: { kind: 'music-mood-suitability', relation: 'suitable' } }] } }),
+];
+
+export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'siege-engineer-output', skillId: 'siege-engineer', subsystem: 'equipment',
+    createdEquipmentCapability: { kind: 'created-equipment-capability',
+      output: { kind: 'created-equipment', equipmentKindId: 'war-machine' },
+      capability: { kind: 'counts-as-tool', purpose: 'destroying-structures' } },
+    summary: 'Completed war machines serve as tools for destroying structures; construction tools and downstream operation remain separate.',
+    source: [evidence('Siege Engineer', 296)] },
 ];
