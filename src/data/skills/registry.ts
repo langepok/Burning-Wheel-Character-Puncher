@@ -185,6 +185,15 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (ability.kind === 'skill') requireSkill(ability.id);
   };
   const validateMetadata = (metadata: Partial<SkillMetadata>) => {
+    if (metadata.useRequirements !== undefined) {
+      if (!Array.isArray(metadata.useRequirements)) throw new Error('Invalid use requirement list');
+      for (const requirement of metadata.useRequirements) {
+        if (!requirement || !['trait', 'capability'].includes(requirement.kind) ||
+            typeof requirement.id !== 'string' || !requirement.id.trim() ||
+            !['aura-perception', 'spell-casting', 'summoning-magic'].includes(requirement.use) ||
+            Object.keys(requirement).length !== 3) throw new Error('Invalid use requirement');
+      }
+    }
     if (metadata.combatUseChoice !== undefined) {
       const choice = metadata.combatUseChoice;
       const only = (value: object, fields: readonly string[]) => Object.keys(value).every(key => fields.includes(key));

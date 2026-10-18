@@ -82,7 +82,8 @@ export interface AvailabilityRestriction {
 export type OpeningRequirement = { readonly kind: 'known-skill'; readonly skillId: SkillId };
 export type UseRequirement = {
   readonly kind: 'capability' | 'trait'; readonly id: string;
-  readonly use: 'aura-perception' | 'spell-casting';
+  // Summoning magic covers calling forth, binding and commanding spirits; academic use is separate.
+  readonly use: 'aura-perception' | 'spell-casting' | 'summoning-magic';
 };
 
 export type ToolRequirement =

@@ -592,3 +592,14 @@ not inherit it merely because source tables resemble one another. Strategy has
 commander-versus use and fixed guidance; Strategy Games opposes itself. Stuff-wise
 prints Wise and restricts Dwarves in character burning. Suasion specializes
 Persuasion without an invented priest eligibility gate.
+
+
+### Summoning and Gifted use scope (BWGR 303/305; Gifted 327/329)
+
+Gifted permits magical manipulation; without it Sorcery, Summoning and Enchanting
+remain academic pursuits. Summoning's use-only summoning-magic requirement covers
+calling forth, binding and commanding spirits. It is neither spell-casting nor a
+prerequisite for possessing/opening/advancing the skill. Human-only character-
+burning availability stays separate. Do not disable academic/FoRK relationships
+by copying the magical-use gate to them. The Codex Summoning chapter remains the
+external source for procedures/obstacles; no spirit or academic-use evaluator.

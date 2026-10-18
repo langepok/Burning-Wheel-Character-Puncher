@@ -260,3 +260,13 @@ per extra success. No generic arithmetic/margin language is introduced. Contextu
 Herbalism reuse for ordinary injuries remains a distinct skill relation. Nested
 shape/reference validation never executes arithmetic or chooses the rounding
 interpretation. Source: Song of Soothing, BWGR 299/301 and user audit confirmation.
+
+
+### Summoning magical-use scope
+
+UseRequirement adds summoning-magic alongside spell-casting and aura-perception.
+The umbrella covers call/bind/command spirits. Its Gifted trait requirement applies
+only to that use, not academic possession, opening, advancement or FoRK references.
+Availability remains separate. Integrity validation checks kind/id/use without
+performing a trait/academic/magic evaluation. Sources: Summoning 303/305 and
+Gifted 327/329. Detailed procedures remain in the external Codex integration.

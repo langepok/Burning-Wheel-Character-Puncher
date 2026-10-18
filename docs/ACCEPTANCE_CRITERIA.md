@@ -854,3 +854,24 @@ A Character Burner feature is done only when:
   and Dwarf character-burning scope, plus bare-Wise defaults for other topics.
 - Suasion preserves target Will, priestly Persuasion specialization and Duel of
   Wits use without inventing an eligibility requirement for priest lifepaths.
+
+
+### Summoning magical-use restriction (303/305; Gifted 327/329)
+
+- Gifted is required only for summoning-magic use: call forth, bind and command
+  spirits. Do not relabel this as spell-casting or restrict opening/advancement.
+- Without Gifted, Summoning remains representable as an academic pursuit; no
+  academic-use evaluator or invented taxonomy of academic actions.
+- Human-only character-burning availability is separate; preserve Perception,
+  Sorcerous, no tools and unmarked source heading.
+- Codex Summoning procedure/obstacles remain external; academic FoRK references
+  (including Demonology) do not automatically acquire the Gifted requirement.
+- Validate/serialize use scopes and preserve existing Sorcery/Aura Reading scopes.
+- No Summoning, spirit, binding, commanding or advancement engine.
+
+### Remaining reviewed S before Surgery (303/305)
+
+- Supplier-wise and Supply-wise preserve separate source identities, bare-Wise
+  Perception/Special/no-tools defaults and separate topic ownership.
+- Surgery remains identity-only until its ordinary-failure blood-clock advance
+  has a source-shaped representation; never reuse zero-successes damage metadata.

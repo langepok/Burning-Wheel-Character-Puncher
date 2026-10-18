@@ -126,11 +126,11 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Summoning, book 303 / PDF 305: Gifted actor wording needs scoped-use adjudication. */
-describe('Pending Summoning Gifted scope', () => {
-  it('does not invent a spell-casting or opening gate for calling, binding and commanding spirits', () => {
+/** Surgery, book 303 / PDF 305: ordinary failure advances the treated wound's blood clock. */
+describe('Pending Surgery blood-clock outcome', () => {
+  it('does not conflate a failed treatment clock advance with zero-successes crafting damage', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('summoning')).toBe(false);
-    expect(catalog.references.get('summoning')?.sourceName).toBe('Summoning');
+    expect(catalog.skills.has('surgery')).toBe(false);
+    expect(catalog.references.get('surgery')?.sourceName).toBe('Surgery');
   });
 });

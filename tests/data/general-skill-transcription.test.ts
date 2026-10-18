@@ -6,9 +6,14 @@ import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy', 'stentorious-debate', 'stentorious-singing', 'stone-artifice', 'stonecraft', 'strategy', 'strategy-games', 'streetwise', 'structural-weakness-wise', 'stuff-wise', 'suasion', 'suicidal-bravery-wise'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy', 'stentorious-debate', 'stentorious-singing', 'stone-artifice', 'stonecraft', 'strategy', 'strategy-games', 'streetwise', 'structural-weakness-wise', 'stuff-wise', 'suasion', 'suicidal-bravery-wise', 'summoning', 'supplier-wise', 'supply-wise'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it.each(['supplier', 'supply'])('preserves %s-wise as an independent bare Wise topic', topic => {
+    expect(catalog.skills.get(`${topic}-wise`)).toMatchObject({ coverage: 'complete',
+      rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } }, skillType: 'Special',
+      tools: { kind: 'none', expendable: false }, familyMembership: { familyId: 'wises', topicId: topic } });
+  });
   it('keeps Stentorious Singing canonical Advantage distinct from source target-group penalties', () => {
     const profile = catalog.skills.get('stentorious-singing')?.testProfile;
     expect(profile?.base).toEqual({ kind: 'target-ability-exponent', targetRole: 'listener', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' });

@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1137 tests
-in 44 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1155 tests
+in 45 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Suicidal Bravery-wise:
-366 complete definitions: A–R complete, S reviewed through Suicidal Bravery-wise; Summoning and later entries pending.
+Production transcription continues through Supply-wise:
+369 complete definitions: A–R complete, S reviewed through Supply-wise; Surgery and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -970,21 +970,51 @@ Suicidal Bravery-wise retain bare-Wise defaults. Suasion preserves its priestly
 Persuasion specialization, target Will and Duel of Wits use without inventing a
 priest lifepath eligibility requirement; continuation on 303/305 is cited.
 
-## Pending Summoning Gifted scope
+## Resolved Summoning magical-use Gifted requirement
 
-Visually reviewed book 303 / PDF 305. The entry describes teaching the Gifted one
-to call forth, bind and command spirits and refers obstacles/procedures to the
-Summoning chapter of the Codex. It has Perception, Sorcerous, no printed magical
-marker, no tools, and a Human-only character-burning restriction.
+Visually reviewed Summoning book 303 / PDF 305 and Gifted book 327 / PDF 329.
+Gifted explicitly distinguishes magical manipulation from academic possession of
+Sorcery, Summoning and Enchanting; the user confirmed use-only scope. Summoning's
+UseRequirement names summoning-magic, an umbrella for calling forth, binding and
+commanding spirits, not generic spell-casting. Opening requirements remain empty
+and ordinary exponent advancement is unchanged. Without Gifted the skill remains
+representable as an academic pursuit; no academic-use taxonomy/evaluator is added.
 
-The phrase identifies a Gifted actor but does not distinguish an opening
-prerequisite from an action-specific use requirement as explicitly as the Sorcery
-entry. Current UseRequirement use kinds are aura-perception and spell-casting;
-call/bind/command spirits must not silently be relabelled spell-casting. The
-external Codex procedure has not been supplied/audited in this transcription.
+Human-only character-burning availability remains a separate dimension. Perception,
+Sorcerous, no tools and the unmarked heading/standard roll metadata are retained.
+The external Summoning chapter of the Codex owns obstacles and call/bind/command
+procedures. The existing integration reference/summary pattern preserves that
+boundary without inventing spell lists, spirit records, costs or lifecycle rules.
 
-Stop for a source/scope decision: either retain the Gifted wording only in the
-external-procedure source summary pending a Codex audit, or confirm a use-only
-Gifted requirement for spirit summoning and minimally extend the use vocabulary
-accordingly. Do not infer an opening gate, spell ownership, costs, casting rules
-or a summoning evaluator. Summoning and later records remain identity-only.
+UseRequirement validation now checks exact kind/id/use shape and the bounded use
+vocabulary. Trait/capability ids remain references rather than a new trait catalog.
+Academic Summoning FoRK into Demonology does not inherit the magical-use gate;
+existing spell-casting/aura-perception scopes remain unchanged. Tests cover these
+distinctions, source references and JSON round trips. No Summoning/spirit evaluator
+or new durable Decision is introduced.
+
+## Reviewed S through Supply-wise
+
+Production reaches 369 complete definitions. Supplier-wise and Supply-wise are
+separate source topic identities on 303/305 with bare-Wise Perception/Special/no-
+tools defaults, not aliases of one another. No inventory/supplier subsystem is
+inferred from their names.
+
+## Pending Surgery blood-clock outcome
+
+Visually reviewed book 303 / PDF 305. Surgery repairs damaged body parts and treats
+wounds of all types; a failed Surgery test increases the blood clock for that wound
+by one stage. This is ordinary failure, not specifically zero successes. The
+source supplies Perception/Agility, Medicinal, expendable tools and Anatomy,
+Field Dressing, Apothecary, Bloodletting FoRKs. Obstacles and other mechanics refer
+to Anatomy of Injury.
+
+Current skill-test outcomes do not represent a treated-wound clock change;
+SkillAdverseOutcome instead models zero-successes crafted-device Mark damage.
+PoisonTreatment does not advance injury clocks. Do not conflate these source
+facts or generate damage, elapsed time or death from this entry.
+
+Propose a minimal typed failure outcome: target the treated wound's blood clock,
+advance by one stage, with Anatomy of Injury execution external. No clock model,
+timer, bleeding/death evaluator, healing calculation or invented failure severity.
+Surgery and later entries remain identity-only pending approval of this extension.

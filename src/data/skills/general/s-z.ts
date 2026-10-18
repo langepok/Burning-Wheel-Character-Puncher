@@ -218,9 +218,20 @@ export const sZSkills = [
     source: [evidence('Suasion', 302), evidence('Suasion continuation', 303)] },
   define('suicidal-bravery-wise', 'Suicidal Bravery-wise', 303, 'Knowledge of suicidal bravery.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'suicidal-bravery' } }),
+  { ...define('summoning', 'Summoning', 303, 'Magical Summoning use can call forth, bind and command spirits and requires Gifted. Without Gifted the skill remains an academic pursuit. Procedures and obstacles are external to this catalog.', {
+    rootRule: stat('perception'), skillType: 'Sorcerous', tools: none, availabilityRestrictions: only(['human'], 'character-burning'),
+    useRequirements: [{ kind: 'trait', id: 'gifted', use: 'summoning-magic' }], integrationTags: ['magic'] }),
+    source: [evidence('Summoning', 303), evidence('Gifted', 327)] },
+  define('supplier-wise', 'Supplier-wise', 303, 'Knowledge of suppliers.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'supplier' } }),
+  define('supply-wise', 'Supply-wise', 303, 'Knowledge of supplies.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'supply' } }),
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'summoning-codex', skillId: 'summoning', subsystem: 'magic',
+    summary: 'Call/bind/command procedures and obstacles reference the external Summoning chapter of the Codex; no spirit, binding or command definitions are inlined.',
+    source: [evidence('Summoning', 303)] },
   { id: 'spearcraft-antiphon', skillId: 'spearcraft', subsystem: 'magic',
     createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
     summary: 'Antiphon Union can enchant created spears; no spear enchantment mechanics are specified here.', source: [evidence('Spearcraft', 300)] },
