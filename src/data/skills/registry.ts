@@ -1,3 +1,4 @@
+import { validateTwoWeaponUse } from './two-weapons';
 import { validateDeclaredIntent, validateHighestTargetAbilities, validateDebilitatingTraitGrant, validateGmConsequence } from './intent-outcomes';
 import { validatePoisonTreatment } from './poison-treatment';
 import { validateCooperation } from './cooperation';
@@ -587,6 +588,12 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         requireSkill(id);
         if (skills.get(id)?.training?.kind !== 'training') throw new Error('Invalid cooperation Training reference');
       });
+    }
+    if (integration.twoWeaponUse !== undefined) {
+      if (integration.subsystem !== 'fight' || skills.get(integration.skillId)?.training?.kind !== 'training') {
+        throw new Error('Invalid two-weapon-use subsystem or Training owner');
+      }
+      validateTwoWeaponUse(integration.twoWeaponUse);
     }
     if (integration.shieldUse !== undefined) {
       if (integration.subsystem !== 'fight') throw new Error('Invalid shield-use subsystem');

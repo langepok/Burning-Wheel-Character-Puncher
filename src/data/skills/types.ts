@@ -364,6 +364,25 @@ export interface ShieldUse {
     readonly actingAbility: ActingAbilityChoice };
 }
 
+/** Every permission is scoped to the eligible pair and owning Training.
+ * Physical/profile identity and acting weapon skills remain external (D-027). */
+export interface TwoWeaponUse {
+  readonly kind: 'two-weapon-use';
+  readonly equipmentRequirements: {
+    readonly weaponCount: 2;
+    readonly eachWeapon: { readonly handedness: 'one-handed'; readonly maxWeaponLength: 'long' };
+    readonly offHand: { readonly relativeWeight: { readonly relation: 'less-than-or-equal'; readonly compareTo: 'other-weapon' } };
+  };
+  readonly permissions: {
+    readonly offHandStrike: { readonly action: 'strike'; readonly penalty: 'negated' };
+    readonly simultaneousStrike: { readonly action: 'strike'; readonly enabled: true; readonly timing: 'simultaneous';
+      readonly diceAllocation: { readonly kind: 'split-pool'; readonly targets: 'two-weapons'; readonly allocation: 'player-chosen' } };
+    readonly blockAndStrike: { readonly action: 'block-and-strike'; readonly enabled: true;
+      readonly accessBasis: 'owning-training-and-eligible-pair';
+      readonly diceAllocation: { readonly kind: 'split-skill-dice'; readonly between: readonly ['attack', 'defense']; readonly allocation: 'player-chosen' } };
+  };
+}
+
 /** Permission constraints only; participant limit is not a helper/dice cap. */
 export interface Cooperation {
   readonly kind: 'cooperation';
@@ -402,8 +421,8 @@ export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
 ) & (
-  | { readonly subsystem: 'fight'; readonly shieldUse?: ShieldUse }
-  | { readonly subsystem: Exclude<IntegrationTag, 'fight'>; readonly shieldUse?: never }
+  | { readonly subsystem: 'fight'; readonly shieldUse?: ShieldUse; readonly twoWeaponUse?: TwoWeaponUse }
+  | { readonly subsystem: Exclude<IntegrationTag, 'fight'>; readonly shieldUse?: never; readonly twoWeaponUse?: never }
 ) & (
   | { readonly subsystem: 'range-and-cover'; readonly cooperation?: Cooperation }
   | { readonly subsystem: Exclude<IntegrationTag, 'range-and-cover'>; readonly cooperation?: never }

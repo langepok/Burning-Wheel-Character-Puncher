@@ -120,11 +120,11 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Two-Fisted Fighting Training, book 306 / PDF 308. */
-describe('Pending two-weapon Fight metadata', () => {
-  it('keeps the identity without discarding weapon constraints or inventing dice allocation execution', () => {
+/** Vile Poisoner, book 306 / PDF 308: distinct product exposure/resistance/outcomes. */
+describe('Pending Vile Poisoner crafted-product metadata', () => {
+  it('retains identity without coercing the products into ordinary Poisons effects or delivery modifiers', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('two-fisted-fighting-training')).toBe(false);
-    expect(catalog.references.get('two-fisted-fighting-training')?.sourceName).toBe('Two-Fisted Fighting Training');
+    expect(catalog.skills.has('vile-poisoner')).toBe(false);
+    expect(catalog.references.get('vile-poisoner')?.sourceName).toBe('Vile Poisoner');
   });
 });

@@ -311,9 +311,32 @@ export const sZSkills = [
   define('tunnel-wise', 'Tunnel-wise', 306, 'Judge tunnel safety, age and builders from underground experience.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, forkSuggestions: forks('excavation', 'mining'), familyMembership: { familyId: 'wises', topicId: 'tunnel' } }),
 
+  define('two-fisted-fighting-training', 'Two-Fisted Fighting Training', 306, 'Use an eligible pair of weapons without an off-hand Strike penalty. Simultaneous Strikes split a pool between the weapons; Block & Strike separately splits skill dice between attack and defense. Fight execution and weapon-skill selection remain external.', {
+    rootRule: stat('agility'), skillType: 'Martial Training', tools: none, training: aptitudeTraining, printedMarkers: ['*'], integrationTags: ['fight'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'two-weapon-use', integrationId: 'two-fisted-fighting-use' }] }),
+
+  define('ugly-truth', 'Ugly Truth', 306, 'Expose the uncomfortable core of a situation or argument. Guidance: obvious worst outcome Ob 1; family Ob 2; friends Ob 3; complex politics Ob 4; nuanced/delicate situation Ob 5. Also usable in Duel of Wits.', {
+    rootRule: stat('perception'), skillType: 'Social', tools: none, forkSuggestions: forks('falsehood', 'intimidation'), integrationTags: ['duel-of-wits'] }),
+  define('vein-wise', 'Vein-wise', 306, 'Knowledge of veins.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'vein' } }),
+
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'two-fisted-fighting-use', skillId: 'two-fisted-fighting-training', subsystem: 'fight',
+    twoWeaponUse: { kind: 'two-weapon-use', equipmentRequirements: {
+      weaponCount: 2, eachWeapon: { handedness: 'one-handed', maxWeaponLength: 'long' },
+      offHand: { relativeWeight: { relation: 'less-than-or-equal', compareTo: 'other-weapon' } },
+    }, permissions: {
+      offHandStrike: { action: 'strike', penalty: 'negated' },
+      simultaneousStrike: { action: 'strike', enabled: true, timing: 'simultaneous',
+        diceAllocation: { kind: 'split-pool', targets: 'two-weapons', allocation: 'player-chosen' } },
+      blockAndStrike: { action: 'block-and-strike', enabled: true, accessBasis: 'owning-training-and-eligible-pair',
+        diceAllocation: { kind: 'split-skill-dice', between: ['attack', 'defense'], allocation: 'player-chosen' } },
+    } },
+    summary: 'Eligible pair plus owning Training permits the same Block & Strike action via a separate prerequisite path, without granting Shield Training or inheriting shield dice, VA or damage.',
+    source: [evidence('Two-Fisted Fighting Training', 306)] },
+
   { id: 'tactics-field-maneuvers', skillId: 'tactics', subsystem: 'range-and-cover',
     context: { kind: 'activity', activity: 'field-maneuver' },
     summary: 'Field maneuvers use the external Range and Cover procedure; the ambush-versus-Observation test is a separate use.',

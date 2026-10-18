@@ -913,3 +913,15 @@ A Character Burner feature is done only when:
 - Continue T sequentially while the schema preserves source facts; run full dependency/typecheck/test/build/diff validation.
 
 - Following T records through Tunnel-wise preserve the audited roots, tools, guidance and bare Wise identities. Tree Pulling retains the printed collective expendable tool label without per-component consumption or goblin inventory mechanics. Two-Fisted Fighting Training remains partial/identity-only until its weapon constraints and dice-allocation permissions can be represented structurally.
+
+
+### Two-Fisted Fighting Training: two-weapon-use metadata
+
+- BWGR 306 / PDF 308: Agility, Martial Training, no tools, aptitude-only root, no exponent; practice/instruction remain separate learning methods.
+- Fight integration preserves equipment eligibility separately: exactly two one-handed weapons, each at most Long, off-hand weight no greater than the other weapon. No relative-length, same-skill/profile or shield assumption.
+- Off-hand penalty exemption applies only to Strike and has no invented magnitude. Simultaneous Strikes split one pool between two weapons; Block & Strike separately splits skill dice between attack and defense. Both allocations are player-chosen, without default/minimum/bonus/action-cost inference.
+- Block & Strike uses the same external action identity through owning Training plus eligible pair; no Shield Training ownership or shield-specific dice/VA/damage inheritance. No acting weapon skill is selected by the descriptor. D-027 remains intact.
+- Serialization and strict nested validation reject malformed eligibility, invented allocation rules, unrelated action exemptions, subsystem misuse and rolled Training references. No Fight/equipment runtime evaluator.
+- Continue sequential transcription through representable entries, then stop at the next unsupported RAW case; run npm ci, typecheck, full tests, build and diff whitespace checks.
+
+- Following entries Ugly Truth and Vein-wise retain source roots/types/tools and guidance. Vile Poisoner remains identity-only if its own delivery/exposure/resistance/duration effects cannot be expressed by the existing independent Poisons potency/delivery descriptor.

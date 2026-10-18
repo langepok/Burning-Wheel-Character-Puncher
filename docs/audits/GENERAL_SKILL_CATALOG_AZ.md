@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1265 tests
-in 48 files), npm run build and git diff --check. Remaining T–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1304 tests
+in 49 files), npm run build and git diff --check. Remaining T–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Tunnel-wise:
-395 complete definitions: A–S complete, T reviewed through Tunnel-wise; Two-Fisted Fighting Training and later entries pending.
+Production transcription continues through Vein-wise:
+398 complete definitions: A–U complete, V reviewed through Vein-wise; Vile Poisoner and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -1051,13 +1051,22 @@ Tree Pulling retains the source's collective expendable rope-and-goblins tool re
 
 Production reaches 395 complete definitions, through Tunnel-wise.
 
-## Pending Two-Fisted Fighting Training integration
+## Resolved Two-Fisted Fighting Training integration
 
-Visually reviewed book 306 / PDF 308. The existing representative fixture preserves Agility, aptitude-only root usage, Martial Training, no tools and the external Fight boundary, but is not a complete production transcription. The source additionally requires:
+Visually verified book 306 / PDF 308 against the user-approved packet. TwoWeaponUse is a Fight integration descriptor, attached to the owning Training. Eligibility requires exactly two one-handed weapons, each no longer than Long; the secondary/off-hand weapon cannot be heavier than the other. No relative-length, same-skill/profile, shield eligibility or inventory lookup is inferred.
 
-- Both weapons one-handed and no longer than long; the off-hand weapon no heavier than the other weapon (source describes it as smaller or equal in weight).
-- No off-hand striking penalty when using two weapons.
-- Simultaneous Strikes divide the character's dice between the two weapons.
-- Block & Strike access as with Shield Training; the combatant chooses the division of skill dice between attack and defense.
+Off-hand Strike alone receives penalty negation, without specifying the underlying penalty magnitude. The simultaneous-Strike permission divides one pool between the two weapons with player-chosen allocation. Block & Strike is a separate permission through owning Training plus eligible pair: skill dice divide between attack/defense as chosen by the combatant. The action identity matches Shield Training's Block & Strike, but this path grants no Shield Training ownership, shield dice/VA/damage or passive permissions. It does not choose the acting weapon skill, duplicate full pools, supply a default/minimum split, bonus or extra action cost.
 
-ShieldUse describes shield contributions and shield-strike abilities; it does not express these two-weapon constraints or allocation choices. Propose a small external Fight two-weapon-use descriptor for the source weapon-pair constraints, off-hand penalty waiver, simultaneous-strike allocation, and Block & Strike access/allocation reference. No numeric bonus, default split, dice duplication, weapon-stat lookup or Fight evaluator. Two-Fisted Fighting Training and subsequent entries remain untranscribed pending approval.
+The complete Training preserves Agility, Martial Training, no tools, printed aptitude-only footnote, no exponent and separate practice/instruction learning methods under D-026. Physical/profile identity remains external under D-027. Strict nested validation rejects invented eligibility/allocation rules, subsystem misuse and non-Training owners; serialization executes nothing. No Fight/damage/equipment evaluator and no new Decision.
+
+Ugly Truth and Vein-wise on the same page are now complete, preserving source guidance, roots/types/tools, FoRKs, bare-Wise identity and the external Duel of Wits reference. Production reaches 398 complete definitions.
+
+## Pending Vile Poisoner product effects
+
+Visually reviewed book 306 / PDF 308. Existing CraftedPoison models ordinary Poisons' independent potency and delivery dimensions with an unspecified-scope penalty or immediate fixed wound; it cannot preserve Vile Poisoner's distinct products:
+
+- Contact product, crafting Ob 2: skin contact causes boils and +2 Ob to physical, martial and social tests for one scene.
+- Ingested product, crafting Ob 4: victim tests Forte against Ob 4; margin of failure permanently reduces Health and its maximum.
+- Deadly product, crafting Ob 5: blade/arrowhead delivery requires a Mark-result hit; exposure adds a B9 wound after a number of exchanges equal to six plus victim Forte.
+
+Do not flatten these into ordinary Poisons base-potency/delivery deltas, unspecified-scope penalties, an immediate B9 wound or an automatic Health loss. Propose a small crafted-poison product descriptor with per-product crafting obstacle, delivery/exposure, resistance test when stated, typed resulting effects and bounded derived delay references. Preserve the entry's Perception/Agility, Medicinal, expendable tools, Orc-only restriction, magical marker and Herbalism FoRK when the descriptor is approved. No exposure, resistance, wound, Health, timer or formula evaluator. Vile Poisoner and later entries remain untranscribed pending approval.
