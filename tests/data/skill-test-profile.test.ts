@@ -31,14 +31,17 @@ describe('Skill-level opposed-test metadata', () => {
     expect(expected.modifiers[2].when).toEqual({ kind: 'regional-origin-mismatch', relativeTo: 'current-region' });
     expect(expected.modifiers[3].when).toEqual({ kind: 'stock-mismatch', relativeTo: 'target-crowd' });
   });
-  it('represents multiple Observation opponents and the Stealthy opponent without guessing advantages', () => {
+  it('preserves Observation opponents as Stealthy progresses from partial fixture to reviewed production', () => {
     const fixtures = createSkillCatalog(testProfileFixtureContent);
     expect(fixtures.skills.get('observation')?.testProfile?.opposingAbilities).toEqual(
       ['inconspicuous', 'stealthy', 'sleight-of-hand', 'trapper'].map(skillId => ({ kind: 'skill', skillId })));
     expect(fixtures.skills.get('stealthy')?.testProfile).toEqual({ kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'observation' }] });
     expect(catalog.skills.get('observation')?.coverage).toBe('complete');
     expect(catalog.skills.get('observation')?.testProfile).toEqual(fixtures.skills.get('observation')?.testProfile);
-    expect(catalog.skills.has('stealthy')).toBe(false);
+    expect(catalog.skills.get('stealthy')?.coverage).toBe('complete');
+    expect(catalog.references.has('stealthy')).toBe(false);
+    expect(catalog.skills.get('stealthy')?.testProfile?.opposingAbilities).toEqual(fixtures.skills.get('stealthy')?.testProfile?.opposingAbilities);
+    expect(catalog.skills.get('stealthy')?.testProfile?.modifiers?.map(modifier => modifier.effect)).toEqual([{ kind: 'advantage', resolution: 'canonical' }]);
   });
   it.each([generalSkillTranscriptionContent, testProfileFixtureContent])('round trips declarative profiles through catalog validation', content => {
     const restored = createSkillCatalog(JSON.parse(JSON.stringify(content)) as typeof content);

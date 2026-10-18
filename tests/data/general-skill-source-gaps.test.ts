@@ -126,11 +126,11 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Song of Soothing, book 299 / PDF 301: three distinct poison-treatment procedures. */
-describe('Pending Song of Soothing poison-treatment metadata', () => {
-  it('keeps the complete record pending rather than reducing treatment to generic Herbalism reuse', () => {
+/** Stentorious Debate, book 301 / PDF 303: the printed Tools entry is anatomical. */
+describe('Pending Stentorious Debate anatomical Tools representation', () => {
+  it('does not invent an inventory item, trait or no-tools interpretation of the source mouth requirement', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('song-of-soothing')).toBe(false);
-    expect(catalog.references.get('song-of-soothing')?.sourceName).toBe('Song of Soothing');
+    expect(catalog.skills.has('stentorious-debate')).toBe(false);
+    expect(catalog.references.get('stentorious-debate')?.sourceName).toBe('Stentorious Debate');
   });
 });

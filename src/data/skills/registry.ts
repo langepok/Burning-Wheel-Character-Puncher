@@ -1,3 +1,4 @@
+import { validatePoisonTreatment } from './poison-treatment';
 import { validateCooperation } from './cooperation';
 import { validateSupplyManagement } from './supply-management';
 import { validateShieldUse } from './shields';
@@ -527,6 +528,10 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   }
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
+    if (integration.poisonTreatment !== undefined) {
+      if (integration.subsystem !== 'injury') throw new Error('Invalid poison treatment subsystem');
+      validatePoisonTreatment(integration.poisonTreatment, requireSkill);
+    }
     if (integration.cooperation !== undefined) {
       if (integration.subsystem !== 'range-and-cover') throw new Error('Invalid cooperation subsystem');
       validateCooperation(integration.cooperation, id => {

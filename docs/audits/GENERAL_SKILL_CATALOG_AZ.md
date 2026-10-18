@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1097 tests
-in 43 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1132 tests
+in 44 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Song of Paths and Ways:
-343 complete definitions: A–R complete, S reviewed through Song of Paths and Ways; Song of Soothing and later entries pending.
+Production transcription continues through Stealthy:
+355 complete definitions: A–R complete, S reviewed through Stealthy; Stentorious Debate and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -882,29 +882,65 @@ accepted nonnumeric Leathercraft belt treatment. No spell-song is coerced into a
 General skill, tools are not inherited, and unstated equipment/food/statue effects
 are not invented or evaluated. These examples do not add a new enchantment model.
 
-## Pending Song of Soothing poison-treatment procedures
+## Resolved Song of Soothing treatment procedures
 
-Visually reviewed book 299 / PDF 301. The skill treats injuries using Herbalism
-mechanics but also gives three distinct poison-treatment cases:
+Visually reviewed book 299 / PDF 301; subsequent user confirmation preserves the
+source-shaped operation without settling arithmetic beyond half plus round up.
+General injury treatment is a separate same-mechanics reference to Herbalism in
+wound-treatment context, not a copy of Herbalism or one of the poison branches.
+The owning skill keeps generic tools rather than inheriting Herbalism's expendable
+tools; Will/Perception, Medicinal, magical marker and Elves-only are retained.
 
-- Injury-causing poison: use Herbalism's obstacle for that wound; success reduces
-  the poison's die penalties by half, rounded up, as described by the source.
-- Obstacle-penalty poison: cure obstacle equals the penalty; extra successes reduce
-  the penalty. Do not turn these into dice or a wound.
-- Direct dice-subtraction poison: obstacle is twice the dice subtracted; each extra
-  success restores one die.
+PoisonTreatment is Injury integration metadata with exactly three typed branches:
 
-Current ObstacleBasis cannot reference poison-effect magnitude or Herbalism's
-wound-based obstacle. Current outcomes cannot express these conditional treatment
-changes. Created-poison crafting metadata describes manufacture/potency/delivery,
-not treatment, and named double-obstacle-penalty is not a substitute for an
-explicit source-shaped twice-dice-subtracted obstacle basis.
+- Injury poison: Herbalism wound-treatment obstacle for the caused wound; success
+  halves poison-caused die penalties, rounding up. No remaining-vs-removed numeric
+  interpretation is added; a future evaluator must re-audit that question.
+- Obstacle penalty: current penalty supplies Ob; successes over Ob reduce it.
+  rate is explicitly source-unspecified, never a fabricated -1 Ob per extra success.
+- Direct dice subtraction: a named double-current-dice-subtraction obstacle;
+  each success over Ob restores exactly one die. That rate applies only here.
 
-Propose a minimal typed treatment procedure with three source cases, explicit
-obstacle sources and success/extra-success references, preserving the half/round-up
-wording without a general formula DSL or poison/Injury evaluator. Do not infer
-resistance, duration, onset, wound healing, minimum/clamping, failure consequences
-or treatment timing. Song of Soothing remains identity-only, as do later S entries,
-pending agreement on this extension. It retains a verified Will/Perception root,
-Medicinal type, generic tools, magical marker and Elves-only restriction for the
-future complete record.
+Exact nested-shape and skill-reference validation rejects branch conflation,
+unsupported rates, formula/arithmetic AST fields, timing, resistance and execution
+fields. Serialization retains all three cases. Created-poison manufacturing remains
+separate. No Injury/poison evaluator, recovery, wound calculation or penalty
+mutation is added. This extends existing integration metadata; no new Decision.
+
+## Reviewed S through Stealthy
+
+Production reaches 355 complete definitions, visually reviewed 299–301/301–303.
+Sorcery's Gifted requirement is spell-casting use-only, never an opening or
+understanding prerequisite; Human/Roden scope is character burning only. Its
+printed Astronomy FoRK is unresolved because it has no General Skill List identity,
+not silently changed to Astrology. Spearcraft's printed Warcraft likewise remains
+unresolved without an assumed War Art alias. Soot-wise, Sorcery-wise and Spiel-wise
+use the existing bare-Wise defaults.
+
+Spear retains melee uses and its non-throwing distinction in summary, following
+the existing Knives boundary; no appendix combat profiles are invented. Spearcraft
+uses the existing Antiphon reference. Spider Husbandry has spider-scoped Instruction
+and wound-treatment Field Dressing substitutions with its own source obstacle
+guidance. Staff retains its actual staff tool. Starcraft crystals use the existing
+enchanting-matrix reference; Mornsong remains an external example without inline
+spell mechanics. Source restrictions, roots and tool requirements remain distinct.
+
+Stealthy retains Speed versus Observation and one canonical Advantage effect with
+anyOf manual circumstances for light, weather and ground. No fixed +1D, separate
+per-condition contributions, environment thresholds or environmental evaluator is
+inferred. This uses existing circumstance ids and composition, not a new taxonomy.
+
+## Pending Stentorious Debate anatomical Tools representation
+
+Visually reviewed book 301 / PDF 303. Printed Tools is A big Dwarvy mouth. Current
+ToolRequirement offers none, generic/traveling/workshop, specific-item and boolean/
+conditional composition. Treating anatomy as an inventory item, dropping the field
+to none, or inventing a trait/attribute threshold would alter the source fact.
+
+Propose a minimal anatomical-tool requirement retaining its exact source label and
+manual/contextual resolution, without a mouth equipment record, named trait,
+anatomy evaluator or numeric threshold. This schema extension has not been added.
+The future record also needs Will, Social, magical marker, Dwarves-only, Oratory
+FoRK, target Will obstacle, Haggling/Oratory/Persuasion capabilities and separate
+Duel of Wits use. Stentorious Debate and later S entries remain identity-only
+pending resolution; no interpretation of the humorous source wording is assumed.

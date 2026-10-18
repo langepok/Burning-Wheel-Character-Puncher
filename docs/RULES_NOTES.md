@@ -549,3 +549,26 @@ Song of the Eldar is explicitly unmarked despite its Astrology mechanics relatio
 Elven spell-song crafting combinations remain external magic references with
 concise summaries, without invented spell/equipment effects. Song of Lordship
 retains the curated Etharchal/Fea/Aman target-trait context.
+
+
+### Song of Soothing (BWGR 299 / PDF 301)
+
+General injury treatment follows Herbalism in its own context. Poison-specific
+procedures are separate: injury poison uses Herbalism's wound obstacle and success
+halves poison die penalties, rounding up; Ob-penalty poison uses its current
+penalty as Ob and extra successes reduce it with no printed conversion rate;
+direct dice-subtraction poison uses twice the subtracted dice as Ob and restores
+one die per success over Ob. Do not transfer that 1:1 rate to Ob penalties.
+The half/round-up operation is recorded without choosing remaining-vs-removed
+arithmetic; re-audit before implementing an evaluator. No timing, resistance,
+recovery or penalty mutation is established by this metadata.
+
+### Subsequent S through Stealthy (BWGR 299–301 / PDF 301–303)
+
+Sorcery gates spell-casting use with Gifted while understanding formulae and
+opening remain separate; source restriction to Human/Roden is character-burning
+only. Printed Astronomy and Warcraft FoRKs remain unresolved source labels.
+Spider Husbandry substitutes for Instruction and Field Dressing in spider contexts.
+Starcraft crystals are Enchanting vessels. Stealthy uses Speed versus Observation;
+light/weather/ground conditions may provide canonical Advantage with contextual
+judgment, not a fixed dice amount or automatically stacked contributions.

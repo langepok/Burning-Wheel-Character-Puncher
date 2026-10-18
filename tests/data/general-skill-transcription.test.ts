@@ -5,9 +5,41 @@ import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('preserves Sorcery use-only Gifted gating, source restrictions and following Wise defaults', () => {
+    expect(catalog.skills.get('sorcery')).toMatchObject({ skillType: 'Sorcerous', rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } },
+      openingRequirements: [], useRequirements: [{ kind: 'trait', id: 'gifted', use: 'spell-casting' }],
+      availabilityRestrictions: [{ kind: 'stock-only', stockIds: ['human', 'roden'], scope: 'character-burning' }] });
+    expect(catalog.skills.get('sorcery')?.forkSuggestions?.suggestions).toContainEqual({ target: { kind: 'unresolved-source-reference', sourceLabel: 'Astronomy' } });
+    for (const topic of ['soot', 'sorcery', 'spiel']) expect(catalog.skills.get(`${topic}-wise`)).toMatchObject({
+      skillType: 'Special', familyMembership: { familyId: 'wises', topicId: topic }, tools: { kind: 'none', expendable: false } });
+    expect(catalog.skills.get('soothing-platitudes')?.testProfile?.base).toEqual({ kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' });
+  });
+  it('preserves source weapon/crafting distinctions without resolving Warcraft or inventing damage', () => {
+    expect(catalog.skills.get('spear')?.summary).toContain('not a throwing skill');
+    expect(catalog.skills.get('staff')?.tools).toEqual({ kind: 'specific-item', item: 'staff' });
+    expect(catalog.skills.get('spearcraft')?.forkSuggestions?.suggestions).toContainEqual({ target: { kind: 'unresolved-source-reference', sourceLabel: 'Warcraft' } });
+    expect(catalog.skills.get('spearcraft')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'agility' }] });
+    expect(catalog.integrations.get('spearcraft-antiphon')?.createdItemReference).toEqual({ kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' });
+    expect(catalog.integrations.get('starcraft-matrix')?.createdItemReference).toEqual({ kind: 'enchanting-matrix', target: 'created-item' });
+    expect(catalog.skills.get('spider-husbandry')?.relations).toEqual([
+      { kind: 'contextual-substitution', target: { kind: 'skill', id: 'instruction' }, context: { kind: 'subject', subject: 'spiders' } },
+      { kind: 'contextual-substitution', target: { kind: 'skill', id: 'field-dressing' }, context: { kind: 'allOf', conditions: [
+        { kind: 'subject', subject: 'spiders' }, { kind: 'activity', activity: 'wound-treatment' },
+      ] } },
+    ]);
+  });
+  it('preserves Stealthy Speed versus Observation and contextual canonical Advantage without fixed dice', () => {
+    expect(catalog.skills.get('stealthy')?.rootRule).toEqual({ kind: 'single', ability: { kind: 'stat', id: 'speed' } });
+    expect(catalog.skills.get('stealthy')?.testProfile).toEqual({ kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'observation' }],
+      modifiers: [{ effect: { kind: 'advantage', resolution: 'canonical' }, when: { kind: 'anyOf', conditions: [
+        { kind: 'circumstance', circumstanceId: 'light-conditions-favor-stealth' },
+        { kind: 'circumstance', circumstanceId: 'weather-conditions-favor-stealth' },
+        { kind: 'circumstance', circumstanceId: 'ground-conditions-favor-stealth' },
+      ] } }] });
+  });
   it('preserves later S Wise, Sleight of Hand and Slip of Currents identities and mechanics', () => {
     expect(catalog.skills.get('slave-deck-wise')?.familyMembership).toEqual({ familyId: 'wises', topicId: 'slave-deck' });
     expect(catalog.skills.get('sleight-of-hand')).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'agility' } },

@@ -375,6 +375,22 @@ export interface Cooperation {
   };
 }
 
+/** Three named source procedures; no arithmetic AST or treatment execution. */
+export interface PoisonTreatment {
+  readonly kind: 'poison-treatment';
+  readonly branches: readonly [
+    { readonly poisonEffectKind: 'injury';
+      readonly obstacle: { readonly kind: 'procedure-reference'; readonly skillId: SkillId; readonly procedure: 'wound-treatment'; readonly input: 'caused-wound' };
+      readonly onSuccess: { readonly kind: 'halve-die-penalty'; readonly target: 'poison-caused-die-penalties'; readonly rounding: 'up' } },
+    { readonly poisonEffectKind: 'obstacle-penalty';
+      readonly obstacle: { readonly kind: 'current-penalty'; readonly penaltyKind: 'obstacle' };
+      readonly onExtraSuccesses: { readonly kind: 'reduce-obstacle-penalty'; readonly basis: 'successes-over-obstacle'; readonly rate: 'source-unspecified' } },
+    { readonly poisonEffectKind: 'direct-dice-subtraction';
+      readonly obstacle: { readonly kind: 'double-current-dice-subtraction' };
+      readonly onExtraSuccesses: { readonly kind: 'restore-dice'; readonly dicePerSuccessOverObstacle: 1 } },
+  ];
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
@@ -390,6 +406,9 @@ export type SkillIntegration = SkillIntegrationIdentity & (
 ) & (
   | { readonly subsystem: 'range-and-cover'; readonly cooperation?: Cooperation }
   | { readonly subsystem: Exclude<IntegrationTag, 'range-and-cover'>; readonly cooperation?: never }
+) & (
+  | { readonly subsystem: 'injury'; readonly poisonTreatment?: PoisonTreatment }
+  | { readonly subsystem: Exclude<IntegrationTag, 'injury'>; readonly poisonTreatment?: never }
 );
 
 /** Closed source-shaped alternatives, not reusable arithmetic expressions. */

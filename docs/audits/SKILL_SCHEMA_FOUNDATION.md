@@ -248,3 +248,15 @@ cooperating group, never five helpers plus a primary or helping dice. Both loade
 production and partial fixtures validate the nested shape and Training reference.
 No helping, team, maneuver or Range and Cover execution is introduced. Source:
 Skirmish Tactics, BWGR 297/299; its Aptitude-only root remains separate under D-026.
+
+
+### Poison treatment procedures
+
+PoisonTreatment belongs to Injury integration, separate from created-poison
+manufacture. Three typed branches preserve injury-poison Herbalism wound guidance
+and half/round-up, Ob-penalty magnitude and unquantified extra-success reduction,
+and direct dice subtraction's named doubling plus explicit one-die restoration
+per extra success. No generic arithmetic/margin language is introduced. Contextual
+Herbalism reuse for ordinary injuries remains a distinct skill relation. Nested
+shape/reference validation never executes arithmetic or chooses the rounding
+interpretation. Source: Song of Soothing, BWGR 299/301 and user audit confirmation.

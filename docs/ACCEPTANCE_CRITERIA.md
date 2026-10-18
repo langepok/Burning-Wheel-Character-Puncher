@@ -803,3 +803,29 @@ A Character Burner feature is done only when:
   Rhyme of Rules/Weathersong labels remain source references, never normalized ids.
 - Enchantment examples without numeric rules remain external magic summaries,
   following the accepted Jewelcraft/Leathercraft pattern; no spell effects inferred.
+
+
+### Song of Soothing treatment (299/301)
+
+- General injury treatment separately reuses Herbalism mechanics in wound-treatment context.
+- Injury integration holds exactly three source-shaped poison treatment branches.
+- Injury poison references Herbalism's obstacle for the caused wound; success
+  halves poison-caused die penalties, rounding up, without settling the arithmetic
+  distinction between remaining penalty and amount removed.
+- Obstacle penalty treatment uses current penalty as Ob and extra successes to
+  reduce it, with explicit source-unspecified conversion rate.
+- Direct dice subtraction uses a named double-current-dice-subtraction obstacle;
+  each success over Ob restores exactly one die. This rate never leaks to Ob penalties.
+- Preserve Will/Perception, Medicinal, generic tools, magical marker and Elves only.
+- Serialization and reference/nested-shape validation; no formula DSL, treatment
+  runtime, automatic penalty mutation, resistance, duration or recovery timeline.
+
+### Subsequent S through Stealthy (299–301/301–303)
+
+- Sorcery's Gifted requirement gates spell-casting only, not opening/understanding;
+  preserve Human/Roden character-burning restriction and external magic reference.
+- Preserve bare Wise defaults, Spear versus Throwing distinction, Spearcraft's
+  unresolved printed Warcraft FoRK, Spider Husbandry's spider-scoped substitutions,
+  Staff's specific tool and Starcraft's independent enchanting-matrix reference.
+- Stealthy uses Speed versus Observation with canonical Advantage under contextual
+  light/weather/ground conditions; no fixed dice or environmental evaluator.

@@ -1,5 +1,5 @@
 import type { SkillIntegration } from '../types';
-import { aptitudeTraining, combined, define, evidence, expendable, fork, forks, generic, guidance, item, magical, none, only, sourceFork, stat, workshop } from './shared';
+import { aptitudeTraining, combined, define, evidence, expendable, fork, forks, generic, guidance, item, magical, melee, none, only, sourceFork, stat, workshop } from './shared';
 
 /** Reviewed S–Z records only; later entries remain identity references. */
 export const sZSkills = [
@@ -131,9 +131,72 @@ export const sZSkills = [
     rootRule: stat('perception'), skillType: 'Forester', tools: none, ...magical, availabilityRestrictions: only(['elf']),
     forkSuggestions: guidance(sourceFork('Weathersong'), sourceFork('Rhyme of Rules')),
     relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'orienteering' } }] }),
+  define('song-of-soothing', 'Song of Soothing', 299, 'Treat injuries using Herbalism mechanics; poison treatment follows three separate source procedures without automatic penalty calculation.', {
+    rootRule: combined('will', 'perception'), skillType: 'Medicinal', tools: generic, ...magical, availabilityRestrictions: only(['elf']),
+    relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'herbalism' }, context: { kind: 'activity', activity: 'wound-treatment' } }],
+    integrationTags: ['injury'], capabilities: [{ kind: 'subsystem-capability', id: 'poison-treatment', integrationId: 'song-of-soothing-treatment' }] }),
+  define('soot-wise', 'Soot-wise', 299, 'Knowledge of soot.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'soot' } }),
+  define('soothing-platitudes', 'Soothing Platitudes', 299, 'Placate anger through flattering but insubstantial speech.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('persuasion', 'falsehood'),
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } }),
+  define('sorcery', 'Sorcery', 299, 'Understand written or spoken magical formulae; Gifted permits translating them into cast spells. Spell creation and Sorcery rules remain external.', {
+    rootRule: stat('perception'), skillType: 'Sorcerous', tools: none, ...magical,
+    availabilityRestrictions: only(['human', 'roden'], 'character-burning'), useRequirements: [{ kind: 'trait', id: 'gifted', use: 'spell-casting' }],
+    forkSuggestions: guidance(fork('astrology'), sourceFork('Astronomy'), fork('alchemy'), fork('aura-reading'), fork('empyrealia'), fork('demonology')), integrationTags: ['magic'] }),
+  define('sorcery-wise', 'Sorcery-wise', 299, 'Knowledge of sorcery.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'sorcery' } }),
+  define('spear', 'Spear', 300, 'Fight with spears, lances or pikes by slashing, thrusting or smashing; this is not a throwing skill. Resolution uses Fight.', {
+    rootRule: stat('agility'), skillType: 'Martial', tools: none, semanticCategories: ['melee-weapon'],
+    forkSuggestions: guidance(fork('martial-arts'), fork('boxing'), melee), integrationTags: ['fight'] }),
+  define('spearcraft', 'Spearcraft', 300, 'Make and repair spears; Antiphon Union can enchant them. Guidance: ordinary reshaft Ob 1, ordinary spear Ob 2, javelins/Elven reshaft Ob 3, superior javelins Ob 4, Elven spear Ob 5.', {
+    rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: generic, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: guidance(fork('riddle-of-steel'), fork('smithcraft'), fork('woodcraft'), sourceFork('Warcraft')), integrationTags: ['magic'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'spearcraft-antiphon', integrationId: 'spearcraft-antiphon' }] }),
+  define('spider-husbandry', 'Spider Husbandry', 300, 'Raise and train spiders, substituting for Instruction or Field Dressing in their respective spider contexts. Training guidance: ordinary spiders Ob 1, Great Orb Weaver Ob 2, Great Master of the Hunt Ob 3, Sea Lord Ob 4, Great Undernest spider Ob 5; wound guidance remains in Anatomy of Injury.', {
+    rootRule: stat('will'), skillType: 'Peasant', tools: expendable, availabilityRestrictions: only(['orc'], 'character-burning'),
+    forkSuggestions: forks('animal-husbandry'), integrationTags: ['injury'], relations: [
+      { kind: 'contextual-substitution', target: { kind: 'skill', id: 'instruction' }, context: { kind: 'subject', subject: 'spiders' } },
+      { kind: 'contextual-substitution', target: { kind: 'skill', id: 'field-dressing' }, context: { kind: 'allOf', conditions: [
+        { kind: 'subject', subject: 'spiders' }, { kind: 'activity', activity: 'wound-treatment' },
+      ] } },
+    ] }),
+  define('spiel-wise', 'Spiel-wise', 300, 'Knowledge of spiel.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'spiel' } }),
+  define('staff', 'Staff', 300, 'Use a staff as a walking aid or a weapon.', {
+    rootRule: stat('agility'), skillType: 'Martial', tools: item('staff'), semanticCategories: ['melee-weapon'], integrationTags: ['fight'],
+    forkSuggestions: guidance(fork('brawling'), fork('boxing'), { target: { kind: 'category', category: 'melee-weapon', relevance: 'any' } }) }),
+  define('starcraft', 'Starcraft', 300, 'Craft crystalline orbs suitable as Enchanting vessels. Guidance: marble Ob 1, prism Ob 2, ball Ob 3, lens Ob 4, Silmaril Ob 5; Mornsong is an external enchanting example.', {
+    rootRule: combined('will', 'agility'), skillType: 'Artisan', tools: workshop, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: forks('gemcraft', 'jewelcraft'), integrationTags: ['magic'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'starcraft-matrix', integrationId: 'starcraft-matrix' }] }),
+  define('stealthy', 'Stealthy', 301, 'Move undetected using camouflage and surroundings; light, weather and ground can provide canonical Advantage, resolved contextually.', {
+    rootRule: stat('speed'), skillType: 'Forester', tools: none,
+    testProfile: { kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'observation' }],
+      modifiers: [{ effect: { kind: 'advantage', resolution: 'canonical' }, when: { kind: 'anyOf', conditions: [
+        { kind: 'circumstance', circumstanceId: 'light-conditions-favor-stealth' },
+        { kind: 'circumstance', circumstanceId: 'weather-conditions-favor-stealth' },
+        { kind: 'circumstance', circumstanceId: 'ground-conditions-favor-stealth' },
+      ] } }] } }),
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'spearcraft-antiphon', skillId: 'spearcraft', subsystem: 'magic',
+    createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
+    summary: 'Antiphon Union can enchant created spears; no spear enchantment mechanics are specified here.', source: [evidence('Spearcraft', 300)] },
+  { id: 'starcraft-matrix', skillId: 'starcraft', subsystem: 'magic',
+    createdItemReference: { kind: 'enchanting-matrix', target: 'created-item' },
+    summary: 'All Starcraft crystals are suitable Enchanting vessels; Mornsong is an external light-bearing example, not an inline spell definition.', source: [evidence('Starcraft', 300)] },
+  { id: 'song-of-soothing-treatment', skillId: 'song-of-soothing', subsystem: 'injury',
+    poisonTreatment: { kind: 'poison-treatment', branches: [
+      { poisonEffectKind: 'injury', obstacle: { kind: 'procedure-reference', skillId: 'herbalism', procedure: 'wound-treatment', input: 'caused-wound' },
+        onSuccess: { kind: 'halve-die-penalty', target: 'poison-caused-die-penalties', rounding: 'up' } },
+      { poisonEffectKind: 'obstacle-penalty', obstacle: { kind: 'current-penalty', penaltyKind: 'obstacle' },
+        onExtraSuccesses: { kind: 'reduce-obstacle-penalty', basis: 'successes-over-obstacle', rate: 'source-unspecified' } },
+      { poisonEffectKind: 'direct-dice-subtraction', obstacle: { kind: 'double-current-dice-subtraction' },
+        onExtraSuccesses: { kind: 'restore-dice', dicePerSuccessOverObstacle: 1 } },
+    ] }, summary: 'Deadly Venom is an injury-poison example. Three treatment cases remain distinct; half/round-up is preserved without settling more detailed arithmetic semantics.',
+    source: [evidence('Song of Soothing', 299)] },
   { id: 'smithcraft-antiphon', skillId: 'smithcraft', subsystem: 'magic',
     createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
     summary: 'With Antiphon Union: Gift of Speed on horseshoes; Lay of the Horse on a whistle; Air of Gates on a headband; Voice of Ages on a clasp. Effects belong to the external spell-song subsystem.',
