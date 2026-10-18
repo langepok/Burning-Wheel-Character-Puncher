@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1155 tests
-in 45 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1179 tests
+in 46 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Supply-wise:
-369 complete definitions: A–R complete, S reviewed through Supply-wise; Surgery and later entries pending.
+Production transcription continues through Surgery:
+370 complete definitions: A–R complete, S reviewed through Surgery; Survival and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -1000,21 +1000,43 @@ separate source topic identities on 303/305 with bare-Wise Perception/Special/no
 tools defaults, not aliases of one another. No inventory/supplier subsystem is
 inferred from their names.
 
-## Pending Surgery blood-clock outcome
+## Resolved Surgery blood-clock failure outcome
 
-Visually reviewed book 303 / PDF 305. Surgery repairs damaged body parts and treats
-wounds of all types; a failed Surgery test increases the blood clock for that wound
-by one stage. This is ordinary failure, not specifically zero successes. The
-source supplies Perception/Agility, Medicinal, expendable tools and Anatomy,
-Field Dressing, Apothecary, Bloodletting FoRKs. Obstacles and other mechanics refer
-to Anatomy of Injury.
+Visually reviewed book 303 / PDF 305; user confirmation explicitly retains the
+non-bleeding-wound applicability question outside the catalog. AdvanceInjuryClock
+extends skill-test outcomes with blood-clock, treated-wound, positive integer stage
+advance and applicability external-anatomy-of-injury. Surgery emits exactly one
+stage on ordinary failure, not a zero-successes crafting adverse outcome.
 
-Current skill-test outcomes do not represent a treated-wound clock change;
-SkillAdverseOutcome instead models zero-successes crafted-device Mark damage.
-PoisonTreatment does not advance injury clocks. Do not conflate these source
-facts or generate damage, elapsed time or death from this entry.
+This is clock metadata, never direct wound-severity increase. It contains no
+Midi/Severe/Traumatic/Mortal ladder, deadline, timer, damage or death outcome.
+Surgery still treats wounds of all types. General Anatomy of Injury says Superficial
+and Light wounds do not bleed, but the interaction with this Surgery sentence is
+unresolved: do not create artificial clocks, change wound categories or declare
+failure harmless for those wounds. Applicability and resolution stay external.
 
-Propose a minimal typed failure outcome: target the treated wound's blood clock,
-advance by one stage, with Anatomy of Injury execution external. No clock model,
-timer, bleeding/death evaluator, healing calculation or invented failure severity.
-Surgery and later entries remain identity-only pending approval of this extension.
+A separate Anatomy of Injury integration references treatment obstacles/mechanics.
+The specific failed-test outcome neither replaces nor asserts stacking with all
+generic failed-treatment consequences. Tests retain Perception/Agility, Medicinal,
+expendable tools and Anatomy/Field Dressing/Apothecary/Bloodletting FoRKs; validate
+serialization and reject severity/timer/applicability guesses. No Injury/clock,
+bleeding, healing or mortality evaluator is added and no new Decision is needed.
+Production reaches 370 complete definitions, through Surgery.
+
+## Pending Survival penalty-relief procedure
+
+Visually reviewed book 303 / PDF 305. Survival provides guidance: basic shelter
+Ob 1, basic water Ob 2, survival food Ob 3, water/shelter in extreme conditions
+Ob 4, shrug off a +1 Ob penalty Ob 5. Root is Will/Perception, type Forester,
+tools Traveling Gear; FoRKs Foraging and Hunting.
+
+The last case describes relief from a penalty, not reducing Survival's own test
+obstacle. Current contextual obstacle modifiers target the owning test; poison
+penalty reduction is specific to poison treatment and cannot be reused as a
+generic relief rule. No existing outcome expresses the source's shrug-off effect.
+
+Propose a minimal named penalty-relief procedure preserving Ob 5 and the +1 Ob
+penalty being shrugged off. Keep applicability/scope, duration and any relationship
+to other effects source-unspecified; do not turn this into permanent removal,
+universal -1 Ob, automatic weather exposure handling, a relief rate or an engine.
+Survival and later entries remain identity-only pending approval of this extension.

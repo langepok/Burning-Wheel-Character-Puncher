@@ -270,3 +270,14 @@ only to that use, not academic possession, opening, advancement or FoRK referenc
 Availability remains separate. Integrity validation checks kind/id/use without
 performing a trait/academic/magic evaluation. Sources: Summoning 303/305 and
 Gifted 327/329. Detailed procedures remain in the external Codex integration.
+
+
+### Injury-clock outcomes
+
+AdvanceInjuryClock is a skill-test state-change intent for the treated wound's
+blood-clock, with integer stages and explicit external-anatomy-of-injury
+applicability. Surgery emits one stage on ordinary failure. It creates no clock
+or severity ladder and resolves neither non-bleeding-wound applicability nor
+stacking/replacement of general treatment effects. The external procedure remains
+a separate Injury integration. Integrity checks reject invented downstream fields;
+serialization does not execute clock progression. Source: Surgery 303/305.

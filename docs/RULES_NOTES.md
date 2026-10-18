@@ -603,3 +603,16 @@ prerequisite for possessing/opening/advancing the skill. Human-only character-
 burning availability stays separate. Do not disable academic/FoRK relationships
 by copying the magical-use gate to them. The Codex Summoning chapter remains the
 external source for procedures/obstacles; no spirit or academic-use evaluator.
+
+
+### Surgery failed-test Blood Clock effect (BWGR 303 / PDF 305)
+
+**RAW:** Surgery can repair limbs, stop bleeding, remove bodily aberrations and
+treat wounds of all types. Failed tests advance the wound's Blood Clock by one
+stage; treatment obstacles/mechanics refer to Anatomy of Injury. Store an ordinary
+failure outcome targeting the treated wound's clock, not direct severity increase.
+**Unresolved interaction:** Superficial/Light wounds do not bleed; the catalog does
+not create clocks for them, change their categories or decide that failure has no
+effect. Applicability remains external to Anatomy of Injury. Neither replacement
+nor stacking with all generic failed-treatment effects is established here.
+No timer, severity ladder, bleeding, death or wound-treatment evaluator is added.

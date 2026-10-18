@@ -294,6 +294,14 @@ export function createSkillCatalog(content: SkillCatalogContent) {
           }
           triggers.add(outcome.trigger.kind);
           for (const effect of outcome.effects) {
+            if (effect?.kind === 'advance-injury-clock') {
+              if (effect.clock !== 'blood-clock' || effect.target !== 'treated-wound' ||
+                  !Number.isSafeInteger(effect.stages) || effect.stages <= 0 ||
+                  effect.applicability !== 'external-anatomy-of-injury' || Object.keys(effect).length !== 5) {
+                throw new Error('Invalid injury-clock outcome');
+              }
+              continue;
+            }
             if (effect?.kind === 'journey-navigation') {
               const only = (value: object, fields: readonly string[]) => Object.keys(value).every(key => fields.includes(key));
               if ('state' in effect) {

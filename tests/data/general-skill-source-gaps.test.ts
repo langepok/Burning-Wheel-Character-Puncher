@@ -126,11 +126,11 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Surgery, book 303 / PDF 305: ordinary failure advances the treated wound's blood clock. */
-describe('Pending Surgery blood-clock outcome', () => {
-  it('does not conflate a failed treatment clock advance with zero-successes crafting damage', () => {
+/** Survival, book 303 / PDF 305: Ob 5 permits shrugging off a +1 Ob penalty. */
+describe('Pending Survival penalty-relief procedure', () => {
+  it('does not confuse relief of an existing penalty with a modifier to the Survival test itself', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('surgery')).toBe(false);
-    expect(catalog.references.get('surgery')?.sourceName).toBe('Surgery');
+    expect(catalog.skills.has('survival')).toBe(false);
+    expect(catalog.references.get('survival')?.sourceName).toBe('Survival');
   });
 });

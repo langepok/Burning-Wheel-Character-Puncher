@@ -875,3 +875,16 @@ A Character Burner feature is done only when:
   Perception/Special/no-tools defaults and separate topic ownership.
 - Surgery remains identity-only until its ordinary-failure blood-clock advance
   has a source-shaped representation; never reuse zero-successes damage metadata.
+
+
+### Surgery blood-clock failure metadata (303/305)
+
+- Ordinary failed Surgery emits a typed advance-injury-clock effect on the
+  treated wound's blood-clock by exactly one stage. Never wound-severity +1.
+- Applicability is external-anatomy-of-injury: do not create clocks for
+  non-bleeding wounds or decide Superficial/Light failure consequences.
+- Preserve treatment of all wound types and the external Anatomy of Injury
+  procedure/obstacles; no inferred stacking/replacement of generic failure effects.
+- Preserve Perception/Agility, Medicinal, expendable tools and four source FoRKs.
+- Serialization/strict shape validation; no clock/timer, bleeding, severity, death,
+  recovery or automatic wound mutation evaluator.

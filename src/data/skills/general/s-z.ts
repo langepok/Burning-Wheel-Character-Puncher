@@ -226,9 +226,18 @@ export const sZSkills = [
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'supplier' } }),
   define('supply-wise', 'Supply-wise', 303, 'Knowledge of supplies.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'supply' } }),
+  define('surgery', 'Surgery', 303, 'Treat wounds of all types: repair broken limbs, stop bleeding and remove bodily aberrations. Failure advances the treated wound blood clock by one stage; applicability and downstream consequences belong to Anatomy of Injury.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Medicinal', tools: expendable,
+    forkSuggestions: forks('anatomy', 'field-dressing', 'apothecary', 'bloodletting'), integrationTags: ['injury'],
+    testProfile: { kind: 'contextual', outcomes: [{ trigger: { kind: 'failure' }, effects: [
+      { kind: 'advance-injury-clock', clock: 'blood-clock', target: 'treated-wound', stages: 1, applicability: 'external-anatomy-of-injury' },
+    ] }] } }),
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'surgery-injury', skillId: 'surgery', subsystem: 'injury',
+    summary: 'Anatomy of Injury supplies treatment obstacles and mechanics; the Surgery-specific blood-clock failure outcome does not decide replacement or stacking with generic failures.',
+    source: [evidence('Surgery', 303)] },
   { id: 'summoning-codex', skillId: 'summoning', subsystem: 'magic',
     summary: 'Call/bind/command procedures and obstacles reference the external Summoning chapter of the Codex; no spirit, binding or command definitions are inlined.',
     source: [evidence('Summoning', 303)] },

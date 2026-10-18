@@ -481,7 +481,16 @@ export type JourneyNavigationOutcome =
         { readonly arrival: 'intended-destination'; readonly appointments: 'missed-if-applicable' },
         { readonly arrival: 'unintended-location' },
       ] };
+/** Injury subsystem owns clock applicability and all downstream consequences. */
+export interface AdvanceInjuryClock {
+  readonly kind: 'advance-injury-clock';
+  readonly clock: 'blood-clock';
+  readonly target: 'treated-wound';
+  readonly stages: number;
+  readonly applicability: 'external-anatomy-of-injury';
+}
 export type SkillTestOutcomeEffect =
+  | AdvanceInjuryClock
   | JourneyNavigationOutcome
   | { readonly kind: 'name-bestowal' | 'name-bestowal-denied'; readonly recipient: SkillTestActor }
   | { readonly kind: 'reputation'; readonly recipient: SkillTestActor;

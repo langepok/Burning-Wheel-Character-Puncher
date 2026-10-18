@@ -43,7 +43,7 @@ describe('Name Ritual source-supported test outcomes', () => {
     expect(failure.effects[0]).not.toHaveProperty('duration');
   });
   it('keeps both recipients the target, never automatically the ritual performer', () => {
-    expect(ritual.testProfile?.outcomes?.flatMap(outcome => outcome.effects.map(effect => effect.recipient))).toEqual(['target', 'target', 'target', 'target']);
+    expect(ritual.testProfile?.outcomes?.flatMap(outcome => outcome.effects.map(effect => 'recipient' in effect ? effect.recipient : undefined))).toEqual(['target', 'target', 'target', 'target']);
   });
   it('round-trips separate conditions, effects and explicit unspecified dice', () => {
     expect(createSkillCatalog(JSON.parse(JSON.stringify(generalSkillTranscriptionContent))).skills.get(ritual.id)?.testProfile?.outcomes).toEqual([success, failure]);
