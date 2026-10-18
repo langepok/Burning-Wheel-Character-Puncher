@@ -6,9 +6,66 @@ import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy', 'stentorious-debate', 'stentorious-singing', 'stone-artifice', 'stonecraft', 'strategy', 'strategy-games', 'streetwise', 'structural-weakness-wise', 'stuff-wise', 'suasion', 'suicidal-bravery-wise', 'summoning', 'supplier-wise', 'supply-wise', 'surgery'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy', 'stentorious-debate', 'stentorious-singing', 'stone-artifice', 'stonecraft', 'strategy', 'strategy-games', 'streetwise', 'structural-weakness-wise', 'stuff-wise', 'suasion', 'suicidal-bravery-wise', 'summoning', 'supplier-wise', 'supply-wise', 'surgery', 'survival', 'sword', 'symbology', 'tactics', 'tall-grass-wise', 'tanner', 'taskmaster-wise', 'tavern-tales-wise', 'taxidermy', 'terroir-wise', 'theatrics', 'threading-chant', 'throwing'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('keeps Sword tool/weapon identity separate from its Fight reference', () => {
+    expect(catalog.skills.get('sword')).toMatchObject({ skillType: 'Martial', tools: { kind: 'specific-item', item: 'sword' },
+      rootRule: { kind: 'single', ability: { kind: 'stat', id: 'agility' } }, integrationTags: ['fight'] });
+    expect(catalog.skills.get('sword')?.forkSuggestions?.suggestions).toEqual([
+      { target: { kind: 'skill', skillId: 'boxing' } }, { target: { kind: 'skill', skillId: 'brawling' } },
+      { target: { kind: 'category', category: 'melee-weapon', relevance: 'appropriate' } },
+    ]);
+  });
+  it('preserves Symbology canonical spelling, nine guidance levels and explicit FoRK references', () => {
+    expect(catalog.skills.get('symbology')).toMatchObject({ sourceName: 'Symbology', skillType: 'Academic',
+      rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } }, tools: { kind: 'none' } });
+    for (const row of ['common symbols Ob 1', 'common religious symbols Ob 2', 'common arcane symbols Ob 3',
+      'obscure religious symbols Ob 4', 'foreign pictograms Ob 5', 'obscure arcane symbols Ob 6',
+      'unknown religious symbols Ob 7', 'unknown arcane symbols Ob 8', 'truly alien symbology Ob 9']) {
+      expect(catalog.skills.get('symbology')?.summary).toContain(row);
+    }
+    expect(catalog.skills.get('symbology')?.forkSuggestions?.suggestions).toEqual(
+      ['ancient-history', 'obscure-history', 'doctrine', 'sorcery'].map(skillId => ({ target: { kind: 'skill', skillId } })));
+  });
+  it('scopes Tactics versus Observation to ambush and retains the separate Range and Cover use', () => {
+    expect(catalog.skills.get('tactics')?.testProfile).toEqual({ kind: 'versus',
+      opposingAbilities: [{ kind: 'skill', skillId: 'observation' }],
+      context: { kind: 'circumstance', circumstanceId: 'setting-an-ambush' } });
+    expect(catalog.skills.get('tactics')?.integrationTags).toEqual(['ambush', 'range-and-cover']);
+    expect(catalog.integrations.get('tactics-field-maneuvers')?.context).toEqual({ kind: 'activity', activity: 'field-maneuver' });
+  });
+  it.each(['tall-grass', 'taskmaster', 'tavern-tales', 'terroir'])('keeps %s-wise as a bare Wise topic', topic => {
+    expect(catalog.skills.get(`${topic}-wise`)).toMatchObject({ skillType: 'Special',
+      rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } }, tools: { kind: 'none' },
+      familyMembership: { familyId: 'wises', topicId: topic } });
+  });
+  it('preserves Tanner, Taxidermy and Theatrics source roots/types/tools and authored obstacle guidance', () => {
+    expect(catalog.skills.get('tanner')).toMatchObject({ skillType: 'Craftsman', tools: { kind: 'workshop' },
+      rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'agility' }, { kind: 'stat', id: 'forte' }] } });
+    for (const row of ['belt Ob 1', 'cloak or boots Ob 2', 'satchel or gloves Ob 3', 'gambeson Ob 4', 'boiled reinforced leather armor Ob 5'])
+      expect(catalog.skills.get('tanner')?.summary).toContain(row);
+    expect(catalog.skills.get('taxidermy')).toMatchObject({ skillType: 'Medicinal', tools: { kind: 'generic' },
+      rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } } });
+    for (const row of ['rabbits/small game Ob 1', 'insects/fish Ob 2', 'fowl/large game Ob 3', 'aunt Ob 4',
+      'exotic creatures Ob 4', 'monsters Ob 5', 'mythical/heroic beasts Ob 6', 'supernatural creatures Ob 7'])
+      expect(catalog.skills.get('taxidermy')?.summary).toContain(row);
+    expect(catalog.skills.get('theatrics')).toMatchObject({ skillType: 'Special', tools: { kind: 'generic' },
+      rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'perception' }] } });
+    for (const row of ['stage makeup Ob 1', 'simple masks Ob 2', 'androgynous gender disguise Ob 3'])
+      expect(catalog.skills.get('theatrics')?.summary).toContain(row);
+  });
+  it('retains Threading Chant own tools/root and its source Sewing mechanics reference', () => {
+    expect(catalog.skills.get('threading-chant')).toMatchObject({ skillType: 'Craftsman', tools: { kind: 'generic', expendable: true },
+      rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'perception' }, { kind: 'stat', id: 'agility' }] },
+      relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'sewing' } }],
+      availabilityRestrictions: [{ kind: 'stock-only', stockIds: ['elf'], scope: 'always' }], printedMarkers: ['§'] });
+  });
+  it('keeps Throwing a Martial skill with a throwable object requirement and external combat uses', () => {
+    expect(catalog.skills.get('throwing')).toMatchObject({ skillType: 'Martial', tools: { kind: 'specific-item', item: 'throwable-object' },
+      rootRule: { kind: 'single', ability: { kind: 'stat', id: 'agility' } }, integrationTags: ['fight', 'range-and-cover'] });
+    expect(catalog.skills.get('throwing')?.forkSuggestions?.suggestions).toEqual([{ target: { kind: 'skill', skillId: 'javelin' } }]);
+  });
   it.each(['supplier', 'supply'])('preserves %s-wise as an independent bare Wise topic', topic => {
     expect(catalog.skills.get(`${topic}-wise`)).toMatchObject({ coverage: 'complete',
       rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } }, skillType: 'Special',

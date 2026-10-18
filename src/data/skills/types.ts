@@ -583,7 +583,18 @@ export interface SupplyManagement {
     readonly journeyModifiers: readonly { readonly journey: string; readonly obstacleDelta: number }[];
   };
 }
-export type SkillProcedure = DurationRestSubstitution | LinkedPretest | ItemSearch | SupplyManagement;
+/** Relief targets an existing penalty; it is not a transferable negative modifier.
+ * Scope, duration and execution remain unresolved by this source descriptor. */
+export interface ObstaclePenaltyRelief {
+  readonly kind: 'obstacle-penalty-relief';
+  readonly testObstacle: number;
+  readonly trigger: 'success';
+  readonly targetPenalty: { readonly kind: 'obstacle-penalty'; readonly target: 'existing-penalty'; readonly magnitude: number };
+  readonly effect: 'shrug-off';
+  readonly scope: 'source-unspecified';
+  readonly duration: 'source-unspecified';
+}
+export type SkillProcedure = DurationRestSubstitution | LinkedPretest | ItemSearch | SupplyManagement | ObstaclePenaltyRelief;
 /** Facts during use of the owning skill; no new ability named Awareness. */
 export type SkillActivityFact =
   | { readonly kind: 'vague-surroundings-awareness' }

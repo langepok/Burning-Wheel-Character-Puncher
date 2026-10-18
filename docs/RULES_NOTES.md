@@ -616,3 +616,10 @@ not create clocks for them, change their categories or decide that failure has n
 effect. Applicability remains external to Anatomy of Injury. Neither replacement
 nor stacking with all generic failed-treatment effects is established here.
 No timer, severity ladder, bleeding, death or wound-treatment evaluator is added.
+
+
+### Survival: existing obstacle-penalty relief (BWGR 303 / PDF 305)
+
+RAW guidance progresses from shelter Ob 1, water Ob 2, food Ob 3 and extreme-condition water/shelter Ob 4 to shrugging off a +1 Ob penalty at Ob 5. The named procedure targets an existing penalty on success, rather than granting a transferable -1 Ob modifier. Scope and duration are source-unspecified. No environmental-only, arbitrary-penalty or wound-only interpretation is selected, and no permanent deletion is inferred. The separate Injury Shrug It Off procedure supplies no inherited Health test, duration or action cost here.
+
+Sword and Symbology finish S on the same page: Sword references Fight; Symbology retains nine source guidance levels and Ancient History, Obscure History, Doctrine and Sorcery FoRKs. Tactics–Throwing (304 / 306) preserve their own roots/types/tools and source guidance. Tactics' ambush versus Observation is separate from field maneuvers in Range and Cover. Threading Chant references Sewing mechanics without replacing its own Perception/Agility root, Elven availability or expendable tools. No execution subsystem is introduced.

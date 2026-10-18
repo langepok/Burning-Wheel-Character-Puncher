@@ -235,7 +235,17 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (metadata.procedures !== undefined) {
       if (!Array.isArray(metadata.procedures)) throw new Error('Invalid skill procedures');
       for (const procedure of metadata.procedures) {
-        if (procedure?.kind === 'supply-management') {
+        if (procedure?.kind === 'obstacle-penalty-relief') {
+          const penalty = procedure.targetPenalty;
+          if (Object.keys(procedure).length !== 7 ||
+              !Number.isSafeInteger(procedure.testObstacle) || procedure.testObstacle <= 0 ||
+              procedure.trigger !== 'success' || penalty?.kind !== 'obstacle-penalty' ||
+              penalty.target !== 'existing-penalty' || !Number.isSafeInteger(penalty.magnitude) || penalty.magnitude <= 0 ||
+              Object.keys(penalty).length !== 3 || procedure.effect !== 'shrug-off' ||
+              procedure.scope !== 'source-unspecified' || procedure.duration !== 'source-unspecified') {
+            throw new Error('Invalid penalty relief');
+          }
+        } else if (procedure?.kind === 'supply-management') {
           validateSupplyManagement(procedure);
         } else if (procedure?.kind === 'item-search') {
           validateItemSearch(procedure);

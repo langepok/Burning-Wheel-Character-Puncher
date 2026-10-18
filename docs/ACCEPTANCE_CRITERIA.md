@@ -888,3 +888,15 @@ A Character Burner feature is done only when:
 - Preserve Perception/Agility, Medicinal, expendable tools and four source FoRKs.
 - Serialization/strict shape validation; no clock/timer, bleeding, severity, death,
   recovery or automatic wound mutation evaluator.
+
+
+### Survival penalty relief and remaining S records
+
+- Survival preserves Will/Perception, Forester, Traveling Gear, Foraging/Hunting and Ob 1–5 guidance (book 303 / PDF 305).
+- Its Ob 5 procedure targets an existing +1 Ob penalty on success; it grants no generic negative obstacle modifier.
+- Relief scope and duration remain source-unspecified, with no Injury/Shrug It Off inheritance or permanent-removal inference.
+- The procedure serializes and validates; malformed magnitudes, invented scopes/durations and extra execution fields are rejected.
+- Sword and Symbology retain their independently audited source identities, roots, tools, FoRKs and external/source obstacle guidance. Continue sequentially only while the existing schema preserves RAW.
+- No penalty, injury, environment or combat evaluator is introduced. Run dependency installation, typecheck, full tests, build and diff whitespace validation.
+
+- Sequential book 304 / PDF 306 records Tactics–Throwing preserve source roots/types/tools, Tactics ambush versus Observation and external field maneuvers, bare Wise identities, and Threading Chant's Sewing relation. Torture remains identity-only until its unsupported obstacle/outcome facts can be represented.

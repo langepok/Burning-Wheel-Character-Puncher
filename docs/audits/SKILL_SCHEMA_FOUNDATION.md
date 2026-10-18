@@ -281,3 +281,8 @@ or severity ladder and resolves neither non-bleeding-wound applicability nor
 stacking/replacement of general treatment effects. The external procedure remains
 a separate Injury integration. Integrity checks reject invented downstream fields;
 serialization does not execute clock progression. Source: Surgery 303/305.
+
+
+### Named obstacle-penalty relief
+
+ObstaclePenaltyRelief extends SkillProcedure for relief of an existing positive obstacle penalty, with an explicit successful test obstacle and shrug-off effect. Scope and duration are source-unspecified; the descriptor is neither a negative test modifier nor a reference to Injury's Shrug It Off procedure. Integrity checks validate positive integer obstacle/magnitude, exact field shapes and bounded semantic labels, rejecting executable/permanence/guessed-scope fields. Survival supplies Ob 5 and +1 Ob (303/305). No penalty registry, lookup, removal or duration execution exists.

@@ -1,5 +1,5 @@
 import type { SkillIntegration } from '../types';
-import { aptitudeTraining, combined, define, evidence, expendable, fork, forks, generic, guidance, item, magical, melee, none, only, sourceFork, stat, workshop } from './shared';
+import { aptitudeTraining, combined, define, evidence, expendable, fork, forks, generic, guidance, item, magical, melee, none, only, sourceFork, stat, traveling, workshop } from './shared';
 
 /** Reviewed S–Z records only; later entries remain identity references. */
 export const sZSkills = [
@@ -232,9 +232,49 @@ export const sZSkills = [
     testProfile: { kind: 'contextual', outcomes: [{ trigger: { kind: 'failure' }, effects: [
       { kind: 'advance-injury-clock', clock: 'blood-clock', target: 'treated-wound', stages: 1, applicability: 'external-anatomy-of-injury' },
     ] }] } }),
+  define('survival', 'Survival', 303, 'Build shelters, find water and stay warm or cool in adverse conditions. Guidance: basic shelter Ob 1; basic water Ob 2; survival food Ob 3; water or shelter in extreme conditions Ob 4; shrug off a +1 Ob penalty Ob 5. Relief scope and duration are not specified.', {
+    rootRule: combined('will', 'perception'), skillType: 'Forester', tools: traveling, forkSuggestions: forks('foraging', 'hunting'),
+    procedures: [{ kind: 'obstacle-penalty-relief', testObstacle: 5, trigger: 'success',
+      targetPenalty: { kind: 'obstacle-penalty', target: 'existing-penalty', magnitude: 1 },
+      effect: 'shrug-off', scope: 'source-unspecified', duration: 'source-unspecified' }] }),
+  define('sword', 'Sword', 303, 'Use long-bladed one- or two-handed weapons; combat obstacles and procedures belong to Fight.', {
+    rootRule: stat('agility'), skillType: 'Martial', tools: item('sword'), semanticCategories: ['melee-weapon'],
+    forkSuggestions: guidance(fork('boxing'), fork('brawling'), melee), integrationTags: ['fight'] }),
+  define('symbology', 'Symbology', 303, 'Recognize and interpret symbols. Guidance: common symbols Ob 1; common religious symbols Ob 2; common arcane symbols Ob 3; obscure religious symbols Ob 4; foreign pictograms Ob 5; obscure arcane symbols Ob 6; unknown religious symbols Ob 7; unknown arcane symbols Ob 8; truly alien symbology Ob 9.', {
+    rootRule: stat('perception'), skillType: 'Academic', tools: none,
+    forkSuggestions: forks('ancient-history', 'obscure-history', 'doctrine', 'sorcery') }),
+
+  define('tactics', 'Tactics', 304, 'Use small groups of soldiers effectively. Setting an ambush tests Tactics versus Observation; field maneuvers use the external Range and Cover procedure.', {
+    rootRule: combined('will', 'perception'), skillType: 'Military', tools: none, forkSuggestions: forks('strategy'), integrationTags: ['ambush', 'range-and-cover'],
+    testProfile: { kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'observation' }], context: { kind: 'circumstance', circumstanceId: 'setting-an-ambush' } } }),
+  define('tall-grass-wise', 'Tall Grass-wise', 304, 'Knowledge of tall grass.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'tall-grass' } }),
+  define('tanner', 'Tanner', 304, 'Cure hides for durable coverings and furnishings; workshop is a tannery. Guidance: belt Ob 1; leather cloak or boots Ob 2; satchel or gloves Ob 3; gambeson Ob 4; boiled reinforced leather armor Ob 5.', {
+    rootRule: combined('agility', 'forte'), skillType: 'Craftsman', tools: workshop }),
+  define('taskmaster-wise', 'Taskmaster-wise', 304, 'Knowledge of taskmasters.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'taskmaster' } }),
+  define('tavern-tales-wise', 'Tavern Tales-wise', 304, 'Knowledge of tavern tales.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'tavern-tales' } }),
+  define('taxidermy', 'Taxidermy', 304, 'Preserve dead creatures for lifelike display. Guidance: rabbits/small game Ob 1; insects/fish Ob 2; fowl/large game Ob 3; aunt Ob 4; exotic creatures Ob 4; monsters Ob 5; mythical/heroic beasts Ob 6; supernatural creatures Ob 7. Additional uses reference the external Burning Wheel Codex.', {
+    rootRule: stat('perception'), skillType: 'Medicinal', tools: generic }),
+  define('terroir-wise', 'Terroir-wise', 304, 'Knowledge of terroir.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'terroir' } }),
+  define('theatrics', 'Theatrics', 304, 'Prepare sets, makeup and costumes for stage performance. Guidance: stage makeup Ob 1; simple masks Ob 2; androgynous gender disguise Ob 3.', {
+    rootRule: combined('will', 'perception'), skillType: 'Special', tools: generic, forkSuggestions: forks('acting', 'disguise') }),
+  define('threading-chant', 'Threading Chant', 304, 'Elven skill song using Sewing mechanics; its root, expendable tools and availability remain explicit.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: expendable, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: forks('weaving-way'), relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'sewing' } }] }),
+  define('throwing', 'Throwing', 304, 'Throw objects accurately at targets. Combat obstacles and procedures reference Fight and Range and Cover.', {
+    rootRule: stat('agility'), skillType: 'Martial', tools: item('throwable-object'), forkSuggestions: forks('javelin'), integrationTags: ['fight', 'range-and-cover'] }),
+
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'tactics-field-maneuvers', skillId: 'tactics', subsystem: 'range-and-cover',
+    context: { kind: 'activity', activity: 'field-maneuver' },
+    summary: 'Field maneuvers use the external Range and Cover procedure; the ambush-versus-Observation test is a separate use.',
+    source: [evidence('Tactics', 304)] },
+
   { id: 'surgery-injury', skillId: 'surgery', subsystem: 'injury',
     summary: 'Anatomy of Injury supplies treatment obstacles and mechanics; the Surgery-specific blood-clock failure outcome does not decide replacement or stacking with generic failures.',
     source: [evidence('Surgery', 303)] },

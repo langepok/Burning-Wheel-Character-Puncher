@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1179 tests
-in 46 files), npm run build and git diff --check. Remaining S–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1223 tests
+in 47 files), npm run build and git diff --check. Remaining T–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Surgery:
-370 complete definitions: A–R complete, S reviewed through Surgery; Survival and later entries pending.
+Production transcription continues through Throwing:
+383 complete definitions: A–S complete, T reviewed through Throwing; Torture and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -1023,20 +1023,24 @@ serialization and reject severity/timer/applicability guesses. No Injury/clock,
 bleeding, healing or mortality evaluator is added and no new Decision is needed.
 Production reaches 370 complete definitions, through Surgery.
 
-## Pending Survival penalty-relief procedure
+## Resolved Survival penalty-relief procedure
 
-Visually reviewed book 303 / PDF 305. Survival provides guidance: basic shelter
-Ob 1, basic water Ob 2, survival food Ob 3, water/shelter in extreme conditions
-Ob 4, shrug off a +1 Ob penalty Ob 5. Root is Will/Perception, type Forester,
-tools Traveling Gear; FoRKs Foraging and Hunting.
+Visually reviewed book 303 / PDF 305. User-approved ObstaclePenaltyRelief extends SkillProcedure with a successful Ob 5 test, an existing +1 Ob penalty target, and a named shrug-off effect. Scope and duration explicitly remain source-unspecified. This is not a floating -1 Ob modifier, permanent deletion, environmental-only rule, wound-only rule or automatic reference to Injury's Shrug It Off procedure. No Health test, superficial-wound restriction, scene duration or action cost is inherited.
 
-The last case describes relief from a penalty, not reducing Survival's own test
-obstacle. Current contextual obstacle modifiers target the owning test; poison
-penalty reduction is specific to poison treatment and cannot be reused as a
-generic relief rule. No existing outcome expresses the source's shrug-off effect.
+Survival preserves Will/Perception, Forester, Traveling Gear and Foraging/Hunting FoRKs. The five source guidance rows remain intact. Tests cover serialized data, rejection of invented scope/duration/execution semantics and malformed positive integer values. No penalty/environment/injury evaluator is added.
 
-Propose a minimal named penalty-relief procedure preserving Ob 5 and the +1 Ob
-penalty being shrugged off. Keep applicability/scope, duration and any relationship
-to other effects source-unspecified; do not turn this into permanent removal,
-universal -1 Ob, automatic weather exposure handling, a relief rate or an engine.
-Survival and later entries remain identity-only pending approval of this extension.
+## Remaining S and initial T records
+
+Sword and Symbology (303/305) complete S. Sword retains the physical sword requirement and external Fight reference; Symbology retains its nine guidance levels and four concrete FoRK references.
+
+Visually reviewed book 304 / PDF 306 and added Tactics through Throwing: Tactics, Tall Grass-wise, Tanner, Taskmaster-wise, Tavern Tales-wise, Taxidermy, Terroir-wise, Theatrics, Threading Chant and Throwing. Tactics' ambush-versus-Observation profile is context-scoped; field maneuvers remain a separate Range and Cover integration. Tanner keeps tannery workshop metadata, Taxidermy its external Codex guidance, Threading Chant its own root/tools/Elven restriction and Sewing relation, and Throwing its object requirement and external combat references. Bare Wise topics are independent identities. Production reaches 383 complete definitions.
+
+## Pending Torture obstacle and outcome metadata
+
+Visually reviewed the complete entry at book 304–305 / PDF 306–307. Root/roll metadata can already represent the Orc Hatred/open-ended exception, but the following source facts cannot yet be stored structurally:
+
+- The primary obstacle is the higher of the victim's current Will and Forte. Existing single-target and crowd obstacle bases do not express selection between two target abilities.
+- The torturer declares exactly the demanded submission/information, rather than asking a question. Success makes the target submit/reveal that declared intent and also grants a debilitating trait whose value equals the test obstacle.
+- On failure, the GM may cause injury or death, or grant a beneficial trait resisting privation, torture or interrogation. Existing test outcomes cannot preserve these GM-adjudicated alternatives and trait/value references.
+
+Propose bounded target-ability obstacle selection (higher of two), a manual declared-intent reference and source-shaped success/failure outcomes with a dynamic test-obstacle trait-value reference. Failure alternatives retain explicit GM authority; no injury magnitude, specific trait, cost or random selection is inferred. No torture, trait, injury or formula evaluator. Torture remains identity-only until approval; later entries are not transcribed past this gap.
