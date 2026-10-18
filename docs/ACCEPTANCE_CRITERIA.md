@@ -900,3 +900,16 @@ A Character Burner feature is done only when:
 - No penalty, injury, environment or combat evaluator is introduced. Run dependency installation, typecheck, full tests, build and diff whitespace validation.
 
 - Sequential book 304 / PDF 306 records Tactics–Throwing preserve source roots/types/tools, Tactics ambush versus Observation and external field maneuvers, bare Wise identities, and Threading Chant's Sewing relation. Torture remains identity-only until its unsupported obstacle/outcome facts can be represented.
+
+
+### Torture declared intent, obstacle and outcomes
+
+- Torture (304–305 / 306–307) requires an exact pre-test submit-or-reveal declaration; success references that same primary-test intent. No question parsing or truth detection.
+- Obstacle selects the higher current target Will/Forte exponent, never average/sum/lower or a fixed modifier.
+- Success grants a manually selected debilitating trait with value referencing the primary test obstacle. Maimed/Missing Eye remain non-exhaustive examples.
+- Failure preserves GM choice among injury (unspecified severity), death (no threshold), and a contextual beneficial trait resisting privation/torture/interrogation (unspecified value).
+- Normal Will/Perception root and Orc Hatred/open-ended exception, Special type, generic tools, Anatomy/Surgery/Interrogation FoRKs remain intact.
+- New descriptors serialize and validate nested shapes/references; invented values, missing declarations, malformed abilities and extra execution semantics are rejected. No intent/injury/death/trait evaluator.
+- Continue T sequentially while the schema preserves source facts; run full dependency/typecheck/test/build/diff validation.
+
+- Following T records through Tunnel-wise preserve the audited roots, tools, guidance and bare Wise identities. Tree Pulling retains the printed collective expendable tool label without per-component consumption or goblin inventory mechanics. Two-Fisted Fighting Training remains partial/identity-only until its weapon constraints and dice-allocation permissions can be represented structurally.

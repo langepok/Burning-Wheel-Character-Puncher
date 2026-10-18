@@ -286,3 +286,10 @@ serialization does not execute clock progression. Source: Surgery 303/305.
 ### Named obstacle-penalty relief
 
 ObstaclePenaltyRelief extends SkillProcedure for relief of an existing positive obstacle penalty, with an explicit successful test obstacle and shrug-off effect. Scope and duration are source-unspecified; the descriptor is neither a negative test modifier nor a reference to Injury's Shrug It Off procedure. Integrity checks validate positive integer obstacle/magnitude, exact field shapes and bounded semantic labels, rejecting executable/permanence/guessed-scope fields. Survival supplies Ob 5 and +1 Ob (303/305). No penalty registry, lookup, removal or duration execution exists.
+
+
+### Declared intent and bounded target consequences
+
+SkillTestProfile.declaredIntent records the source requirement for an exact pre-test submit-or-reveal intent. A declared-intent-fulfilled outcome references that same primary-test declaration; integrity checks reject a missing declaration or foreign test reference. Narrative interpretation remains manual under D-028.
+
+The highest-of-target-abilities obstacle basis selects the higher current exponent of two distinct target RootAbility references, without calculation. A debilitating grant-trait effect uses contextual selection with non-exhaustive examples and a primary-test obstacle value reference. A gm-selected-consequence effect preserves exactly the source injury/death/beneficial-resistance-trait alternatives, keeping injury severity and beneficial trait value source-unspecified. These are bounded, typed state-change intents, not recursive expressions, trait identities or executors. Source: Torture 304–305 / 306–307. No new durable architectural decision is required.

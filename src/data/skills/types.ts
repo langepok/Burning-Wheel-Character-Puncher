@@ -424,6 +424,7 @@ export interface RuneCastingFateObstacle {
 /** Live ability exponent references; no lookup, aggregation or tie resolution. */
 export type ObstacleBasis =
   | RuneCastingFateObstacle
+  | { readonly kind: 'highest-of-target-abilities'; readonly abilities: readonly [RootAbility, RootAbility]; readonly snapshot: 'current' }
   | { readonly kind: 'target-ability-exponent'; readonly targetRole?: 'listener'; readonly ability: RootAbility; readonly snapshot: 'current' }
   | { readonly kind: 'crowd-ability-exponent'; readonly ability: RootAbility;
       readonly statistic: 'most-common'; readonly snapshot: 'current' };
@@ -489,7 +490,37 @@ export interface AdvanceInjuryClock {
   readonly stages: number;
   readonly applicability: 'external-anatomy-of-injury';
 }
+/** Declaration content remains free-form runtime narrative; only its source requirement is catalog data. */
+export interface DeclaredIntentRequirement {
+  readonly kind: 'declared-intent'; readonly requiredBeforeTest: true;
+  readonly content: 'submit-or-reveal'; readonly specificity: 'exact';
+}
+export interface DebilitatingTraitGrant {
+  readonly kind: 'grant-trait'; readonly recipient: 'target';
+  readonly traitSelection: { readonly kind: 'contextual'; readonly quality: 'debilitating';
+    readonly examplesPolicy: 'non-exhaustive'; readonly examples: readonly string[] };
+  readonly value: { readonly kind: 'test-obstacle'; readonly source: 'primary-test' };
+}
+export interface BeneficialResistanceTraitGrant {
+  readonly kind: 'grant-trait'; readonly recipient: 'target';
+  readonly traitSelection: { readonly kind: 'contextual'; readonly quality: 'beneficial';
+    readonly purpose: readonly ['resist-privation', 'resist-torture', 'resist-interrogation'] };
+  readonly value: { readonly kind: 'source-unspecified' };
+}
+/** Bounded source alternatives, not recursive scripting or injury/trait execution. */
+export interface GmSelectedConsequence {
+  readonly kind: 'gm-selected-consequence'; readonly resolution: 'gm-choice';
+  readonly alternatives: readonly [
+    { readonly kind: 'injury'; readonly recipient: 'target'; readonly severity: 'source-unspecified' },
+    { readonly kind: 'death'; readonly recipient: 'target' },
+    BeneficialResistanceTraitGrant,
+  ];
+}
 export type SkillTestOutcomeEffect =
+  | { readonly kind: 'declared-intent-fulfilled'; readonly recipient: 'target';
+      readonly intent: { readonly kind: 'declared-intent'; readonly source: 'primary-test' } }
+  | DebilitatingTraitGrant
+  | GmSelectedConsequence
   | AdvanceInjuryClock
   | JourneyNavigationOutcome
   | { readonly kind: 'name-bestowal' | 'name-bestowal-denied'; readonly recipient: SkillTestActor }
@@ -505,6 +536,7 @@ export interface SkillTestOutcome {
 /** Descriptive skill-level test facts, not a roll-building or arbitration engine.
  * Missing modifiers remain untranscribed; manual adjustments explicitly lack deltas. */
 export type SkillTestProfile = {
+  readonly declaredIntent?: DeclaredIntentRequirement;
   readonly outcomes?: readonly SkillTestOutcome[];
   readonly context?: SkillContext;
   readonly followUps?: readonly SkillTestFollowUp[];

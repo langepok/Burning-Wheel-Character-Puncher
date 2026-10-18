@@ -267,6 +267,50 @@ export const sZSkills = [
   define('throwing', 'Throwing', 304, 'Throw objects accurately at targets. Combat obstacles and procedures reference Fight and Range and Cover.', {
     rootRule: stat('agility'), skillType: 'Martial', tools: item('throwable-object'), forkSuggestions: forks('javelin'), integrationTags: ['fight', 'range-and-cover'] }),
 
+  { ...define('torture', 'Torture', 304, 'Declare the exact submission or information demanded, rather than a question. Success fulfills that intent and grants a contextual debilitating trait valued at the test obstacle. Failure leaves injury, death or a beneficial resistance trait to GM choice.', {
+    rootRule: { kind: 'conditional', cases: [{ stockIds: ['orc'], root: { kind: 'single', ability: { kind: 'attribute', id: 'hatred' } } }], otherwise: combined('will', 'perception') },
+    rollBehavior: { kind: 'conditional', whenRoot: { kind: 'attribute', id: 'hatred' }, then: 'open-ended', otherwise: 'standard' },
+    skillType: 'Special', tools: generic, forkSuggestions: forks('anatomy', 'surgery', 'interrogation'),
+    testProfile: { kind: 'obstacle',
+      declaredIntent: { kind: 'declared-intent', requiredBeforeTest: true, content: 'submit-or-reveal', specificity: 'exact' },
+      base: { kind: 'highest-of-target-abilities', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'forte' }], snapshot: 'current' },
+      outcomes: [
+        { trigger: { kind: 'success' }, effects: [
+          { kind: 'declared-intent-fulfilled', recipient: 'target', intent: { kind: 'declared-intent', source: 'primary-test' } },
+          { kind: 'grant-trait', recipient: 'target', traitSelection: { kind: 'contextual', quality: 'debilitating', examplesPolicy: 'non-exhaustive', examples: ['Maimed', 'Missing Eye'] }, value: { kind: 'test-obstacle', source: 'primary-test' } },
+        ] },
+        { trigger: { kind: 'failure' }, effects: [{ kind: 'gm-selected-consequence', resolution: 'gm-choice', alternatives: [
+          { kind: 'injury', recipient: 'target', severity: 'source-unspecified' },
+          { kind: 'death', recipient: 'target' },
+          { kind: 'grant-trait', recipient: 'target', traitSelection: { kind: 'contextual', quality: 'beneficial', purpose: ['resist-privation', 'resist-torture', 'resist-interrogation'] }, value: { kind: 'source-unspecified' } },
+        ] }] },
+      ] } }), source: [evidence('Torture', 304), evidence('Torture continuation', 305)] },
+
+  define('tracking', 'Tracking', 305, 'Follow wilderness signs. Guidance: fresh/soft ground Ob 1; common animal identification Ob 2; count on soft ground Ob 2; fresh/hard ground Ob 3; creature weight Ob 4; soft ground after rain Ob 5; person by shoes Ob 6; hard ground after rain Ob 7.', {
+    rootRule: stat('perception'), skillType: 'Forester', tools: none, forkSuggestions: forks('hunting') }),
+  define('tragic-end-wise', 'Tragic End-wise', 305, 'Knowledge of tragic ends.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'tragic-end' } }),
+  define('trails-wise', 'Trails-wise', 305, 'Knowledge of trails.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'trails' } }),
+  define('trapper', 'Trapper', 305, 'Set traps and snares for small game. Guidance: rabbits Ob 1; dogs/cats Ob 2; foxes/raccoons Ob 3; pit traps Ob 3; human snares Ob 4.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Forester', tools: expendable }),
+  define('treasure-wise', 'Treasure-wise', 305, 'Knowledge of treasure.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'treasure' } }),
+  define('tree-cutting', 'Tree Cutting', 305, 'Fell trees safely for lumber and fuel. Guidance: deadwood Ob 1; small tree Ob 2; medium tree Ob 3; large tree Ob 4; stand Ob 5; copse Ob 6; forest Ob 10.', {
+    rootRule: combined('perception', 'power'), skillType: 'Peasant', tools: generic }),
+  define('tree-pulling', 'Tree Pulling', 305, 'Orcs uproot trees with labor and ropes. Guidance: bush Ob 1; sapling Ob 2; young tree Ob 3; mature tree Ob 5; old redwood Ob 8; ancient magic tree Ob 10. The printed expendable tool requirement is retained collectively; no per-component consumption procedure is supplied.', {
+    rootRule: { kind: 'single', ability: { kind: 'attribute', id: 'hatred' } }, skillType: 'Peasant',
+    tools: { kind: 'specific-item', item: 'rope and goblins', expendable: true }, ...magical,
+    rollBehavior: { kind: 'open-ended', basis: 'attribute-root' }, availabilityRestrictions: only(['orc']) }),
+  define('troll-etiquette', 'Troll Etiquette', 305, 'Troll Lords navigate clan rank and customs. Guidance: anger a warlord Ob 1; dining order Ob 2; compliment trophies Ob 3.', {
+    rootRule: combined('will', 'perception'), skillType: 'Social', tools: none, forkSuggestions: forks('troll-wise', 'intimidation') }),
+  define('troll-wise', 'Troll-wise', 305, 'Knowledge of clan Troll habits and customs.', {
+    rootRule: stat('perception'), skillType: 'Wise', tools: none, forkSuggestions: forks('troll-etiquette'), familyMembership: { familyId: 'wises', topicId: 'troll' } }),
+  define('tune-wise', 'Tune-wise', 305, 'Knowledge of tunes.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'tune' } }),
+  define('tunnel-wise', 'Tunnel-wise', 306, 'Judge tunnel safety, age and builders from underground experience.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, forkSuggestions: forks('excavation', 'mining'), familyMembership: { familyId: 'wises', topicId: 'tunnel' } }),
+
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [

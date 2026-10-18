@@ -6,9 +6,44 @@ import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy', 'stentorious-debate', 'stentorious-singing', 'stone-artifice', 'stonecraft', 'strategy', 'strategy-games', 'streetwise', 'structural-weakness-wise', 'stuff-wise', 'suasion', 'suicidal-bravery-wise', 'summoning', 'supplier-wise', 'supply-wise', 'surgery', 'survival', 'sword', 'symbology', 'tactics', 'tall-grass-wise', 'tanner', 'taskmaster-wise', 'tavern-tales-wise', 'taxidermy', 'terroir-wise', 'theatrics', 'threading-chant', 'throwing'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy', 'stentorious-debate', 'stentorious-singing', 'stone-artifice', 'stonecraft', 'strategy', 'strategy-games', 'streetwise', 'structural-weakness-wise', 'stuff-wise', 'suasion', 'suicidal-bravery-wise', 'summoning', 'supplier-wise', 'supply-wise', 'surgery', 'survival', 'sword', 'symbology', 'tactics', 'tall-grass-wise', 'tanner', 'taskmaster-wise', 'tavern-tales-wise', 'taxidermy', 'terroir-wise', 'theatrics', 'threading-chant', 'throwing', 'torture', 'tracking', 'tragic-end-wise', 'trails-wise', 'trapper', 'treasure-wise', 'tree-cutting', 'tree-pulling', 'troll-etiquette', 'troll-wise', 'tune-wise', 'tunnel-wise'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('preserves Tracking, Trapper and Tree Cutting source roots, tools and guidance', () => {
+    expect(catalog.skills.get('tracking')).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } },
+      skillType: 'Forester', tools: { kind: 'none' } });
+    for (const row of ['fresh/soft ground Ob 1', 'common animal identification Ob 2', 'count on soft ground Ob 2',
+      'fresh/hard ground Ob 3', 'creature weight Ob 4', 'soft ground after rain Ob 5', 'person by shoes Ob 6', 'hard ground after rain Ob 7'])
+      expect(catalog.skills.get('tracking')?.summary).toContain(row);
+    expect(catalog.skills.get('tracking')?.forkSuggestions?.suggestions).toEqual([{ target: { kind: 'skill', skillId: 'hunting' } }]);
+    expect(catalog.skills.get('trapper')).toMatchObject({ rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'perception' }, { kind: 'stat', id: 'agility' }] },
+      skillType: 'Forester', tools: { kind: 'generic', expendable: true } });
+    for (const row of ['rabbits Ob 1', 'dogs/cats Ob 2', 'foxes/raccoons Ob 3', 'pit traps Ob 3', 'human snares Ob 4'])
+      expect(catalog.skills.get('trapper')?.summary).toContain(row);
+    expect(catalog.skills.get('tree-cutting')).toMatchObject({ rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'perception' }, { kind: 'stat', id: 'power' }] },
+      skillType: 'Peasant', tools: { kind: 'generic' } });
+    for (const row of ['deadwood Ob 1', 'small tree Ob 2', 'medium tree Ob 3', 'large tree Ob 4', 'stand Ob 5', 'copse Ob 6', 'forest Ob 10'])
+      expect(catalog.skills.get('tree-cutting')?.summary).toContain(row);
+  });
+  it.each(['tragic-end', 'trails', 'treasure', 'tune'])('preserves %s-wise bare-topic identity', topic => {
+    expect(catalog.skills.get(`${topic}-wise`)).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } },
+      skillType: 'Special', tools: { kind: 'none' }, familyMembership: { familyId: 'wises', topicId: topic } });
+  });
+  it('preserves Tree Pulling root, collective source tool label and exact guidance without consumption semantics', () => {
+    expect(catalog.skills.get('tree-pulling')).toMatchObject({ rootRule: { kind: 'single', ability: { kind: 'attribute', id: 'hatred' } },
+      skillType: 'Peasant', printedMarkers: ['§'], tools: { kind: 'specific-item', item: 'rope and goblins', expendable: true },
+      availabilityRestrictions: [{ kind: 'stock-only', stockIds: ['orc'], scope: 'always' }] });
+    for (const row of ['bush Ob 1', 'sapling Ob 2', 'young tree Ob 3', 'mature tree Ob 5', 'old redwood Ob 8', 'ancient magic tree Ob 10'])
+      expect(catalog.skills.get('tree-pulling')?.summary).toContain(row);
+  });
+  it('does not invent a stock restriction for Troll Etiquette, Troll-wise or Tunnel-wise', () => {
+    expect(catalog.skills.get('troll-etiquette')).toMatchObject({ skillType: 'Social', tools: { kind: 'none' }, availabilityRestrictions: [] });
+    expect(catalog.skills.get('troll-wise')).toMatchObject({ skillType: 'Wise', tools: { kind: 'none' }, availabilityRestrictions: [] });
+    expect(catalog.skills.get('tunnel-wise')).toMatchObject({ skillType: 'Special', tools: { kind: 'none' }, availabilityRestrictions: [] });
+    expect(catalog.skills.get('troll-etiquette')?.forkSuggestions?.suggestions).toEqual(['troll-wise', 'intimidation'].map(skillId => ({ target: { kind: 'skill', skillId } })));
+    expect(catalog.skills.get('troll-wise')?.forkSuggestions?.suggestions).toEqual([{ target: { kind: 'skill', skillId: 'troll-etiquette' } }]);
+    expect(catalog.skills.get('tunnel-wise')?.forkSuggestions?.suggestions).toEqual(['excavation', 'mining'].map(skillId => ({ target: { kind: 'skill', skillId } })));
+  });
   it('keeps Sword tool/weapon identity separate from its Fight reference', () => {
     expect(catalog.skills.get('sword')).toMatchObject({ skillType: 'Martial', tools: { kind: 'specific-item', item: 'sword' },
       rootRule: { kind: 'single', ability: { kind: 'stat', id: 'agility' } }, integrationTags: ['fight'] });

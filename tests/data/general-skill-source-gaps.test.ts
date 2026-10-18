@@ -120,11 +120,11 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Torture, book 304–305 / PDF 306–307: higher-of-two target stats and new trait outcomes. */
-describe('Pending Torture obstacle and outcome metadata', () => {
-  it('retains the identity without inventing max-stat calculation, trait value or GM-selected consequences', () => {
+/** Two-Fisted Fighting Training, book 306 / PDF 308. */
+describe('Pending two-weapon Fight metadata', () => {
+  it('keeps the identity without discarding weapon constraints or inventing dice allocation execution', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('torture')).toBe(false);
-    expect(catalog.references.get('torture')?.sourceName).toBe('Torture');
+    expect(catalog.skills.has('two-fisted-fighting-training')).toBe(false);
+    expect(catalog.references.get('two-fisted-fighting-training')?.sourceName).toBe('Two-Fisted Fighting Training');
   });
 });

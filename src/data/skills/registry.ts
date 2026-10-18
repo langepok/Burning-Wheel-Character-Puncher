@@ -1,3 +1,4 @@
+import { validateDeclaredIntent, validateHighestTargetAbilities, validateDebilitatingTraitGrant, validateGmConsequence } from './intent-outcomes';
 import { validatePoisonTreatment } from './poison-treatment';
 import { validateCooperation } from './cooperation';
 import { validateSupplyManagement } from './supply-management';
@@ -293,6 +294,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (metadata.testProfile !== undefined) {
       const profile = metadata.testProfile;
       if (!profile || typeof profile !== 'object') throw new Error('Invalid skill test profile');
+      if (profile.declaredIntent !== undefined) validateDeclaredIntent(profile.declaredIntent);
       if (profile.outcomes !== undefined) {
         if (!Array.isArray(profile.outcomes) || !profile.outcomes.length) throw new Error('Invalid skill test outcome');
         const triggers = new Set<string>();
@@ -304,6 +306,24 @@ export function createSkillCatalog(content: SkillCatalogContent) {
           }
           triggers.add(outcome.trigger.kind);
           for (const effect of outcome.effects) {
+            if (effect?.kind === 'declared-intent-fulfilled') {
+              if (outcome.trigger.kind !== 'success' || !profile.declaredIntent || effect.recipient !== 'target' ||
+                  Object.keys(effect).length !== 3 || effect.intent?.kind !== 'declared-intent' ||
+                  effect.intent.source !== 'primary-test' || Object.keys(effect.intent).length !== 2) {
+                throw new Error('Invalid declared-intent reference');
+              }
+              continue;
+            }
+            if (effect?.kind === 'grant-trait') {
+              if (outcome.trigger.kind !== 'success' || profile.kind !== 'obstacle') throw new Error('Invalid trait obstacle reference');
+              validateDebilitatingTraitGrant(effect);
+              continue;
+            }
+            if (effect?.kind === 'gm-selected-consequence') {
+              if (outcome.trigger.kind !== 'failure') throw new Error('Invalid GM consequence trigger');
+              validateGmConsequence(effect);
+              continue;
+            }
             if (effect?.kind === 'advance-injury-clock') {
               if (effect.clock !== 'blood-clock' || effect.target !== 'treated-wound' ||
                   !Number.isSafeInteger(effect.stages) || effect.stages <= 0 ||
@@ -387,6 +407,8 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         const base = profile.base;
         if (base?.kind === 'rune-casting-fate-obstacle') {
           validateRuneCastingFateObstacle(base);
+        } else if (base?.kind === 'highest-of-target-abilities') {
+          validateHighestTargetAbilities(base);
         } else {
           if (!base || base.snapshot !== 'current' || !base.ability ||
               !['stat', 'attribute'].includes(base.ability.kind) ||
