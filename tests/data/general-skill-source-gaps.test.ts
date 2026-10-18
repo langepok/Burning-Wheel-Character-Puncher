@@ -126,11 +126,11 @@ describe('General Skill List source corrections', () => {
 
 
 
-/** Stentorious Debate, book 301 / PDF 303: the printed Tools entry is anatomical. */
-describe('Pending Stentorious Debate anatomical Tools representation', () => {
-  it('does not invent an inventory item, trait or no-tools interpretation of the source mouth requirement', () => {
+/** Summoning, book 303 / PDF 305: Gifted actor wording needs scoped-use adjudication. */
+describe('Pending Summoning Gifted scope', () => {
+  it('does not invent a spell-casting or opening gate for calling, binding and commanding spirits', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('stentorious-debate')).toBe(false);
-    expect(catalog.references.get('stentorious-debate')?.sourceName).toBe('Stentorious Debate');
+    expect(catalog.skills.has('summoning')).toBe(false);
+    expect(catalog.references.get('summoning')?.sourceName).toBe('Summoning');
   });
 });

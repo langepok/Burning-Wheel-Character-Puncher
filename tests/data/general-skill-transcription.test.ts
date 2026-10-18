@@ -1,13 +1,67 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
+import type { ToolRequirement } from '../../src/data/skills';
 import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy'].includes(entry.id));
+  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy', 'stentorious-debate', 'stentorious-singing', 'stone-artifice', 'stonecraft', 'strategy', 'strategy-games', 'streetwise', 'structural-weakness-wise', 'stuff-wise', 'suasion', 'suicidal-bravery-wise'].includes(entry.id));
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('keeps Stentorious Singing canonical Advantage distinct from source target-group penalties', () => {
+    const profile = catalog.skills.get('stentorious-singing')?.testProfile;
+    expect(profile?.base).toEqual({ kind: 'target-ability-exponent', targetRole: 'listener', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' });
+    expect(profile?.modifiers).toEqual([
+      { effect: { kind: 'advantage', resolution: 'canonical' }, when: { kind: 'music-mood-suitability', relation: 'suitable' } },
+      ...[[1, ['human', 'roden']], [2, ['orc', 'troll']], [3, ['elf', 'wolf']]].map(([delta, ids]) => ({
+        effect: { kind: 'obstacle-modifier', delta }, when: { kind: 'anyOf', conditions: (ids as string[]).map(stockId => ({ kind: 'target-stock', stockId })) },
+      })),
+    ]);
+    expect(catalog.skills.get('stentorious-singing')?.tools).toEqual({ kind: 'none', expendable: false });
+  });
+  it('keeps Stone Artifice resistance distinct from Stonecraft without inferring shared special rules', () => {
+    expect(catalog.skills.get('stone-artifice')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'power' }] });
+    expect(catalog.skills.get('stone-artifice')?.capabilities).toEqual([{ kind: 'subsystem-capability', id: 'structure-resistance', integrationId: 'stone-artifice-resistance' }]);
+    expect(catalog.skills.get('stonecraft')?.rootRule).toEqual({ kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'agility' }] });
+    expect(catalog.skills.get('stonecraft')?.capabilities).toEqual([]);
+    expect(catalog.skills.get('stonecraft')?.relations).toEqual([]);
+    expect(catalog.skills.get('stonecraft')?.summary).toContain('citadel Ob 10');
+  });
+  it('preserves later Strategy, Wise and Suasion source scopes', () => {
+    expect(catalog.skills.get('strategy')?.testProfile).toEqual({ kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'strategy' }],
+      context: { kind: 'circumstance', circumstanceId: 'versus-tests-between-commanders' } });
+    expect(catalog.skills.get('strategy-games')?.tools).toEqual({ kind: 'specific-item', item: 'game' });
+    expect(catalog.skills.get('strategy-games')?.testProfile).toEqual({ kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'strategy-games' }] });
+    expect(catalog.skills.get('stuff-wise')).toMatchObject({ skillType: 'Wise',
+      availabilityRestrictions: [{ kind: 'stock-only', stockIds: ['dwarf'], scope: 'character-burning' }] });
+    for (const id of ['structural-weakness-wise', 'suicidal-bravery-wise']) expect(catalog.skills.get(id)?.skillType).toBe('Special');
+    expect(catalog.skills.get('suasion')).toMatchObject({ openingRequirements: [], useRequirements: [], integrationTags: ['duel-of-wits'],
+      relations: [{ kind: 'specialized-version', target: { kind: 'skill', id: 'persuasion' } }],
+      testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } });
+  });
+  it('treats Stentorious Debate mouth wording as flavor without an enforceable tool or missing-tools penalty', () => {
+    const skill = catalog.skills.get('stentorious-debate');
+    expect(skill?.tools).toEqual({ kind: 'none', expendable: false });
+    expect(skill?.summary).toContain('A big Dwarvy mouth');
+    expect(skill?.summary).toContain('flavor');
+    expect(skill?.openingRequirements).toEqual([]);
+    expect(skill?.useRequirements).toEqual([]);
+    expect(skill?.capabilities).toEqual([]);
+    expect(skill?.relations).toEqual([]);
+    expect(skill?.testProfile?.modifiers).toBeUndefined();
+    expectTypeOf<Extract<ToolRequirement, { kind: 'anatomical-tool' }>>().toBeNever();
+  });
+  it('preserves Stentorious Debate source mechanics without importing the three compared skills', () => {
+    expect(catalog.skills.get('stentorious-debate')).toMatchObject({
+      rootRule: { kind: 'single', ability: { kind: 'stat', id: 'will' } }, skillType: 'Social', printedMarkers: ['§'],
+      availabilityRestrictions: [{ kind: 'stock-only', stockIds: ['dwarf'], scope: 'always' }],
+      forkSuggestions: { suggestions: [{ target: { kind: 'skill', skillId: 'oratory' } }] }, integrationTags: ['duel-of-wits'],
+      testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } },
+    });
+    const restored = createSkillCatalog(JSON.parse(JSON.stringify(generalSkillTranscriptionContent)));
+    expect(restored.skills.get('stentorious-debate')).toEqual(catalog.skills.get('stentorious-debate'));
+  });
   it('preserves Sorcery use-only Gifted gating, source restrictions and following Wise defaults', () => {
     expect(catalog.skills.get('sorcery')).toMatchObject({ skillType: 'Sorcerous', rootRule: { kind: 'single', ability: { kind: 'stat', id: 'perception' } },
       openingRequirements: [], useRequirements: [{ kind: 'trait', id: 'gifted', use: 'spell-casting' }],

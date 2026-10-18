@@ -829,3 +829,28 @@ A Character Burner feature is done only when:
   Staff's specific tool and Starcraft's independent enchanting-matrix reference.
 - Stealthy uses Speed versus Observation with canonical Advantage under contextual
   light/weather/ground conditions; no fixed dice or environmental evaluator.
+
+
+### Stentorious Debate local flavor adjudication (301/303)
+
+- Interpretation confirmed by the user: printed A big Dwarvy mouth is humorous
+  flavor, preserved in summary/audit, not an enforceable Tools requirement.
+- Tools is none; no anatomy/item/trait/size/manual check and no missing-tools
+  penalty metadata. Do not extend ToolRequirement or add a general flavor field.
+- Preserve Will, Social, magical marker, Dwarves only, target Will, Oratory FoRK
+  and Duel of Wits use. The Haggling/Oratory/Persuasion comparison is descriptive
+  and does not import their procedures or capabilities automatically.
+- Serialization/regression coverage; no new durable Decision or engine.
+
+### Subsequent S through Suicidal Bravery-wise (301–303/303–305)
+
+- Stentorious Singing preserves canonical mood Advantage separately from the
+  source target-group +1/+2/+3 Ob modifiers; no fixed advantage dice or invented
+  spider/dragon immunity.
+- Full Stone Artifice uses the already audited structure-resistance integration;
+  Stonecraft has its own roots/table and no inferred resistance effect.
+- Strategy's commander-versus mode is scoped; Strategy Games uses its opponent's
+  same skill and actual game tools. Preserve Stuff-wise's printed Wise override
+  and Dwarf character-burning scope, plus bare-Wise defaults for other topics.
+- Suasion preserves target Will, priestly Persuasion specialization and Duel of
+  Wits use without inventing an eligibility requirement for priest lifepaths.

@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1132 tests
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1137 tests
 in 44 files), npm run build and git diff --check. Remaining S–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Stealthy:
-355 complete definitions: A–R complete, S reviewed through Stealthy; Stentorious Debate and later entries pending.
+Production transcription continues through Suicidal Bravery-wise:
+366 complete definitions: A–R complete, S reviewed through Suicidal Bravery-wise; Summoning and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -930,17 +930,61 @@ anyOf manual circumstances for light, weather and ground. No fixed +1D, separate
 per-condition contributions, environment thresholds or environmental evaluator is
 inferred. This uses existing circumstance ids and composition, not a new taxonomy.
 
-## Pending Stentorious Debate anatomical Tools representation
+## Resolved Stentorious Debate local flavor adjudication
 
-Visually reviewed book 301 / PDF 303. Printed Tools is A big Dwarvy mouth. Current
-ToolRequirement offers none, generic/traveling/workshop, specific-item and boolean/
-conditional composition. Treating anatomy as an inventory item, dropping the field
-to none, or inventing a trait/attribute threshold would alter the source fact.
+Visually reviewed book 301 / PDF 303. RAW prints Tools: A big Dwarvy mouth.
+The user's explicit local Interpretation treats this as humorous flavor with no
+enforceable tool requirement. Production tools is none; the original wording
+survives in authored summary and this audit. It grants no anatomical/manual check,
+inventory item, trait, size threshold or missing-tools penalty. ToolRequirement
+is unchanged; no anatomical-tool kind or one-off flavor field was introduced.
+This is a local adjudication, not a claim that RAW literally prints Tools: No.
 
-Propose a minimal anatomical-tool requirement retaining its exact source label and
-manual/contextual resolution, without a mouth equipment record, named trait,
-anatomy evaluator or numeric threshold. This schema extension has not been added.
-The future record also needs Will, Social, magical marker, Dwarves-only, Oratory
-FoRK, target Will obstacle, Haggling/Oratory/Persuasion capabilities and separate
-Duel of Wits use. Stentorious Debate and later S entries remain identity-only
-pending resolution; no interpretation of the humorous source wording is assumed.
+Will, Social, magical marker/open-ended roll behavior, Dwarves-only, victim Will,
+Oratory FoRK and Duel of Wits use remain source facts. The comparison to Haggling,
+Oratory and Persuasion stays descriptive: no automatic capability or procedure
+inheritance is inferred. Tests cover the no-tools contract, absence of invented
+requirements/modifiers, source flavor, normal metadata and serialization. No new
+Decision or evaluator is added.
+
+## Reviewed S through Suicidal Bravery-wise
+
+Production reaches 366 complete definitions, reviewed 301–303/303–305.
+Stentorious Singing retains listener Will and canonical mood Advantage separately
+from +1 Ob for Men/Roden, +2 for Orcs/Trolls and +3 for Elves/Wolves. Source target
+labels are preserved as opaque target-stock ids, without adding stock content or
+silently substituting Great Wolf for Wolf. The spider/dragon remarks remain source
+narrative without invented immunity, magnitude or other mechanical effects.
+
+Stone Artifice now loads its already audited resistance integration in production;
+the independent partial oracle remains unchanged. Stonecraft keeps its distinct
+Will/Agility root and no inferred resistance; its source continuation on 302/304
+and citadel Ob 10 are included. Tables preserve overlapping cutting/building Ob
+values rather than inventing a single ordered severity scale.
+
+Strategy distinguishes source commander-versus use from fixed obstacle guidance.
+Strategy Games has game tools and opposes the same skill. Streetwise retains its
+urban source guidance. Stuff-wise overrides the bare-Wise default with printed
+Wise and a Dwarf character-burning restriction; Structural Weakness-wise and
+Suicidal Bravery-wise retain bare-Wise defaults. Suasion preserves its priestly
+Persuasion specialization, target Will and Duel of Wits use without inventing a
+priest lifepath eligibility requirement; continuation on 303/305 is cited.
+
+## Pending Summoning Gifted scope
+
+Visually reviewed book 303 / PDF 305. The entry describes teaching the Gifted one
+to call forth, bind and command spirits and refers obstacles/procedures to the
+Summoning chapter of the Codex. It has Perception, Sorcerous, no printed magical
+marker, no tools, and a Human-only character-burning restriction.
+
+The phrase identifies a Gifted actor but does not distinguish an opening
+prerequisite from an action-specific use requirement as explicitly as the Sorcery
+entry. Current UseRequirement use kinds are aura-perception and spell-casting;
+call/bind/command spirits must not silently be relabelled spell-casting. The
+external Codex procedure has not been supplied/audited in this transcription.
+
+Stop for a source/scope decision: either retain the Gifted wording only in the
+external-procedure source summary pending a Codex audit, or confirm a use-only
+Gifted requirement for spirit summoning and minimally extend the use vocabulary
+accordingly. Do not infer an opening gate, spell ownership, costs, casting rules
+or a summoning evaluator. Summoning and later records remain identity-only.

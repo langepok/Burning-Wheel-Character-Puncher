@@ -16,12 +16,12 @@ describe('Created-structure resistance', () => {
     expect(catalog.integrations.get('hallmaster-resistance')).toMatchObject({ subsystem: 'equipment', structureResistance: expected });
     expect(catalog.skills.get('hallmaster')?.capabilities).toEqual([{ kind: 'subsystem-capability', id: 'structure-resistance', integrationId: 'hallmaster-resistance' }]);
   });
-  it('preserves the same Stone Artifice pattern without transcribing it out of order', () => {
+  it('preserves the partial Stone Artifice oracle when its full production record is transcribed', () => {
     const fixture = createSkillCatalog(structureResistanceFixtureContent);
     expect(fixture.integrations.get('stone-artifice-resistance')?.structureResistance).toEqual(expected);
     expect(fixture.skills.get('stone-artifice')?.coverage).toBe('partial');
-    expect(catalog.skills.has('stone-artifice')).toBe(false);
-    expect(catalog.integrations.has('stone-artifice-resistance')).toBe(false);
+    expect(catalog.skills.get('stone-artifice')?.coverage).toBe('complete');
+    expect(catalog.integrations.get('stone-artifice-resistance')?.structureResistance).toEqual(expected);
   });
   it('distinguishes resistance from use bonuses, value and direct Resources interaction', () => {
     expectTypeOf<typeof expected>().toExtend<StructureResistance>();

@@ -572,3 +572,23 @@ Spider Husbandry substitutes for Instruction and Field Dressing in spider contex
 Starcraft crystals are Enchanting vessels. Stealthy uses Speed versus Observation;
 light/weather/ground conditions may provide canonical Advantage with contextual
 judgment, not a fixed dice amount or automatically stacked contributions.
+
+
+### Stentorious Debate humorous Tools line (BWGR 301 / PDF 303)
+
+**RAW:** the printed Tools line names A big Dwarvy mouth.
+**Interpretation, explicitly confirmed by the user:** this is flavor, with no
+enforceable tool requirement. Store tools none and preserve the joke in summary.
+It creates no anatomy/trait/item/size/manual check or missing-tools penalty.
+Will, Social, Dwarves only, victim Will obstacle, Oratory FoRK and Duel of Wits
+use remain source-backed; its conceptual comparison to three other skills does
+not import their mechanics. No new ToolRequirement kind or durable Decision.
+
+### Subsequent S through Suicidal Bravery-wise (BWGR 301–303 / PDF 303–305)
+
+Stentorious Singing separates canonical mood Advantage from numeric listener-group
+Ob penalties. Stone Artifice reuses audited structure resistance; Stonecraft does
+not inherit it merely because source tables resemble one another. Strategy has
+commander-versus use and fixed guidance; Strategy Games opposes itself. Stuff-wise
+prints Wise and restricts Dwarves in character burning. Suasion specializes
+Persuasion without an invented priest eligibility gate.

@@ -178,6 +178,46 @@ export const sZSkills = [
         { kind: 'circumstance', circumstanceId: 'weather-conditions-favor-stealth' },
         { kind: 'circumstance', circumstanceId: 'ground-conditions-favor-stealth' },
       ] } }] } }),
+  define('stentorious-debate', 'Stentorious Debate', 301, 'Loud, heated debate, conceptually combining Haggling, Oratory and Persuasion. Source joke: A big Dwarvy mouth (flavor only; no required tools).', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, ...magical, availabilityRestrictions: only(['dwarf']),
+    forkSuggestions: forks('oratory'), integrationTags: ['duel-of-wits'],
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } }),
+  define('stentorious-singing', 'Stentorious Singing', 301, 'Boisterous Dwarven singing for linked tests or ideas; the source depicts spiders and dragons as wanting to eat the singer, without a numeric listener modifier for them.', {
+    rootRule: stat('will'), skillType: 'Musical', tools: none, ...magical, availabilityRestrictions: only(['dwarf']),
+    forkSuggestions: forks('stentorious-debate', 'chronology-of-kings', 'drunking'),
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', targetRole: 'listener', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' }, modifiers: [
+      { effect: { kind: 'advantage', resolution: 'canonical' }, when: { kind: 'music-mood-suitability', relation: 'suitable' } },
+      { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'anyOf', conditions: [{ kind: 'target-stock', stockId: 'human' }, { kind: 'target-stock', stockId: 'roden' }] } },
+      { effect: { kind: 'obstacle-modifier', delta: 2 }, when: { kind: 'anyOf', conditions: [{ kind: 'target-stock', stockId: 'orc' }, { kind: 'target-stock', stockId: 'troll' }] } },
+      { effect: { kind: 'obstacle-modifier', delta: 3 }, when: { kind: 'anyOf', conditions: [{ kind: 'target-stock', stockId: 'elf' }, { kind: 'target-stock', stockId: 'wolf' }] } },
+    ] } }),
+  define('stone-artifice', 'Stone Artifice', 301, 'Shape durable stone and structures. Cutting guidance: soft stone/bricks Ob 1, gravestones/mortar Ob 2, marble/granite/basalt Ob 3. Building: slate floor/simple wall/obelisk Ob 2, arch/reinforced wall Ob 3, small house/bridge Ob 4, large reinforced wall Ob 5, tower Ob 6, donjon Ob 7. Optional resistance tradeoff is separate.', {
+    rootRule: combined('will', 'power'), skillType: 'Artisan', tools: workshop, ...magical, availabilityRestrictions: only(['dwarf']),
+    forkSuggestions: forks('hallmaster', 'earth-wise'), integrationTags: ['equipment'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'structure-resistance', integrationId: 'stone-artifice-resistance' }] }),
+  { ...define('stonecraft', 'Stonecraft', 301, 'Elven stonework similar to Mason: quarry, cut, move and place stone. Cutting: soft stone/bricks Ob 1, gravestones/mortar Ob 2, marble/granite/basalt Ob 3. Building: floor/simple wall/obelisk Ob 2, arch/reinforced wall Ob 3, small house/bridge Ob 4, large reinforced wall Ob 5, tower Ob 6, donjon Ob 7, citadel Ob 10.', {
+    rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: workshop, ...magical, availabilityRestrictions: only(['elf']), forkSuggestions: forks('archcraft') }),
+    source: [evidence('Stonecraft', 301), evidence('Stonecraft continuation', 302)] },
+  define('strategy', 'Strategy', 302, 'Guide armies and plan war. Source fixed guidance: recognize ally/opponent Ob 1, credible force threat Ob 2, assess salient point Ob 3, order of battle Ob 4, campaign plan Ob 5, forces provenance Ob 6. Commander-versus use is a separate source option.', {
+    rootRule: combined('will', 'perception'), skillType: 'Military', tools: none, forkSuggestions: forks('logistics', 'strategy-games', 'tactics'),
+    testProfile: { kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'strategy' }], context: { kind: 'circumstance', circumstanceId: 'versus-tests-between-commanders' } } }),
+  define('strategy-games', 'Strategy Games', 302, 'Play regional games of strategy against an opponent using the same skill.', {
+    rootRule: combined('will', 'perception'), skillType: 'Special', tools: item('game'),
+    testProfile: { kind: 'versus', opposingAbilities: [{ kind: 'skill', skillId: 'strategy-games' }] } }),
+  define('streetwise', 'Streetwise', 302, 'Navigate city streets and find local places. Guidance: well-known establishment in unfamiliar city Ob 1, out-of-way place in familiar city Ob 2, avoid unsuitable neighborhood Ob 3, act as though you belong Ob 4.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, forkSuggestions: forks('inconspicuous', 'orienteering') }),
+  define('structural-weakness-wise', 'Structural Weakness-wise', 302, 'Knowledge of structural weaknesses.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'structural-weakness' } }),
+  define('stuff-wise', 'Stuff-wise', 302, 'Dwarven knowledge of objects, origins, makers and materials, rather than function. Guidance: own stuff Ob 1, friend stuff Ob 2, stuff about stuff Ob 3, shit versus stuff Ob 4, packing choices Ob 5.', {
+    rootRule: stat('perception'), skillType: 'Wise', tools: none, availabilityRestrictions: only(['dwarf'], 'character-burning'),
+    forkSuggestions: forks('dwarf-wise', 'scavenging'), familyMembership: { familyId: 'wises', topicId: 'stuff' } }),
+  { ...define('suasion', 'Suasion', 302, 'Priestly Persuasion used to convince others to act; also usable in Duel of Wits.', {
+    rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('soothing-platitudes', 'falsehood'),
+    relations: [{ kind: 'specialized-version', target: { kind: 'skill', id: 'persuasion' } }], integrationTags: ['duel-of-wits'],
+    testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } }),
+    source: [evidence('Suasion', 302), evidence('Suasion continuation', 303)] },
+  define('suicidal-bravery-wise', 'Suicidal Bravery-wise', 303, 'Knowledge of suicidal bravery.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'suicidal-bravery' } }),
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
