@@ -976,3 +976,16 @@ A Character Burner feature is done only when:
 - Continue W–Z sequentially to the next unsupported/ambiguous source case; run npm ci, typecheck, full tests, build and diff checks.
 
 - Weaving preserves Perception/Agility, Peasant, expendable tools, Sewing and fiber guidance Ob 1–4. Weaving Way retains its own Will/Agility and Elven replacement context plus the source Antiphon/Threne of the Chameleon cloak cross-reference, without invented cloak effects or tools inheritance. Web-wise, Well-wise, Whip-Wise and Whispered Secrets-wise remain independent bare Wise topics.
+
+
+### White Metal Artifice mithril unit preservation
+
+- Preserve independent base created-item Resources obstacle +1, optional +2 crafting Ob for another obstacle +1, and enchanter-vessel capability (308/310).
+- Mithril context adds +1 Ob to relevant owning-skill tests and a separate Resources value +2 whose unit is source-unspecified, with source provenance. It is neither +2 Resources obstacle nor asserted +2D.
+- Existing explicit Gemcraft +1D remains resources-value-dice. Unknown-unit value is a distinct typed variant, without weakening explicit dice/obstacle cases.
+- Record WHITE METAL ARTIFICE / MITHRIL audit marker: possible dice interpretation supported comparatively by Gemcraft, unresolved; do not normalize. No Resources/economic evaluator.
+- Strict unit/provenance/context validation and serialization; continue W–Z to the next unsupported source case, then full npm ci/typecheck/test/build/diff checks.
+
+- Final W entries preserve source roots/tools/availability and fixed guidance. Wine Tasting keeps four separate source quality/age modifiers. Wises family guidance retains the printed gap at Ob 6. Write grants writing, not reading, and has no Read opening requirement; the source copyist/comprehension distinction remains explicit without inventing a composition gate. Complete catalog must match the entire independent manifest, not a reviewed-prefix filter.
+
+- Final integrity covers all manifest entries, complete metadata/provenance and remaining external identity references. Audit current 60-lifepath registered/known-grant/requirement skill references against General without treating explicit stock-specific or choice references as missing General skills. This is a data/test join, not a rules or spending engine.

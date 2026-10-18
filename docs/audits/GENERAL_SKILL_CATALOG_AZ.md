@@ -1,4 +1,4 @@
-# General Skill Catalog A–Z — source review in progress
+# General Skill Catalog A–Z — source audit
 
 ## Scope and source
 
@@ -8,12 +8,14 @@ Branch: `skill-catalog-general-a-z`.
 
 The user-provided PDF was read locally; extracted text and page images remain
 outside the repository. This document contains project-authored summaries.
-Issue #20, D-020–D-026 and foundation fixtures support, but do not replace, the PDF.
-An independent manifest now contains 424 heading/topic candidates from the full
-source index plus three named Doctrine variations from the entry body. Later
-blocks still need entry-by-entry verification; 427 is a working manifest count,
-not a final claim of source completeness. A–D has 126 reviewed complete skill
-definitions and one separate choice expression. The full catalog is unfinished.
+Issue #20, D-020–D-028 and foundation fixtures support, but do not replace, the PDF.
+The final independent manifest contains 427 source identities: 276 ordinary skill
+entries, 145 named topics, three named Doctrine variations, two family headings
+and one choice expression. Production contains 424 complete SkillDefinitions,
+two families and one choice, with exact id/name/kind/page coverage. These counts
+are for this source-reviewed catalog, not stock-specific catalogs or runtime skill
+ownership. Historical progress checkpoints below document the incremental audit.
+The current status and verification section records the final checkpoint.
 
 ## Resolved source correction: Demonology / Empyrealia
 
@@ -406,7 +408,7 @@ After A–Z completion, conduct a separate retrospective and define a narrower
 scope policy for later Equipment, Resources and Fight work. That later review does
 not weaken current General transcription expectations.
 
-## Planned oracle and integrity coverage
+## Oracle and integrity coverage
 
 1. An independent manifest checks exact ids, source names, entry kinds and pages;
    missing, extra or duplicate production entries fail the comparison.
@@ -417,7 +419,7 @@ not weaken current General transcription expectations.
 4. Keep training, source spelling, identity, conditional roots, Astrology/Rune
    Casting, literacy, tools and family regressions.
 5. Classify lifepath references as General, stock-specific/out-of-scope, choice
-   or unresolved. This join remains unaudited.
+   or unresolved. The completed current-slice join is recorded below.
 6. Run block-level checks and final npm ci/typecheck/test/build plus diff-check.
    Passing foundation tests do not establish A–Z completeness.
 
@@ -494,11 +496,13 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1453 tests
-in 53 files), npm run build and git diff --check. Remaining W–Z entries, final counts
-and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Whispered Secrets-wise:
-416 complete definitions: A–V complete, W reviewed through Whispered Secrets-wise; White Metal Artifice and later entries pending.
+Final checkpoint verification passed: npm ci, npm run typecheck, npm test
+(1477 tests in 55 files), npm run build and git diff --check. The full independent
+427-entry manifest matches 424 complete definitions, two families and one choice.
+A–Z source entry review and the current 60-lifepath reference join are complete.
+Known unresolved source facts remain explicitly preserved as described below;
+no evaluator, UI or character spending implementation is claimed. No PR is open
+for this branch under the current no-PR/no-merge instruction.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -1109,10 +1113,26 @@ Weaving preserves Perception/Agility, Peasant, expendable tools, Sewing and flax
 
 Web-wise, Well-wise, Whip-Wise and Whispered Secrets-wise retain separate bare-Wise identities and printed case. No weapon semantic tag is inferred from Whip-Wise. Production reaches 416 complete definitions, through Whispered Secrets-wise.
 
-## Pending White Metal Artifice mithril value unit
+## White Metal Artifice mithril unit preserved, not resolved
 
-Visually reviewed book 308 / PDF 310. The entry explicitly distinguishes normal created-item Resources obstacle +1 and optional +2 crafting Ob for another Resources obstacle +1. Its mithril sentence adds +1 Ob to tests while working with mithril and increases the created item's Resources value by two, without explicitly naming obstacle or value-dice units there.
+Visually reviewed book 308 / PDF 310 against the user-confirmed preservation policy. Base output remains Resources obstacle +1; optional +2 crafting Ob grants another obstacle +1. The mithril context separately adds +1 owning-test Ob and Resources VALUE +2, unit source-unspecified, with entry provenance. It is neither obstacle +2 nor asserted +2D. Enchanter-vessel eligibility is an independent magic integration for all created items.
 
-A text search across the supplied PDF found mithril/true silver only in this entry; no other occurrence clarifies that +2 measure. Under D-025, Resources obstacle and Resources value dice are distinct, so a contextual reading must not silently select either. Existing representative White Metal value/matrix fixtures are unchanged; the full record remains identity-only until resolution.
+### WHITE METAL ARTIFICE / MITHRIL
 
-Required decision: should mithril's +2 be Resources obstacle, Resources value dice, or explicitly unresolved/source-unspecified measure? The material-conditioned +1 owning-test Ob and item-value effect can reuse structured context/integration metadata once the unit is resolved; do not force this into direct character ResourceInteraction or compute prices. Do not infer whether the mithril effect replaces or adds to other valuation options beyond a confirmed audit. White Metal Artifice and subsequent records remain untranscribed pending this source ambiguity.
+The source value-by-two sentence omits a unit. Gemcraft on 275/277 explicitly uses +1D Resources value, so +2D is a possible intended reading, not resolved RAW. Do not silently normalize. The existing explicit dice representation remains unchanged and is tested exactly. Unknown-unit adjustments require typed provenance and preserve integration context through serialization, without prices or Resources calculations.
+
+## Final W–Z entry review
+
+Whitesmith, Windage-wise, Wine Tasting, Wolf-wise, Wood-wise, Woodcraft and Write complete the source range (308–309 / 310–311). Source roots/types/tools/restrictions/FoRKs and fixed guidance are retained. Wine Tasting stores four independent source quality/age obstacle adjustments with contextual circumstance ids, not an automatic wine taxonomy. Wises remains a family and retains general knowledge guidance Ob 1/2/3/4/5/7/8; no Ob 6 is inferred. Write exposes writing-only literacy, not Read, and has no Read opening requirement. Its copyist/meaning description is retained without inventing composition eligibility or changing Playwright. No new schema blocker was found in these final entries.
+
+Production totals: 424 complete definitions (276 ordinary + 145 named topics + three named Doctrine variants); two families; one choice. Every canonical manifest identity resolves exactly once in the correct kind, without a canonical identity-only placeholder or partial fixture substitute. Independent ids/names/pages and complete metadata/provenance are covered by tests. General FoRK guidance, unresolved source labels (including Poisons Alchemical), conditional roots/tools, Training, identities, semantic categories and external subsystem boundaries retain their regressions.
+
+## Current lifepath skill-reference join
+
+Audited all 60 loaded Human Peasant/Villager rows without changing their deliberately partial skill-list metadata. The registered skill-reference table contains exactly Bow, Javelin and Sorcery, all resolving by stable id with exact source names to complete General definitions. Four usages occur across known skill grants/choice operands and nested skill-list requirements, covering the same three unique ids. No current-slice stock-specific, choice-expression or dangling/typo skill label is misclassified as missing General content. Missing untranscribed lifepath skill lists are not claimed audited.
+
+The classifier regression separately distinguishes Appropriate Weapons as a choice, Mounted Combat: Bowman Training as a known source-acquisition option outside standalone headings (not an Elf-only restriction), and genuinely unresolved identities. Four non-heading index references remain explicit: Ancient History and Obscure History are separately ownable History-family topics sourced to 277/279; Mounted Combat: Bowman Training is an external source option; Escape Artist is source-mentioned by Knots but its standalone General-heading/source scope remains unresolved. No new skill definition or alias is invented for that name. These index references do not substitute for any canonical manifest definition. The join introduces no registry/state/spending engine or stock-specific transcription.
+
+## Remaining source issues and scope
+
+Known unresolved source references and the War Art armor-quality discrepancy remain documented in their source sections. Mithril's omitted unit is intentionally preserved, not a transcription blocker. Escape Artist's source scope remains explicit rather than guessed. No new RAW case blocks completion of the reviewed A–Z list. Later Equipment/Resources/Fight/magic audits own the deferred execution and reconciliation; the separately planned formalization retrospective is not performed here. No PR is opened and no merge is performed under the current instruction.

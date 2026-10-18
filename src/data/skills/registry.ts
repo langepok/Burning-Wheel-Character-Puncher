@@ -780,10 +780,30 @@ export function createSkillCatalog(content: SkillCatalogContent) {
       for (const effect of effects) {
         const modifier = effect?.modifier;
         if (!modifier || modifier.target !== 'created-item' ||
-            !['resources-obstacle', 'resources-value-dice'].includes(modifier.measure) ||
-            !Number.isInteger(modifier.delta) || modifier.delta === 0 ||
+            !['resources-obstacle', 'resources-value-dice', 'resources-value'].includes(modifier.measure) ||
+            !Number.isSafeInteger(modifier.delta) || modifier.delta === 0 ||
             !['automatic', 'optional-tradeoff'].includes(effect.kind)) {
           throw new Error('Invalid created-item value effect');
+        }
+        if (modifier.measure === 'resources-value') {
+          if (modifier.unit !== 'source-unspecified' || Object.keys(modifier).length !== 5 ||
+              !Array.isArray(modifier.source) || !modifier.source.length) throw new Error('Invalid created-item value unit/provenance');
+          for (const source of modifier.source) {
+            if (!source || (source.kind === 'audit-packet' ?
+                (typeof source.url !== 'string' || !source.url.trim() || typeof source.section !== 'string' || !source.section.trim()) :
+                source.kind === 'task-brief' ?
+                (typeof source.document !== 'string' || !source.document.trim() || typeof source.section !== 'string' || !source.section.trim()) : true)) {
+              throw new Error('Invalid created-item value provenance');
+            }
+            if (source.kind === 'audit-packet' && source.pages !== undefined &&
+                (!source.pages || !Array.isArray(source.pages.printed) || !source.pages.printed.length ||
+                 !Array.isArray(source.pages.pdf) || !source.pages.pdf.length ||
+                 [...source.pages.printed, ...source.pages.pdf].some(page => !Number.isSafeInteger(page) || page <= 0))) {
+              throw new Error('Invalid created-item value source pages');
+            }
+          }
+        } else if (Object.keys(modifier).length !== 3) {
+          throw new Error('Invalid created-item value explicit measure');
         }
         if (effect.kind === 'optional-tradeoff' && (modifier.measure !== 'resources-obstacle' ||
             effect.choiceTiming !== 'before-roll' || effect.cost?.kind !== 'crafting-obstacle-modifier' ||

@@ -415,6 +415,15 @@ than replacement, stacking or exclusive-consequence semantics. Quality stats and
 combat effects remain external; no deliberate-failure action or equipment generator
 is introduced.
 
+The confirmed White Metal Artifice mithril audit (308/310) distinguishes semantic
+Resources value from a measurement unit omitted by RAW. Created-item modifiers may
+store resources-value with unit source-unspecified and provenance, separately from
+resources-obstacle and explicit resources-value-dice. Mithril's +2 is never silently
+converted to +2 obstacle or +2D; Gemcraft's explicit +1D remains unchanged. The
+material-conditioned owning-test modifier, base valuation, optional tradeoff and
+enchanter-vessel eligibility remain independent facts. No economic evaluator or
+resolution of the missing unit is implied.
+
 ## D-026 — Training root usage, learning methods and source options
 
 **Status:** Accepted — explicit user resolution and verified BWGR source audit

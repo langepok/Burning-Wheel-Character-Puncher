@@ -5,10 +5,27 @@ import { generalSkillTranscriptionContent } from '../../src/data/skills/general'
 import { generalSkillManifest } from './general-skill-manifest';
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-const reviewed = generalSkillManifest.filter(entry => entry.sourceName[0].toLowerCase() <= 'r' ||
-  ['saddlery', 'saint-wise', 'scavenging', 'sculpture', 'scutwork-wise', 'seamanship', 'seduction', 'servant-wise', 'sewing', 'shield-training', 'ship-management', 'ship-wise', 'shipwright', 'shortcut-wise', 'shrewd-appraisal', 'siege-engineer', 'signaling', 'silent-fury', 'silver-trumpet', 'sing', 'skirmish-tactics', 'slave-deck-wise', 'sleight-of-hand', 'slip-of-currents', 'smithcraft', 'soldiering', 'song-of-the-eldar', 'song-of-feasting', 'song-of-flocks-and-herds', 'song-of-form', 'song-of-lordship', 'song-of-paths-and-ways', 'song-of-soothing', 'soot-wise', 'soothing-platitudes', 'sorcery', 'sorcery-wise', 'spear', 'spearcraft', 'spider-husbandry', 'spiel-wise', 'staff', 'starcraft', 'stealthy', 'stentorious-debate', 'stentorious-singing', 'stone-artifice', 'stonecraft', 'strategy', 'strategy-games', 'streetwise', 'structural-weakness-wise', 'stuff-wise', 'suasion', 'suicidal-bravery-wise', 'summoning', 'supplier-wise', 'supply-wise', 'surgery', 'survival', 'sword', 'symbology', 'tactics', 'tall-grass-wise', 'tanner', 'taskmaster-wise', 'tavern-tales-wise', 'taxidermy', 'terroir-wise', 'theatrics', 'threading-chant', 'throwing', 'torture', 'tracking', 'tragic-end-wise', 'trails-wise', 'trapper', 'treasure-wise', 'tree-cutting', 'tree-pulling', 'troll-etiquette', 'troll-wise', 'tune-wise', 'tunnel-wise', 'two-fisted-fighting-training', 'ugly-truth', 'vein-wise', 'vile-poisoner', 'village-secret-wise', 'vine-wise', 'vintage-wise', 'vintner', 'visage-wise', 'voice-of-thunder', 'wagon-wise', 'waiting-tables', 'war-art', 'war-engineer', 'weaponsmith', 'weaving', 'weaving-way', 'web-wise', 'well-wise', 'whip-wise', 'whispered-secrets-wise'].includes(entry.id));
+const reviewed = generalSkillManifest;
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('preserves the final manufacturing, knowledge and literacy records', () => {
+    expect(catalog.skills.get('whitesmith')).toMatchObject({ rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'perception' }, { kind: 'stat', id: 'agility' }] }, skillType: 'Craftsman', tools: { kind: 'workshop' } });
+    for (const row of ['hairpins Ob 1', 'spoons/cups Ob 2', 'silver bullets Ob 3', 'tea service Ob 4', 'silver swords Ob 4']) expect(catalog.skills.get('whitesmith')?.summary).toContain(row);
+    expect(catalog.skills.get('wine-tasting')?.testProfile?.modifiers).toEqual([
+      ...[[1, 'tasting-drinkable-wine'], [2, 'tasting-swill'], [1, 'tasting-old-wine'], [2, 'tasting-ancient-wine']].map(([delta, circumstanceId]) => ({ effect: { kind: 'obstacle-modifier', delta }, when: { kind: 'circumstance', circumstanceId } })),
+    ]);
+    for (const row of ['grape Ob 1', 'terroir Ob 2', 'vintage Ob 3', 'estate Ob 4']) expect(catalog.skills.get('wine-tasting')?.summary).toContain(row);
+    expect(catalog.skills.get('woodcraft')).toMatchObject({ rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'agility' }] }, skillType: 'Craftsman', tools: { kind: 'none' }, printedMarkers: ['§'], availabilityRestrictions: [{ kind: 'stock-only', stockIds: ['elf'], scope: 'always' }] });
+    for (const row of ['box/shelf Ob 1', 'cup/bowl/stool/ladder Ob 2', 'wall/table/chair/cabinets Ob 3', 'level floor Ob 4', 'staircase Ob 5']) expect(catalog.skills.get('woodcraft')?.summary).toContain(row);
+    expect(catalog.skills.get('write')).toMatchObject({ rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'perception' }, { kind: 'stat', id: 'agility' }] }, skillType: 'Academic', tools: { kind: 'generic', expendable: true }, openingRequirements: [], capabilities: [{ kind: 'literacy', actions: ['write'] }] });
+    expect(catalog.skills.get('write')?.summary).toContain('copyist');
+    expect(catalog.skills.get('write')?.forkSuggestions?.suggestions).toEqual(['composition', 'calligraphy'].map(skillId => ({ target: { kind: 'skill', skillId } })));
+    expect(catalog.skills.get('playwright')?.openingRequirements).toEqual([{ kind: 'known-skill', skillId: 'write' }]);
+    for (const row of ['name Ob 1', 'copying letters Ob 2', 'composing a letter Ob 3']) expect(catalog.skills.get('write')?.summary).toContain(row);
+    for (const topic of ['windage', 'wolf', 'wood']) expect(catalog.skills.get(`${topic}-wise`)).toMatchObject({ skillType: 'Special', familyMembership: { familyId: 'wises', topicId: topic } });
+    for (const row of ['common knowledge Ob 1', 'interesting fact Ob 2', 'details Ob 3', 'uncommon knowledge Ob 4', 'rare goods Ob 5', 'bizarre/obscure Ob 7', 'specific details Ob 8']) expect(catalog.families.get('wises')?.summary).toContain(row);
+    expect(catalog.families.get('wises')?.summary).not.toContain('Ob 6');
+  });
   it('preserves Weaving guidance and Weaving Way own metadata, replacement and external cloak combination', () => {
     expect(catalog.skills.get('weaving')).toMatchObject({ rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'perception' }, { kind: 'stat', id: 'agility' }] },
       skillType: 'Peasant', tools: { kind: 'generic', expendable: true } });
@@ -460,7 +477,7 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(catalog.skills.get('knives')?.tools).toEqual({ kind: 'specific-item', item: 'something knife-like' });
     expect(catalog.skills.get('knives')?.integrationTags).toEqual(['fight']);
   });
-  it('covers every reviewed entry in complete A–R and early S with the correct record kind/name/page', () => {
+  it('covers every canonical A–Z manifest entry with the correct record kind/name/page', () => {
     const expectedSkills = reviewed.filter(entry => entry.kind !== 'family' && entry.kind !== 'choice');
     expect([...catalog.skills.keys()].sort()).toEqual(expectedSkills.map(entry => entry.id).sort());
     for (const entry of reviewed) {
@@ -489,7 +506,7 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(catalog.integrations.get('gemcraft-value')?.createdItemValueEffects).toEqual([{ kind: 'automatic', modifier: { target: 'created-item', measure: 'resources-value-dice', delta: 1 } }]);
     expect(catalog.integrations.get('gem-artifice-matrix')?.subsystem).toBe('magic');
     expect(catalog.integrations.get('gemcraft-antiphon')?.subsystem).toBe('magic');
-    expect(catalog.integrations.has('white-metal-artifice-value')).toBe(false);
+    expect(catalog.integrations.get('white-metal-artifice-value')?.skillId).toBe('white-metal-artifice');
   });
   it('keeps Games of Chance settlement separate from Gambling', () => {
     expect(catalog.skills.get('gambling')).toMatchObject({ coverage: 'complete', skillType: 'Special', tools: { kind: 'traveling-gear' } });

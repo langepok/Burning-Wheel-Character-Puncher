@@ -498,3 +498,19 @@ benefit. Context-resolved opponent roles reuse the existing skill-only reference
 SkillActivityFact preserves surrounding-awareness and permitted-test references
 without an Awareness ability. SustainedSpellReference remains a separate magic
 integration with external Tax rules. These descriptors execute no tests/recovery.
+
+
+The General Skill List data is exported by src/data/skills/general independently
+of representative foundation fixtures, UI and character spending. Final integrity
+tests compare every production id/name/kind/page to the complete independent
+manifest, prohibit partial substitutes and audit current lifepath references by
+identity. History topic and stock-specific references do not become fake General
+headings. External equipment-quality references store manufacturing outcomes
+without importing quality stats or War Art's entry-specific conflicting rerolls.
+
+Created-item valuation separates Resources obstacle, explicit value dice and
+semantic value with source-unspecified unit/provenance. The latter cannot default
+to either explicit measure. Integration contexts and skill-test contexts preserve
+material qualifications without evaluating them. Known unresolved source facts
+remain metadata/audit markers; no source reconciliation, item generation, prices,
+spending or other subsystem runtime is wired to this catalog.

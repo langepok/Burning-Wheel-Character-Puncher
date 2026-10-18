@@ -178,7 +178,10 @@ export interface MagicBaseItemCreation {
 /** Valuation of the crafting result, never the character's Resources pool. */
 export type CreatedItemValueModifier =
   | { readonly target: 'created-item'; readonly measure: 'resources-obstacle'; readonly delta: number }
-  | { readonly target: 'created-item'; readonly measure: 'resources-value-dice'; readonly delta: number };
+  | { readonly target: 'created-item'; readonly measure: 'resources-value-dice'; readonly delta: number }
+  /** Semantic value target is known; RAW omits its measurement unit. Never default to dice. */
+  | { readonly target: 'created-item'; readonly measure: 'resources-value'; readonly delta: number;
+      readonly unit: 'source-unspecified'; readonly source: readonly SkillSource[] };
 export type CreatedItemValueEffect =
   | { readonly kind: 'automatic'; readonly modifier: CreatedItemValueModifier }
   | { readonly kind: 'optional-tradeoff'; readonly choiceTiming: 'before-roll';

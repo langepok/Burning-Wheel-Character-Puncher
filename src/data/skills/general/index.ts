@@ -22,8 +22,8 @@ import { evidence, none, stat } from './shared';
 const skills = [...aDSkills, ...aDWises, ...eFSkills, ...eFWises, ...gHSkills, ...gWises, ...hWises, ...iMSkills, ...nRSkills, ...sZSkills];
 const loadedIds = new Set(skills.map(skill => skill.id));
 
-/** Work in progress: complete records for reviewed blocks, identity-only references elsewhere.
- * This is deliberately not wired into the UI or advertised as a complete General catalog.
+/** Source-reviewed General records; external references do not imply owned skills.
+ * No UI, skill purchasing or subsystem execution is wired to this data.
  */
 export const generalSkillTranscriptionContent: SkillCatalogContent = {
   skills,
@@ -33,7 +33,7 @@ export const generalSkillTranscriptionContent: SkillCatalogContent = {
   families: [
     { id: 'wises', sourceName: 'Wises', ownership: 'separate-skill-per-topic',
       defaults: { rootRule: stat('perception'), skillType: 'Special', tools: none },
-      summary: 'Perception-rooted, separately owned topics; named entries may override the source defaults.', source: [evidence('Wises', 309)] },
+      summary: 'Perception-rooted, separately owned topics; named entries may override defaults. General guidance: common knowledge Ob 1; interesting fact Ob 2; details Ob 3; uncommon knowledge Ob 4; rare goods Ob 5; bizarre/obscure Ob 7; specific details Ob 8.', source: [evidence('Wises', 309)] },
     { id: 'history', sourceName: 'History', ownership: 'separate-skill-per-topic',
       defaults: { rootRule: stat('perception'), skillType: 'Academic', tools: none,
         forkSuggestions: { policy: 'guidance-not-whitelist', manualContextualContributors: true, suggestions: [

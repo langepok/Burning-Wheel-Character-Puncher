@@ -1,4 +1,3 @@
-import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
 import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
@@ -117,14 +116,5 @@ describe('General Skill List source corrections', () => {
   });
   it.each(['then', 'otherwise'] as const)('validates the conditional %s branch recursively', branch => {
     expect(() => registerTools({ ...writingTools, [branch]: { kind: 'allOf', requirements: [] } } as unknown as ToolRequirement)).toThrow('at least two operands');
-  });
-});
-
-/** White Metal Artifice, book 308 / PDF 310: mithril Resources value unit is not explicit. */
-describe('Pending White Metal Artifice mithril value measure', () => {
-  it('does not invent an obstacle/dice measure for the conditional +2 value effect', () => {
-    const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('white-metal-artifice')).toBe(false);
-    expect(catalog.references.get('white-metal-artifice')?.sourceName).toBe('White Metal Artifice');
   });
 });

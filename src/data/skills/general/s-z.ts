@@ -1,7 +1,7 @@
 import type { SkillIntegration } from '../types';
 import { aptitudeTraining, combined, define, evidence, expendable, fork, forks, generic, guidance, item, magical, melee, none, only, sourceFork, stat, traveling, workshop } from './shared';
 
-/** Reviewed S–Z records only; later entries remain identity references. */
+/** Source-reviewed S–Z records; subsystem execution remains external. */
 export const sZSkills = [
   define('saddlery', 'Saddlery', 294, 'Make horse furniture from hides. Guidance: repairs Ob 1, riding saddle Ob 2, war saddle Ob 3, ornate saddle Ob 4, royal saddle Ob 5, howdah Ob 7.', {
     rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('tanner') }),
@@ -370,6 +370,32 @@ export const sZSkills = [
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'whip' } }),
   define('whispered-secrets-wise', 'Whispered Secrets-wise', 308, 'Knowledge of whispered secrets.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'whispered-secrets' } }),
+
+  define('white-metal-artifice', 'White Metal Artifice', 308, 'Work precious white metals. Guidance: hairpins Ob 1; spoons/cups Ob 2; jewelry Ob 3; armor/weapon embellishment Ob 3; tea service Ob 4; scepters/rods Ob 5; crowns Ob 6. Base obstacle valuation, optional tradeoff, mithril value and enchanter-vessel eligibility are separate facts.', {
+    rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: workshop, ...magical, availabilityRestrictions: only(['dwarf']),
+    forkSuggestions: forks('gem-artifice'), integrationTags: ['equipment', 'magic'],
+    testProfile: { kind: 'contextual', modifiers: [{ effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'circumstance', circumstanceId: 'working-with-mithril' } }] } }),
+
+  define('whitesmith', 'Whitesmith', 308, 'Forge soft-metal wares in silver and gold. Guidance: hairpins Ob 1; spoons/cups Ob 2; silver bullets Ob 3; tea service Ob 4; silver swords Ob 4.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('blacksmith', 'jeweler', 'etching') }),
+  define('windage-wise', 'Windage-wise', 308, 'Knowledge of windage.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'windage' } }),
+  define('wine-tasting', 'Wine Tasting', 309, 'Discern wine origins and properties. Guidance: grape Ob 1; terroir Ob 2; vintage Ob 3; estate Ob 4. Source quality and age adjustments remain separate.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none,
+    testProfile: { kind: 'contextual', modifiers: [
+      { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'circumstance', circumstanceId: 'tasting-drinkable-wine' } },
+      { effect: { kind: 'obstacle-modifier', delta: 2 }, when: { kind: 'circumstance', circumstanceId: 'tasting-swill' } },
+      { effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'circumstance', circumstanceId: 'tasting-old-wine' } },
+      { effect: { kind: 'obstacle-modifier', delta: 2 }, when: { kind: 'circumstance', circumstanceId: 'tasting-ancient-wine' } },
+    ] } }),
+  define('wolf-wise', 'Wolf-wise', 309, 'Knowledge of wolves.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'wolf' } }),
+  define('wood-wise', 'Wood-wise', 309, 'Knowledge of wood.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'wood' } }),
+  define('woodcraft', 'Woodcraft', 309, 'Shape living wood without saws, nails or glue. Guidance: box/shelf Ob 1; cup/bowl/stool/ladder Ob 2; wall/table/chair/cabinets Ob 3; level floor Ob 4; staircase Ob 5.', {
+    rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: none, ...magical, availabilityRestrictions: only(['elf']) }),
+  define('write', 'Write', 309, 'Writing is separately learnable from Read. Without reading, it is a copyist skill reproducing letter forms without knowing their meaning; writing does not grant reading. Guidance: name Ob 1; copying letters Ob 2; composing a letter Ob 3.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Academic', tools: expendable, forkSuggestions: forks('composition', 'calligraphy'), capabilities: [{ kind: 'literacy', actions: ['write'] }] }),
 
 ];
 
