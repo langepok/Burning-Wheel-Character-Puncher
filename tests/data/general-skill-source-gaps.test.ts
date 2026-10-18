@@ -120,11 +120,11 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Weaponsmith, book 308 / PDF 310: generic output quality and failed-crafting outcome. */
-describe('Pending Weaponsmith output-quality metadata', () => {
-  it('retains identity without importing War Art conflicting rerolls or inventing quality stats', () => {
+/** White Metal Artifice, book 308 / PDF 310: mithril Resources value unit is not explicit. */
+describe('Pending White Metal Artifice mithril value measure', () => {
+  it('does not invent an obstacle/dice measure for the conditional +2 value effect', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('weaponsmith')).toBe(false);
-    expect(catalog.references.get('weaponsmith')?.sourceName).toBe('Weaponsmith');
+    expect(catalog.skills.has('white-metal-artifice')).toBe(false);
+    expect(catalog.references.get('white-metal-artifice')?.sourceName).toBe('White Metal Artifice');
   });
 });

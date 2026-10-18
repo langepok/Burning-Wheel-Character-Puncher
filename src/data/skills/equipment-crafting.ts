@@ -1,4 +1,4 @@
-import type { CraftingShadeRequirement, SourceSpecificEquipmentQualities, WeaponImprovementOptions } from './types';
+import type { CreatedEquipmentQuality, CraftingShadeRequirement, SourceSpecificEquipmentQualities, WeaponImprovementOptions } from './types';
 
 const shape = (value: unknown, fields: readonly string[]) => !!value && typeof value === 'object' &&
   Object.keys(value).length === fields.length && fields.every(field => Object.prototype.hasOwnProperty.call(value, field));
@@ -60,4 +60,16 @@ export function validateCraftingShadeRequirement(value: CraftingShadeRequirement
   if (!shape(actual, ['kind']) || actual.kind !== 'actual-skill-shade' || !shape(temporary, ['kind', 'source']) ||
       temporary.kind !== 'temporary-shade-shift' || !shape(temporary.source, ['kind', 'subsystem', 'id']) ||
       temporary.source.kind !== 'external-rule' || temporary.source.subsystem !== 'artha' || temporary.source.id !== 'temporary-epiphany') reject();
+}
+
+/** Ordinary external quality categories, never War Art's source-specific reroll statements. */
+export function validateCreatedEquipmentQuality(value: CreatedEquipmentQuality): void {
+  if (!shape(value, ['kind', 'outputKind', 'superior', 'poor']) || value.kind !== 'created-equipment-quality' || value.outputKind !== 'weapon') reject();
+  const { superior, poor } = value;
+  if (!shape(superior, ['qualityRef', 'craftingObstacleAdjustment', 'trigger']) || !positive(superior.craftingObstacleAdjustment) ||
+      superior.trigger !== 'successful-manufacturing-test' || !shape(superior.qualityRef, ['kind', 'id']) ||
+      superior.qualityRef.kind !== 'external-equipment-quality' || superior.qualityRef.id !== 'superior-quality-weapon' ||
+      !shape(poor, ['qualityRef', 'trigger', 'genericFailureInteraction']) || poor.trigger !== 'failed-manufacturing-test' ||
+      poor.genericFailureInteraction !== 'unresolved' || !shape(poor.qualityRef, ['kind', 'id']) ||
+      poor.qualityRef.kind !== 'external-equipment-quality' || poor.qualityRef.id !== 'poor-quality-weapon') reject();
 }

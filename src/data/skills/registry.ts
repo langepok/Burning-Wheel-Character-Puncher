@@ -1,4 +1,4 @@
-import { validateWeaponImprovements, validateSourceSpecificQualities, validateCraftingShadeRequirement } from './equipment-crafting';
+import { validateCreatedEquipmentQuality, validateWeaponImprovements, validateSourceSpecificQualities, validateCraftingShadeRequirement } from './equipment-crafting';
 import { validateBattlefieldCommandBroadcast } from './battlefield-communication';
 import { validateTwoWeaponUse } from './two-weapons';
 import { validateDeclaredIntent, validateHighestTargetAbilities, validateDebilitatingTraitGrant, validateGmConsequence } from './intent-outcomes';
@@ -580,6 +580,10 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   }
   for (const family of families.values()) validateMetadata(family.defaults);
   for (const integration of integrations.values()) {
+    if (integration.createdEquipmentQuality !== undefined) {
+      if (integration.subsystem !== 'equipment') throw new Error('Invalid created-equipment-quality subsystem');
+      validateCreatedEquipmentQuality(integration.createdEquipmentQuality);
+    }
     if (integration.weaponImprovements !== undefined) {
       if (integration.subsystem !== 'equipment') throw new Error('Invalid weapon improvement subsystem');
       validateWeaponImprovements(integration.weaponImprovements);

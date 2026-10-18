@@ -204,6 +204,19 @@ export interface EquipmentUseEffect {
     readonly repeatability: 'single-tradeoff' | 'per-increment' | 'unspecified';
     readonly requiresSuccessfulCreation: true };
 }
+/** Ordinary quality categories remain external; this describes their manufacturing source. */
+export interface CreatedEquipmentQuality {
+  readonly kind: 'created-equipment-quality'; readonly outputKind: 'weapon';
+  readonly superior: {
+    readonly qualityRef: { readonly kind: 'external-equipment-quality'; readonly id: 'superior-quality-weapon' };
+    readonly craftingObstacleAdjustment: number; readonly trigger: 'successful-manufacturing-test';
+  };
+  readonly poor: {
+    readonly qualityRef: { readonly kind: 'external-equipment-quality'; readonly id: 'poor-quality-weapon' };
+    readonly trigger: 'failed-manufacturing-test'; readonly genericFailureInteraction: 'unresolved';
+  };
+}
+
 /** Source-shaped crafting options; costs are not arbitrary expressions. */
 export type WeaponImprovement = { readonly kind: 'weapon-improvement'; readonly repeatability: 'once-per-physical-weapon' } & (
   | { readonly improvement: 'versus-armor'; readonly delta: number; readonly craftingObstacle: { readonly kind: 'current-weapon-va-plus-one' } }
@@ -514,9 +527,9 @@ export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: Exclude<IntegrationTag, 'battlefield-communication'>; readonly battlefieldCommandBroadcast?: never }
 ) & (
   | { readonly subsystem: 'equipment'; readonly weaponImprovements?: WeaponImprovementOptions;
-      readonly sourceSpecificQualities?: SourceSpecificEquipmentQualities; readonly craftingShadeRequirement?: CraftingShadeRequirement }
+      readonly sourceSpecificQualities?: SourceSpecificEquipmentQualities; readonly craftingShadeRequirement?: CraftingShadeRequirement; readonly createdEquipmentQuality?: CreatedEquipmentQuality }
   | { readonly subsystem: Exclude<IntegrationTag, 'equipment'>; readonly weaponImprovements?: never;
-      readonly sourceSpecificQualities?: never; readonly craftingShadeRequirement?: never }
+      readonly sourceSpecificQualities?: never; readonly craftingShadeRequirement?: never; readonly createdEquipmentQuality?: never }
 );
 
 /** Closed source-shaped alternatives, not reusable arithmetic expressions. */

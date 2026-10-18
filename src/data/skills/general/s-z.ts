@@ -353,9 +353,39 @@ export const sZSkills = [
   define('war-engineer', 'War Engineer', 307, 'Build and field war engines and undermine fortifications. Building guidance: battering ram Ob 1; small war tower Ob 2; covered ram Ob 3; small stone thrower Ob 4; siege arbalest Ob 5; large trebuchet Ob 6. Destruction obstacles reference Materials.', {
     rootRule: combined('will', 'perception'), skillType: 'Artisan', tools: workshop, ...magical, integrationTags: ['equipment'] }),
 
+  define('weaponsmith', 'Weaponsmith', 308, 'Manufacture weapons of war. Guidance: knife Ob 1; spear/short sword/mace/light axe Ob 2; arming/long sword Ob 3; polearm Ob 4. Superior manufacture adds +2 Ob; failed manufacture is linked to poor-quality output without resolving generic failure interactions.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('blacksmith'), integrationTags: ['equipment'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'created-equipment-quality', integrationId: 'weaponsmith-quality' }] }),
+
+  define('weaving', 'Weaving', 308, 'Turn raw fibers into cloth. Guidance: linen/flax Ob 1; wool cloth Ob 2; cotton cloth Ob 3; silk cloth Ob 4.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Peasant', tools: expendable, forkSuggestions: forks('sewing') }),
+  define('weaving-way', 'Weaving Way', 308, 'Elven replacement for Weaving. With Antiphon Union and Threne of the Chameleon it creates Elven Cloaks; no cloak benefits are specified by this entry.', {
+    rootRule: combined('will', 'agility'), skillType: 'Peasant', tools: expendable, ...magical, availabilityRestrictions: only(['elf']),
+    forkSuggestions: forks('threading-chant'), relations: [{ kind: 'replacement', target: { kind: 'skill', id: 'weaving' }, context: { kind: 'circumstance', circumstanceId: 'elven-weaving' } }], integrationTags: ['magic'] }),
+  define('web-wise', 'Web-wise', 308, 'Knowledge of webs.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'web' } }),
+  define('well-wise', 'Well-wise', 308, 'Knowledge of wells.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'well' } }),
+  define('whip-wise', 'Whip-Wise', 308, 'Knowledge of whips.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'whip' } }),
+  define('whispered-secrets-wise', 'Whispered Secrets-wise', 308, 'Knowledge of whispered secrets.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'whispered-secrets' } }),
+
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [
+  { id: 'weaving-way-antiphon', skillId: 'weaving-way', subsystem: 'magic',
+    createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
+    summary: 'Weaving Way with Antiphon Union and external spell song Threne of the Chameleon creates Elven Cloaks. No numerical cloak effect, spell identity in General skills or tools inheritance is inferred.',
+    source: [evidence('Weaving Way', 308)] },
+
+  { id: 'weaponsmith-quality', skillId: 'weaponsmith', subsystem: 'equipment',
+    createdEquipmentQuality: { kind: 'created-equipment-quality', outputKind: 'weapon',
+      superior: { qualityRef: { kind: 'external-equipment-quality', id: 'superior-quality-weapon' }, craftingObstacleAdjustment: 2, trigger: 'successful-manufacturing-test' },
+      poor: { qualityRef: { kind: 'external-equipment-quality', id: 'poor-quality-weapon' }, trigger: 'failed-manufacturing-test', genericFailureInteraction: 'unresolved' } },
+    summary: 'Weaponsmith-specific manufacturing quality references. Poor output is source-associated with failure; replacement, stacking and exclusivity relative to generic failures remain unresolved. No voluntary-failure procedure or quality stats are inferred.',
+    source: [evidence('Weaponsmith', 308)] },
+
   { id: 'war-engineer-materials', skillId: 'war-engineer', subsystem: 'equipment',
     summary: 'Materials supplies external building-destruction obstacles; construction guidance is separate, with no destruction/equipment evaluator or inferred Siege Engineer capability.',
     source: [evidence('War Engineer', 307)] },

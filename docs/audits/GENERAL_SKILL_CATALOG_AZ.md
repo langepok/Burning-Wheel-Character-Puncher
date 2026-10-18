@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1421 tests
-in 52 files), npm run build and git diff --check. Remaining W–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1453 tests
+in 53 files), npm run build and git diff --check. Remaining W–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through War Engineer:
-409 complete definitions: A–V complete, W reviewed through War Engineer; Weaponsmith and later entries pending.
+Production transcription continues through Whispered Secrets-wise:
+416 complete definitions: A–V complete, W reviewed through Whispered Secrets-wise; White Metal Artifice and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -1097,8 +1097,22 @@ CraftingShadeRequirement requires the effective owning crafting skill to be gray
 
 War Engineer is also complete on 307/309, retaining Will/Perception, Artisan, Workshop, building guidance Ob 1–6 and an external Materials reference for destruction obstacles. The printed entry does not state a stock restriction, so Dwarven-host lore does not create one. Nor is Siege Engineer's distinct counts-as-tool capability copied. Production reaches 409 complete definitions, through War Engineer.
 
-## Pending Weaponsmith created-output quality
+## Resolved Weaponsmith created-output quality
 
-Visually reviewed book 308 / PDF 310. Weaponsmith's base guidance is knife Ob 1; spear/short sword/mace/light axe Ob 2; arming/long sword Ob 3; polearm Ob 4. It explicitly offers superior-quality weapons at +2 crafting Ob and poor-quality weapons through a failed test. Root is Perception/Agility, type Craftsman, Workshop tools, Blacksmith FoRK.
+Visually reviewed book 308 / PDF 310 against the confirmed packet. CreatedEquipmentQuality is a generic equipment-only manufacturing descriptor, separate from War Art's entry-specific conflicting qualities. Weaponsmith preserves Perception/Agility, Craftsman, Workshop, Blacksmith and knife/spear-short-sword-mace-light-axe/arming-long-sword/polearm guidance Ob 1/2/3/4.
 
-Current source-specific quality descriptors intentionally preserve War Art's conflicting armor/shield rerolls. They cannot stand in for a generic superior/poor weapon-quality result or a failed-crafting output consequence without inventing/importing execution effects. Propose minimal created-equipment quality metadata with an external global-equipment-quality reference: superior weapon option at +2 crafting Ob, and poor weapon output on failed test. Preserve source labels without numeric damage/VA/reroll invention, deliberate-failure procedure, quality lookup, stat generation or crafting evaluator. Weaponsmith and later entries remain untranscribed pending approval.
+Its superior option adds +2 Ob and references external superior-quality-weapon on successful manufacture. Failed manufacture references poor-quality-weapon output; genericFailureInteraction remains unresolved. This does not define voluntary failure, automatic suppression/zero successes, a reduced poor-quality obstacle or a separate procedure. It does not claim poor output replaces, stacks with or exhausts generic failure consequences. No stats, weapon appendix tables, balance dice, quality lookup or combat penalties are copied. War Art's armor/shield wording and unresolved marker remain unchanged. Serialization and strict nested validation introduce no equipment/crafting evaluator. D-025 is extended without a new Decision.
+
+## Further W records through Whispered Secrets-wise
+
+Weaving preserves Perception/Agility, Peasant, expendable tools, Sewing and flax/wool/cotton/silk guidance Ob 1–4. Weaving Way preserves its own Will/Agility, magical marker, Elf-only availability, expendable tools, Threading Chant FoRK and replacement relation to Weaving in source-backed elven-weaving context. Antiphon Union plus external Threne of the Chameleon creates Elven Cloaks; the existing magic cross-reference pattern stores this source fact without invented cloak stats, tools inheritance or fake General spell identities.
+
+Web-wise, Well-wise, Whip-Wise and Whispered Secrets-wise retain separate bare-Wise identities and printed case. No weapon semantic tag is inferred from Whip-Wise. Production reaches 416 complete definitions, through Whispered Secrets-wise.
+
+## Pending White Metal Artifice mithril value unit
+
+Visually reviewed book 308 / PDF 310. The entry explicitly distinguishes normal created-item Resources obstacle +1 and optional +2 crafting Ob for another Resources obstacle +1. Its mithril sentence adds +1 Ob to tests while working with mithril and increases the created item's Resources value by two, without explicitly naming obstacle or value-dice units there.
+
+A text search across the supplied PDF found mithril/true silver only in this entry; no other occurrence clarifies that +2 measure. Under D-025, Resources obstacle and Resources value dice are distinct, so a contextual reading must not silently select either. Existing representative White Metal value/matrix fixtures are unchanged; the full record remains identity-only until resolution.
+
+Required decision: should mithril's +2 be Resources obstacle, Resources value dice, or explicitly unresolved/source-unspecified measure? The material-conditioned +1 owning-test Ob and item-value effect can reuse structured context/integration metadata once the unit is resolved; do not force this into direct character ResourceInteraction or compute prices. Do not infer whether the mithril effect replaces or adds to other valuation options beyond a confirmed audit. White Metal Artifice and subsequent records remain untranscribed pending this source ambiguity.

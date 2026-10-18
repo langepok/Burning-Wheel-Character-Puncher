@@ -406,6 +406,15 @@ skill at test time, through actual shade or temporary Epiphany, never any unrela
 gray skill. No global quality reconciliation, arithmetic DSL, Artha activation,
 shade runtime or equipment stat generator is introduced.
 
+The confirmed Weaponsmith audit (308/310) adds CreatedEquipmentQuality for ordinary
+external weapon-quality categories, distinct from War Art's entry-specific quality
+statements. Superior manufacture associates +2 crafting Ob and success with an
+external superior-quality-weapon reference. Failed Weaponsmith manufacture links
+to poor-quality-weapon output, with generic failure interaction unresolved rather
+than replacement, stacking or exclusive-consequence semantics. Quality stats and
+combat effects remain external; no deliberate-failure action or equipment generator
+is introduced.
+
 ## D-026 — Training root usage, learning methods and source options
 
 **Status:** Accepted — explicit user resolution and verified BWGR source audit

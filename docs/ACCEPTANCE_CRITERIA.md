@@ -964,3 +964,15 @@ A Character Burner feature is done only when:
 - Continue W–Z sequentially until the next genuinely unsupported source case; run npm ci, typecheck, full tests, build and diff checks.
 
 - War Engineer preserves Will/Perception, Artisan, Workshop and Ob 1–6 building guidance; Materials destruction guidance remains external. Do not infer a Dwarf restriction from descriptive lore or a Siege Engineer counts-as-tool capability. Weaponsmith remains identity-only if its generic superior/poor output qualities cannot be represented without borrowing War Art-specific conflicting semantics.
+
+
+### Weaponsmith generic created-equipment quality
+
+- Preserve Perception/Agility, Craftsman, Workshop, Blacksmith and base manufacturing Ob 1–4 guidance (308/310).
+- Equipment-only created-equipment-quality metadata references ordinary external superior-quality-weapon and poor-quality-weapon categories, without stats/rerolls/Balance Dice duplication.
+- Superior manufacturing option adds +2 crafting Ob and references its quality on successful manufacturing. Failed Weaponsmith manufacture is linked to poor-quality output, with generic failure interaction explicitly unresolved.
+- No voluntary-failure action, dice suppression, zero-success selection, reduced poor-quality obstacle or generic failure replacement/stacking/exclusivity is inferred.
+- War Art source-specific conflicting qualities remain separate and unresolved. Strict nested validation and serialization cover references, triggers and forbidden execution fields; no equipment generator/evaluator.
+- Continue W–Z sequentially to the next unsupported/ambiguous source case; run npm ci, typecheck, full tests, build and diff checks.
+
+- Weaving preserves Perception/Agility, Peasant, expendable tools, Sewing and fiber guidance Ob 1–4. Weaving Way retains its own Will/Agility and Elven replacement context plus the source Antiphon/Threne of the Chameleon cloak cross-reference, without invented cloak effects or tools inheritance. Web-wise, Well-wise, Whip-Wise and Whispered Secrets-wise remain independent bare Wise topics.
