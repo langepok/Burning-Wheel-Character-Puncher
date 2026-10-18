@@ -925,3 +925,16 @@ A Character Burner feature is done only when:
 - Continue sequential transcription through representable entries, then stop at the next unsupported RAW case; run npm ci, typecheck, full tests, build and diff whitespace checks.
 
 - Following entries Ugly Truth and Vein-wise retain source roots/types/tools and guidance. Vile Poisoner remains identity-only if its own delivery/exposure/resistance/duration effects cannot be expressed by the existing independent Poisons potency/delivery descriptor.
+
+
+### Vile Poisoner distinct crafted products
+
+- BWGR 306 / PDF 308: Perception/Agility, Medicinal, Herbalism FoRK, expendable tools, Orc-only, printed magical marker; no fake product skills.
+- Extend CraftedPoison with a mutually exclusive product-level form while keeping ordinary Poisons independent potency/delivery records unchanged.
+- Contact Ob 2: skin-contact dose, boils, +2 Ob to source-shaped physical/martial/social scopes for one scene; no invented resistance or Skill Type expansion.
+- Ingested Ob 4: victim Forte vs Ob 4; failed resistance supplies one margin-of-failure reference to permanent Health and Health maximum reductions. No floor/death/recovery/restoration semantics.
+- Weapon Ob 5: blade/arrowhead coating, injection by literal Mark-result hit, one additional B9 wound delayed six-plus-target-Forte exchanges. No any-hit/Mark-or-better assumption, arbitrary formula AST or timer.
+- Strict nested validation and serialization reject mixed representations, malformed products/references and invented persistence/dose/stacking mechanics. No exposure, resistance, Health, wound, timer or Fight evaluator.
+- Continue V sequentially until the next unrepresentable RAW fact; run dependency installation, typecheck, full tests, build and diff whitespace validation.
+
+- Village Secret-wise, Vine-wise, Vintage-wise, Vintner and Visage-wise retain their independently audited source identities and metadata. Voice of Thunder remains partial/identity-only pending structured audience/commander narrative relationship and battlefield-distance hearing semantics.

@@ -12,4 +12,25 @@ export const poisonIntegrations: readonly SkillIntegration[] = [
       { kind: 'inhaled-vapor', craftingObstacleDelta: 2 }, { kind: 'contact', craftingObstacleDelta: 3 },
     ] }, summary: 'Crafted poison potency and intended delivery are independent; no exposure, resistance, duration or wound processing is evaluated.',
     source: [evidence('Poisons', 288), evidence('Poisons continuation', 289)] },
+  { id: 'vile-poisoner-products', skillId: 'vile-poisoner', subsystem: 'equipment',
+    craftedPoison: { target: 'created-poison', products: [
+      { kind: 'crafted-poison', variant: 'stinging-nettling-contact', craftingObstacle: 2,
+        exposure: { kind: 'skin-contact' }, outcomes: [
+          { kind: 'condition', recipient: 'victim', condition: 'boils' },
+          { kind: 'test-obstacle-penalty', recipient: 'victim', amount: 2, scopes: ['physical-tests', 'martial-tests', 'social-tests'], duration: { kind: 'scene', count: 1 } },
+        ] },
+      { kind: 'crafted-poison', variant: 'debilitating-ingested', craftingObstacle: 4,
+        exposure: { kind: 'ingested' }, resistance: { actor: 'victim', ability: { kind: 'stat', id: 'forte' }, obstacle: 4 },
+        onResistanceFailure: { magnitude: { kind: 'margin-of-failure', source: 'resistance-test' }, effects: [
+          { kind: 'reduce-health', recipient: 'victim', duration: 'permanent' },
+          { kind: 'reduce-health-maximum', recipient: 'victim', duration: 'permanent' },
+        ] } },
+      { kind: 'crafted-poison', variant: 'deadly-weapon', craftingObstacle: 5,
+        application: { kind: 'weapon-coating', allowedTargets: ['blade', 'arrowhead'] },
+        exposure: { kind: 'injected-by-hit', requiredHitResult: 'mark' },
+        delayedOutcome: { delay: { kind: 'six-plus-target-forte', unit: 'exchange' },
+          outcome: { kind: 'wound', recipient: 'victim', severity: { shade: 'black', exponent: 9 }, quantity: 1, relation: 'additional' } } },
+    ] }, summary: 'Distinct crafted poison products retain source exposure/resistance and consequence references without evaluating them. The Mark condition is literal, not Mark-or-better; no dose, coating persistence or stacking policy is inferred.',
+    source: [evidence('Vile Poisoner', 306)] },
+
 ];

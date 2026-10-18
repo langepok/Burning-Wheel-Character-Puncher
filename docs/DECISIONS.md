@@ -383,6 +383,16 @@ no arithmetic, exposure or wound processing follows from descriptor validation.
 The equipment integration is indexed for the poisons subsystem separately from
 Nogger consumption and skill-test outcome metadata.
 
+The confirmed Vile Poisoner audit (306/308) adds a mutually exclusive product-level
+CraftedPoison form rather than forcing distinct products into independent potency/
+delivery combinations. Each product retains source exposure, optional resistance
+and outcomes. Source-shaped physical/martial/social scopes are not inferred lists
+of stats or Skill Types. A shared resistance-test margin-of-failure reference feeds
+permanent Health/Health-maximum reductions. Literal Mark injection and a named
+six-plus-victim-Forte exchange delay preserve the additional wound without hit,
+Health or timer execution. No dose, coating persistence, stacking, recovery or
+arbitrary formula semantics are inferred. These remain crafted-output facts.
+
 ## D-026 — Training root usage, learning methods and source options
 
 **Status:** Accepted — explicit user resolution and verified BWGR source audit

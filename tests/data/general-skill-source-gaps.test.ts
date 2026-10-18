@@ -120,11 +120,11 @@ describe('General Skill List source corrections', () => {
   });
 });
 
-/** Vile Poisoner, book 306 / PDF 308: distinct product exposure/resistance/outcomes. */
-describe('Pending Vile Poisoner crafted-product metadata', () => {
-  it('retains identity without coercing the products into ordinary Poisons effects or delivery modifiers', () => {
+/** Voice of Thunder, book 307 / PDF 309: narrative-linked audience and battlefield hearing. */
+describe('Pending Voice of Thunder communication metadata', () => {
+  it('retains identity without inventing narrative classification, obedience or distance resolution', () => {
     const catalog = createSkillCatalog(generalSkillTranscriptionContent);
-    expect(catalog.skills.has('vile-poisoner')).toBe(false);
-    expect(catalog.references.get('vile-poisoner')?.sourceName).toBe('Vile Poisoner');
+    expect(catalog.skills.has('voice-of-thunder')).toBe(false);
+    expect(catalog.references.get('voice-of-thunder')?.sourceName).toBe('Voice of Thunder');
   });
 });

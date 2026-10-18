@@ -494,11 +494,11 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 
 ## Current verification
 
-Checkpoint verification passed: npm ci, npm run typecheck, npm test (1304 tests
-in 49 files), npm run build and git diff --check. Remaining T–Z entries, final counts
+Checkpoint verification passed: npm ci, npm run typecheck, npm test (1352 tests
+in 50 files), npm run build and git diff --check. Remaining V–Z entries, final counts
 and the lifepath-reference join remain unfinished; no full A–Z PR is open.
-Production transcription continues through Vein-wise:
-398 complete definitions: A–U complete, V reviewed through Vein-wise; Vile Poisoner and later entries pending.
+Production transcription continues through Visage-wise:
+404 complete definitions: A–U complete, V reviewed through Visage-wise; Voice of Thunder and later entries pending.
 
 ## Resolved Munitions adverse-outcome gap
 
@@ -1061,12 +1061,22 @@ The complete Training preserves Agility, Martial Training, no tools, printed apt
 
 Ugly Truth and Vein-wise on the same page are now complete, preserving source guidance, roots/types/tools, FoRKs, bare-Wise identity and the external Duel of Wits reference. Production reaches 398 complete definitions.
 
-## Pending Vile Poisoner product effects
+## Resolved Vile Poisoner product effects
 
-Visually reviewed book 306 / PDF 308. Existing CraftedPoison models ordinary Poisons' independent potency and delivery dimensions with an unspecified-scope penalty or immediate fixed wound; it cannot preserve Vile Poisoner's distinct products:
+Visually verified book 306 / PDF 308 against the user-approved packet. CraftedPoison extends D-025 with a mutually exclusive product-level representation. Ordinary Poisons retains its independent potency/delivery form and all existing regression expectations.
 
-- Contact product, crafting Ob 2: skin contact causes boils and +2 Ob to physical, martial and social tests for one scene.
-- Ingested product, crafting Ob 4: victim tests Forte against Ob 4; margin of failure permanently reduces Health and its maximum.
-- Deadly product, crafting Ob 5: blade/arrowhead delivery requires a Mark-result hit; exposure adds a B9 wound after a number of exchanges equal to six plus victim Forte.
+Vile Poisoner contains exactly three distinct products. Contact Ob 2 applies a skin dose, boils and +2 Ob to source-shaped physical/martial/social scopes for one scene, with no invented resistance or taxonomy expansion. Ingested Ob 4 requires victim Forte vs Ob 4; failed resistance supplies one shared margin-of-failure reference to permanent Health and Health maximum reductions. No floor, zero/death, recovery or trait policy is inferred. Weapon Ob 5 coats blade/arrowhead and requires literal Mark-result injection (not any hit, Mark-or-better or automatic Superb). The delayed effect is one additional B9 wound after six plus victim Forte exchanges, stored as a named derived delay and not computed.
 
-Do not flatten these into ordinary Poisons base-potency/delivery deltas, unspecified-scope penalties, an immediate B9 wound or an automatic Health loss. Propose a small crafted-poison product descriptor with per-product crafting obstacle, delivery/exposure, resistance test when stated, typed resulting effects and bounded derived delay references. Preserve the entry's Perception/Agility, Medicinal, expendable tools, Orc-only restriction, magical marker and Herbalism FoRK when the descriptor is approved. No exposure, resistance, wound, Health, timer or formula evaluator. Vile Poisoner and later entries remain untranscribed pending approval.
+No batch doses, coating persistence, missed-hit expenditure, armor interaction or repeated-exposure/stacking rule is invented. Root Perception/Agility, Medicinal, expendable tools, Orc-only, Herbalism and the printed magical marker remain intact. Nested validation rejects malformed products and mixed representations. Data round-trips without exposure, resistance, Health, Health maximum, wounds, timer, formula or Fight evaluators. D-025 is extended; no new Decision.
+
+Village Secret-wise, Vine-wise, Vintage-wise, Vintner and Visage-wise (306–307 / 308–309) are also complete. Vintner preserves Will/Perception, Peasant, Workshop, Farming/Brewer and swill/drinkable/good/excellent/legendary wine guidance Ob 1–5. Bare Wise topics retain separate identities. Production reaches 404 complete definitions, through Visage-wise.
+
+## Pending Voice of Thunder battlefield communication
+
+Visually reviewed book 307 / PDF 309. The existing representative fixture records Command reuse plus a battlefield-communication summary, but lacks the following structured source facts required for a complete entry:
+
+- When the commander issues commands, all soldiers with a trait, Instinct OR Belief about that commander can hear the voice.
+- The relationship is about the commander; it is not a fixed named trait or a catalog of permitted narrative text.
+- Distance does not limit this hearing while they are on the battlefield. No numeric or unlimited-world range is stated.
+
+Current integration/capability identity references do not express that audience relationship and distance rule. Propose a small battlefield-command-broadcast descriptor with source trigger, soldiers audience, anyOf trait/Instinct/Belief-about-commander references with manual semantic matching under D-028, and battlefield scope irrespective of distance. Keep Command reuse separate. Do not infer automatic obedience, successful Command test, hearing through every barrier, global range, narrative classification or a communication evaluator. Voice of Thunder and later entries remain untranscribed pending approval.

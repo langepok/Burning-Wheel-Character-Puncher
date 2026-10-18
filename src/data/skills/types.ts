@@ -303,12 +303,40 @@ export interface PoisonDelivery {
   readonly kind: 'ingestion' | 'blade' | 'inhaled-vapor' | 'contact';
   readonly craftingObstacleDelta: number;
 }
-/** Independent source-defined dimensions; no twelve-row expansion or evaluator. */
-export interface CraftedPoison {
-  readonly target: 'created-poison';
-  readonly potencies: readonly PoisonPotency[];
-  readonly deliveries: readonly PoisonDelivery[];
-}
+/** Scopes are the printed test categories, not inferred stat lists or Skill Types. */
+export type PoisonTestScope = 'physical-tests' | 'martial-tests' | 'social-tests';
+/** Distinct source products; no inferred cross-product combinations or exposure execution. */
+export type CraftedPoisonProduct = { readonly kind: 'crafted-poison'; readonly craftingObstacle: number } & (
+  | { readonly variant: 'stinging-nettling-contact'; readonly exposure: { readonly kind: 'skin-contact' };
+      readonly outcomes: readonly [
+        { readonly kind: 'condition'; readonly recipient: 'victim'; readonly condition: 'boils' },
+        { readonly kind: 'test-obstacle-penalty'; readonly recipient: 'victim'; readonly amount: number;
+          readonly scopes: readonly ['physical-tests', 'martial-tests', 'social-tests'];
+          readonly duration: { readonly kind: 'scene'; readonly count: number } },
+      ] }
+  | { readonly variant: 'debilitating-ingested'; readonly exposure: { readonly kind: 'ingested' };
+      readonly resistance: { readonly actor: 'victim'; readonly ability: { readonly kind: 'stat'; readonly id: 'forte' }; readonly obstacle: number };
+      /** One resistance-test magnitude supplies both reductions; no floor or recovery policy. */
+      readonly onResistanceFailure: { readonly magnitude: { readonly kind: 'margin-of-failure'; readonly source: 'resistance-test' };
+        readonly effects: readonly [
+          { readonly kind: 'reduce-health'; readonly recipient: 'victim'; readonly duration: 'permanent' },
+          { readonly kind: 'reduce-health-maximum'; readonly recipient: 'victim'; readonly duration: 'permanent' },
+        ] } }
+  | { readonly variant: 'deadly-weapon';
+      readonly application: { readonly kind: 'weapon-coating'; readonly allowedTargets: readonly ['blade', 'arrowhead'] };
+      readonly exposure: { readonly kind: 'injected-by-hit'; readonly requiredHitResult: 'mark' };
+      readonly delayedOutcome: {
+        /** Exactly six plus victim Forte exchanges; not an arithmetic AST or computed duration. */
+        readonly delay: { readonly kind: 'six-plus-target-forte'; readonly unit: 'exchange' };
+        readonly outcome: { readonly kind: 'wound'; readonly recipient: 'victim';
+          readonly severity: { readonly shade: 'black'; readonly exponent: number }; readonly quantity: number; readonly relation: 'additional' };
+      } }
+);
+/** Independent potency/delivery and distinct products are mutually exclusive source forms. */
+export type CraftedPoison = { readonly target: 'created-poison' } & (
+  | { readonly potencies: readonly PoisonPotency[]; readonly deliveries: readonly PoisonDelivery[]; readonly products?: never }
+  | { readonly products: readonly CraftedPoisonProduct[]; readonly potencies?: never; readonly deliveries?: never }
+);
 
 /** Governing skill/list access is distinct from individual spell ownership/state. */
 export interface SpellListCasting {

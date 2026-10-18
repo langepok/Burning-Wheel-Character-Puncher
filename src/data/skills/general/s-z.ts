@@ -320,6 +320,21 @@ export const sZSkills = [
   define('vein-wise', 'Vein-wise', 306, 'Knowledge of veins.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'vein' } }),
 
+  define('vile-poisoner', 'Vile Poisoner', 306, 'Extract and preserve poisons from venomous or stinging creatures, producing three distinct contact, ingested and weapon-applied products. Exposure, resistance and resulting effects belong to crafted-product metadata.', {
+    rootRule: combined('perception', 'agility'), skillType: 'Medicinal', tools: expendable, ...magical,
+    availabilityRestrictions: only(['orc']), forkSuggestions: forks('herbalism'), integrationTags: ['equipment', 'poisons'] }),
+
+  define('village-secret-wise', 'Village Secret-wise', 306, 'Knowledge of village secrets.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'village-secret' } }),
+  define('vine-wise', 'Vine-wise', 306, 'Knowledge of vines.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'vine' } }),
+  define('vintage-wise', 'Vintage-wise', 306, 'Knowledge of vintages.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'vintage' } }),
+  define('vintner', 'Vintner', 307, 'Grow grapes and turn them into wine. Guidance: swill Ob 1; drinkable Ob 2; good wine Ob 3; excellent wine Ob 4; legendary wine Ob 5.', {
+    rootRule: combined('will', 'perception'), skillType: 'Peasant', tools: workshop, forkSuggestions: forks('farming', 'brewer') }),
+  define('visage-wise', 'Visage-wise', 307, 'Knowledge of visages.', {
+    rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'visage' } }),
+
 ];
 
 export const sZIntegrations: readonly SkillIntegration[] = [

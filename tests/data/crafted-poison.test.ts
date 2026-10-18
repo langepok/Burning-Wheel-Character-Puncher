@@ -5,7 +5,11 @@ import { generalSkillTranscriptionContent } from '../../src/data/skills/general'
 
 const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const integration = catalog.integrations.get('poisons-crafted-product')!;
-const poison = integration.craftedPoison!;
+const poison = (() => {
+  const value = integration.craftedPoison!;
+  if (value.potencies === undefined) throw new Error('Expected independent potency/delivery catalog');
+  return value;
+})();
 const register = (value: unknown, subsystem = 'equipment') => createSkillCatalog({ ...generalSkillTranscriptionContent,
   integrations: generalSkillTranscriptionContent.integrations.map(record => record.id === integration.id
     ? { ...record, subsystem, craftedPoison: value } : record),
