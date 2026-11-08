@@ -231,6 +231,15 @@ credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
 
+### Artillerist and Aura Reading (BWGR 257–258 / PDF 259–260)
+
+Artillerist construction needs laborer teams and at least one carpenter.
+The black-powder option covers manufacture and operation of cannons,
+bombards and shot; bombs and powder use Munitions in that campaign variant.
+Aura Reading requires separately acquired aura perception. Detecting a
+spirit's presence and nature uses Ob 10 minus its Strength, with no clamp
+specified in the entry.
+
 ### Armor Training and Archcraft (BWGR 256 / PDF 258)
 
 Without Armor Training, light mail adds +1 Ob to tests and heavy mail or

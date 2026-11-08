@@ -696,6 +696,30 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         throw new Error('Invalid structure resistance');
       }
     }
+    if (integration.artilleryProcedure !== undefined) {
+      const procedure = integration.artilleryProcedure;
+      const crew = procedure?.constructionCrew;
+      const alternative = procedure?.blackPowderAlternative;
+      const matches = (actual: unknown, expected: readonly string[]) => Array.isArray(actual) &&
+        actual.length === expected.length && expected.every((item, index) => actual[index] === item);
+      if (integration.subsystem !== 'military-campaign' || crew?.laborers !== 'teams' ||
+          !Number.isSafeInteger(crew.minimumCarpenters) || crew.minimumCarpenters <= 0 ||
+          alternative?.when !== 'campaign-uses-black-powder-weapons' ||
+          !matches(alternative.covers, ['cannons', 'bombards', 'shot']) ||
+          !matches(alternative.activities, ['manufacture', 'operation']) ||
+          Object.keys(crew).length !== 2 || Object.keys(alternative).length !== 4 || Object.keys(procedure).length !== 2) {
+        throw new Error('Invalid artillery procedure');
+      }
+      requireSkill(alternative.bombsAndPowderSkillId);
+    }
+    if (integration.spiritAuraObstacle !== undefined) {
+      const obstacle = integration.spiritAuraObstacle;
+      if (integration.subsystem !== 'magic' || obstacle?.kind !== 'detect-spirit-presence-and-nature' ||
+          !Number.isSafeInteger(obstacle.base) || obstacle.base <= 0 ||
+          obstacle.subtract !== 'spirit-strength' || Object.keys(obstacle).length !== 3) {
+        throw new Error('Invalid spirit aura obstacle');
+      }
+    }
     if (integration.armorTraining !== undefined) {
       const profile = integration.armorTraining;
       const untrained = profile?.untrained;

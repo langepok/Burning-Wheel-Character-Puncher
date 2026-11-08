@@ -537,6 +537,22 @@ export interface ArmorTrainingPenalties {
     readonly clumsyWeight: 'still-applies' };
 }
 
+export interface ArtilleryProcedure {
+  readonly constructionCrew: { readonly laborers: 'teams'; readonly minimumCarpenters: number };
+  readonly blackPowderAlternative: {
+    readonly when: 'campaign-uses-black-powder-weapons';
+    readonly covers: readonly ['cannons', 'bombards', 'shot'];
+    readonly activities: readonly ['manufacture', 'operation'];
+    readonly bombsAndPowderSkillId: SkillId;
+  };
+}
+
+export interface SpiritAuraObstacle {
+  readonly kind: 'detect-spirit-presence-and-nature';
+  readonly base: number;
+  readonly subtract: 'spirit-strength';
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly spellSongTransfer?: MagicSpellSongTransfer; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly judicialFineAssessment?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
@@ -546,6 +562,12 @@ export type SkillIntegration = SkillIntegrationIdentity & (
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly spellSongTransfer?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly priceReduction?: AppraisedItemPriceReduction; readonly judicialFineAssessment?: JudicialFineAssessment; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
   | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly spellSongTransfer?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly judicialFineAssessment?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
+) & (
+  | { readonly subsystem: 'military-campaign'; readonly artilleryProcedure?: ArtilleryProcedure }
+  | { readonly subsystem: Exclude<IntegrationTag, 'military-campaign'>; readonly artilleryProcedure?: never }
+) & (
+  | { readonly subsystem: 'magic'; readonly spiritAuraObstacle?: SpiritAuraObstacle }
+  | { readonly subsystem: Exclude<IntegrationTag, 'magic'>; readonly spiritAuraObstacle?: never }
 ) & (
   | { readonly subsystem: 'fight'; readonly shieldUse?: ShieldUse; readonly twoWeaponUse?: TwoWeaponUse }
   | { readonly subsystem: Exclude<IntegrationTag, 'fight'>; readonly shieldUse?: never; readonly twoWeaponUse?: never }

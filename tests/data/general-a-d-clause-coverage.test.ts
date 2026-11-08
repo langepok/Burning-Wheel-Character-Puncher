@@ -39,9 +39,20 @@ const guidance: ReadonlyArray<readonly [string, readonly (readonly [string, numb
     ['target shield', 1], ['buckler', 2], ['great shield', 3], ['kite shield', 4]]],
   ['arson', [['thatched cottage', 1], ['munitions dump or powder room', 2], ['house', 3], ['manor', 4],
     ['fortress', 5], ['prison', 6], ['catacombs', 7], ['castle', 8]]],
+  ['artillerist', [['scavenge shot', 1], ['carve stone shot', 2], ['small traction trebuchet', 2],
+    ['large traction trebuchet', 3], ['small catapult', 4], ['counterweight trebuchet or siege crossbow', 5],
+    ['large catapult', 6], ['range a siege crossbow', 2], ['range a small catapult or traction trebuchet', 3],
+    ['range a counterweight trebuchet', 3], ['range a catapult', 4]]],
+  ['astrology', [['name stars and constellations', 1], ['construct a horoscope', 2], ['auspices for an enterprise', 3],
+    ['ask the stars a question', 4], ['interpret celestial phenomena or omens', 5]]],
+  ['atilliator', [['crossbow', 2], ['heavy crossbow', 3], ['hand crossbow', 4], ['siege crossbow', 5]]],
+  ['aura-reading', [['subject alive/dead or plane of origin', 1], ['aura trait', 1], ['mood', 2], ['character trait', 3],
+    ['die or call-on trait', 4], ['intent', 4], ['Instinct', 6], ['Belief', 7], ['past', 8], ['future', 9],
+    ['magical or mundane object', 1], ['school of magic', 2], ['facet of a spell or enchantment', 3], ['name a spell being cast', 6]]],
+  ['baking', [['peasant bread', 1], ['flat cakes or nice bread', 2], ['cream-filled buns', 3], ['advanced pastry', 4]]],
 ];
 
-describe('General Skill List clause review: Abbey-wise through Arson', () => {
+describe('General Skill List clause review: Abbey-wise through Baking', () => {
   it.each(guidance)('preserves each printed obstacle subject and number for %s', (id, rows) => {
     const summary = catalog.skills.get(id)?.summary;
     for (const [subject, obstacle] of rows) {
@@ -91,5 +102,34 @@ describe('General Skill List clause review: Abbey-wise through Arson', () => {
       ? { ...integration, subsystem: 'magic' } : integration);
     expect(() => createSkillCatalog({ ...content, integrations } as typeof content))
       .toThrow('Invalid armor Training penalties');
+  });
+  it('separates Artillerist construction crew from the optional black-powder campaign rule', () => {
+    const restored = createSkillCatalog(JSON.parse(JSON.stringify(generalSkillTranscriptionContent)));
+    expect(restored.integrations.get('artillerist-procedure')?.artilleryProcedure).toEqual({
+      constructionCrew: { laborers: 'teams', minimumCarpenters: 1 },
+      blackPowderAlternative: { when: 'campaign-uses-black-powder-weapons',
+        covers: ['cannons', 'bombards', 'shot'], activities: ['manufacture', 'operation'],
+        bombsAndPowderSkillId: 'munitions' },
+    });
+  });
+  it('preserves the spirit-specific Aura Reading obstacle and separate aura perception requirement', () => {
+    const restored = createSkillCatalog(JSON.parse(JSON.stringify(generalSkillTranscriptionContent)));
+    expect(restored.integrations.get('aura-reading-spirit')?.spiritAuraObstacle).toEqual({
+      kind: 'detect-spirit-presence-and-nature', base: 10, subtract: 'spirit-strength',
+    });
+    expect(catalog.skills.get('aura-reading')?.useRequirements).toEqual([
+      { kind: 'capability', id: 'aura-perception', use: 'aura-perception' },
+    ]);
+  });
+  it.each([
+    ['artillerist-procedure', { artilleryProcedure: { constructionCrew: { laborers: 'teams', minimumCarpenters: 0 } } },
+      'Invalid artillery procedure'],
+    ['aura-reading-spirit', { spiritAuraObstacle: { kind: 'detect-spirit-presence-and-nature', base: 10, subtract: 'will' } },
+      'Invalid spirit aura obstacle'],
+  ])('rejects unsupported source metadata for %s', (id, override, error) => {
+    const content = generalSkillTranscriptionContent;
+    const integrations = content.integrations.map(integration => integration.id === id
+      ? { ...integration, ...override } : integration);
+    expect(() => createSkillCatalog({ ...content, integrations } as typeof content)).toThrow(error);
   });
 });

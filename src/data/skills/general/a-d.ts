@@ -71,21 +71,24 @@ export const aDSkills: readonly SkillDefinition[] = [
     source: [evidence('Armorer', 256), evidence('Armorer (continued)', 257)] },
   define('arson', 'Arson', 257, 'Use common household items to quickly set buildings ablaze. Obstacles: thatched cottage Ob 1; munitions dump or powder room Ob 2; house Ob 3; manor Ob 4; fortress Ob 5; prison Ob 6; catacombs Ob 7; castle Ob 8.', {
     rootRule: perAgi, skillType: 'Special', tools: expendable, availabilityRestrictions: only(['human', 'roden'], 'character-burning') }),
-  define('artillerist', 'Artillerist', 257, 'Design and operate war engines; black-powder use is an alternate campaign rule.', {
+  define('artillerist', 'Artillerist', 257, 'Design war engines and lob indirect fire. Shot obstacles: scavenge shot Ob 1; carve stone shot Ob 2. Construction: small traction trebuchet Ob 2; large traction trebuchet Ob 3; small catapult Ob 4; counterweight trebuchet or siege crossbow Ob 5; large catapult Ob 6. Ranging: range a siege crossbow Ob 2; range a small catapult or traction trebuchet Ob 3; range a counterweight trebuchet Ob 3; range a catapult Ob 4.', {
     rootRule: per, skillType: 'Military', tools: workshop, forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), fork('architect')),
-    integrationTags: ['equipment', 'military-campaign'] }),
-  define('artillery-hand', 'Artillery Hand', 257, 'Assemble and crew direct-fire artillery; indirect fire uses Artillerist.', {
+    integrationTags: ['equipment', 'military-campaign'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'artillery-procedure', integrationId: 'artillerist-procedure' }] }),
+  define('artillery-hand', 'Artillery Hand', 257, 'Assemble and dismantle artillery and fire direct-fire machines such as siege crossbows and ballistae. Effective operation of indirect-fire artillery requires Artillerist.', {
     rootRule: perAgi, skillType: 'Special', tools: generic, availabilityRestrictions: only(['dwarf'], 'character-burning'), forkSuggestions: forks('artillerist') }),
-  define('astrology', 'Astrology', 257, 'Celestial interpretation with a special FoRK die or a safer linked test.', {
+  { ...define('astrology', 'Astrology', 257, 'Interpret the celestial sphere. May be a linked test toward any endeavor or gambit without the special FoRK die. Obstacles: name stars and constellations Ob 1; construct a horoscope Ob 2; auspices for an enterprise Ob 3; ask the stars a question Ob 4; interpret celestial phenomena or omens Ob 5.', {
     rootRule: per, skillType: 'Academic', tools: generic, availabilityRestrictions: only(['human']),
     forkSuggestions: forks('doctrine', 'symbology'), specialForkBehaviorId: 'astrology-fork' }),
-  define('atilliator', 'Atilliator', 258, 'Manufacture and maintain crossbows.', { rootRule: perAgi, skillType: 'Craftsman', tools: workshop,
+    source: [evidence('Astrology', 257), evidence('Astrology (continued)', 258)] },
+  define('atilliator', 'Atilliator', 258, 'Manufacture and maintain crossbows. Obstacles: crossbow Ob 2; heavy crossbow Ob 3; hand crossbow Ob 4; siege crossbow Ob 5.', { rootRule: perAgi, skillType: 'Craftsman', tools: workshop,
     forkSuggestions: guidance(fork('bowyer'), fork('blacksmith'), sourceFork('Carpenter', 'carpentry')), integrationTags: ['equipment'] }),
-  define('aura-reading', 'Aura Reading', 258, 'Interpret visible auras; does not itself grant aura perception.', {
-    rootRule: willPer, skillType: 'Sorcerous', tools: none, useRequirements: [{ kind: 'capability', id: 'aura-perception', use: 'aura-perception' }], integrationTags: ['magic'] }),
-  define('axe', 'Axe', 258, 'Blade and haft strikes with axes.', { rootRule: combined('power', 'agility'), skillType: 'Martial', tools: item('axe'),
+  define('aura-reading', 'Aura Reading', 258, 'Interpret visible auras; obtain aura perception separately through a trait, prayer or spell. Obstacles: subject alive/dead or plane of origin Ob 1; aura trait Ob 1; mood Ob 2; character trait Ob 3; die or call-on trait Ob 4; intent Ob 4; Instinct Ob 6; Belief Ob 7; past Ob 8; future Ob 9; magical or mundane object Ob 1; school of magic Ob 2; facet of a spell or enchantment Ob 3; name a spell being cast Ob 6.', {
+    rootRule: willPer, skillType: 'Sorcerous', tools: none, useRequirements: [{ kind: 'capability', id: 'aura-perception', use: 'aura-perception' }], integrationTags: ['magic'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'spirit-aura-obstacle', integrationId: 'aura-reading-spirit' }] }),
+  define('axe', 'Axe', 258, 'Strike with the blade or haft of one- or two-handed axes.', { rootRule: combined('power', 'agility'), skillType: 'Martial', tools: item('axe'),
     semanticCategories: ['melee-weapon'], forkSuggestions: guidance(fork('brawling'), fork('martial-arts'), melee), integrationTags: ['fight'] }),
-  define('baking', 'Baking', 258, 'Bread, cakes and pastries.', { rootRule: perAgi, skillType: 'Peasant', tools: workshop, forkSuggestions: forks('cooking') }),
+  define('baking', 'Baking', 258, 'Bake bread, cakes and pastries. Obstacles: peasant bread Ob 1; flat cakes or nice bread Ob 2; cream-filled buns Ob 3; advanced pastry Ob 4.', { rootRule: perAgi, skillType: 'Peasant', tools: workshop, forkSuggestions: forks('cooking') }),
   define('ballad-of-history', 'Ballad of History', 259, 'Mnemonic Elven history songs.', { rootRule: per, skillType: 'Academic', tools: none,
     ...magical, availabilityRestrictions: only(['elf']), semanticCategories: ['song'], forkSuggestions: guidance({ target: {
       kind: 'anyOf', targets: [{ kind: 'skill-family', familyId: 'history', relevance: 'appropriate' },
@@ -203,7 +206,20 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('dye-manufacture', 'Dye Manufacture', 269, 'Find materials and manufacture dyes.', { rootRule: perAgi, skillType: 'Craftsman', tools: expendable }),
 ];
 
-export const aDIntegrations = [{ id: 'archcraft-antiphon', skillId: 'archcraft', subsystem: 'magic',
+export const aDIntegrations = [{ id: 'artillerist-procedure', skillId: 'artillerist', subsystem: 'military-campaign',
+  artilleryProcedure: {
+    constructionCrew: { laborers: 'teams', minimumCarpenters: 1 },
+    blackPowderAlternative: { when: 'campaign-uses-black-powder-weapons',
+      covers: ['cannons', 'bombards', 'shot'], activities: ['manufacture', 'operation'],
+      bombsAndPowderSkillId: 'munitions' },
+  },
+  summary: 'Construction requires teams of laborers and at least one carpenter; the black-powder rule is a campaign option.',
+  source: [evidence('Artillerist', 257)],
+}, { id: 'aura-reading-spirit', skillId: 'aura-reading', subsystem: 'magic',
+  spiritAuraObstacle: { kind: 'detect-spirit-presence-and-nature', base: 10, subtract: 'spirit-strength' },
+  summary: 'Detect a spirit’s presence and nature at Ob 10 minus its Strength.',
+  source: [evidence('Aura Reading', 258)],
+}, { id: 'archcraft-antiphon', skillId: 'archcraft', subsystem: 'magic',
   createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
   summary: 'Archcraft creates the dwelling; Antiphon Union and an applicable spell song enable enchantment.',
   source: [evidence('Archcraft', 256)],
