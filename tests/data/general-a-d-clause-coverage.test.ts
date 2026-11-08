@@ -27,9 +27,12 @@ const guidance: ReadonlyArray<readonly [string, readonly (readonly [string, numb
     ['general seasonal weather', 1], ['planting and harvest times', 2],
     ['reasonably accurate weather prediction', 3], ['festivals and holidays', 4],
   ]],
+  ['anatomy', [['dog anatomy', 1], ['superficial human anatomy', 2], ['major human organs', 3],
+    ['circulatory system', 4], ['human dissection', 5]]],
+  ['animal-husbandry', [['chickens', 1], ['pigs or goats', 2], ['cows or horses', 3], ['exotic animals', 4]]],
 ];
 
-describe('General Skill List clause review: Abbey-wise through Ambition-wise', () => {
+describe('General Skill List clause review: Abbey-wise through Animal Husbandry', () => {
   it.each(guidance)('preserves each printed obstacle subject and number for %s', (id, rows) => {
     const summary = catalog.skills.get(id)?.summary;
     for (const [subject, obstacle] of rows) {

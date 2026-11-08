@@ -688,6 +688,15 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         throw new Error('Invalid created-equipment capability');
       }
     }
+    if (integration.judicialFineAssessment !== undefined) {
+      const assessment = integration.judicialFineAssessment;
+      if (integration.subsystem !== 'resources' || !assessment || assessment.kind !== 'judicial-fine-assessment' ||
+          assessment.output?.kind !== 'resources-obstacle' || assessment.output.purpose !== 'judicial-fine' ||
+          assessment.determination !== 'source-unspecified' ||
+          Object.keys(assessment).length !== 3 || Object.keys(assessment.output).length !== 2) {
+        throw new Error('Invalid judicial fine assessment');
+      }
+    }
     if (integration.priceReduction !== undefined) {
       const effect = integration.priceReduction;
       if (integration.subsystem !== 'resources' || !effect || effect.kind !== 'appraised-item-price-reduction' ||

@@ -28,13 +28,14 @@ export const aDSkills: readonly SkillDefinition[] = [
     rootRule: per, skillType: 'Sorcerous', tools: expendable, availabilityRestrictions: only(['human']),
     forkSuggestions: forks('enchanting', 'herbalism', 'apothecary', 'munitions', 'poisons'), integrationTags: ['magic'] }),
   define('almanac', 'Almanac', 254, 'Knowledge of seasons, tides, weather and lunar phases. A character with the skill can always tell the time of year nearly to the day and can make accurate predictions about the season’s weather. Obstacles: general seasonal weather Ob 1; planting and harvest times Ob 2; reasonably accurate weather prediction Ob 3; festivals and holidays Ob 4.', { rootRule: per, skillType: 'Peasant', tools: none }),
-  define('amercement', 'Amercement', 254, 'Legal fines and their Resources obstacles.', {
-    rootRule: per, skillType: 'School of Thought', tools: none, integrationTags: ['resources'] }),
-  define('ancient-languages', 'Ancient Languages', 254, 'Defunct languages using Foreign Languages mechanics.', {
+  define('amercement', 'Amercement', 254, 'Assess judicial fines, usually offered in place of corporal punishment. Skill-test obstacles measure how accurate and just the assessment is under the law: low justice (fine only) Ob 2; middle justice (amputation, branding or fine) Ob 3; high justice (capital crimes) Ob 5.', {
+    rootRule: per, skillType: 'School of Thought', tools: none, integrationTags: ['resources'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'judicial-fine-assessment', integrationId: 'amercement-judicial-fine-assessment' }] }),
+  define('ancient-languages', 'Ancient Languages', 254, 'Know defunct languages appropriate to the setting. Uses Foreign Languages mechanics.', {
     rootRule: per, skillType: 'Academic', tools: none, relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'foreign-languages' } }] }),
-  define('anatomy', 'Anatomy', 255, 'Anatomical structures and internal functions.', {
+  define('anatomy', 'Anatomy', 255, 'Study the human body’s structure and internal functions. Obstacles: dog anatomy Ob 1; superficial human anatomy Ob 2; major human organs Ob 3; circulatory system Ob 4; human dissection Ob 5.', {
     rootRule: per, skillType: 'Academic', tools: none, forkSuggestions: forks('surgery', 'field-dressing') }),
-  define('animal-husbandry', 'Animal Husbandry', 255, 'Raising, breeding and caring for animals.', {
+  define('animal-husbandry', 'Animal Husbandry', 255, 'Raise, care for and breed animals. Obstacles: chickens Ob 1; pigs or goats Ob 2; cows or horses Ob 3; exotic animals Ob 4. For tending wounds and illness use the separate obstacle reference.', {
     rootRule: will, skillType: 'Peasant', tools: generic, integrationTags: ['injury'],
     relations: [{ kind: 'obstacle-reference', targets: { kind: 'anyOf', targets: [
       { kind: 'skill', skillId: 'field-dressing' }, { kind: 'skill', skillId: 'apothecary' },

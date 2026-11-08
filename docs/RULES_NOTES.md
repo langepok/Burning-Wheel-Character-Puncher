@@ -231,6 +231,14 @@ credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
 
+### Amercement judicial fine assessment (BWGR 254 / PDF 256)
+
+Amercement can set the Resources obstacle of a judicial fine. Its own
+test obstacles, Ob 2/3/5 for low, middle and high justice respectively,
+concern the assessment's accuracy and justice under the law. They do not
+specify the resulting fine obstacle. The entry gives no conversion or
+payment procedure; the Resources descriptor keeps determination unspecified.
+
 ### Haggling negotiation (BWGR 276 / PDF 278)
 
 Haggling negotiates price, purchase terms and contracts through a buyer/seller

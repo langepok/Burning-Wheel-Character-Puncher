@@ -2,6 +2,11 @@ import type { SkillIntegration } from '../types';
 import { evidence } from './shared';
 
 export const resourceIntegrations: readonly SkillIntegration[] = [
+  { id: 'amercement-judicial-fine-assessment', skillId: 'amercement', subsystem: 'resources',
+    judicialFineAssessment: { kind: 'judicial-fine-assessment',
+      output: { kind: 'resources-obstacle', purpose: 'judicial-fine' }, determination: 'source-unspecified' },
+    summary: 'Sets the Resources obstacle of a judicial fine. The entry does not specify how to determine the amount.',
+    source: [evidence('Amercement', 254)] },
   { id: 'shrewd-appraisal-price-reduction', skillId: 'shrewd-appraisal', subsystem: 'resources',
     priceReduction: { kind: 'appraised-item-price-reduction', target: 'appraised-item',
       basis: { kind: 'identified-flaws' }, magnitude: 'source-unspecified' },

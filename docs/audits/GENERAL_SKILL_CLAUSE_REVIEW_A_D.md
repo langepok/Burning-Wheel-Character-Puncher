@@ -4,11 +4,12 @@ In progress. The user confirmed the 604-page BWGR PDF as the project source.
 The earlier 601-page count was a text extraction cutoff. Page pairs below
 are book / PDF. This review is separate from the identity manifest.
 
-The first nine headings, Abbey-wise through Ambition-wise, were reviewed.
+Thirteen headings, Abbey-wise through Animal Husbandry, were reviewed.
 Counts treat each obstacle row and each named FoRK as a clause; tool
 expendability is part of the tools clause. Bare Wise headings have no
-entry-specific clauses. The table accounts for 79 clauses, including
-39 obstacle rows. Descriptive paraphrases are not verbatim source text.
+entry-specific clauses. The completed review accounts for 113 clauses,
+including 51 obstacle rows. Antiphon is recorded separately and is not
+counted as closed. Descriptive paraphrases are not verbatim source text.
 
 | Entry and pages | RAW paraphrase | Status and catalog location | Regression |
 | --- | --- | --- | --- |
@@ -26,28 +27,29 @@ entry-specific clauses. The table accounts for 79 clauses, including
 | Almanac 254 / 256 | Perception; Peasant; no tools. Knows the time of year nearly to the day; can predict the season's weather accurately. | Structured: root, type, tools. Precise guidance: `almanac.summary`; the two capabilities restored without a calendar or weather resolver. | Clause coverage checks both separate capabilities. |
 | Almanac 254 / 256 | General seasonal weather Ob 1; planting and harvest times 2; reasonably accurate weather prediction 3; festivals and holidays 4. | Precise guidance: `almanac.summary`; restored. | Clause coverage: all four pairs. |
 
-## Paused at Amercement
+| Amercement 254 / 256 | Perception; School of Thought; no tools. Fines usually replace corporal punishment. Test obstacles measure accuracy and justice under the law: low justice (fine only) Ob 2; middle justice (amputation, branding or fine) Ob 3; high justice (capital crimes) Ob 5. | Structured: root, type and tools. Precise guidance: `amercement.summary`. | `judicial-fine-assessment` checks base metadata and all three test obstacles. |
+| Amercement 254 / 256 | May set the Resources obstacle of the fine; the source specifies no mapping from the skill test. | Structured: `amercement-judicial-fine-assessment` Resources integration, determination source-unspecified. | Descriptor, round-trip and rejection of invented numbers, conversion and payment. |
+| Ancient Languages 254 / 256 | Know defunct languages appropriate to the setting. Perception; Academic; no tools. Uses Foreign Languages mechanics. | Precise guidance: `ancient-languages.summary`. Structured: root, type, tools and same-mechanics relation. | Manifest and catalog reference integrity. |
+| Anatomy 255 / 257 | Study human body structure and function. Perception; Academic; no tools. FoRKs Surgery and Field Dressing. Dog Ob 1; superficial human anatomy 2; major organs 3; circulatory system 4; human dissection 5. | Structured: root, type, tools and FoRKs. Precise guidance: `anatomy.summary`, obstacle rows restored. | Clause coverage checks all five pairs. |
+| Animal Husbandry 255 / 257 | Raise, care for and breed animals. Will; Peasant; tools required. Chickens Ob 1; pigs or goats 2; cows or horses 3; exotic animals 4. When tending wounds and illness, use Field Dressing or Apothecary obstacles. | Structured: root, type, tools and contextual obstacle-reference. Precise guidance: `animal-husbandry.summary`, obstacle rows restored. | Clause coverage checks all four pairs; `obstacle-reference` covers the distinct medical procedure. |
 
-Book 254 / PDF 256. Perception, School of Thought, no tools are structured
-in `amercement`. The entry lets the character **set a judicial fine's Resources
-obstacle**. The skill-test obstacles measure how accurate and just the
-amount is under the law: low justice (fine only) Ob 2; middle justice
-(amputation, branding or fine) Ob 3; high justice (capital crimes) Ob 5.
-These are not the Resources obstacles of the resulting fines. The entry
-does not specify a conversion from the skill-test obstacle or result to
-the Resources obstacle. Fines are usually offered instead of corporal
-punishment; that wording is guidance, not an eligibility restriction.
+## Paused at Antiphon Union Training
 
-**Missing:** the category guidance and the structured fine-setting effect.
-The current summary and Resources tag do not distinguish the test from
-its output. Neither direct Resources recovery/cash nor price negotiation
-or reduction describes this effect. Proposed minimum: a Resources
-integration descriptor for setting the Resources obstacle of a judicial
-fine, with source-unspecified determination of that obstacle. No payment,
-pricing, or fine-setting evaluator. Tests should separate the three
-printed test obstacles from the unquantified fine obstacle, verify
-serialization, and reject invented conversions.
+Book 255 / PDF 257. The entry describes two stages. The current
+`antiphon-creation` integration represents making the base item with an
+applicable skill song under that song's own rules and tools. The owning
+record preserves Will for Aptitude only, Artisan, Elves only, and no
+Antiphon tools. Existing source-gap tests cover the preceding stage and
+non-propagation of its tools.
 
-Later headings have not been signed off in this pass. In particular the
-previously identified Antiphon Union stage constraints (255 / 257) remain
-open. Existing RAW ambiguities and source labels retain their status.
+| RAW clause | Status and planned regression |
+| --- | --- |
+| Base creation obstacle is at least 5; retain the natural obstacle if higher. | Missing. Test the floor and preservation of the higher natural obstacle without an evaluator. |
+| An enchantment holds only in a structure of the highest quality; cheap or shoddy work does not hold it. | Missing. Preserve the source quality requirement without equating it with a separately named equipment quality. |
+| Once the item is created, sing the spell song under its own rules; the singer gets one chance to transfer the effect. | Missing structured transfer stage. Test sequencing, the external spell-song rules reference and the single attempt. |
+| The spell effect is imbued in the item and active whenever it is used. | Missing structured effect target and activation trigger. Test use of the item rather than completion of the crafting test. |
+
+Proposed minimum: add the obstacle floor and quality requirement to
+the existing base creation metadata, and add a separate transfer-stage
+descriptor within the same magic integration. No enchanting evaluator
+or tool propagation. Later headings are not signed off in this pass.

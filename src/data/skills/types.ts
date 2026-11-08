@@ -287,6 +287,12 @@ export interface WagerSettlement {
   readonly outcomes: readonly WagerSettlementOutcome[];
 }
 /** Price effect of finding flaws, not a numeric Resources/cash/valuation modifier. */
+export interface JudicialFineAssessment {
+  readonly kind: 'judicial-fine-assessment';
+  readonly output: { readonly kind: 'resources-obstacle'; readonly purpose: 'judicial-fine' };
+  readonly determination: 'source-unspecified';
+}
+
 export interface AppraisedItemPriceReduction {
   readonly kind: 'appraised-item-price-reduction';
   readonly target: 'appraised-item';
@@ -509,13 +515,13 @@ export interface BattlefieldCommandBroadcast {
 
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly sustainedSpellReference?: SustainedSpellReference;
-      readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
+      readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly judicialFineAssessment?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
   | { readonly subsystem: 'equipment'; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: CraftedPoison; readonly craftedConsumableEffect?: CraftedConsumableEffect; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[];
-      readonly equipmentUseEffect?: EquipmentUseEffect; readonly equipmentResult?: EquipmentResult; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly structureResistance?: StructureResistance; readonly createdEquipmentCapability?: CreatedEquipmentCapability }
+      readonly equipmentUseEffect?: EquipmentUseEffect; readonly equipmentResult?: EquipmentResult; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly judicialFineAssessment?: never; readonly structureResistance?: StructureResistance; readonly createdEquipmentCapability?: CreatedEquipmentCapability }
   | { readonly subsystem: 'resources'; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never; readonly createdItemValueEffects?: readonly CreatedItemValueEffect[]; readonly equipmentUseEffect?: never;
-      readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly priceReduction?: AppraisedItemPriceReduction; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
+      readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly wagerSettlement?: WagerSettlement; readonly purchaseNegotiation?: PurchaseNegotiation; readonly priceReduction?: AppraisedItemPriceReduction; readonly judicialFineAssessment?: JudicialFineAssessment; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
   | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
-      readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
+      readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly judicialFineAssessment?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
 ) & (
   | { readonly subsystem: 'fight'; readonly shieldUse?: ShieldUse; readonly twoWeaponUse?: TwoWeaponUse }
   | { readonly subsystem: Exclude<IntegrationTag, 'fight'>; readonly shieldUse?: never; readonly twoWeaponUse?: never }
