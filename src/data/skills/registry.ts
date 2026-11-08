@@ -163,6 +163,11 @@ function validateTools(tools: ToolRequirement, requireSkill: (id: string) => voi
 export function createSkillCatalog(content: SkillCatalogContent) {
   const skills = index(content.skills);
   const references = index(content.references);
+  for (const reference of references.values()) {
+    if (reference.rollability !== undefined && reference.rollability !== 'training-no-exponent') {
+      throw new Error('Invalid skill reference rollability');
+    }
+  }
   const families = index(content.families);
   const choices = index(content.choices);
   for (const choice of choices.values()) {
@@ -185,7 +190,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   };
   const requireRollingSkill = (id: string) => {
     requireSkill(id);
-    if (skills.get(id)?.training?.kind === 'training') {
+    if (skills.get(id)?.training?.kind === 'training' || references.get(id)?.rollability === 'training-no-exponent') {
       throw new Error('Invalid acting ability: Training has no exponent');
     }
   };

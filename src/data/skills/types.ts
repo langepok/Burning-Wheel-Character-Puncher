@@ -937,6 +937,8 @@ export interface SkillNameReference {
   readonly id: SkillId;
   readonly sourceName: string;
   readonly source: readonly SkillSource[];
+  /** Only when the source establishes that this reference is exponentless Training. */
+  readonly rollability?: 'training-no-exponent';
 }
 
 export interface SkillFamilyDefinition {

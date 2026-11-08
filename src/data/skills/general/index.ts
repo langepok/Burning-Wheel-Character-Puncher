@@ -29,6 +29,7 @@ export const generalSkillTranscriptionContent: SkillCatalogContent = {
   skills,
   references: [...generalNameReferences.filter(reference => !loadedIds.has(reference.id)),
     { id: 'mounted-combat-bowman-training', sourceName: 'Mounted Combat: Bowman Training',
+      rollability: 'training-no-exponent',
       source: [evidence('Elven Outrider lifepath', 137), evidence('Elven Lancer character', 130)] }],
   families: [
     { id: 'wises', sourceName: 'Wises', ownership: 'separate-skill-per-topic',
