@@ -503,6 +503,23 @@ This decision adds no Belief catalog, predefined Belief types, semantic classifi
 text matching, narrative mutation/revision runtime, or Belief/Artha/fate/death/
 campaign evaluator. It does not expand implementation to Instincts or Traits.
 
+## D-029 — Task and skill applicability is many-to-many
+
+**Status:** Accepted — architecture decision
+
+A game task has no single owning skill. Multiple source-supported procedures may
+reach the same goal while retaining different conditions, costs and effects.
+Adding a procedure does not replace the others. Thematic similarity does not
+establish interchangeability, and applicability may require contextual judgment.
+
+Keep independent procedures, FoRK guidance, helping/cooperation, prerequisites,
+and stages of a composite task distinct. A relation in one of these roles does
+not grant the others. For example, Antiphon Union's base-item creation stage
+does not make the chosen skill song a FoRK for enchantment.
+
+This decision does not introduce a task registry, action ontology, or automatic
+skill matching.
+
 ## Open decisions
 
 The following require an audit or implementation spike before being accepted:
