@@ -531,6 +531,12 @@ export interface MedicinalPreparations {
     readonly duration: { readonly unit: 'hours'; readonly amount: number } };
 }
 
+export interface ArmorTrainingPenalties {
+  readonly untrained: { readonly appliesTo: 'all-tests'; readonly lightMail: number; readonly heavyMailOrHeavier: number };
+  readonly trained: { readonly armorObstaclePenalties: 'removed'; readonly armorFatiguePenalties: 'mitigated';
+    readonly clumsyWeight: 'still-applies' };
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly spellSongTransfer?: MagicSpellSongTransfer; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly judicialFineAssessment?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
@@ -554,9 +560,9 @@ export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: Exclude<IntegrationTag, 'battlefield-communication'>; readonly battlefieldCommandBroadcast?: never }
 ) & (
   | { readonly subsystem: 'equipment'; readonly weaponImprovements?: WeaponImprovementOptions;
-      readonly sourceSpecificQualities?: SourceSpecificEquipmentQualities; readonly craftingShadeRequirement?: CraftingShadeRequirement; readonly createdEquipmentQuality?: CreatedEquipmentQuality }
+      readonly sourceSpecificQualities?: SourceSpecificEquipmentQualities; readonly craftingShadeRequirement?: CraftingShadeRequirement; readonly createdEquipmentQuality?: CreatedEquipmentQuality; readonly armorTraining?: ArmorTrainingPenalties }
   | { readonly subsystem: Exclude<IntegrationTag, 'equipment'>; readonly weaponImprovements?: never;
-      readonly sourceSpecificQualities?: never; readonly craftingShadeRequirement?: never; readonly createdEquipmentQuality?: never }
+      readonly sourceSpecificQualities?: never; readonly craftingShadeRequirement?: never; readonly createdEquipmentQuality?: never; readonly armorTraining?: never }
 );
 
 /** Closed source-shaped alternatives, not reusable arithmetic expressions. */
@@ -874,7 +880,9 @@ export type SkillChoiceExpression = {
   readonly id: string;
   readonly sourceName: string;
   readonly kind: 'appropriate-weapons';
-  readonly selection: { readonly kind: 'real-weapon-skills'; readonly contextRequired: true };
+  readonly selection: { readonly kind: 'real-weapon-skills'; readonly contextRequired: true;
+    readonly considerations?: readonly ['lifepaths', 'character-concept', 'game-setting'];
+    readonly cardinality?: 'any-and-all-appropriate' };
   readonly source: readonly SkillSource[];
 };
 export interface SkillCatalogContent {

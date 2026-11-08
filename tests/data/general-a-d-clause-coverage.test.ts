@@ -30,9 +30,18 @@ const guidance: ReadonlyArray<readonly [string, readonly (readonly [string, numb
   ['anatomy', [['dog anatomy', 1], ['superficial human anatomy', 2], ['major human organs', 3],
     ['circulatory system', 4], ['human dissection', 5]]],
   ['animal-husbandry', [['chickens', 1], ['pigs or goats', 2], ['cows or horses', 3], ['exotic animals', 4]]],
+  ['archcraft', [['simple arch', 1], ['small gate', 2], ['large gate', 3], ['chamber', 4], ['domed hall', 5]]],
+  ['architect', [['cottage plans', 1], ['longhouse', 2], ['two-story structure', 4], ['tower', 5],
+    ['complex designs such as temples', 6], ['non-Euclidean designs of the Outer Gods', 10]]],
+  ['armorer', [['gambeson, skull cap or leather hood', 1], ['reinforced leather, light helmet or pot helm', 2],
+    ['light mail or spangenhelm', 3], ['heavy mail, open-faced bascinet or barbute', 4],
+    ['plated mail, sallet or closed bascinet', 5], ['full plate or great helm', 6],
+    ['target shield', 1], ['buckler', 2], ['great shield', 3], ['kite shield', 4]]],
+  ['arson', [['thatched cottage', 1], ['munitions dump or powder room', 2], ['house', 3], ['manor', 4],
+    ['fortress', 5], ['prison', 6], ['catacombs', 7], ['castle', 8]]],
 ];
 
-describe('General Skill List clause review: Abbey-wise through Animal Husbandry', () => {
+describe('General Skill List clause review: Abbey-wise through Arson', () => {
   it.each(guidance)('preserves each printed obstacle subject and number for %s', (id, rows) => {
     const summary = catalog.skills.get(id)?.summary;
     for (const [subject, obstacle] of rows) {
@@ -51,5 +60,36 @@ describe('General Skill List clause review: Abbey-wise through Animal Husbandry'
     const summary = catalog.skills.get('almanac')?.summary;
     expect(summary).toContain('always tell the time of year nearly to the day');
     expect(summary).toContain('accurate predictions about the season’s weather');
+  });
+
+  it('links Archcraft enchantment to Antiphon rather than treating the examples as requirements', () => {
+    expect(catalog.integrations.get('archcraft-antiphon')?.createdItemReference).toEqual({
+      kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training',
+    });
+    expect(catalog.skills.get('archcraft')?.summary).toContain('Examples include');
+  });
+
+  it('retains all three Appropriate Weapons selection considerations without creating a skill', () => {
+    expect(catalog.choices.get('appropriate-weapons')?.selection).toMatchObject({
+      kind: 'real-weapon-skills', contextRequired: true,
+      considerations: ['lifepaths', 'character-concept', 'game-setting'],
+      cardinality: 'any-and-all-appropriate',
+    });
+    expect(catalog.skills.has('appropriate-weapons')).toBe(false);
+  });
+
+  it('keeps Armor Training mitigation separate from Clumsy Weight', () => {
+    const restored = createSkillCatalog(JSON.parse(JSON.stringify(generalSkillTranscriptionContent)));
+    expect(restored.integrations.get('armor-training-penalties')?.armorTraining).toEqual({
+      untrained: { appliesTo: 'all-tests', lightMail: 1, heavyMailOrHeavier: 2 },
+      trained: { armorObstaclePenalties: 'removed', armorFatiguePenalties: 'mitigated', clumsyWeight: 'still-applies' },
+    });
+  });
+  it('rejects assigning Armor Training penalties to a non-equipment subsystem', () => {
+    const content = generalSkillTranscriptionContent;
+    const integrations = content.integrations.map(integration => integration.id === 'armor-training-penalties'
+      ? { ...integration, subsystem: 'magic' } : integration);
+    expect(() => createSkillCatalog({ ...content, integrations } as typeof content))
+      .toThrow('Invalid armor Training penalties');
   });
 });

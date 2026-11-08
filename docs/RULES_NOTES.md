@@ -231,6 +231,14 @@ credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
 
+### Armor Training and Archcraft (BWGR 256 / PDF 258)
+
+Without Armor Training, light mail adds +1 Ob to tests and heavy mail or
+heavier adds +2 Ob. Training removes those penalties and mitigates armor
+fatigue; Clumsy Weight still applies. Archcraft can create enchanted
+dwellings through Antiphon Union and spell songs. The printed examples
+illustrate the combination and do not restrict which spell songs may apply.
+
 ### Apothecary and Appraisal (BWGR 255–256 / PDF 257–258)
 
 Apothecary pain medicine (Ob 3) eases a +1 Ob pain penalty. Local numbing

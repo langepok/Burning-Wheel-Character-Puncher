@@ -57,17 +57,19 @@ export const aDSkills: readonly SkillDefinition[] = [
         { kind: 'skill-type', skillType: 'Artisan', relevance: 'appropriate' },
         { kind: 'skill-type', skillType: 'Craftsman', relevance: 'appropriate' } ],
     } }) }), source: [evidence('Appraisal', 255), evidence('Appraisal (continued)', 256)] },
-  define('archcraft', 'Archcraft', 256, 'Elven architecture and engineering.', {
+  define('archcraft', 'Archcraft', 256, 'Design and build Elven halls with architecture and engineering. Antiphon Union and spell songs enable enchanted dwellings. Examples include buildings woven around trees with Song of Arbors, gates that warn of intruders with Alarm, and an atrium that predicts weather with Weathersong. Obstacles: simple arch Ob 1; small gate Ob 2; large gate Ob 3; chamber Ob 4; domed hall Ob 5.', {
     rootRule: combined('will', 'agility'), skillType: 'Artisan', tools: workshop, ...magical, availabilityRestrictions: only(['elf']),
     forkSuggestions: forks('woodcraft', 'stonecraft'), relations: ['architect', 'engineering'].map(id => ({ kind: 'includes-capability', target: { kind: 'skill', id } })),
-    integrationTags: ['magic', 'equipment'] }),
-  define('architect', 'Architect', 256, 'Plans and navigation of complex structures.', {
+    integrationTags: ['magic', 'equipment'], capabilities: [{ kind: 'subsystem-capability', id: 'archcraft-antiphon', integrationId: 'archcraft-antiphon' }] }),
+  define('architect', 'Architect', 256, 'Draw accurate plans for a proposed structure, attempt plans for an existing structure, or navigate using existing plans. Obstacles: cottage plans Ob 1; longhouse Ob 2; two-story structure Ob 4; tower Ob 5; complex designs such as temples Ob 6; non-Euclidean designs of the Outer Gods Ob 10.', {
     rootRule: per, skillType: 'Academic', tools: workshop, forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), fork('mason'), sourceFork('Carpenter', 'carpentry')) }),
   define('armor-training', 'Armor Training', 256, 'Training mitigates armor and armor-fatigue penalties; Clumsy Weight remains.', {
-    rootRule: combined('power', 'speed'), skillType: 'Martial Training', tools: none, training: aptitudeTraining, printedMarkers: ['*'], integrationTags: ['equipment'] }),
-  define('armorer', 'Armorer', 256, 'Manufacture armor and shields.', { rootRule: perAgi, skillType: 'Craftsman', tools: workshop,
+    rootRule: combined('power', 'speed'), skillType: 'Martial Training', tools: none, training: aptitudeTraining, printedMarkers: ['*'], integrationTags: ['equipment'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'armor-training-penalties', integrationId: 'armor-training-penalties' }] }),
+  { ...define('armorer', 'Armorer', 256, 'Manufacture armor and shields. Armor obstacles: gambeson, skull cap or leather hood Ob 1; reinforced leather, light helmet or pot helm Ob 2; light mail or spangenhelm Ob 3; heavy mail, open-faced bascinet or barbute Ob 4; plated mail, sallet or closed bascinet Ob 5; full plate or great helm Ob 6. Shield obstacles: target shield Ob 1; buckler Ob 2; great shield Ob 3; kite shield Ob 4.', { rootRule: perAgi, skillType: 'Craftsman', tools: workshop,
     forkSuggestions: forks('blacksmith', 'sewing', 'tanner'), integrationTags: ['equipment'] }),
-  define('arson', 'Arson', 257, 'Set buildings ablaze with common materials.', {
+    source: [evidence('Armorer', 256), evidence('Armorer (continued)', 257)] },
+  define('arson', 'Arson', 257, 'Use common household items to quickly set buildings ablaze. Obstacles: thatched cottage Ob 1; munitions dump or powder room Ob 2; house Ob 3; manor Ob 4; fortress Ob 5; prison Ob 6; catacombs Ob 7; castle Ob 8.', {
     rootRule: perAgi, skillType: 'Special', tools: expendable, availabilityRestrictions: only(['human', 'roden'], 'character-burning') }),
   define('artillerist', 'Artillerist', 257, 'Design and operate war engines; black-powder use is an alternate campaign rule.', {
     rootRule: per, skillType: 'Military', tools: workshop, forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), fork('architect')),
@@ -201,7 +203,18 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('dye-manufacture', 'Dye Manufacture', 269, 'Find materials and manufacture dyes.', { rootRule: perAgi, skillType: 'Craftsman', tools: expendable }),
 ];
 
-export const aDIntegrations = [{ id: 'apothecary-medicines', skillId: 'apothecary', subsystem: 'injury',
+export const aDIntegrations = [{ id: 'archcraft-antiphon', skillId: 'archcraft', subsystem: 'magic',
+  createdItemReference: { kind: 'antiphon-union', target: 'created-item', skillId: 'antiphon-union-training' },
+  summary: 'Archcraft creates the dwelling; Antiphon Union and an applicable spell song enable enchantment.',
+  source: [evidence('Archcraft', 256)],
+}, { id: 'armor-training-penalties', skillId: 'armor-training', subsystem: 'equipment',
+  armorTraining: {
+    untrained: { appliesTo: 'all-tests', lightMail: 1, heavyMailOrHeavier: 2 },
+    trained: { armorObstaclePenalties: 'removed', armorFatiguePenalties: 'mitigated', clumsyWeight: 'still-applies' },
+  },
+  summary: 'Training removes the untrained armor obstacle penalties and mitigates fatigue for all armor; Clumsy Weight still applies.',
+  source: [evidence('Armor Training', 256)],
+}, { id: 'apothecary-medicines', skillId: 'apothecary', subsystem: 'injury',
   medicinalPreparations: {
     painRelief: { testObstacle: 3, effect: { kind: 'relieve-pain-obstacle-penalty', magnitude: 1 } },
     localNumbing: { testObstacle: 4, effect: { kind: 'reduce-wound-die-penalty', dice: 1 },

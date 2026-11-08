@@ -696,6 +696,19 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         throw new Error('Invalid structure resistance');
       }
     }
+    if (integration.armorTraining !== undefined) {
+      const profile = integration.armorTraining;
+      const untrained = profile?.untrained;
+      const trained = profile?.trained;
+      if (integration.subsystem !== 'equipment' || skills.get(integration.skillId)?.training?.kind !== 'training' ||
+          untrained?.appliesTo !== 'all-tests' || !Number.isSafeInteger(untrained.lightMail) || untrained.lightMail <= 0 ||
+          !Number.isSafeInteger(untrained.heavyMailOrHeavier) || untrained.heavyMailOrHeavier <= 0 ||
+          trained?.armorObstaclePenalties !== 'removed' || trained.armorFatiguePenalties !== 'mitigated' ||
+          trained.clumsyWeight !== 'still-applies' || Object.keys(untrained).length !== 3 ||
+          Object.keys(trained).length !== 3 || Object.keys(profile).length !== 2) {
+        throw new Error('Invalid armor Training penalties');
+      }
+    }
     if (integration.createdEquipmentCapability !== undefined) {
       const result = integration.createdEquipmentCapability;
       if (integration.subsystem !== 'equipment' || !result || result.kind !== 'created-equipment-capability' ||
