@@ -869,7 +869,9 @@ Visually reviewed book 297 / PDF 299. Cooperation belongs to the Range and Cover
 integration and explicitly references only its external maneuver roll. Helper and
 recipient are named roles; each-participant requires Skirmish Tactics Training,
 and team must be same. maxParticipants 5 limits the mutually helping group,
-not five helpers plus a primary. It is not a dice cap or contribution formula.
+not five helpers plus a primary. `maxParticipants: 5` is the accepted
+provisional interpretation pending the dedicated Range and Cover review;
+see [Q-10](SKILL_CATALOG_UNRESOLVED.md). It is not a dice cap or contribution formula.
 
 Production and the existing partial fixture now carry the same structured source
 facts. Integrity checks require a loaded Training reference, validate nested

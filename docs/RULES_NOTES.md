@@ -611,7 +611,9 @@ Meditation's special opposed procedure. These records add no subsystem execution
 Trained fighters may help other fighters with the same Training, on the same
 team, on Range and Cover maneuver rolls. The source limits mutually helping
 skirmishers to five: store a cooperating-group participant limit, not five helpers
-plus a primary. No contribution dice or helping calculation is specified here.
+plus a primary. `maxParticipants: 5` is the accepted provisional interpretation
+pending the dedicated Range and Cover review; see
+[Q-10](audits/SKILL_CATALOG_UNRESOLVED.md). No contribution dice or helping calculation is specified here.
 Training's combined Will/Perception root is explicitly Aptitude-only; practice and
 instruction remain learning methods. Cooperation metadata grants no broader Fight
 or generic-test permission and executes no subsystem rules.

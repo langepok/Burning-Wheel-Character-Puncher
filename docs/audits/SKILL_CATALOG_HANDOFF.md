@@ -55,13 +55,16 @@ global clause count.
 
 ## Development dependency finding
 
-Read-only npm audit reported Vite 8.3.2, a direct development dependency
-also shared by the React plugin and Vitest. The production-only audit
-reported zero findings. Vite 8.3.3 is a compatible patched release.
+Read-only npm audit reported one affected package, Vite 8.3.2, a direct
+development dependency also shared by the React plugin and Vitest. npm
+groups six advisories under that package, with maximum severity high. The
+production-only audit reported zero findings. Vite 8.3.3 is a compatible
+patched release. The vulnerable lockfile version predates this branch.
 See the [Vite release](https://github.com/vitejs/vite/releases/tag/v8.3.3)
 and [Windows editor advisory](https://github.com/advisories/GHSA-587h-7wmj-h5pm).
 The development server is relevant on the Windows host; the static
-production build does not run that server. This pre-existing finding is
-not a blocker for independent review or the catalog-only PR under the
-current local-development scope. Patch separately before exposing the
-dev server to untrusted users or networks. No dependency change was made.
+production build does not run that server. Windows localhost safety was
+not established by this audit. Treat the upgrade as a separate, reviewable
+task: update Vite, rerun the dependency audit and verify development and
+production checks. This pre-existing finding does not block review of the
+catalog-only changes. No dependency change or automatic audit fix was made.
