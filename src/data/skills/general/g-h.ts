@@ -52,6 +52,6 @@ export const gHSkills = [
     tools: { kind: 'anyOf', requirements: [item('bow'), item('javelin')] }, forkSuggestions: forks('tracking', 'trapper') }),
   define('hymn-of-scales-and-fins', 'Hymn of Scales and Fins', 278, 'Elven fishing through song; functions like Fishing.', {
     rootRule: combined('perception', 'agility'), skillType: 'Peasant', tools: generic, ...magical, availabilityRestrictions: only(['elf']),
-    forkSuggestions: guidance(sourceFork('Slip of Currents'), sourceFork('Rhyme of Rules')),
+    forkSuggestions: guidance(fork('slip-of-currents'), sourceFork('Rhyme of Rules')),
     relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'fishing' } }] }),
 ];

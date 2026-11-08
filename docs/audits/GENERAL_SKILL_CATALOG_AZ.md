@@ -1141,4 +1141,9 @@ The classifier regression separately distinguishes Appropriate Weapons as a choi
 
 ## Remaining source issues and scope
 
+Hymn of Scales and Fins (book 278 / PDF 280) names Slip of Currents
+(book 297 / PDF 299) as a FoRK. The exact canonical heading now resolves by
+ID; Rhyme of Rules remains an unresolved printed label. This correction
+does not establish an alias policy.
+
 Known unresolved source references and the War Art armor-quality discrepancy remain documented in their source sections. Mithril's omitted unit is intentionally preserved. Escape Artist's source scope remains explicit rather than guessed. These deferred questions are distinct from confirmed transcription omissions, which must be restored for semantic completeness. Later Equipment/Resources/Fight/magic audits own the deferred execution and reconciliation; the separately planned formalization retrospective is not performed here. No PR is opened and no merge is performed under the current instruction.

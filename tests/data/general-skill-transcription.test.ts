@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
-import type { ToolRequirement } from '../../src/data/skills';
+import type { ForkTarget, ToolRequirement } from '../../src/data/skills';
 import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 import { generalSkillManifest } from './general-skill-manifest';
 
@@ -8,6 +8,28 @@ const catalog = createSkillCatalog(generalSkillTranscriptionContent);
 const reviewed = generalSkillManifest;
 
 describe('Reviewed General Skill List transcription blocks', () => {
+  it('resolves the exact printed Slip of Currents FoRK without guessing Rhyme of Rules', () => {
+    expect(catalog.skills.get('hymn-of-scales-and-fins')?.forkSuggestions?.suggestions).toEqual([
+      { target: { kind: 'skill', skillId: 'slip-of-currents' } },
+      { target: { kind: 'unresolved-source-reference', sourceLabel: 'Rhyme of Rules' } },
+    ]);
+    expect(catalog.skills.get('slip-of-currents')?.sourceName).toBe('Slip of Currents');
+  });
+  it('flags unresolved FoRK labels that exactly match loaded canonical names for manual review', () => {
+    const names = new Set([...catalog.skills.values()].map(skill => skill.sourceName));
+    const stale: string[] = [];
+    const inspect = (owner: string, target: ForkTarget): void => {
+      if (target.kind === 'allOf' || target.kind === 'anyOf') {
+        target.targets.forEach(child => inspect(owner, child));
+      } else if (target.kind === 'unresolved-source-reference' && names.has(target.sourceLabel)) {
+        stale.push(`${owner}: ${target.sourceLabel}`);
+      }
+    };
+    for (const skill of catalog.skills.values()) {
+      skill.forkSuggestions?.suggestions.forEach(({ target }) => inspect(skill.id, target));
+    }
+    expect(stale).toEqual([]);
+  });
   it('preserves the final manufacturing, knowledge and literacy records', () => {
     expect(catalog.skills.get('whitesmith')).toMatchObject({ rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'perception' }, { kind: 'stat', id: 'agility' }] }, skillType: 'Craftsman', tools: { kind: 'workshop' } });
     for (const row of ['hairpins Ob 1', 'spoons/cups Ob 2', 'silver bullets Ob 3', 'tea service Ob 4', 'silver swords Ob 4']) expect(catalog.skills.get('whitesmith')?.summary).toContain(row);
