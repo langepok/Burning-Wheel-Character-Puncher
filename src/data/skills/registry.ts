@@ -834,8 +834,25 @@ export function createSkillCatalog(content: SkillCatalogContent) {
       const creation = integration.baseItemCreation;
       if (integration.subsystem !== 'magic' || creation?.stage !== 'base-item-creation' ||
           creation.requiredMethod?.kind !== 'applicable-skill-song' ||
-          creation.follows !== 'selected-skill-own-rules-and-tools') {
+          creation.follows !== 'selected-skill-own-rules-and-tools' ||
+          Object.keys(creation).some(key => !['stage', 'requiredMethod', 'follows', 'obstacle', 'requiredQuality'].includes(key)) ||
+          Object.keys(creation.requiredMethod).length !== 1 ||
+          (creation.obstacle !== undefined && (!creation.obstacle ||
+            creation.obstacle.kind !== 'natural-obstacle-with-minimum' ||
+            !Number.isSafeInteger(creation.obstacle.minimum) || creation.obstacle.minimum <= 0 ||
+            Object.keys(creation.obstacle).length !== 2)) ||
+          (creation.requiredQuality !== undefined && creation.requiredQuality !== 'highest-quality')) {
         throw new Error('Invalid magic base-item-creation reference');
+      }
+    }
+    if (integration.spellSongTransfer !== undefined) {
+      const transfer = integration.spellSongTransfer;
+      if (integration.subsystem !== 'magic' || !integration.baseItemCreation || !transfer ||
+          transfer.after !== 'base-item-creation' || transfer.follows !== 'spell-song-own-rules' ||
+          transfer.attempts !== 1 || transfer.effect?.target !== 'created-item' ||
+          transfer.effect.activeWhen !== 'item-used' || Object.keys(transfer.effect).length !== 2 ||
+          Object.keys(transfer).length !== 4) {
+        throw new Error('Invalid magic spell-song transfer');
       }
     }
   }

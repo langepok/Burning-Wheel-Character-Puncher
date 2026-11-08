@@ -555,7 +555,13 @@ describe('Reviewed General Skill List transcription blocks', () => {
     expect(catalog.skills.get('blacksmith')?.resourceInteractions).toEqual([{ kind: 'recover-taxed-resources', context: { kind: 'circumstance', circumstanceId: 'suitable-workplace' } }]);
     expect(catalog.skills.get('carpentry')?.resourceInteractions).toEqual([{ kind: 'recover-taxed-resources' }]);
     expect(catalog.skills.get('antiphon-union-training')).toMatchObject({ skillType: 'Artisan', training: { kind: 'training', exponent: 'none' }, tools: { kind: 'none', expendable: false } });
-    expect(catalog.integrations.get('antiphon-creation')?.baseItemCreation).toEqual({ stage: 'base-item-creation', requiredMethod: { kind: 'applicable-skill-song' }, follows: 'selected-skill-own-rules-and-tools' });
+    expect(catalog.integrations.get('antiphon-creation')).toMatchObject({
+      baseItemCreation: { stage: 'base-item-creation', requiredMethod: { kind: 'applicable-skill-song' },
+        follows: 'selected-skill-own-rules-and-tools',
+        obstacle: { kind: 'natural-obstacle-with-minimum', minimum: 5 }, requiredQuality: 'highest-quality' },
+      spellSongTransfer: { after: 'base-item-creation', follows: 'spell-song-own-rules', attempts: 1,
+        effect: { target: 'created-item', activeWhen: 'item-used' } },
+    });
     expect(catalog.skills.get('dwarven-rune-script')?.tools).toEqual({ kind: 'conditional', when: { kind: 'activity', activity: 'writing' }, then: { kind: 'generic', expendable: true }, otherwise: { kind: 'none', expendable: false } });
     expect(catalog.skills.get('demonology')?.forkSuggestions?.suggestions).toEqual(['ancient-history', 'obscure-history', 'summoning', 'doctrine'].map(skillId => ({ target: { kind: 'skill', skillId } })));
     expect(catalog.skills.get('drinking')?.rootRule).toEqual({ kind: 'single', ability: { kind: 'stat', id: 'forte' } });

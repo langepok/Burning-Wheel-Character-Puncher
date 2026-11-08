@@ -2,6 +2,7 @@ import { describe, expect, expectTypeOf, it } from 'vitest';
 import { createSkillCatalog } from '../../src/data/skills';
 import type { MagicBaseItemCreation, ResourceInteraction, SkillContext, SkillIntegration, ToolRequirement } from '../../src/data/skills';
 import { skillFixtureContent } from '../../src/data/skills/fixtures';
+import { generalSkillTranscriptionContent } from '../../src/data/skills/general';
 
 const catalog = createSkillCatalog(skillFixtureContent);
 const writingTools = { kind: 'conditional', when: { kind: 'activity', activity: 'writing' },
@@ -11,6 +12,23 @@ const registerTools = (tools: ToolRequirement) => createSkillCatalog({ ...skillF
 });
 
 describe('General Skill List source corrections', () => {
+  it('round-trips both audited Antiphon stages while keeping its own tools absent', () => {
+    const restored = createSkillCatalog(JSON.parse(JSON.stringify(generalSkillTranscriptionContent)));
+    expect(restored.integrations.get('antiphon-creation')?.spellSongTransfer).toEqual({
+      after: 'base-item-creation', follows: 'spell-song-own-rules', attempts: 1,
+      effect: { target: 'created-item', activeWhen: 'item-used' },
+    });
+    expect(restored.skills.get('antiphon-union-training')?.tools).toEqual({ kind: 'none', expendable: false });
+  });
+  it.each([
+    { attempts: 2 }, { follows: 'inherit-tools' }, { effect: { target: 'created-item', activeWhen: 'crafting-completed' } },
+  ])('rejects unsupported spell-song transfer metadata %j', override => {
+    const content = generalSkillTranscriptionContent;
+    expect(() => createSkillCatalog({ ...content, integrations: content.integrations.map(integration =>
+      integration.id === 'antiphon-creation' ? { ...integration,
+        spellSongTransfer: { ...integration.spellSongTransfer, ...override } } as SkillIntegration : integration),
+    })).toThrow('Invalid magic spell-song transfer');
+  });
   it('keeps Antiphon tools separate from its structured preceding creation-stage reference', () => {
     const creation = { stage: 'base-item-creation', requiredMethod: { kind: 'applicable-skill-song' },
       follows: 'selected-skill-own-rules-and-tools' } as const;

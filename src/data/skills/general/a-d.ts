@@ -197,7 +197,11 @@ export const aDSkills: readonly SkillDefinition[] = [
 ];
 
 export const aDIntegrations = [{ id: 'antiphon-creation', skillId: 'antiphon-union-training', subsystem: 'magic',
-  baseItemCreation: { stage: 'base-item-creation', requiredMethod: { kind: 'applicable-skill-song' }, follows: 'selected-skill-own-rules-and-tools' },
-  summary: 'A skill song creates the base item by its own rules/tools before spell-song imbuing; creation tools do not propagate.',
+  baseItemCreation: { stage: 'base-item-creation', requiredMethod: { kind: 'applicable-skill-song' },
+    follows: 'selected-skill-own-rules-and-tools', obstacle: { kind: 'natural-obstacle-with-minimum', minimum: 5 },
+    requiredQuality: 'highest-quality' },
+  spellSongTransfer: { after: 'base-item-creation', follows: 'spell-song-own-rules', attempts: 1,
+    effect: { target: 'created-item', activeWhen: 'item-used' } },
+  summary: 'A skill song creates the base item by its own rules and tools, with at least Ob 5. Only highest-quality work holds the effect. Then sing the spell song under its own rules with one transfer attempt. The effect is active whenever the item is used.',
   source: [evidence('Antiphon Union Training', 255)],
 }] as const;

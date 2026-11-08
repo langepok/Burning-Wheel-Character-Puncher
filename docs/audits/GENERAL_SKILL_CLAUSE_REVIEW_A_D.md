@@ -8,8 +8,8 @@ Thirteen headings, Abbey-wise through Animal Husbandry, were reviewed.
 Counts treat each obstacle row and each named FoRK as a clause; tool
 expendability is part of the tools clause. Bare Wise headings have no
 entry-specific clauses. The completed review accounts for 113 clauses,
-including 51 obstacle rows. Antiphon is recorded separately and is not
-counted as closed. Descriptive paraphrases are not verbatim source text.
+including 51 obstacle rows, before Antiphon. The Antiphon review below
+adds one definition and 11 clauses. Descriptive paraphrases are not verbatim source text.
 
 | Entry and pages | RAW paraphrase | Status and catalog location | Regression |
 | --- | --- | --- | --- |
@@ -33,23 +33,22 @@ counted as closed. Descriptive paraphrases are not verbatim source text.
 | Anatomy 255 / 257 | Study human body structure and function. Perception; Academic; no tools. FoRKs Surgery and Field Dressing. Dog Ob 1; superficial human anatomy 2; major organs 3; circulatory system 4; human dissection 5. | Structured: root, type, tools and FoRKs. Precise guidance: `anatomy.summary`, obstacle rows restored. | Clause coverage checks all five pairs. |
 | Animal Husbandry 255 / 257 | Raise, care for and breed animals. Will; Peasant; tools required. Chickens Ob 1; pigs or goats 2; cows or horses 3; exotic animals 4. When tending wounds and illness, use Field Dressing or Apothecary obstacles. | Structured: root, type, tools and contextual obstacle-reference. Precise guidance: `animal-husbandry.summary`, obstacle rows restored. | Clause coverage checks all four pairs; `obstacle-reference` covers the distinct medical procedure. |
 
-## Paused at Antiphon Union Training
+## Antiphon Union Training
 
-Book 255 / PDF 257. The entry describes two stages. The current
+Book 255 / PDF 257. The entry describes two stages. The
 `antiphon-creation` integration represents making the base item with an
 applicable skill song under that song's own rules and tools. The owning
-record preserves Will for Aptitude only, Artisan, Elves only, and no
-Antiphon tools. Existing source-gap tests cover the preceding stage and
+record preserves Will, the Aptitude-only footnote, Artisan, Elves only, and no
+Antiphon tools (five clauses). Existing source-gap tests cover the preceding stage and
 non-propagation of its tools.
 
-| RAW clause | Status and planned regression |
+| RAW clause | Status and regression |
 | --- | --- |
-| Base creation obstacle is at least 5; retain the natural obstacle if higher. | Missing. Test the floor and preservation of the higher natural obstacle without an evaluator. |
-| An enchantment holds only in a structure of the highest quality; cheap or shoddy work does not hold it. | Missing. Preserve the source quality requirement without equating it with a separately named equipment quality. |
-| Once the item is created, sing the spell song under its own rules; the singer gets one chance to transfer the effect. | Missing structured transfer stage. Test sequencing, the external spell-song rules reference and the single attempt. |
-| The spell effect is imbued in the item and active whenever it is used. | Missing structured effect target and activation trigger. Test use of the item rather than completion of the crafting test. |
+| Base creation obstacle is at least 5; retain the natural obstacle if higher. | Structured: `baseItemCreation.obstacle` names the natural obstacle with minimum 5; transcription regression. |
+| An enchantment holds only in a structure of the highest quality; cheap or shoddy work does not hold it. | Structured: `baseItemCreation.requiredQuality`; no mapping to a named equipment quality. |
+| Once the item is created, sing the spell song under its own rules; the singer gets one chance to transfer the effect. | Structured: `spellSongTransfer` stage order, rules reference and single attempt. Tested by transcription and serialization, with invalid attempts and tool inheritance rejected. |
+| The spell effect is imbued in the item and active whenever it is used. | Structured: `spellSongTransfer.effect`; tests reject activation at crafting completion. |
 
-Proposed minimum: add the obstacle floor and quality requirement to
-the existing base creation metadata, and add a separate transfer-stage
-descriptor within the same magic integration. No enchanting evaluator
-or tool propagation. Later headings are not signed off in this pass.
+Catalog design: creation and transfer remain separate descriptors in
+the same magic integration. Neither introduces an evaluator or propagates
+tools. Next heading: Apothecary (255 / 257).

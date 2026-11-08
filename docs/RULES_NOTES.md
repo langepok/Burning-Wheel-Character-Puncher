@@ -231,6 +231,15 @@ credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
 
+### Antiphon Union stages (BWGR 255 / PDF 257)
+
+Create the base item using an applicable skill song, with an obstacle of
+at least 5 or the song's higher natural obstacle. Only highest-quality
+work holds the enchantment. After creation, sing the spell song under its
+own rules with one transfer attempt. The effect belongs to the item and
+is active when it is used. Antiphon itself has no tools; creation tools
+remain governed by the skill song.
+
 ### Amercement judicial fine assessment (BWGR 254 / PDF 256)
 
 Amercement can set the Resources obstacle of a judicial fine. Its own
