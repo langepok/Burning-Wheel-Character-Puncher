@@ -18,9 +18,9 @@ export const nRSkills = [
           { kind: 'reputation', recipient: 'target', reputationKind: 'infamous', dice: { kind: 'unspecified' } },
         ] },
       ] } }),
-  define('navigation', 'Navigation', 285, 'Guide ships using star, wind and current charts, including open-sea journeys.', {
+  define('navigation', 'Navigation', 285, 'Guide ships by stars, wind and currents. Obstacles: clear weather in well-charted coastal or river waters Ob 1; short coastal or river journey Ob 2; moderate coastal or river journey or short sea journey Ob 3; long coastal or moderate sea journey Ob 4; dangerous coastal or long sea journey Ob 5; dangerous sea journey Ob 6; ocean crossing Ob 10.', {
     rootRule: stat('perception'), skillType: 'Seafaring', tools: generic, forkSuggestions: forks('astrology', 'orienteering', 'pilot') }),
-  { ...define('nogger', 'Nogger', 285, 'Brew restorative Dwarven nog; effects of drinking the result belong to equipment integration.', {
+  { ...define('nogger', 'Nogger', 285, 'Brew Dwarven nog. Obstacles: ritual grain preparation Ob 2; sanctify vats Ob 3; brew the finished nog Ob 5. Effects of drinking the result are separate equipment metadata.', {
     rootRule: combined('will', 'perception'), skillType: 'Craftsman', tools: workshop, ...magical,
     availabilityRestrictions: only(['dwarf']), forkSuggestions: forks('grain-appraisal'), integrationTags: ['equipment'],
     capabilities: [{ kind: 'subsystem-capability', id: 'nogger-consumption', integrationId: 'nogger-consumption' }] }),
@@ -31,7 +31,7 @@ export const nRSkills = [
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'obligation' } }),
   define('obscure-text-wise', 'Obscure Text-wise', 286, 'Knowledge of obscure texts.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'obscure-text' } }),
-  define('observation', 'Observation', 286, 'Detect hidden characters, traps or ghosts; this does not replace ordinary Perception tests, though specific spells/traits may permit Perception to act as Observation.', {
+  define('observation', 'Observation', 286, 'Detect hidden characters, traps or ghosts, almost always with a versus test. This does not replace ordinary Perception tests, though specific spells or traits may permit Perception to act as Observation.', {
     rootRule: stat('perception'), skillType: 'Forester', tools: none,
     testProfile: { kind: 'versus', opposingAbilities: [
       { kind: 'skill', skillId: 'inconspicuous' }, { kind: 'skill', skillId: 'stealthy' },
@@ -114,17 +114,17 @@ export const nRSkills = [
     forkSuggestions: guidance({ target: { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' } }, fork('mining'), fork('mason')) }),
   define('protector-wise', 'Protector-wise', 289, 'Knowledge of protectors.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'protector' } }),
-  define('purple-song', 'Purple Song', 289, 'Make Elven wine, comparable to Tinkersmend; a century of ageing is routine. Wine quality guidance spans Ob 1–6.', {
+  define('purple-song', 'Purple Song', 289, 'Make Elven wine, similar to Vintner; a century of ageing is routine. Obstacles: cheap wine Ob 1; passable Ob 2; good Ob 3; excellent Ob 4; special Ob 5; legendary Ob 6.', {
     rootRule: combined('perception', 'agility'), skillType: 'Peasant', tools: workshop, ...magical, availabilityRestrictions: only(['elf']),
     forkSuggestions: guidance(fork('grain-song'), sourceFork('Rhyme of Rules')), integrationTags: ['magic'],
     capabilities: [{ kind: 'subsystem-capability', id: 'purple-song-antiphon', integrationId: 'purple-song-antiphon' }] }),
-  define('ratiquette', 'Ratiquette', 289, 'Use instead of Etiquette with rats and their relatives. Rat hierarchy guidance: house Ob 1, ship Ob 2, granary Ob 3, king Ob 4, queen Ob 5, queen mother Ob 6.', {
+  define('ratiquette', 'Ratiquette', 289, 'Use instead of Etiquette with rats and their relatives. Roden consider it an insult. Rat hierarchy guidance: house Ob 1, ship Ob 2, granary Ob 3, king Ob 4, queen Ob 5, queen mother Ob 6.', {
     rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('etiquette'),
     relations: [{ kind: 'contextual-substitution', target: { kind: 'skill', id: 'etiquette' }, context: { kind: 'subject', subject: 'rats-and-relatives' } }] }),
   define('read', 'Read', 290, 'Read independently of writing. Guidance: sign/note Ob 1, letter Ob 2, article/essay Ob 3, book Ob 4, contract Ob 5.', {
     rootRule: stat('perception'), skillType: 'Academic', tools: none, forkSuggestions: forks('research'), capabilities: [{ kind: 'literacy', actions: ['read'] }],
     testProfile: { kind: 'contextual', modifiers: [{ effect: { kind: 'obstacle-modifier', delta: 1 }, when: { kind: 'circumstance', circumstanceId: 'reading-silently' } }] } }),
-  define('reason-of-old-stone', 'Reason of Old Stone', 290, 'Discern stone history. Guidance: type Ob 1, age Ob 2, time in place Ob 3, recent marked/unmarked events Ob 4/5, past marked/unmarked events Ob 6/7.', {
+  define('reason-of-old-stone', 'Reason of Old Stone', 290, 'Discern stone history by seeing, touching, tasting and smelling it and considering it for a long while; no fixed duration is specified. Obstacles: type Ob 1; age Ob 2; time in place Ob 3; recent events with physical marks Ob 4; recent events without marks Ob 5; past events with marks Ob 6; past events without marks Ob 7.', {
     rootRule: stat('will'), skillType: 'Sorcerous', tools: none, ...magical, availabilityRestrictions: only(['dwarf']) }),
   define('religious-diatribe', 'Religious Diatribe', 290, 'An angry religious specialization of Oratory, also used in Duel of Wits.', {
     rootRule: stat('will'), skillType: 'Social', tools: none, integrationTags: ['duel-of-wits'],
