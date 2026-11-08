@@ -813,7 +813,33 @@ export interface ObstaclePenaltyRelief {
   readonly scope: 'source-unspecified';
   readonly duration: 'source-unspecified';
 }
-export type SkillProcedure = DurationRestSubstitution | LinkedPretest | ItemSearch | SupplyManagement | ObstaclePenaltyRelief;
+export interface BattlefieldHesitationRelief {
+  readonly kind: 'battlefield-hesitation-relief';
+  readonly range: 'audible-voice';
+  readonly commanderMustNotHesitate: true;
+  readonly obstacle: 'amount-of-hesitation';
+  readonly effect: { readonly kind: 'subtract-success-margin'; readonly appliesTo: 'all-hesitation-in-presence' };
+}
+export interface FieldManeuverLinkedTest {
+  readonly kind: 'field-maneuver-linked-test';
+  readonly subsystem: 'range-and-cover';
+  readonly opposition: 'highest-will-on-own-team';
+  readonly benefit: 'may-link-to-team-field-maneuvers';
+}
+export interface CodeDeciphering {
+  readonly kind: 'code-deciphering';
+  readonly obstacle: 'code-creation-test-successes';
+  readonly decipherWith: { readonly kind: 'anyOf'; readonly skillIds: Operands<SkillId> };
+}
+export type DrinkingProcedure =
+  | { readonly kind: 'drinker-contest'; readonly aim: 'drink-without-showing-it'; readonly test: 'versus';
+      readonly recommendation: 'preferred' }
+  | { readonly kind: 'drinker-contest'; readonly aim: 'fastest-intoxication'; readonly test: 'versus';
+      readonly speedBasis: 'more-successes-faster'; readonly reducesAlcoholRequired: false }
+  | { readonly kind: 'appear-sober'; readonly test: 'versus';
+      readonly opponent: { readonly kind: 'stat'; readonly id: 'perception' } };
+export type SkillProcedure = DurationRestSubstitution | LinkedPretest | ItemSearch | SupplyManagement |
+  ObstaclePenaltyRelief | BattlefieldHesitationRelief | FieldManeuverLinkedTest | CodeDeciphering | DrinkingProcedure;
 /** Facts during use of the owning skill; no new ability named Awareness. */
 export type SkillActivityFact =
   | { readonly kind: 'vague-surroundings-awareness' }

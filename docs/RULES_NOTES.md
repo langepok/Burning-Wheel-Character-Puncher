@@ -231,6 +231,15 @@ credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
 
+### Command and Cryptography (BWGR 265, 267 / PDF 267, 269)
+
+Command reaches as far as the voice. A commander who is not hesitating
+can test against hesitation and reduce hesitation within their presence
+by the margin. The optional Range and Cover linked test instead faces
+the team's highest Will and supports the team's field maneuvers.
+Cryptography successes from creating a code set the deciphering
+obstacle; Research or Cryptography can be the deciphering skill.
+
 ### Unarmed access and Brazen Horn (BWGR 261 / PDF 263)
 
 Boxing and Martial Arts permit special actions in addition to attack,

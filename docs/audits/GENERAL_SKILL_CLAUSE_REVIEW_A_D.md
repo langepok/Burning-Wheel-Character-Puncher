@@ -127,3 +127,65 @@ this slice.
 
 Checkpoint: 60 definitions and one choice through Butchery; 191 fixed
 obstacle rows. Resume at Cadence-wise / Call of the Wild (262 / 264).
+
+## C–D
+
+The base fields in the rows below were checked against their printed entries.
+Where an obstacle series is cited, its task-by-task guidance is in the owning
+summary and its ordered numbers are independently checked in
+`general-c-d-obstacles.test.ts`. Existing exact FoRKs and unresolved label
+hints are retained. The listed bare topics each have Wises membership and
+no individual obstacle clauses.
+
+| Entry and pages | Source-backed clauses, status and location |
+| --- | --- |
+| Cadence-wise 262 / 264 | Structured: bare Wise heading. |
+| Call of the Wild 262 / 264 | Structured: same-mechanics Hunting; magical, Elf only; Song of Paths and Ways FoRK. Rhyme of Rules remains unresolved. |
+| Calligraphy 263 / 265 | Precise guidance: formal script for religious, royal or government use; Ob 1–5 from mark to imitating sacred style. Structured: Write FoRK. |
+| Campaign-wise, Cargo-wise, Caulking-wise, Cave-In-wise, Cave-wise, Champion-wise, Chattel-wise 263 / 265 | Structured: seven bare topics, including the printed Caulking heading. |
+| Carpentry 263 / 265 | Structured: recover taxed Resources. Precise guidance: tree selection, lumber and wood construction; box/shelf to staircase Ob 1–5. Engineer unresolved, Carving exact. |
+| Cartography 263 / 265 | Precise guidance: create and interpret maps; rural and urban detail, sea charts and topographical maps Ob 1–7. Illumination unresolved; Calligraphy exact. |
+| Cartwright 263 / 265 | Precise guidance: animal-drawn conveyances from pushcart to carriage Ob 1–5. Structured: Carpentry FoRK. |
+| Carving 263 / 265 | Precise guidance: shapes, pictograms and patterns Ob 1–4. Structured: Carpentry, Etching, Engraving FoRKs and Traveling Gear. |
+| Chandler 263 / 265 | Precise guidance: fat, wax, reusable, hourly and ceremonial candles Ob 1–5. |
+| Cheating-wise, Citadel-wise, City-wise, Clan-wise 264 / 266 | Structured: four bare topics. |
+| Child-Rearing 264 / 266 | Structured: direct target Will and child-only substitution for Instruction, Cooking or Field Dressing. Precise guidance: substituted uses use the appropriate skill's obstacle. |
+| Chronology of Kings 264 / 266 | Precise guidance: own clan lineage through adventuring rulers Ob 1–7. Structured: Ancient and Obscure History FoRKs. |
+| Church Law 264 / 266 | Precise guidance: ecclesiastical, religious punishments; jurisdiction through scripture Ob 1–5. |
+| Clan History 264 / 266 | Precise guidance: history/names, grudges, oaths, obscure deeds/names Ob 1–4 and knowledge of works, hoards and halls. Structured: Dwarf-only burning restriction. |
+| Climbing 264 / 266 | Precise guidance: ropes/harnesses and rougher surfaces barehanded; Ob 1–5, 7. Structured: expendable tools and Knots/Rigging. No new tools waiver or Ob 6. |
+| Cloth Dyeing 264 / 266 | Precise guidance: five color groups, retaining ordinary purple vs royal purple. Structured: Herbalism and Vintner. |
+| Coarse Persuasion 265 / 267 | Structured: target Will, manual increase for outlandish proposals, no invented delta; Persuasion substitution in Duel of Wits. |
+| Cobbler 265 / 267 | Precise guidance: sandals to courtly footwear Ob 1–4. |
+| Code of Citadels 265 / 267 | Structured: substitutes for Etiquette against Citadel-born Elves; separate Elf-only acquisition restriction and Etiquette FoRK. |
+| Command 265 / 267 | Structured: audible voice, non-hesitating commander, obstacle equal to hesitation, margin subtracts from hesitation within presence. Separate optional Range and Cover linked test against highest Will on own team. No allocation, rounding or resolution. Tested both procedures after JSON round-trip. |
+| Composition 265 / 267 | Precise guidance: letter, essay, editorial and book Ob 1–4. Structured: contextual content FoRK plus Calligraphy, Write, Research. |
+| Conspicuous 266 / 268 | Precise guidance: attract attention in successively busier settings, Ob 1–5. Structured: Command/Oratory. |
+| Contract-wise, Countryside-wise, Crop-wise, Crowd-wise 266 / 268 | Structured: four bare topics. |
+| Cooking 266 / 268 | Precise guidance: one-person/group meals, insufficient ingredients, fancy and exotic food Ob 1–5. Structured: Traveling Gear and printed FoRKs. |
+| Cooper 266 / 268 | Precise guidance: iron, wood, wax; staves, hoops, lids, watertight barrel Ob 1–4. Carpenter unresolved. |
+| Coppersmith 266 / 268 | Precise guidance: copper roofing, bowls/cups, coins and cookware at Ob 1/2/3/3; distinct Blacksmith/Whitesmith FoRKs. |
+| Counterfeiting 266 / 268 | Precise guidance: coin clipping, dies and coins Ob 1/3/4; printed goods Ob 5–10 by complexity, with no interpolation rule. |
+| Crossbow 266 / 268 | External procedure: Fight and Range and Cover. Structured: actual crossbow requirement. |
+| Cryptography 267 / 269 | Structured: creation successes become deciphering obstacle; Research or Cryptography may act. Distinct from FoRKs; exact regression checks both alternatives. |
+| Cudgel 267 / 269 | Precise guidance: short clubs or long staffs; Fight external procedure. Structured: Brawling, Martial Arts, Boxing and melee FoRK options. |
+| Daily Bread-wise, Darkened Streets-wise, Darkness-wise 267 / 269 | Structured: three bare topics. |
+| Dance 267 / 269 | Precise guidance: folk through arcane dance Ob 1–5. Structured: Acting and Seduction. |
+| Demonology 267 / 269 | Precise guidance: knowledge does not imply summoning; identify spirit activity, type, summoning, price and powers Ob 1–5. Structured: exact audited FoRKs, no ritual category. |
+| Dignity of the Wilderlands 267 / 269 | Structured: Etiquette substitution for Wilder-born Elves, not all Elves; Elf-only availability and separate FoRK. |
+| Disguise 267–268 / 269–270 | Precise guidance: gender, class and all printed stock groups. Unresolved: preserve multi-stock slash groups without interpreting direction or generating pairwise rules. Regression checks groups and continuation. |
+| Ditch Digging 268 / 270 | Precise guidance: grave through moat Ob 1–5. |
+| Doctrine and Cult/Foreign/Heretical Doctrine 268 / 270 | Precise guidance: common beliefs, passages and obscure saints Ob 1–3. Variants retain distinct meanings and explicit lifepath/general-point acquisition wording; their specialized-version relation links to Doctrine. No burning evaluator. |
+| Doctrine of Night's Blood 268 / 270 | Precise guidance: cult allegiance and five Ob groups; structured Orc-only in burning and Servant-wise FoRK. |
+| Drama-wise 268 / 270 | Structured: bare topic. |
+| Drinking 268 / 270 | Structured: preferred versus test between drinkers; no wager or intoxication formula. |
+| Driving 268 / 270 | Structured: Riding substitution for pursuit and travel. Precise guidance: field maneuvers involving carts/chariots, without substituting Riding or all field maneuver uses. |
+| Drum Maker 269 / 271 | Precise guidance: skins, wood, tuning and four Ob groups; structured Tools No and Carpentry. |
+| Drunking 269 / 271 | Structured: distinct intoxication race and Perception opposition to appear sober. More successes mean faster intoxication and do not reduce alcohol needed; no quantity inferred. The source's beer aside does not introduce a tool object. |
+| Drunkard-wise, Dwarf-wise, Dwarven Art-wise, Dwarven Heroes-wise 269 / 271 | Structured: four bare topics. |
+| Dwarven Rune Script 269 / 271 | Structured: Read and Write capability for Dwarves, writing-only expendable tools. External procedure: respective Read/Write obstacles retained in summary. |
+| Dye Manufacture 269 / 271 | Precise guidance: find and process materials; common, exotic and royal colors Ob 1–3. |
+
+A–D checkpoint: 126 definitions and Appropriate Weapons reviewed.
+Fixed obstacle rows: 322, plus the printed Counterfeiting range. No new
+RED issue blocks starting E. Next: Earth-wise (269 / 271).

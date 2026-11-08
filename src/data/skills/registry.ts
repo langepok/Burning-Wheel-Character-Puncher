@@ -245,7 +245,37 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (metadata.procedures !== undefined) {
       if (!Array.isArray(metadata.procedures)) throw new Error('Invalid skill procedures');
       for (const procedure of metadata.procedures) {
-        if (procedure?.kind === 'obstacle-penalty-relief') {
+        if (procedure?.kind === 'drinker-contest') {
+          if (procedure.test !== 'versus' || (procedure.aim === 'drink-without-showing-it'
+            ? procedure.recommendation !== 'preferred' || Object.keys(procedure).length !== 4
+            : procedure.aim !== 'fastest-intoxication' || procedure.speedBasis !== 'more-successes-faster' ||
+              procedure.reducesAlcoholRequired !== false || Object.keys(procedure).length !== 5)) {
+            throw new Error('Invalid drinker contest');
+          }
+        } else if (procedure?.kind === 'appear-sober') {
+          if (procedure.test !== 'versus' || procedure.opponent?.kind !== 'stat' ||
+              procedure.opponent.id !== 'perception' || Object.keys(procedure.opponent).length !== 2 ||
+              Object.keys(procedure).length !== 3) throw new Error('Invalid appear-sober test');
+        } else if (procedure?.kind === 'battlefield-hesitation-relief') {
+          if (procedure.range !== 'audible-voice' || procedure.commanderMustNotHesitate !== true ||
+              procedure.obstacle !== 'amount-of-hesitation' || procedure.effect?.kind !== 'subtract-success-margin' ||
+              procedure.effect.appliesTo !== 'all-hesitation-in-presence' ||
+              Object.keys(procedure).length !== 5 || Object.keys(procedure.effect).length !== 2) {
+            throw new Error('Invalid battlefield hesitation relief');
+          }
+        } else if (procedure?.kind === 'field-maneuver-linked-test') {
+          if (procedure.subsystem !== 'range-and-cover' || procedure.opposition !== 'highest-will-on-own-team' ||
+              procedure.benefit !== 'may-link-to-team-field-maneuvers' || Object.keys(procedure).length !== 4) {
+            throw new Error('Invalid field maneuver linked test');
+          }
+        } else if (procedure?.kind === 'code-deciphering') {
+          if (procedure.obstacle !== 'code-creation-test-successes' || procedure.decipherWith?.kind !== 'anyOf' ||
+              Object.keys(procedure).length !== 3 || Object.keys(procedure.decipherWith).length !== 2) {
+            throw new Error('Invalid code deciphering procedure');
+          }
+          validateOperands(procedure.decipherWith.skillIds);
+          procedure.decipherWith.skillIds.forEach(requireRollingSkill);
+        } else if (procedure?.kind === 'obstacle-penalty-relief') {
           const penalty = procedure.targetPenalty;
           if (Object.keys(procedure).length !== 7 ||
               !Number.isSafeInteger(procedure.testObstacle) || procedure.testObstacle <= 0 ||
