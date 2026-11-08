@@ -553,6 +553,18 @@ export interface SpiritAuraObstacle {
   readonly subtract: 'spirit-strength';
 }
 
+export interface OpposingForceHesitation {
+  readonly threshold: { readonly kind: 'opposing-force-mean-will' };
+  readonly trigger: 'exceeds-threshold';
+  readonly effect: { readonly kind: 'add-margin-to-opposing-hesitation'; readonly duration: 'conflict' };
+}
+
+export interface UnarmedCombatAccess {
+  readonly actions: readonly ['attack', 'defense', 'basic'];
+  readonly specialActions: 'permitted' | 'excluded';
+  readonly foundWeapons?: { readonly countsAs: 'melee-weapon'; readonly actingAbility: 'owning-skill' };
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly spellSongTransfer?: MagicSpellSongTransfer; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly judicialFineAssessment?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
@@ -563,14 +575,14 @@ export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: Exclude<IntegrationTag, 'magic' | 'equipment' | 'resources'>; readonly fatePronouncement?: never; readonly spellListCasting?: never; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly sustainedSpellReference?: never;
       readonly equipmentResult?: never; readonly baseItemCreation?: never; readonly spellSongTransfer?: never; readonly createdItemReference?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly judicialFineAssessment?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
 ) & (
-  | { readonly subsystem: 'military-campaign'; readonly artilleryProcedure?: ArtilleryProcedure }
-  | { readonly subsystem: Exclude<IntegrationTag, 'military-campaign'>; readonly artilleryProcedure?: never }
+  | { readonly subsystem: 'military-campaign'; readonly artilleryProcedure?: ArtilleryProcedure; readonly opposingForceHesitation?: OpposingForceHesitation }
+  | { readonly subsystem: Exclude<IntegrationTag, 'military-campaign'>; readonly artilleryProcedure?: never; readonly opposingForceHesitation?: never }
 ) & (
   | { readonly subsystem: 'magic'; readonly spiritAuraObstacle?: SpiritAuraObstacle }
   | { readonly subsystem: Exclude<IntegrationTag, 'magic'>; readonly spiritAuraObstacle?: never }
 ) & (
-  | { readonly subsystem: 'fight'; readonly shieldUse?: ShieldUse; readonly twoWeaponUse?: TwoWeaponUse }
-  | { readonly subsystem: Exclude<IntegrationTag, 'fight'>; readonly shieldUse?: never; readonly twoWeaponUse?: never }
+  | { readonly subsystem: 'fight'; readonly shieldUse?: ShieldUse; readonly twoWeaponUse?: TwoWeaponUse; readonly unarmedCombatAccess?: UnarmedCombatAccess }
+  | { readonly subsystem: Exclude<IntegrationTag, 'fight'>; readonly shieldUse?: never; readonly twoWeaponUse?: never; readonly unarmedCombatAccess?: never }
 ) & (
   | { readonly subsystem: 'range-and-cover'; readonly cooperation?: Cooperation }
   | { readonly subsystem: Exclude<IntegrationTag, 'range-and-cover'>; readonly cooperation?: never }

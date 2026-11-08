@@ -107,4 +107,23 @@ Checkpoint: 47 definitions and one choice reviewed through Boatwright.
 The review includes 167 fixed obstacle rows (grouped alternatives count as
 one row), plus the recorded prerequisites, modifiers, procedures and
 other clauses. Resume at Bow (261 / 263). No RED issue is recorded in
-this slice; the remaining A–D headings and later blocks are still open.
+this slice.
+
+## Bow through Butchery
+
+| Entry and pages | RAW paraphrase | Status and catalog location | Regression |
+| --- | --- | --- | --- |
+| Boss-wise 261 / 263; Bribe-wise and Burden of the Crown-wise 262 / 264 | Bare named topics. | Structured: Wises membership; no individual obstacles. | Manifest and family tests. |
+| Bow 261 / 263 | Agility, Martial, bow required; use in battle. Target-hit obstacles are in Fight and Range and Cover. | Structured: base fields and subsystem tags. External procedure: both chapters in summary. | Manifest and lifepath reference join. |
+| Bowcraft 261 / 263 | Will/Agility, Craftsman, expendable tools, Elf only, magical, Woodcraft FoRK. Arrows/flights Ob 1; hunting bow 2; great bow 3; horse bow 4; Elven bow 6. | Structured: base fields and FoRK. Precise guidance: summary; the entry does not impose a living-branch requirement. | Five obstacle pairs. |
+| Bowyer 261 / 263 | Make bows/arrows from suitable wood and strings from gut. Perception/Agility, Craftsman, expendable tools; Carpenter and Carving FoRKs. Arrows Ob 1; hunting bow 2; longbow or great bow 3. | Structured: base and Carving. Unresolved: printed Carpenter hint. Precise guidance: materials and obstacles. | Three obstacle pairs. |
+| Boxing 261 / 263 | Power/Agility, Martial, no tools. Trained unarmed skills allow attack, defense, basic and special actions; substitute skill for Power in Push and Lock. FoRK Brawling or appropriate melee weapons. Fight/Weapons supply obstacles. | Structured: `boxing-unarmed-access`, existing distinct Martial Arts identity and scoped substitution. External procedure: summary. | Action categories, substitution and identity. |
+| Brawling 261 / 263 | Power, Martial, no tools. Attack, defense and basic actions, no special actions; substitute skill for Power for Lock and Push. Found weapons count as melee but use Brawling. Boxing/melee FoRKs; see Fight and Weapons. | Structured: `brawling-unarmed-access`, substitution and FoRKs. External procedure: summary. | Action exclusion, found-weapon class and acting skill. |
+| Brazen Horn of Despair 261 / 263 | Hatred, Musical, brazen horn, Orc only, open-ended. Sounded before battle; exceeding opponents' mean Will adds the margin to their hesitation for the conflict. | Structured: `brazen-horn-hesitation`; no invented averaging/rounding execution. Precise guidance: prebattle use in summary. | Round-trip exact threshold, trigger, effect and duration. |
+| Brewer 262 / 264 | Perception, Craftsman, Workshop, Miller FoRK. Mill or ground grain and vat or brewery. Brew grades Ob 1–4. Home amount has no penalty; hostel +1, tavern/pub +2, brewery +3. | Structured: three contextual modifiers distinct from the four base grades. Precise guidance: material/facility alternatives and home amount. | Base rows and exact modifier scopes. |
+| Brutal Intimidation 262 / 264 | Hatred-based special Intimidation; open-ended, Social, no tools, Orc only. Torture if applicable and Interrogation FoRKs. | Structured: specialization, core fields, scoped FoRK. | Catalog integrity. |
+| Bureaucracy 262 / 264 | Navigate or direct government hierarchies. Will, Special, no tools; Research, Etiquette, Soothing Platitudes and Falsehood. Printed tasks at Ob 1, 3–8. | Structured: base fields and FoRKs. Precise guidance: seven obstacle pairs with no invented Ob 2. | Clause coverage. |
+| Butchery 262 / 264 | Kill and dress animals. Perception/Agility, Peasant, tools required. Ob 1–5 from small game to monsters. | Structured: base fields. Precise guidance: five obstacle pairs. | Clause coverage. |
+
+Checkpoint: 60 definitions and one choice through Butchery; 191 fixed
+obstacle rows. Resume at Cadence-wise / Call of the Wild (262 / 264).

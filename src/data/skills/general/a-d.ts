@@ -124,26 +124,36 @@ export const aDSkills: readonly SkillDefinition[] = [
     forkSuggestions: forks('apothecary', 'surgery'), integrationTags: ['injury'] }),
   define('boatwright', 'Boatwright', 260, 'Build small watercraft, including canoes and tarred longboats. Obstacles: repair or retar Ob 1; dugout, skiff or raft Ob 2; rowboat or small barge Ob 3; large barge or longboat Ob 4; small sailing vessel Ob 5.', { rootRule: perAgi, skillType: 'Craftsman', tools: workshop,
     forkSuggestions: guidance(sourceFork('Carpenter', 'carpentry')), integrationTags: ['equipment'] }),
-  define('bow', 'Bow', 261, 'Archery in Fight and Range and Cover.', { rootRule: stat('agility'), skillType: 'Martial', tools: item('bow'), integrationTags: ['fight', 'range-and-cover'] }),
-  define('bowcraft', 'Bowcraft', 261, 'Elven bow making from living branches.', { rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: expendable,
+  define('bow', 'Bow', 261, 'Use a bow in battle; see Fight and Range and Cover for hitting targets.', { rootRule: stat('agility'), skillType: 'Martial', tools: item('bow'), integrationTags: ['fight', 'range-and-cover'] }),
+  define('bowcraft', 'Bowcraft', 261, 'Craft Elven bows and arrows. Obstacles: arrows and flights Ob 1; hunting bow Ob 2; great bow Ob 3; horse bow Ob 4; Elven bow Ob 6.', { rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: expendable,
     ...magical, availabilityRestrictions: only(['elf']), forkSuggestions: forks('woodcraft'), integrationTags: ['equipment'] }),
-  define('bowyer', 'Bowyer', 261, 'Make bows, arrows and bowstrings.', { rootRule: perAgi, skillType: 'Craftsman', tools: expendable,
+  define('bowyer', 'Bowyer', 261, 'Make bows and arrows from suitable wood and bowstrings from gut. Obstacles: arrows Ob 1; hunting bow Ob 2; longbow or great bow Ob 3.', { rootRule: perAgi, skillType: 'Craftsman', tools: expendable,
     forkSuggestions: guidance(sourceFork('Carpenter', 'carpentry'), fork('carving')), integrationTags: ['equipment'] }),
-  define('boxing', 'Boxing (Martial Arts)', 261, 'Trained unarmed fighting; Martial Arts is a separate identity using these mechanics.', {
+  define('boxing', 'Boxing (Martial Arts)', 261, 'Trained unarmed fighting. Martial Arts remains a separate identity using these mechanics. See Fight and Weapons for obstacles.', {
     rootRule: combined('power', 'agility'), skillType: 'Martial', tools: none, sourceAliases: ['Boxing'],
-    forkSuggestions: guidance(fork('brawling'), melee), integrationTags: ['fight'] }),
-  define('brawling', 'Brawling', 261, 'Untrained fighting, found weapons, and Power substitution for Lock and Push.', {
-    rootRule: stat('power'), skillType: 'Martial', tools: none, forkSuggestions: guidance(fork('boxing'), melee), integrationTags: ['fight'],
+    forkSuggestions: guidance(fork('brawling'), melee), integrationTags: ['fight'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'unarmed-combat-access', integrationId: 'boxing-unarmed-access' }],
     relations: [{ kind: 'contextual-substitution', target: { kind: 'stat', id: 'power' }, context: { kind: 'circumstance', circumstanceId: 'fight-lock-or-push' } }] }),
-  define('brazen-horn-of-despair', 'Brazen Horn of Despair', 261, 'Orc war horns increase the opposing force\'s hesitation.', {
-    rootRule: hatred, skillType: 'Musical', tools: item('brazen-horn'), ...magical, availabilityRestrictions: only(['orc']), integrationTags: ['military-campaign'] }),
-  define('brewer', 'Brewer', 262, 'Grain fermentation and brewing.', { rootRule: per, skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('miller') }),
+  define('brawling', 'Brawling', 261, 'Undisciplined unarmed fighting, including found weapons such as clubs, brooms, lamps, rocks and shards of glass. See Fight and Weapons for obstacles.', {
+    rootRule: stat('power'), skillType: 'Martial', tools: none, forkSuggestions: guidance(fork('boxing'), melee), integrationTags: ['fight'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'unarmed-combat-access', integrationId: 'brawling-unarmed-access' }],
+    relations: [{ kind: 'contextual-substitution', target: { kind: 'stat', id: 'power' }, context: { kind: 'circumstance', circumstanceId: 'fight-lock-or-push' } }] }),
+  define('brazen-horn-of-despair', 'Brazen Horn of Despair', 261, 'Sound war horns before joining battle; exceeding the opposing force’s mean Will adds the margin to its hesitation for the conflict.', {
+    rootRule: hatred, skillType: 'Musical', tools: item('brazen-horn'), ...magical, availabilityRestrictions: only(['orc']), integrationTags: ['military-campaign'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'opposing-force-hesitation', integrationId: 'brazen-horn-hesitation' }] }),
+  define('brewer', 'Brewer', 262, 'Mill grain to ferment into alcohol; requires a mill or ground grain, and a vat if no brewery is available. Obstacles: peasant brew Ob 1; priest’s brew Ob 2; merchant’s brew Ob 3; nobles’ brew Ob 4. Home quantities incur no extra obstacle.', {
+    rootRule: per, skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('miller'),
+    testProfile: { kind: 'contextual', modifiers: [
+      { when: { kind: 'circumstance', circumstanceId: 'brew-for-small-hostel' }, effect: { kind: 'obstacle-modifier', delta: 1 } },
+      { when: { kind: 'circumstance', circumstanceId: 'brew-for-tavern-or-pub' }, effect: { kind: 'obstacle-modifier', delta: 2 } },
+      { when: { kind: 'circumstance', circumstanceId: 'brew-for-brewery' }, effect: { kind: 'obstacle-modifier', delta: 3 } },
+    ] } }),
   define('brutal-intimidation', 'Brutal Intimidation', 262, 'Orc intimidation rooted in Hatred.', { rootRule: hatred, skillType: 'Social', tools: none,
     ...magical, availabilityRestrictions: only(['orc']), relations: [{ kind: 'specialized-version', target: { kind: 'skill', id: 'intimidation' } }],
     forkSuggestions: guidance({ target: { kind: 'skill', skillId: 'torture' }, context: { kind: 'circumstance', circumstanceId: 'torture-applicable' } }, fork('interrogation')) }),
-  define('bureaucracy', 'Bureaucracy', 262, 'Navigate government hierarchies and administrative procedures.', { rootRule: will, skillType: 'Special', tools: none,
+  define('bureaucracy', 'Bureaucracy', 262, 'Navigate or influence government hierarchies. Obstacles: locate a bureau or office Ob 1; file forms Ob 3; form a committee Ob 4; find a coherent policy Ob 5; locate a mid-level bureaucrat Ob 6; get useful information promptly Ob 7; find Lord Julius Ob 8.', { rootRule: will, skillType: 'Special', tools: none,
     forkSuggestions: forks('research', 'etiquette', 'soothing-platitudes', 'falsehood') }),
-  define('butchery', 'Butchery', 262, 'Prepare animal carcasses for food.', { rootRule: perAgi, skillType: 'Peasant', tools: generic }),
+  define('butchery', 'Butchery', 262, 'Kill and dress animals into edible portions. Obstacles: fowl or small game Ob 1; pig, lamb or goat Ob 2; cow, deer or horse Ob 3; exotic animal Ob 4; monster Ob 5.', { rootRule: perAgi, skillType: 'Peasant', tools: generic }),
   define('call-of-the-wild', 'Call of the Wild', 262, 'Elven hunting skill song.', { rootRule: perAgi, skillType: 'Peasant', tools: generic,
     ...magical, availabilityRestrictions: only(['elf']), semanticCategories: ['song'], relations: [{ kind: 'same-mechanics', target: { kind: 'skill', id: 'hunting' } }],
     forkSuggestions: guidance(fork('song-of-paths-and-ways'), sourceFork('Rhyme of Rules')) }),
@@ -210,7 +220,18 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('dye-manufacture', 'Dye Manufacture', 269, 'Find materials and manufacture dyes.', { rootRule: perAgi, skillType: 'Craftsman', tools: expendable }),
 ];
 
-export const aDIntegrations = [{ id: 'artillerist-procedure', skillId: 'artillerist', subsystem: 'military-campaign',
+export const aDIntegrations = [{ id: 'boxing-unarmed-access', skillId: 'boxing', subsystem: 'fight',
+  unarmedCombatAccess: { actions: ['attack', 'defense', 'basic'], specialActions: 'permitted' },
+  summary: 'Trained unarmed fighting permits all four action categories.', source: [evidence('Boxing (Martial Arts)', 261)],
+}, { id: 'brawling-unarmed-access', skillId: 'brawling', subsystem: 'fight',
+  unarmedCombatAccess: { actions: ['attack', 'defense', 'basic'], specialActions: 'excluded',
+    foundWeapons: { countsAs: 'melee-weapon', actingAbility: 'owning-skill' } },
+  summary: 'Brawling excludes special actions; found melee weapons use Brawling.', source: [evidence('Brawling', 261)],
+}, { id: 'brazen-horn-hesitation', skillId: 'brazen-horn-of-despair', subsystem: 'military-campaign',
+  opposingForceHesitation: { threshold: { kind: 'opposing-force-mean-will' }, trigger: 'exceeds-threshold',
+    effect: { kind: 'add-margin-to-opposing-hesitation', duration: 'conflict' } },
+  summary: 'Excess over opposing mean Will adds to opposing hesitation for the conflict.', source: [evidence('Brazen Horn of Despair', 261)],
+}, { id: 'artillerist-procedure', skillId: 'artillerist', subsystem: 'military-campaign',
   artilleryProcedure: {
     constructionCrew: { laborers: 'teams', minimumCarpenters: 1 },
     blackPowderAlternative: { when: 'campaign-uses-black-powder-weapons',

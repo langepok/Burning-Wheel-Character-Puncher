@@ -231,6 +231,15 @@ credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
 
+### Unarmed access and Brazen Horn (BWGR 261 / PDF 263)
+
+Boxing and Martial Arts permit special actions in addition to attack,
+defense and basic actions. Brawling omits special actions, but uses
+Brawling for found weapons that count as melee weapons. Both procedures
+permit the skill in place of Power for Lock and Push. Brazen Horn of
+Despair adds only the margin above the opponents' mean Will to their
+hesitation for the conflict.
+
 ### Beggardry (BWGR 259 / PDF 261)
 
 Begging can produce 1D cash or recover taxed Resources. The victim's Will

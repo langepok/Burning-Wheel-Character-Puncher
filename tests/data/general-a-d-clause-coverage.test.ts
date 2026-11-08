@@ -62,9 +62,45 @@ const guidance: ReadonlyArray<readonly [string, readonly (readonly [string, numb
     ['simple tools', 3], ['swords', 4], ['complex tools', 5]]],
   ['boatwright', [['repair or retar', 1], ['dugout, skiff or raft', 2], ['rowboat or small barge', 3],
     ['large barge or longboat', 4], ['small sailing vessel', 5]]],
+  ['bowcraft', [['arrows and flights', 1], ['hunting bow', 2], ['great bow', 3], ['horse bow', 4], ['Elven bow', 6]]],
+  ['bowyer', [['arrows', 1], ['hunting bow', 2], ['longbow or great bow', 3]]],
+  ['brewer', [['peasant brew', 1], ['priest’s brew', 2], ['merchant’s brew', 3], ['nobles’ brew', 4]]],
+  ['bureaucracy', [['locate a bureau or office', 1], ['file forms', 3], ['form a committee', 4], ['find a coherent policy', 5],
+    ['locate a mid-level bureaucrat', 6], ['get useful information promptly', 7], ['find Lord Julius', 8]]],
+  ['butchery', [['fowl or small game', 1], ['pig, lamb or goat', 2], ['cow, deer or horse', 3],
+    ['exotic animal', 4], ['monster', 5]]],
 ];
 
-describe('General Skill List clause review: Abbey-wise through Boatwright', () => {
+describe('General Skill List clause review: Abbey-wise through Butchery', () => {
+  it('preserves access and found weapon use without conflating the unarmed skills', () => {
+    expect(catalog.integrations.get('boxing-unarmed-access')?.unarmedCombatAccess).toEqual({
+      actions: ['attack', 'defense', 'basic'], specialActions: 'permitted',
+    });
+    expect(catalog.integrations.get('brawling-unarmed-access')?.unarmedCombatAccess).toEqual({
+      actions: ['attack', 'defense', 'basic'], specialActions: 'excluded',
+      foundWeapons: { countsAs: 'melee-weapon', actingAbility: 'owning-skill' },
+    });
+    for (const id of ['boxing', 'brawling']) expect(catalog.skills.get(id)?.relations).toContainEqual({
+      kind: 'contextual-substitution', target: { kind: 'stat', id: 'power' },
+      context: { kind: 'circumstance', circumstanceId: 'fight-lock-or-push' },
+    });
+  });
+
+  it('round-trips the horn’s mean-Will threshold and transfers only the excess for the conflict', () => {
+    const restored = createSkillCatalog(JSON.parse(JSON.stringify(generalSkillTranscriptionContent)));
+    expect(restored.integrations.get('brazen-horn-hesitation')?.opposingForceHesitation).toEqual({
+      threshold: { kind: 'opposing-force-mean-will' }, trigger: 'exceeds-threshold',
+      effect: { kind: 'add-margin-to-opposing-hesitation', duration: 'conflict' },
+    });
+  });
+
+  it('does not invent a home-brew penalty or combine volume modifiers with quality guidance', () => {
+    expect(catalog.skills.get('brewer')?.testProfile).toEqual({ kind: 'contextual', modifiers: [
+      { when: { kind: 'circumstance', circumstanceId: 'brew-for-small-hostel' }, effect: { kind: 'obstacle-modifier', delta: 1 } },
+      { when: { kind: 'circumstance', circumstanceId: 'brew-for-tavern-or-pub' }, effect: { kind: 'obstacle-modifier', delta: 2 } },
+      { when: { kind: 'circumstance', circumstanceId: 'brew-for-brewery' }, effect: { kind: 'obstacle-modifier', delta: 3 } },
+    ] });
+  });
   it.each(guidance)('preserves each printed obstacle subject and number for %s', (id, rows) => {
     const summary = catalog.skills.get(id)?.summary;
     for (const [subject, obstacle] of rows) {

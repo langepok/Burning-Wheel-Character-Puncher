@@ -700,6 +700,26 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         throw new Error('Invalid structure resistance');
       }
     }
+    if (integration.opposingForceHesitation !== undefined) {
+      const rule = integration.opposingForceHesitation;
+      if (integration.subsystem !== 'military-campaign' || rule?.threshold?.kind !== 'opposing-force-mean-will' ||
+          rule.trigger !== 'exceeds-threshold' || rule.effect?.kind !== 'add-margin-to-opposing-hesitation' ||
+          rule.effect.duration !== 'conflict' || Object.keys(rule.threshold).length !== 1 ||
+          Object.keys(rule.effect).length !== 2 || Object.keys(rule).length !== 3) {
+        throw new Error('Invalid opposing-force hesitation');
+      }
+    }
+    if (integration.unarmedCombatAccess !== undefined) {
+      const access = integration.unarmedCombatAccess;
+      if (integration.subsystem !== 'fight' || !Array.isArray(access?.actions) || access.actions.length !== 3 ||
+          access.actions[0] !== 'attack' || access.actions[1] !== 'defense' || access.actions[2] !== 'basic' ||
+          !['permitted', 'excluded'].includes(access.specialActions) ||
+          Object.keys(access).some(key => !['actions', 'specialActions', 'foundWeapons'].includes(key)) ||
+          (access.foundWeapons !== undefined && (access.foundWeapons?.countsAs !== 'melee-weapon' ||
+            access.foundWeapons.actingAbility !== 'owning-skill' || Object.keys(access.foundWeapons).length !== 2))) {
+        throw new Error('Invalid unarmed combat access');
+      }
+    }
     if (integration.artilleryProcedure !== undefined) {
       const procedure = integration.artilleryProcedure;
       const crew = procedure?.constructionCrew;
