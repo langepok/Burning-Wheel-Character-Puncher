@@ -289,7 +289,7 @@ export type WagerSettlementOutcome =
 export interface WagerSettlement {
   readonly kind: 'wager-settlement';
   readonly roles: { readonly winner: 'versus-test-winner'; readonly loser: 'versus-test-loser' };
-  readonly prize: { readonly measure: 'resources-obstacle'; readonly setBefore: 'versus-skill-test' };
+  readonly prize: { readonly measure: 'resources-obstacle'; readonly setBefore: 'versus-skill-test'; readonly recipient: 'winner' };
   readonly loserResourcesTest: { readonly roller: 'loser'; readonly after: 'versus-skill-test'; readonly obstacle: PrizeObstacleReference };
   /** Independently conditioned facts. Array order implies neither execution nor exclusivity. */
   readonly outcomes: readonly WagerSettlementOutcome[];

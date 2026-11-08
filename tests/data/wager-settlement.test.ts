@@ -13,7 +13,7 @@ const cash = { when: 'loser-resources-taxed', recipient: 'winner',
 describe('Games of Chance wager settlement', () => {
   it('preserves explicit winner/loser roles and the shared prize-obstacle references', () => {
     expect(settlement.roles).toEqual({ winner: 'versus-test-winner', loser: 'versus-test-loser' });
-    expect(settlement.prize).toEqual({ measure: 'resources-obstacle', setBefore: 'versus-skill-test' });
+    expect(settlement.prize).toEqual({ measure: 'resources-obstacle', setBefore: 'versus-skill-test', recipient: 'winner' });
     expect(settlement.loserResourcesTest).toEqual({ roller: 'loser', after: 'versus-skill-test', obstacle: { kind: 'same-as-prize-obstacle' } });
     expect(settlement.outcomes).toEqual([credit, cash]);
   });

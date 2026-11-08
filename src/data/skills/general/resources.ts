@@ -22,7 +22,7 @@ export const resourceIntegrations: readonly SkillIntegration[] = [
   { id: 'games-of-chance-settlement', skillId: 'games-of-chance', subsystem: 'resources',
     wagerSettlement: {
       kind: 'wager-settlement', roles: { winner: 'versus-test-winner', loser: 'versus-test-loser' },
-      prize: { measure: 'resources-obstacle', setBefore: 'versus-skill-test' },
+      prize: { measure: 'resources-obstacle', setBefore: 'versus-skill-test', recipient: 'winner' },
       loserResourcesTest: { roller: 'loser', after: 'versus-skill-test', obstacle: { kind: 'same-as-prize-obstacle' } },
       outcomes: [
         { when: 'loser-resources-test-passed', recipient: 'winner',

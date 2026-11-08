@@ -855,6 +855,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
       if (integration.subsystem !== 'resources' || wager?.kind !== 'wager-settlement' ||
           wager.roles?.winner !== 'versus-test-winner' || wager.roles.loser !== 'versus-test-loser' ||
           wager.prize?.measure !== 'resources-obstacle' || wager.prize.setBefore !== 'versus-skill-test' ||
+          wager.prize.recipient !== 'winner' ||
           wager.loserResourcesTest?.roller !== 'loser' || wager.loserResourcesTest.after !== 'versus-skill-test' ||
           wager.loserResourcesTest.obstacle?.kind !== 'same-as-prize-obstacle' ||
           !Array.isArray(wager.outcomes) || wager.outcomes.length !== 2 ||
