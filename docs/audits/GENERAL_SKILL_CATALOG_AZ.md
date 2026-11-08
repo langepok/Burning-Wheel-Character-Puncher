@@ -17,9 +17,18 @@ are for this source-reviewed catalog, not stock-specific catalogs or runtime ski
 ownership. Historical progress checkpoints below document the incremental audit.
 These counts and the `complete` definition discriminant establish identity and
 core-field coverage, not clause-level RAW completeness. The post-A–Z audits
-found omitted mechanical clauses. Semantic coverage remains open until each
-definition has been reviewed clause by clause and confirmed omissions restored.
-The verification section records the historical transcription checkpoint.
+found omitted mechanical clauses. The H-01 follow-up reviewed all 424
+definitions and restored confirmed omissions. See the separate clause
+journals for [A–D](GENERAL_SKILL_CLAUSE_REVIEW_A_D.md),
+[E–F](GENERAL_SKILL_CLAUSE_REVIEW_E_F.md),
+[G–H](GENERAL_SKILL_CLAUSE_REVIEW_G_H.md),
+[I–M](GENERAL_SKILL_CLAUSE_REVIEW_I_M.md),
+[N–R](GENERAL_SKILL_CLAUSE_REVIEW_N_R.md) and
+[S–Z](GENERAL_SKILL_CLAUSE_REVIEW_S_Z.md). Together they also cover the two
+families and Appropriate Weapons. The journals distinguish precise
+guidance and structured clauses from unresolved and external procedures;
+source uncertainty has not been adjudicated by the review.
+The verification section below records the historical transcription checkpoint.
 
 ## Resolved source correction: Demonology / Empyrealia
 

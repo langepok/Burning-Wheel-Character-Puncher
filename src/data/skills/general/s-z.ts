@@ -3,7 +3,7 @@ import { aptitudeTraining, combined, define, evidence, expendable, fork, forks, 
 
 /** Source-reviewed S–Z records; subsystem execution remains external. */
 export const sZSkills = [
-  define('saddlery', 'Saddlery', 294, 'Make horse furniture from hides. Guidance: repairs Ob 1, riding saddle Ob 2, war saddle Ob 3, ornate saddle Ob 4, royal saddle Ob 5, howdah Ob 7.', {
+  define('saddlery', 'Saddlery', 294, 'Make saddles, bits, bridles and stirrups from suitable hides, working with local tanners. Guidance: repairs Ob 1, riding saddle Ob 2, war saddle Ob 3, ornate saddle Ob 4, royal saddle Ob 5, howdah Ob 7.', {
     rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('tanner') }),
   define('saint-wise', 'Saint-wise', 294, 'Knowledge of saints.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'saint' } }),
@@ -40,7 +40,7 @@ export const sZSkills = [
   define('shield-training', 'Shield Training', 295, 'Training permits action-scoped shield defense and Block & Strike. A shield Strike uses separate acting ability choices; combat resolution stays external.', {
     rootRule: stat('agility'), skillType: 'Martial Training', tools: none, training: aptitudeTraining, printedMarkers: ['*'], integrationTags: ['fight'],
     capabilities: [{ kind: 'subsystem-capability', id: 'shield-use', integrationId: 'shield-training-use' }] }),
-  define('ship-management', 'Ship Management', 295, 'Manage voyage supplies and cargo. Success avoids supply problems; failure causes a critical shortage with serious crew and morale consequences.', {
+  define('ship-management', 'Ship Management', 295, 'Manage voyage supplies and cargo. Success avoids supply problems; failure causes a critical shortage, serious complications and the onset of crew deaths, with harm to morale.', {
     rootRule: stat('perception'), skillType: 'Seafaring', tools: none, forkSuggestions: forks('accounting', 'logistics'),
     procedures: [{ kind: 'supply-management', success: { kind: 'no-supply-problem' },
       failure: { shortage: { kind: 'critical-supply-shortage', supplySelection: 'contextual', examplesPolicy: 'non-exhaustive',
@@ -58,7 +58,7 @@ export const sZSkills = [
   }),
   define('ship-wise', 'Ship-wise', 295, 'Knowledge of ships.', {
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'ship' } }),
-  define('shipwright', 'Shipwright', 295, 'Design and construct seagoing vessels. Guidance: rowboat/skiff Ob 1, barge Ob 2, longboat Ob 3, cog/junk Ob 4, felucca/longship/galley Ob 5, carrack Ob 6, caravel Ob 8, treasure ship Ob 9.', {
+  define('shipwright', 'Shipwright', 295, 'Design and construct seagoing vessels. A master shipwright usually directs carpenters, blacksmiths and laborers. Guidance: rowboat/skiff Ob 1, barge Ob 2, longboat Ob 3, cog/junk Ob 4, felucca/longship/galley Ob 5, carrack Ob 6, caravel Ob 8, treasure ship Ob 9.', {
     rootRule: stat('perception'), skillType: 'Craftsman', tools: workshop,
     forkSuggestions: guidance(sourceFork('Engineer', 'engineering'), sourceFork('Carpenter', 'carpentry'), fork('boatwright')) }),
   define('shortcut-wise', 'Shortcut-wise', 296, 'Knowledge of shortcuts.', {
@@ -140,7 +140,7 @@ export const sZSkills = [
   define('soothing-platitudes', 'Soothing Platitudes', 299, 'Placate anger through flattering but insubstantial speech.', {
     rootRule: stat('will'), skillType: 'Social', tools: none, forkSuggestions: forks('persuasion', 'falsehood'),
     testProfile: { kind: 'obstacle', base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' } } }),
-  define('sorcery', 'Sorcery', 299, 'Understand written or spoken magical formulae; Gifted permits translating them into cast spells. Spell creation and Sorcery rules remain external.', {
+  define('sorcery', 'Sorcery', 299, 'Understand written or spoken magical formulae; Gifted permits translating them into cast spells. Sorcery can also be used to create spells. See the Sorcery chapter for procedures and obstacles.', {
     rootRule: stat('perception'), skillType: 'Sorcerous', tools: none, ...magical,
     availabilityRestrictions: only(['human', 'roden'], 'character-burning'), useRequirements: [{ kind: 'trait', id: 'gifted', use: 'spell-casting' }],
     forkSuggestions: guidance(fork('astrology'), sourceFork('Astronomy'), fork('alchemy'), fork('aura-reading'), fork('empyrealia'), fork('demonology')), integrationTags: ['magic'] }),
@@ -394,7 +394,7 @@ export const sZSkills = [
     rootRule: stat('perception'), skillType: 'Special', tools: none, familyMembership: { familyId: 'wises', topicId: 'wood' } }),
   define('woodcraft', 'Woodcraft', 309, 'Shape living wood without saws, nails or glue. Guidance: box/shelf Ob 1; cup/bowl/stool/ladder Ob 2; wall/table/chair/cabinets Ob 3; level floor Ob 4; staircase Ob 5.', {
     rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: none, ...magical, availabilityRestrictions: only(['elf']) }),
-  define('write', 'Write', 309, 'Writing is separately learnable from Read. Without reading, it is a copyist skill reproducing letter forms without knowing their meaning; writing does not grant reading. Guidance: name Ob 1; copying letters Ob 2; composing a letter Ob 3.', {
+  define('write', 'Write', 309, 'Writing is separately learnable from Read. Without reading, it is a copyist skill reproducing letter forms without knowing their meaning. The entry also describes transcribing thoughts in reasonably coherent written form. Guidance: name Ob 1; copying letters Ob 2; composing a letter Ob 3.', {
     rootRule: combined('perception', 'agility'), skillType: 'Academic', tools: expendable, forkSuggestions: forks('composition', 'calligraphy'), capabilities: [{ kind: 'literacy', actions: ['write'] }] }),
 
 ];

@@ -33,7 +33,8 @@ export const generalSkillTranscriptionContent: SkillCatalogContent = {
   families: [
     { id: 'wises', sourceName: 'Wises', ownership: 'separate-skill-per-topic',
       defaults: { rootRule: stat('perception'), skillType: 'Special', tools: none },
-      summary: 'Perception-rooted, separately owned topics; named entries may override defaults. General guidance: common knowledge Ob 1; interesting fact Ob 2; details Ob 3; uncommon knowledge Ob 4; rare goods Ob 5; bizarre/obscure Ob 7; specific details Ob 8.', source: [evidence('Wises', 309)] },
+      summary: 'Perception-rooted, separately owned topics; named entries may override defaults. The introduction directs the GM to Say Yes when a Wise test offers no interesting, compelling or important failure. General guidance: common knowledge Ob 1; interesting fact Ob 2; details Ob 3; uncommon knowledge Ob 4; rare goods Ob 5; bizarre/obscure Ob 7; specific details Ob 8.',
+      source: [evidence('Wises', 309), evidence('Wises introduction', 253)] },
     { id: 'history', sourceName: 'History', ownership: 'separate-skill-per-topic',
       defaults: { rootRule: stat('perception'), skillType: 'Academic', tools: none,
         forkSuggestions: { policy: 'guidance-not-whitelist', manualContextualContributors: true, suggestions: [
