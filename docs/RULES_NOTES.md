@@ -231,6 +231,12 @@ credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
 
+### Beggardry (BWGR 259 / PDF 261)
+
+Begging can produce 1D cash or recover taxed Resources. The victim's Will
+is the typical obstacle; convincing begging warrants Advantage without
+an amount specified in the entry.
+
 ### Artillerist and Aura Reading (BWGR 257–258 / PDF 259–260)
 
 Artillerist construction needs laborer teams and at least one carpenter.

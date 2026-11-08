@@ -524,6 +524,10 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (metadata.tools) validateTools(metadata.tools, requireSkill);
     if (metadata.useContext) validateContext(metadata.useContext, requireSkill);
     for (const interaction of metadata.resourceInteractions ?? []) {
+      if (interaction.cashDice !== undefined && (interaction.kind !== 'produce-cash' ||
+          !Number.isSafeInteger(interaction.cashDice) || interaction.cashDice <= 0)) {
+        throw new Error('Invalid cash dice on Resources interaction');
+      }
       if (interaction.context !== undefined) validateContext(interaction.context, requireSkill);
     }
     if (metadata.baseOpeningCostOverride) {

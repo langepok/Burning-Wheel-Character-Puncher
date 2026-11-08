@@ -154,10 +154,10 @@ export type SkillRelation =
 export type SkillCapability =
   | { readonly kind: 'literacy'; readonly actions: readonly ('read' | 'write')[]; readonly context?: SkillContext }
   | { readonly kind: 'subsystem-capability'; readonly id: string; readonly integrationId: string };
-export type ResourceInteraction = {
-  readonly kind: 'recover-taxed-resources' | 'produce-cash';
-  readonly context?: SkillContext;
-};
+export type ResourceInteraction = { readonly context?: SkillContext } & (
+  | { readonly kind: 'recover-taxed-resources'; readonly cashDice?: never }
+  | { readonly kind: 'produce-cash'; readonly cashDice?: number }
+);
 export type IntegrationTag = 'fight' | 'range-and-cover' | 'duel-of-wits' | 'injury' | 'resources' |
   'magic' | 'equipment' | 'mounted-combat' | 'military-campaign' | 'poisons' | 'ambush' | 'battlefield-communication';
 

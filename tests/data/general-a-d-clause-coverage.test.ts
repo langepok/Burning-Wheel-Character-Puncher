@@ -50,9 +50,21 @@ const guidance: ReadonlyArray<readonly [string, readonly (readonly [string, numb
     ['die or call-on trait', 4], ['intent', 4], ['Instinct', 6], ['Belief', 7], ['past', 8], ['future', 9],
     ['magical or mundane object', 1], ['school of magic', 2], ['facet of a spell or enchantment', 3], ['name a spell being cast', 6]]],
   ['baking', [['peasant bread', 1], ['flat cakes or nice bread', 2], ['cream-filled buns', 3], ['advanced pastry', 4]]],
+  ['ballad-of-history', [['current age', 1], ['Third Age', 2], ['Second Age', 3], ['First Age', 4],
+    ['Years of the Sun', 5], ['Creation and before time', 6]]],
+  ['bastions-of-hatred', [['trench', 1], ['battlefield fortifications', 2], ['palisade wall', 3], ['small tower', 4],
+    ['convert Human structures', 1], ['convert Dwarven structures', 2], ['defile Elven structures', 3]]],
+  ['beer-appraisal', [['Dwarven brew', 1], ['Human swill', 2], ['rat wine', 3], ['Elven brew', 4], ['Orcish brew', 5]]],
+  ['bird-husbandry', [['chickens', 1], ['pigeons', 2], ['raptors', 3], ['exotic birds', 4], ['dinosaurs', 5]]],
+  ['black-metal-artifice', [['horseshoes', 1], ['Mason, Stone Art, Cooking, Blacksmith or Black Metal Art tools', 2],
+    ['Armorer, Weaponsmith or War Art tools', 3], ['Khirurgeon tools', 4]]],
+  ['blacksmith', [['nails', 1], ['horseshoes, knives, stirrups or arrowheads', 2], ['spear tips or plow', 3],
+    ['simple tools', 3], ['swords', 4], ['complex tools', 5]]],
+  ['boatwright', [['repair or retar', 1], ['dugout, skiff or raft', 2], ['rowboat or small barge', 3],
+    ['large barge or longboat', 4], ['small sailing vessel', 5]]],
 ];
 
-describe('General Skill List clause review: Abbey-wise through Baking', () => {
+describe('General Skill List clause review: Abbey-wise through Boatwright', () => {
   it.each(guidance)('preserves each printed obstacle subject and number for %s', (id, rows) => {
     const summary = catalog.skills.get(id)?.summary;
     for (const [subject, obstacle] of rows) {
@@ -131,5 +143,27 @@ describe('General Skill List clause review: Abbey-wise through Baking', () => {
     const integrations = content.integrations.map(integration => integration.id === id
       ? { ...integration, ...override } : integration);
     expect(() => createSkillCatalog({ ...content, integrations } as typeof content)).toThrow(error);
+  });
+  it('preserves Beggardry’s cash dice, typical Will obstacle and unquantified Advantage', () => {
+    const restored = createSkillCatalog(JSON.parse(JSON.stringify(generalSkillTranscriptionContent)));
+    const skill = restored.skills.get('beggardry');
+    expect(skill?.resourceInteractions).toEqual([{ kind: 'recover-taxed-resources' },
+      { kind: 'produce-cash', cashDice: 1 }]);
+    expect(skill?.summary).toContain('Typical obstacle is the victim’s Will');
+    expect(skill?.testProfile).toEqual({ kind: 'obstacle',
+      context: { kind: 'circumstance', circumstanceId: 'typical-begging-test' },
+      base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' },
+      adjustments: [], modifiers: [{
+        when: { kind: 'circumstance', circumstanceId: 'convincing-beggar' },
+        effect: { kind: 'advantage', resolution: 'canonical' },
+      }],
+    });
+  });
+  it('does not allow cash dice on a recovery interaction', () => {
+    const content = generalSkillTranscriptionContent;
+    const skills = content.skills.map(skill => skill.id === 'beggardry'
+      ? { ...skill, resourceInteractions: [{ kind: 'recover-taxed-resources', cashDice: 1 }] } : skill);
+    expect(() => createSkillCatalog({ ...content, skills } as typeof content))
+      .toThrow('Invalid cash dice on Resources interaction');
   });
 });

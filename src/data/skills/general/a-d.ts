@@ -89,36 +89,40 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('axe', 'Axe', 258, 'Strike with the blade or haft of one- or two-handed axes.', { rootRule: combined('power', 'agility'), skillType: 'Martial', tools: item('axe'),
     semanticCategories: ['melee-weapon'], forkSuggestions: guidance(fork('brawling'), fork('martial-arts'), melee), integrationTags: ['fight'] }),
   define('baking', 'Baking', 258, 'Bake bread, cakes and pastries. Obstacles: peasant bread Ob 1; flat cakes or nice bread Ob 2; cream-filled buns Ob 3; advanced pastry Ob 4.', { rootRule: perAgi, skillType: 'Peasant', tools: workshop, forkSuggestions: forks('cooking') }),
-  define('ballad-of-history', 'Ballad of History', 259, 'Mnemonic Elven history songs.', { rootRule: per, skillType: 'Academic', tools: none,
+  define('ballad-of-history', 'Ballad of History', 259, 'Mnemonic songs teach Elves their history and that of other peoples. Obstacles: current age Ob 1; Third Age Ob 2; Second Age Ob 3; First Age Ob 4; Years of the Sun Ob 5; Creation and before time Ob 6.', { rootRule: per, skillType: 'Academic', tools: none,
     ...magical, availabilityRestrictions: only(['elf']), semanticCategories: ['song'], forkSuggestions: guidance({ target: {
       kind: 'anyOf', targets: [{ kind: 'skill-family', familyId: 'history', relevance: 'appropriate' },
         { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' }, { kind: 'category', category: 'song', relevance: 'appropriate' }],
     } }) }),
-  define('bastions-of-hatred', 'Bastions of Hatred', 259, 'Orc fortresses combine architecture and engineering.', {
+  define('bastions-of-hatred', 'Bastions of Hatred', 259, 'Combine architecture and engineering to build Orc fortresses or adapt and corrupt existing caves and towers. Obstacles: trench Ob 1; battlefield fortifications Ob 2; palisade wall Ob 3; small tower Ob 4. Existing structures: convert Human structures Ob 1; convert Dwarven structures Ob 2; defile Elven structures Ob 3.', {
     rootRule: hatred, skillType: 'Artisan', tools: workshop, ...magical, availabilityRestrictions: only(['orc']),
     forkSuggestions: forks('siege-engineer'), relations: ['architect', 'engineering'].map(id => ({ kind: 'includes-capability', target: { kind: 'skill', id } })), integrationTags: ['equipment'] }),
-  define('beer-appraisal', 'Beer Appraisal', 259, 'Discern ingredients and preparation of beer.', {
+  define('beer-appraisal', 'Beer Appraisal', 259, 'Taste to identify grain, brewing method and duration, time spent in the cask and the barrel wood. Obstacles: Dwarven brew Ob 1; Human swill Ob 2; rat wine Ob 3; Elven brew Ob 4; Orcish brew Ob 5.', {
     rootRule: willPer, skillType: 'Craftsman', tools: none, availabilityRestrictions: only(['dwarf'], 'character-burning'), forkSuggestions: forks('grain-appraisal', 'nogger') }),
-  define('beggardry', 'Beggardry', 259, 'Begging can produce 1D cash or replenish taxed Resources.', {
+  define('beggardry', 'Beggardry', 259, 'Begging can produce 1D cash or replenish taxed Resources. Typical obstacle is the victim’s Will; a convincing beggar receives Advantage dice.', {
     rootRule: will, skillType: 'Social', tools: none, forkSuggestions: forks('persuasion', 'falsehood', 'soothing-platitudes'),
-    resourceInteractions: [{ kind: 'recover-taxed-resources' }, { kind: 'produce-cash' }], integrationTags: ['resources'] }),
-  define('bird-husbandry', 'Bird Husbandry', 259, 'Raise and tend birds, including wounds and illness.', {
+    resourceInteractions: [{ kind: 'recover-taxed-resources' }, { kind: 'produce-cash', cashDice: 1 }], integrationTags: ['resources'],
+    testProfile: { kind: 'obstacle', context: { kind: 'circumstance', circumstanceId: 'typical-begging-test' },
+      base: { kind: 'target-ability-exponent', ability: { kind: 'stat', id: 'will' }, snapshot: 'current' },
+      adjustments: [], modifiers: [{ when: { kind: 'circumstance', circumstanceId: 'convincing-beggar' },
+        effect: { kind: 'advantage', resolution: 'canonical' } }] } }),
+  define('bird-husbandry', 'Bird Husbandry', 259, 'Raise and care for birds. Obstacles: chickens Ob 1; pigeons Ob 2; raptors Ob 3; exotic birds Ob 4; dinosaurs Ob 5. Wounds and illness use the separate obstacle reference.', {
     rootRule: will, skillType: 'Forester', tools: generic, integrationTags: ['injury'],
     relations: [{ kind: 'obstacle-reference', targets: { kind: 'anyOf', targets: [
       { kind: 'skill', skillId: 'field-dressing' }, { kind: 'skill', skillId: 'apothecary' },
     ] }, context: { kind: 'activity', activity: 'tending-wounds-and-illness' } }] }),
-  define('black-legion-wise', 'Black Legion-wise', 260, 'Knowledge of the legions and their workings.', {
+  define('black-legion-wise', 'Black Legion-wise', 260, 'Know the power structure and inner workings of the Orc’s own clan legion and other legions in the region.', {
     rootRule: per, skillType: 'Wise', tools: generic, familyMembership: { familyId: 'wises', topicId: 'black-legion' }, forkSuggestions: forks('orc-wise') }),
-  define('black-metal-artifice', 'Black Metal Artifice', 260, 'Dwarven metal tools, with an option to increase difficulty for enhanced tools.', {
+  define('black-metal-artifice', 'Black Metal Artifice', 260, 'Produce mundane and household metalwork and toolkits. Obstacles: horseshoes Ob 1; Mason, Stone Art, Cooking, Blacksmith or Black Metal Art tools Ob 2; Armorer, Weaponsmith or War Art tools Ob 3; Khirurgeon tools Ob 4. The optional crafted-tool bonus is a separate integration.', {
     capabilities: [{ kind: 'subsystem-capability', id: 'black-metal-tool-use-bonus', integrationId: 'black-metal-artifice-use' }],
     rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: workshop, ...magical, availabilityRestrictions: only(['dwarf']),
     forkSuggestions: forks('white-metal-artifice', 'war-art'), integrationTags: ['equipment', 'magic'] }),
-  define('blacksmith', 'Blacksmith', 260, 'Forge iron and steel; Resources recovery needs a suitable workplace.', {
+  define('blacksmith', 'Blacksmith', 260, 'Forge iron or steel tools, implements and weapons; Resources recovery needs a suitable workplace. Obstacles: nails Ob 1; horseshoes, knives, stirrups or arrowheads Ob 2; spear tips or plow Ob 3; simple tools Ob 3 (Cooking or Blacksmith); swords Ob 4; complex tools Ob 5 (Surgery or Astrology).', {
     rootRule: combined('agility', 'power'), skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('armorer', 'weaponsmith'),
     resourceInteractions: [{ kind: 'recover-taxed-resources', context: { kind: 'circumstance', circumstanceId: 'suitable-workplace' } }], integrationTags: ['equipment', 'resources'] }),
-  define('bloodletting', 'Bloodletting', 260, 'Blood treatment and stopping bleeding.', { rootRule: per, skillType: 'Medicinal', tools: generic,
+  define('bloodletting', 'Bloodletting', 260, 'Drain blood as a treatment for illness; also stop bleeding. Obstacles are in the Anatomy of Injury chapter.', { rootRule: per, skillType: 'Medicinal', tools: generic,
     forkSuggestions: forks('apothecary', 'surgery'), integrationTags: ['injury'] }),
-  define('boatwright', 'Boatwright', 260, 'Build and repair small watercraft.', { rootRule: perAgi, skillType: 'Craftsman', tools: workshop,
+  define('boatwright', 'Boatwright', 260, 'Build small watercraft, including canoes and tarred longboats. Obstacles: repair or retar Ob 1; dugout, skiff or raft Ob 2; rowboat or small barge Ob 3; large barge or longboat Ob 4; small sailing vessel Ob 5.', { rootRule: perAgi, skillType: 'Craftsman', tools: workshop,
     forkSuggestions: guidance(sourceFork('Carpenter', 'carpentry')), integrationTags: ['equipment'] }),
   define('bow', 'Bow', 261, 'Archery in Fight and Range and Cover.', { rootRule: stat('agility'), skillType: 'Martial', tools: item('bow'), integrationTags: ['fight', 'range-and-cover'] }),
   define('bowcraft', 'Bowcraft', 261, 'Elven bow making from living branches.', { rootRule: combined('will', 'agility'), skillType: 'Craftsman', tools: expendable,

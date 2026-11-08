@@ -87,5 +87,24 @@ tools. Next heading: Apothecary (255 / 257).
 | Back Alley-wise and Bad End-wise 258 / 260 | Bare named topics, no entry-specific obstacles. | Structured: Wises membership and separate identities. | Manifest and family tests. |
 | Baking 258 / 260 | Bread and pastries. Peasant bread Ob 1; flat cakes and nice bread 2; cream-filled buns 3; advanced pastry 4. Perception/Agility, Peasant, Workshop; Cooking FoRK. | Structured: core fields and FoRK. Precise guidance: all obstacle pairs in summary. | Clause coverage checks every group. |
 
-Resume at Ballad of History (259 / 261). Later A–D headings and all
-subsequent blocks are still open; no RED issue is recorded in this slice.
+## Ballad of History through Boatwright
+
+| Entry and pages | RAW paraphrase | Status and catalog location | Regression |
+| --- | --- | --- | --- |
+| Ballad of History 259 / 261 | Elven mnemonic history; Perception, Academic, no tools, magical, Elf only. Appropriate History, Wise or song FoRK. Ob 1–6 from the current age to Creation and before time. | Structured: base fields and FoRK alternatives. Precise guidance: six pairs in summary. | Clause coverage and FoRK tests. |
+| Banner-wise, Bannerman-wise, Bat-wise, Beast of Burden-wise, Beer-wise 259 / 261 | Bare named topics. | Structured: Wises membership; no entry-specific obstacles. | Manifest and family tests. |
+| Bastions of Hatred 259 / 261 | Hatred, Artisan, Workshop, Orc only, open-ended. Combines architecture and engineering for fortresses and adaptation of caves/towers. Siege Engineer FoRK. Ob 1–4 for construction; converting Human/Dwarven structures or defiling Elven ones is Ob 1/2/3. | Structured: base fields, open-ended dice, capability relations and FoRK. Precise guidance: use and seven pairs in summary. | Clause coverage checks construction and conversion pairs. |
+| Beer Appraisal 259 / 261 | Distinguishes grain, brewing type and duration, cask age and wood. Will/Perception, Craftsman, no tools, Dwarf only in burning. Grain Appraisal/Nogger FoRKs. Ob 1–5 for Dwarven, Human, rat wine, Elven and Orcish drinks. | Structured: base fields and FoRKs. Precise guidance: five pairs and detectable features in summary. | Clause coverage. |
+| Beggardry 259 / 261 | Produce 1D cash or replenish taxed Resources. Ob typically victim's Will; convincing begging merits Advantage. Will, Social, no tools; Persuasion, Falsehood, Soothing Platitudes FoRKs. | Structured: base fields, separate direct Resources interactions, contextual typical Will and unquantified Advantage. | Round-trip and rejection of cash dice on recovery. |
+| Bird Husbandry 259 / 261 | Raise/care for birds. Chickens Ob 1; pigeons 2; raptors 3; exotic birds 4; dinosaurs 5. Treat wounds/illness at Field Dressing or Apothecary obstacles. Will, Forester, tools required. | Structured: base fields and scoped obstacle reference. Precise guidance: five pairs in summary. | Clause coverage and obstacle-reference tests. |
+| Black Legion-wise 260 / 262 | Know the structure and inner workings of one's clan legion and other legions in the region. Perception, printed Wise type, tools required; Orc-wise FoRK. | Structured: base fields, topic and FoRK. Precise guidance: scope in summary. No inferred stock-only gate from descriptive text. | Catalog and manifest tests. |
+| Black Metal Artifice 260 / 262 | Household metalwork and toolkits; optional +2 Ob to grant the tools +1D on tests using them. Horseshoes Ob 1; printed simple/advanced/specialist tool groups Ob 2/3/4. Will/Agility, Craftsman, Workshop, magical, Dwarf only; White Metal Artifice and War Art FoRKs. | Structured: core metadata and existing crafted-tool tradeoff. Precise guidance: all four pairs in summary. Repeatability remains unspecified. | Existing equipment-use and added obstacle coverage. |
+| Blacksmith 260 / 262 | Forge iron and steel implements and weapons; recovery requires a suitable place to ply the trade. Agility/Power, Craftsman, Workshop; Armorer and Weaponsmith FoRKs. Ob 1–5 by product, with two distinct Ob 3 groups. | Structured: base fields and separate workplace context for recovery. Precise guidance: all six pairs. | Source-gap context tests and clause coverage. |
+| Bloodletting 260 / 262 | Drain blood to treat illness; can stop bleeding. Perception, Medicinal, tools required; Apothecary and Surgery FoRKs. | Structured: base fields and FoRKs. External procedure: Anatomy of Injury reference in summary. | Catalog and reference integrity. |
+| Boatwright 260 / 262 | Build small craft. Repair/retar Ob 1; dugout/skiff/raft 2; rowboat/small barge 3; large barge/longboat 4; small sailing vessel 5. Perception/Agility, Craftsman, Workshop; Carpenter FoRK. | Structured: base fields. Precise guidance: use and five pairs. Unresolved: Carpenter retains its existing hint. | Clause coverage. |
+
+Checkpoint: 47 definitions and one choice reviewed through Boatwright.
+The review includes 167 fixed obstacle rows (grouped alternatives count as
+one row), plus the recorded prerequisites, modifiers, procedures and
+other clauses. Resume at Bow (261 / 263). No RED issue is recorded in
+this slice; the remaining A–D headings and later blocks are still open.
