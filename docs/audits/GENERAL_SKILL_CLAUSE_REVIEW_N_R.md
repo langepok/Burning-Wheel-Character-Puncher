@@ -39,7 +39,7 @@ the production regression suites cover the procedural distinctions.
 | Reputation-wise 290 / 292 | Structured: bare topic. |
 | Research 290 / 292 | Precise guidance: six library/monograph rows. Structured: History and the Ancient/Obscure History references. |
 | Rhetoric 290 / 292 | Structured: opponent Perception rather than Will, separate Duel of Wits use and printed FoRKs. |
-| Rhyme of the Gatherer, Mariner and Pathfinder 291 / 293 | Structured: distinct Foraging, Rigging and Tracking mechanics links. Printed Seafarer retained on Mariner. Rhyme of Rules stays unresolved where named. |
+| Rhyme of the Gatherer, Rhyme of the Mariner and Rhyme of the Pathfinder 291 / 293 | Structured: distinct Foraging, Rigging and Tracking mechanics links. Printed Seafarer retained on Mariner. Rhyme of Rules stays unresolved where named. |
 | Rhythm of the City-wise, Ridiculous Request-wise 291 / 293 | Structured: bare topics. |
 | Riddle of Steel 291 / 293 | Precise guidance: five blade/arrow groups, spearheads handled separately. Structured: Antiphon item reference, no unnamed song effect inferred. |
 | Riding 291 / 293 | External procedure: Riding and Mounted Combat. Structured: horse or similar mount tool wording. |

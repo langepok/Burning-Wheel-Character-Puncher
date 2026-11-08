@@ -25,6 +25,12 @@ describe('General Skill List C–D printed obstacle guidance', () => {
   it('retains the range for printed counterfeit material, not a single obstacle', () => {
     expect(catalog.skills.get('counterfeiting')?.summary).toContain('printed material Ob 5–10 by complexity');
   });
+  it('keeps the printed climbing examples attached to their obstacle tiers', () => {
+    const summary = catalog.skills.get('climbing')?.summary;
+    for (const row of ['rocky hill, tree or fence Ob 1', 'inclined rock wall or treacherous tree Ob 2',
+      'straight rock wall Ob 3', 'sheer rock wall Ob 4', 'ice climb Ob 5',
+      'bad conditions, overhangs or ice Ob 7']) expect(summary).toContain(row);
+  });
   it('keeps Disguise stock groupings and continuation provenance without resolving slash notation', () => {
     const skill = catalog.skills.get('disguise');
     expect(skill?.summary).toContain('Dwarf/Roden/Troll Ob 5; Elf/Roden/Troll Ob 6; Orc/Elf Ob 7');

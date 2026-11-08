@@ -84,7 +84,7 @@ adds regressions for the corrections in this pass.
 | Voice of Thunder 307 / 309 | Structured: Command mechanics plus battlefield-wide audibility for soldiers with a qualifying Trait, Instinct or Belief about this commander. No obedience or name/semantic matching. |
 | Waiting Tables 307 / 309 | Structured: recovery without inferred workplace condition. Precise guidance: five venue tiers. |
 | War Art 307 / 309 | Precise guidance: weapon/armor tables. Structured: physical-weapon improvement options and distinct armor quality rules, gray shade via own skill or Epiphany. War Art reroll discrepancy and quality combination remain unresolved. |
-| War Engineer 307 / 309 | Precise guidance: six siege builds, construction and undermining distinct. External procedure: Materials for destruction obstacles. |
+| War Engineer 307 / 309 | Structured: § and printed Dwarves-only restriction, verified at the foot of the right column. Precise guidance: six siege builds, construction and undermining distinct. External procedure: Materials for destruction obstacles. |
 | Weaponsmith 308 / 310 | Precise guidance: four weapon groups. Structured: +2 Ob superior result and failure linked to poor quality; generic failure interaction unspecified. |
 | Weaving 308 / 310 | Precise guidance: flax/wool/cotton/silk Ob 1–4. |
 | Weaving Way 308 / 310 | Structured: Weaving replacement for Elves and Antiphon item reference. Precise guidance: Threne of the Chameleon creates Elven Cloaks; benefit not supplied in entry. |

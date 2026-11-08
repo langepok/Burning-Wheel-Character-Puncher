@@ -68,9 +68,11 @@ describe('Reviewed General Skill List transcription blocks', () => {
       familyMembership: { familyId: 'wises', topicId: topic } });
     expect(catalog.skills.get(`${topic}-wise`)?.semanticCategories).toBeUndefined();
   });
-  it('preserves War Engineer building guidance and external Materials reference without inferred stock/tool-output restrictions', () => {
+  it('preserves War Engineer’s printed Dwarf restriction, magical marker and external Materials reference', () => {
     expect(catalog.skills.get('war-engineer')).toMatchObject({ rootRule: { kind: 'combined', abilities: [{ kind: 'stat', id: 'will' }, { kind: 'stat', id: 'perception' }] },
-      skillType: 'Artisan', tools: { kind: 'workshop' }, printedMarkers: ['§'], availabilityRestrictions: [] });
+      skillType: 'Artisan', tools: { kind: 'workshop' }, printedMarkers: ['§'],
+      rollBehavior: { kind: 'open-ended', basis: 'magical' },
+      availabilityRestrictions: [{ kind: 'stock-only', stockIds: ['dwarf'], scope: 'always' }] });
     for (const row of ['battering ram Ob 1', 'small war tower Ob 2', 'covered ram Ob 3', 'small stone thrower Ob 4', 'siege arbalest Ob 5', 'large trebuchet Ob 6'])
       expect(catalog.skills.get('war-engineer')?.summary).toContain(row);
     expect(catalog.integrations.get('war-engineer-materials')?.summary).toContain('Materials');

@@ -351,7 +351,8 @@ export const sZSkills = [
     capabilities: [{ kind: 'subsystem-capability', id: 'equipment-crafting-results', integrationId: 'war-art-results' }] }),
 
   define('war-engineer', 'War Engineer', 307, 'Build and field war engines and undermine fortifications. Building guidance: battering ram Ob 1; small war tower Ob 2; covered ram Ob 3; small stone thrower Ob 4; siege arbalest Ob 5; large trebuchet Ob 6. Destruction obstacles reference Materials.', {
-    rootRule: combined('will', 'perception'), skillType: 'Artisan', tools: workshop, ...magical, integrationTags: ['equipment'] }),
+    rootRule: combined('will', 'perception'), skillType: 'Artisan', tools: workshop, ...magical,
+    availabilityRestrictions: only(['dwarf']), integrationTags: ['equipment'] }),
 
   define('weaponsmith', 'Weaponsmith', 308, 'Manufacture weapons of war. Guidance: knife Ob 1; spear/short sword/mace/light axe Ob 2; arming/long sword Ob 3; polearm Ob 4. Superior manufacture adds +2 Ob; failed manufacture is linked to poor-quality output without resolving generic failure interactions.', {
     rootRule: combined('perception', 'agility'), skillType: 'Craftsman', tools: workshop, forkSuggestions: forks('blacksmith'), integrationTags: ['equipment'],

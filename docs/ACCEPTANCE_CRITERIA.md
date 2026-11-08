@@ -963,7 +963,7 @@ A Character Burner feature is done only when:
 - Strict serialization/integrity validation covers all descriptors and rejects formula ASTs, wrong obstacle basis, inferred quality scope/combination and unrelated-skill shade conditions. No crafting/equipment/quality/shade evaluator.
 - Continue W–Z sequentially until the next genuinely unsupported source case; run npm ci, typecheck, full tests, build and diff checks.
 
-- War Engineer preserves Will/Perception, Artisan, Workshop and Ob 1–6 building guidance; Materials destruction guidance remains external. Do not infer a Dwarf restriction from descriptive lore or a Siege Engineer counts-as-tool capability. Weaponsmith remains identity-only if its generic superior/poor output qualities cannot be represented without borrowing War Art-specific conflicting semantics.
+- War Engineer preserves Will/Perception, Artisan, Workshop and Ob 1–6 building guidance; Materials destruction guidance remains external. Preserve the printed Dwarves-only restriction and § marker, without adding Siege Engineer's counts-as-tool capability. Weaponsmith remains identity-only if its generic superior/poor output qualities cannot be represented without borrowing War Art-specific conflicting semantics.
 
 
 ### Weaponsmith generic created-equipment quality
