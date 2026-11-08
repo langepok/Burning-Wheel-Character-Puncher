@@ -234,6 +234,14 @@ records have different coverage discriminants. Omitted fixture metadata means
 untranscribed, not unrestricted or ordinary. Name-only references are not skill
 definitions. Fixtures do not replace the current lifepath catalog's skill references.
 
+Production `coverage: 'complete'` distinguishes a definition with the required
+core metadata from a partial fixture. Exact manifest coverage establishes
+identity completeness. Neither establishes that every mechanical clause has
+been preserved; an empty field does not prove the source has no applicable rule.
+The General A–Z review checks clauses separately against the source and restores
+confirmed omissions. The agreed depth for this catalog still applies; a change
+of approach for later subsystems does not retroactively reduce A–Z scope.
+
 ## D-021 — FoRK guidance and contributor provenance
 
 **Status:** Accepted — architecture decision implementing verified RAW

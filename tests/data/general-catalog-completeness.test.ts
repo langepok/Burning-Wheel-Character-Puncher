@@ -16,7 +16,7 @@ const requirementSkills = (nodes: readonly RequirementNode[]): string[] => nodes
   node.kind === 'allOf' || node.kind === 'anyOf' ? requirementSkills(node.items)
     : node.kind === 'priorLifepathSkillListContains' ? [node.skillId] : []);
 
-describe('Complete General catalog and current lifepath reference audit', () => {
+describe('General catalog identity and core fields, and known lifepath references', () => {
   it('covers every manifest identity exactly once in the correct kind, without canonical reference-only placeholders', () => {
     expect(generalSkillManifest).toHaveLength(427);
     expect(catalog.skills.size).toBe(424);
@@ -54,7 +54,7 @@ describe('Complete General catalog and current lifepath reference audit', () => 
       expect(catalog.skills.get(reference.id)?.sourceName).toBe(reference.sourceName);
     }
   });
-  it('audits known grants, alternatives and nested requirements for every current lifepath without claiming complete LP skill lists', () => {
+  it('resolves four known uses of three skill IDs across 60 partial lifepath skill lists', () => {
     expect(humanContent.lifepaths).toHaveLength(60);
     const uses = humanContent.lifepaths.flatMap(lifepath => [
       ...lifepath.skillListMetadata.knownEntries.flatMap(entry => entry.kind === 'skill' ? [entry.skillId] : [...entry.skillIds]),

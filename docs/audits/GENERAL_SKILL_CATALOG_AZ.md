@@ -15,7 +15,11 @@ and one choice expression. Production contains 424 complete SkillDefinitions,
 two families and one choice, with exact id/name/kind/page coverage. These counts
 are for this source-reviewed catalog, not stock-specific catalogs or runtime skill
 ownership. Historical progress checkpoints below document the incremental audit.
-The current status and verification section records the final checkpoint.
+These counts and the `complete` definition discriminant establish identity and
+core-field coverage, not clause-level RAW completeness. The post-A–Z audits
+found omitted mechanical clauses. Semantic coverage remains open until each
+definition has been reviewed clause by clause and confirmed omissions restored.
+The verification section records the historical transcription checkpoint.
 
 ## Resolved source correction: Demonology / Empyrealia
 
@@ -499,7 +503,9 @@ definitions. At that checkpoint M paused at Munitions; it remained identity-only
 Final checkpoint verification passed: npm ci, npm run typecheck, npm test
 (1477 tests in 55 files), npm run build and git diff --check. The full independent
 427-entry manifest matches 424 complete definitions, two families and one choice.
-A–Z source entry review and the current 60-lifepath reference join are complete.
+The manifest matched at that checkpoint; clause-level RAW review remains open.
+The join covered 60 partial lifepath skill lists and four known uses across
+three unique IDs (Bow, Javelin and Sorcery).
 Known unresolved source facts remain explicitly preserved as described below;
 no evaluator, UI or character spending implementation is claimed. No PR is open
 for this branch under the current no-PR/no-merge instruction.
@@ -1135,4 +1141,4 @@ The classifier regression separately distinguishes Appropriate Weapons as a choi
 
 ## Remaining source issues and scope
 
-Known unresolved source references and the War Art armor-quality discrepancy remain documented in their source sections. Mithril's omitted unit is intentionally preserved, not a transcription blocker. Escape Artist's source scope remains explicit rather than guessed. No new RAW case blocks completion of the reviewed A–Z list. Later Equipment/Resources/Fight/magic audits own the deferred execution and reconciliation; the separately planned formalization retrospective is not performed here. No PR is opened and no merge is performed under the current instruction.
+Known unresolved source references and the War Art armor-quality discrepancy remain documented in their source sections. Mithril's omitted unit is intentionally preserved. Escape Artist's source scope remains explicit rather than guessed. These deferred questions are distinct from confirmed transcription omissions, which must be restored for semantic completeness. Later Equipment/Resources/Fight/magic audits own the deferred execution and reconciliation; the separately planned formalization retrospective is not performed here. No PR is opened and no merge is performed under the current instruction.
