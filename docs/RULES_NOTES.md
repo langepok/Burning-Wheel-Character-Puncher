@@ -231,6 +231,15 @@ credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
 
+### Falsehood, Formation Fighting and Fortifications (BWGR 272, 274 / PDF 274, 276)
+
+Falsehood uses target Will, with +1D for a believable, particularly good
+or partly true lie and +2 Ob for a whopper or bad lie. Formation Fighting
+allows help on Steel-based Range and Cover maneuvers within formation,
+and separately reduces the Fight outnumbered penalty by one when shoulder
+to shoulder with allies. Fortifications distinguishes cover increases from
+position dice; the palisade's cover increase is not quantified.
+
 ### Command and Cryptography (BWGR 265, 267 / PDF 267, 269)
 
 Command reaches as far as the voice. A commander who is not hesitating

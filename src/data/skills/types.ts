@@ -838,8 +838,25 @@ export type DrinkingProcedure =
       readonly speedBasis: 'more-successes-faster'; readonly reducesAlcoholRequired: false }
   | { readonly kind: 'appear-sober'; readonly test: 'versus';
       readonly opponent: { readonly kind: 'stat'; readonly id: 'perception' } };
+export interface FormationFightingBenefits {
+  readonly kind: 'formation-fighting-benefits';
+  readonly maneuverHelp: { readonly subsystem: 'range-and-cover'; readonly participants: 'in-formation';
+    readonly maneuverBasis: 'steel'; readonly permission: 'help-each-other' };
+  readonly outnumberedRelief: { readonly subsystem: 'fight'; readonly when: 'shoulder-to-shoulder-with-allies';
+    readonly reduceBy: number };
+}
+export interface FieldFortifications {
+  readonly kind: 'field-fortifications';
+  readonly options: Operands<{
+    readonly structure: 'fence-or-barricade' | 'wall' | 'palisade' | 'dugout-or-trench';
+    readonly buildingObstacle: number;
+    readonly positionDice?: number;
+    readonly coverIncrease?: number | 'source-unspecified';
+  }>;
+}
 export type SkillProcedure = DurationRestSubstitution | LinkedPretest | ItemSearch | SupplyManagement |
-  ObstaclePenaltyRelief | BattlefieldHesitationRelief | FieldManeuverLinkedTest | CodeDeciphering | DrinkingProcedure;
+  ObstaclePenaltyRelief | BattlefieldHesitationRelief | FieldManeuverLinkedTest | CodeDeciphering | DrinkingProcedure |
+  FormationFightingBenefits | FieldFortifications;
 /** Facts during use of the owning skill; no new ability named Awareness. */
 export type SkillActivityFact =
   | { readonly kind: 'vague-surroundings-awareness' }

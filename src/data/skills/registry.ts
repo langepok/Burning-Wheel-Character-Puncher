@@ -11,7 +11,7 @@ import { validateFatePronouncement, validateRuneCastingFateObstacle } from './fa
 import { validateCraftedPoison } from './poisons';
 import { validateCraftedConsumable } from './consumables';
 import type {
-  AbilityReference, OpposingAbilityReference, ForkTarget, OwnedSkillTopic, RootRule, SkillCatalogContent, SkillContext, SkillFamilyDefinition, SkillMetadata, ToolRequirement,
+  AbilityReference, FieldFortifications, OpposingAbilityReference, ForkTarget, OwnedSkillTopic, RootRule, SkillCatalogContent, SkillContext, SkillFamilyDefinition, SkillMetadata, ToolRequirement,
 } from './types';
 
 function index<T extends { readonly id: string }>(records: readonly T[]): ReadonlyMap<string, T> {
@@ -245,7 +245,31 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     if (metadata.procedures !== undefined) {
       if (!Array.isArray(metadata.procedures)) throw new Error('Invalid skill procedures');
       for (const procedure of metadata.procedures) {
-        if (procedure?.kind === 'drinker-contest') {
+        if (procedure?.kind === 'formation-fighting-benefits') {
+          const help = procedure.maneuverHelp;
+          const relief = procedure.outnumberedRelief;
+          if (metadata.training?.kind !== 'training' || help?.subsystem !== 'range-and-cover' ||
+              help.participants !== 'in-formation' || help.maneuverBasis !== 'steel' || help.permission !== 'help-each-other' ||
+              relief?.subsystem !== 'fight' || relief.when !== 'shoulder-to-shoulder-with-allies' ||
+              !Number.isSafeInteger(relief.reduceBy) || relief.reduceBy <= 0 ||
+              Object.keys(help).length !== 4 || Object.keys(relief).length !== 3 ||
+              Object.keys(procedure).length !== 3) throw new Error('Invalid formation fighting benefits');
+        } else if (procedure?.kind === 'field-fortifications') {
+          const positive = (value: number) => Number.isSafeInteger(value) && value > 0;
+          const options: FieldFortifications['options'] = procedure.options;
+          validateOperands(options);
+          if (Object.keys(procedure).length !== 2 ||
+              new Set(options.map(option => option?.structure)).size !== options.length ||
+              options.some(option => !option ||
+                !['fence-or-barricade', 'wall', 'palisade', 'dugout-or-trench'].includes(option.structure) ||
+                !positive(option.buildingObstacle) ||
+                (option.positionDice === undefined && option.coverIncrease === undefined) ||
+                (option.positionDice !== undefined && !positive(option.positionDice)) ||
+                (option.coverIncrease !== undefined && option.coverIncrease !== 'source-unspecified' && !positive(option.coverIncrease)) ||
+                Object.keys(option).some(key => !['structure', 'buildingObstacle', 'positionDice', 'coverIncrease'].includes(key)))) {
+            throw new Error('Invalid field fortifications');
+          }
+        } else if (procedure?.kind === 'drinker-contest') {
           if (procedure.test !== 'versus' || (procedure.aim === 'drink-without-showing-it'
             ? procedure.recommendation !== 'preferred' || Object.keys(procedure).length !== 4
             : procedure.aim !== 'fastest-intoxication' || procedure.speedBasis !== 'more-successes-faster' ||
