@@ -28,6 +28,9 @@ journals for [A–D](GENERAL_SKILL_CLAUSE_REVIEW_A_D.md),
 families and Appropriate Weapons. The journals distinguish precise
 guidance and structured clauses from unresolved and external procedures;
 source uncertainty has not been adjudicated by the review.
+The [handoff index](SKILL_CATALOG_HANDOFF.md) maps descriptors to rationale,
+sources and future owners; the [unresolved register](SKILL_CATALOG_UNRESOLVED.md)
+consolidates open questions and accepted provisional readings.
 The verification section below records the historical transcription checkpoint.
 
 ## Resolved source correction: Demonology / Empyrealia
@@ -1114,7 +1117,7 @@ The entry's parenthetical reroll statements do not literally match general equip
 
 CraftingShadeRequirement requires the effective owning crafting skill to be gray at test time to create gray devices. Actual shade or temporary Epiphany can qualify; unrelated gray skills cannot. The latter is an external eligibility path, not an Artha activation/cost/timer or permanent progression. No weapon/armor/balance shade stats are generated. Strict serialization/integrity validation covers all three equipment-only descriptors. D-025 is extended, D-027 identity remains intact, and no new Decision or crafting/equipment/shade/quality evaluator is added.
 
-War Engineer is also complete on 307/309, retaining Will/Perception, Artisan, Workshop, building guidance Ob 1–6 and an external Materials reference for destruction obstacles. The printed entry does not state a stock restriction, so Dwarven-host lore does not create one. Nor is Siege Engineer's distinct counts-as-tool capability copied. Production reaches 409 complete definitions, through War Engineer.
+War Engineer is also complete on 307/309, retaining Will/Perception, Artisan, Workshop, building guidance Ob 1–6 and an external Materials reference for destruction obstacles. The final visual sample confirmed a printed Dwarves-only restriction below Tools. Nor is Siege Engineer's distinct counts-as-tool capability copied. Production reaches 409 complete definitions, through War Engineer.
 
 ## Resolved Weaponsmith created-output quality
 

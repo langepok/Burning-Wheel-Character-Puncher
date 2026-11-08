@@ -241,6 +241,11 @@ been preserved; an empty field does not prove the source has no applicable rule.
 The General A–Z review checks clauses separately against the source and restores
 confirmed omissions. The agreed depth for this catalog still applies; a change
 of approach for later subsystems does not retroactively reduce A–Z scope.
+The narrower approach considered during Haggling was superseded for this
+catalog. Preserve mechanically important clauses as typed metadata, precise
+guidance, an external reference or explicit uncertainty. Missing execution is
+not a reason to omit a clause; changing a coverage label does not restore it.
+Later domains may choose their own depth after the A–Z retrospective.
 
 ## D-021 — FoRK guidance and contributor provenance
 
@@ -277,6 +282,14 @@ relations from source aliases. Integration tags are indexes, not execution
 permissions. Separate `SkillIntegration` records reserve a place for subsystem
 links; Fight, Range and Cover, Resources, Injury and magic execution remains
 outside the catalog.
+
+The future boundary is test result → structured consequence → world state →
+downstream resolver. The catalog describes the consequence contract; it does
+not emit runtime outcomes or own state. Preserve a result the source
+establishes even when downstream details are unknown. Ship Management
+(295 / PDF 297), for example, establishes the onset of crew deaths on failure,
+while count and timing remain unspecified. Surgery's Blood Clock and crafted
+poison exposure have separate downstream owners.
 
 Public data holds project-authored summaries and source references. Optional
 future licensed full text must remain separate from public core data and must
@@ -498,6 +511,13 @@ commitment invalidation. A future runtime can bind those roles to concrete entit
 identities and revisions without parsing narrative text. Fulfillment, fatal
 fulfillment and target agency stay human decisions; their typed rewards are
 metadata, not automatic character/campaign changes.
+
+Torture (304–305 / PDF 306–307) links a result to the same declared intent
+without interpreting its wording. Voice of Thunder (307 / PDF 309) can
+refer to a recipient's Trait, Instinct or Belief about the same commander;
+stable identity can bind the relationship but cannot infer meaning from text.
+Hearing the command does not entail obedience or Command success. These are
+metadata examples, not implementation of those narrative entities.
 
 This decision adds no Belief catalog, predefined Belief types, semantic classifier,
 text matching, narrative mutation/revision runtime, or Belief/Artha/fate/death/
