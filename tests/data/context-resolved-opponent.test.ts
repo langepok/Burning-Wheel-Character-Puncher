@@ -14,7 +14,8 @@ describe('Context-resolved opposing skills', () => {
   it('preserves the eavesdropper skill without inventing an identity or default', () => {
     expectTypeOf<typeof expected>().toExtend<OpposingAbilityReference>();
     expectTypeOf<typeof expected>().not.toExtend<SkillReferenceTarget>();
-    expect(catalog.skills.get('jargon')?.testProfile).toEqual({ kind: 'versus', opposingAbilities: [expected] });
+    expect(catalog.skills.get('jargon')?.testProfile).toEqual({ kind: 'versus',
+      context: { kind: 'circumstance', circumstanceId: 'jargon-against-eavesdropping' }, opposingAbilities: [expected] });
     expect(expected).not.toHaveProperty('skillId');
     expect(expected).not.toHaveProperty('default');
     expect(expected).not.toHaveProperty('fallback');
