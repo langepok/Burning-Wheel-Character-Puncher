@@ -10,22 +10,24 @@ const histories = { target: { kind: 'skill-family', familyId: 'history', relevan
 
 /** Reviewed A–D entries; the aggregate catalog is unfinished until all blocks pass the oracle. */
 export const aDSkills: readonly SkillDefinition[] = [
-  define('accounting', 'Accounting', 253, 'Financial records and recovery of taxed Resources.', {
+  define('accounting', 'Accounting', 253, 'Track income, expenses, stocks and taxes; primarily used to recover taxed Resources. Obstacles: simple single-income, single-residence taxes Ob 1; personal finances Ob 2; family income Ob 3; small business books Ob 4; estate books Ob 5; large business books Ob 6; town books Ob 7; city books Ob 8; province books Ob 9; nation books Ob 10.', {
     rootRule: per, skillType: 'Academic', tools: generic,
     forkSuggestions: guidance(fork('research'), sourceFork('Reading', 'read'), fork('administration'), fork('estate-management')),
     resourceInteractions: [{ kind: 'recover-taxed-resources' }], integrationTags: ['resources'],
   }),
-  define('acting', 'Acting', 253, 'Imitation and performance.', { rootRule: per, skillType: 'Special', tools: none,
+  define('acting', 'Acting', 253, 'Imitate and recite for a performance. Obstacles: mummery Ob 1; morality play Ob 2; religious miracle Ob 3; religious mystery Ob 4; classics Ob 5.', { rootRule: per, skillType: 'Special', tools: none,
     forkSuggestions: forks('conspicuous', 'falsehood') }),
-  define('administration', 'Administration', 253, 'Managing organizations and recovering taxed Resources.', {
+  { ...define('administration', 'Administration', 253, 'Run a business or organization; primarily used to recover taxed Resources. Obstacles: yourself Ob 1; shop Ob 2; confraternity Ob 3; small commune Ob 4; small guild Ob 5; small secret society Ob 6; large secret society Ob 7; small trading concern Ob 8; large guild Ob 9; giant trading concern Ob 10.', {
     rootRule: per, skillType: 'Special', tools: none, resourceInteractions: [{ kind: 'recover-taxed-resources' }], integrationTags: ['resources'] }),
-  define('ages-of-the-etharch', 'Ages of the Etharch', 254, 'History of the Etharchs across the ages.', {
+    source: [evidence('Administration', 253), evidence('Administration (continued)', 254)],
+  },
+  define('ages-of-the-etharch', 'Ages of the Etharch', 254, 'Specialized History of the Etharchs. Obstacles: current age Ob 1; Third Age Ob 2; Second Age Ob 3; First Age Ob 4; Years of the Sun Ob 5; before the first Etharchs Ob 6.', {
     rootRule: willPer, skillType: 'Academic', tools: none, ...magical, availabilityRestrictions: only(['elf']),
     familyMembership: { familyId: 'history', topicId: 'ages-of-the-etharch' } }),
-  define('alchemy', 'Alchemy', 254, 'Distillation of essences and arcane mixtures.', {
+  define('alchemy', 'Alchemy', 254, 'Distill materials to identify their essences or mix arcane substances to produce a specific effect. Distillation obstacles: earth Ob 1; water or other liquid Ob 2; metal Ob 3; blood Ob 4.', {
     rootRule: per, skillType: 'Sorcerous', tools: expendable, availabilityRestrictions: only(['human']),
     forkSuggestions: forks('enchanting', 'herbalism', 'apothecary', 'munitions', 'poisons'), integrationTags: ['magic'] }),
-  define('almanac', 'Almanac', 254, 'Seasonal, climatic and calendar knowledge.', { rootRule: per, skillType: 'Peasant', tools: none }),
+  define('almanac', 'Almanac', 254, 'Knowledge of seasons, tides, weather and lunar phases. A character with the skill can always tell the time of year nearly to the day and can make accurate predictions about the season’s weather. Obstacles: general seasonal weather Ob 1; planting and harvest times Ob 2; reasonably accurate weather prediction Ob 3; festivals and holidays Ob 4.', { rootRule: per, skillType: 'Peasant', tools: none }),
   define('amercement', 'Amercement', 254, 'Legal fines and their Resources obstacles.', {
     rootRule: per, skillType: 'School of Thought', tools: none, integrationTags: ['resources'] }),
   define('ancient-languages', 'Ancient Languages', 254, 'Defunct languages using Foreign Languages mechanics.', {
