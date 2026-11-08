@@ -52,3 +52,14 @@ non-propagation of its tools.
 Catalog design: creation and transfer remain separate descriptors in
 the same magic integration. Neither introduces an evaluator or propagates
 tools. Next heading: Apothecary (255 / 257).
+
+## Apothecary and Appraisal
+
+| Entry and pages | RAW paraphrase | Status and catalog location | Regression |
+| --- | --- | --- | --- |
+| Apothecary 255 / 257 | Perception, Medicinal, expendable tools, Herbalism FoRK. Medicines prevent or treat ailments, ease infection or illness symptoms, and ease wound penalties. Itching Ob 2; warts Ob 3. | Structured: core fields and FoRK. Precise guidance: `apothecary.summary`. | Clause test covers both obstacle entries. |
+| Apothecary 255 / 257 | Medicine for +1 Ob pain is Ob 3. Local numbing is Ob 4: one fewer wound penalty die, +1 Ob to all tests, four hours. | Structured: separate recipes in `apothecary-medicines`. No duration assigned to the first recipe; no recovery engine. | Exact effects, duration and round-trip; rejects transferring duration between recipes. |
+| Appraisal 255–256 / 257–258 | Perception, Special, no tools. Appropriate Wises or Academic, Artisan or Craftsman FoRKs. Can precede a Resources test for an accurate price. | Structured: core fields and FoRKs. Precise guidance: `appraisal.summary`; no Resources modifier. | Catalog integrity and clause test. |
+| Appraisal 255–256 / 257–258 | Coin/metals Ob 1; gems 2; tapestries and armaments 3; antiques 4; art 5; ephemera 6. Magical items add +1 Ob to appraisal. | Precise guidance: `appraisal.summary` with continuation provenance. Structured: contextual +1 Ob modifier to the appraisal. | All seven obstacle pairs, both source pages and exact modifier. |
+
+Next heading: Appropriate Weapons (256 / 258), a choice rather than a definition.

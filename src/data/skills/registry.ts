@@ -606,6 +606,24 @@ export function createSkillCatalog(content: SkillCatalogContent) {
       if (integration.subsystem !== 'injury') throw new Error('Invalid poison treatment subsystem');
       validatePoisonTreatment(integration.poisonTreatment, requireSkill);
     }
+    if (integration.medicinalPreparations !== undefined) {
+      const recipes = integration.medicinalPreparations;
+      const pain = recipes?.painRelief;
+      const numbing = recipes?.localNumbing;
+      const positive = (value: number) => Number.isSafeInteger(value) && value > 0;
+      if (integration.subsystem !== 'injury' || !pain || !numbing ||
+          !positive(pain.testObstacle) || pain.effect?.kind !== 'relieve-pain-obstacle-penalty' ||
+          !positive(pain.effect.magnitude) || Object.keys(pain.effect).length !== 2 || Object.keys(pain).length !== 2 ||
+          !positive(numbing.testObstacle) || numbing.effect?.kind !== 'reduce-wound-die-penalty' ||
+          !positive(numbing.effect.dice) || Object.keys(numbing.effect).length !== 2 ||
+          numbing.sideEffect?.kind !== 'obstacle-penalty' || numbing.sideEffect.scope !== 'all-tests' ||
+          !positive(numbing.sideEffect.delta) || Object.keys(numbing.sideEffect).length !== 3 ||
+          numbing.duration?.unit !== 'hours' || !positive(numbing.duration.amount) ||
+          Object.keys(numbing.duration).length !== 2 || Object.keys(numbing).length !== 4 ||
+          Object.keys(recipes).length !== 2) {
+        throw new Error('Invalid medicinal preparations');
+      }
+    }
     if (integration.cooperation !== undefined) {
       if (integration.subsystem !== 'range-and-cover') throw new Error('Invalid cooperation subsystem');
       validateCooperation(integration.cooperation, id => {

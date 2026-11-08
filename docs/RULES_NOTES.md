@@ -231,6 +231,14 @@ credit at the same obstacle; taxation gives the winner cash equal to the loser's
 taxed dice. Store these separately conditioned consequences without imposing
 exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
 
+### Apothecary and Appraisal (BWGR 255–256 / PDF 257–258)
+
+Apothecary pain medicine (Ob 3) eases a +1 Ob pain penalty. Local numbing
+(Ob 4) instead reduces a wound die penalty by one die, increases all
+obstacles by one and lasts four hours. The latter terms do not apply to
+the pain medicine. Appraisal can precede a Resources test to establish
+an accurate price; its +1 Ob for magical items applies to the appraisal.
+
 ### Antiphon Union stages (BWGR 255 / PDF 257)
 
 Create the base item using an applicable skill song, with an obstacle of

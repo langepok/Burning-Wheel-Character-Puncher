@@ -43,15 +43,20 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('antiphon-union-training', 'Antiphon Union Training', 255, 'Imbue an item created through a skill song with a spell song.', {
     rootRule: will, skillType: 'Artisan', tools: none, training: aptitudeTraining, printedMarkers: ['*'], availabilityRestrictions: only(['elf']),
     integrationTags: ['magic'], capabilities: [{ kind: 'subsystem-capability', id: 'antiphon-base-item-creation', integrationId: 'antiphon-creation' }] }),
-  define('apothecary', 'Apothecary', 255, 'Preparations for ailments and wound symptoms.', {
-    rootRule: per, skillType: 'Medicinal', tools: expendable, forkSuggestions: forks('herbalism'), integrationTags: ['injury'] }),
-  define('appraisal', 'Appraisal', 255, 'Estimate item value before a Resources purchase.', {
+  define('apothecary', 'Apothecary', 255, 'Prepare medicines to prevent or treat ailments, ease infection or illness symptoms, or ease wound penalties. Other preparations: relieve itching Ob 2; cure warts Ob 3.', {
+    rootRule: per, skillType: 'Medicinal', tools: expendable, forkSuggestions: forks('herbalism'), integrationTags: ['injury'],
+    capabilities: [{ kind: 'subsystem-capability', id: 'medicinal-preparations', integrationId: 'apothecary-medicines' }] }),
+  { ...define('appraisal', 'Appraisal', 255, 'Judge an item’s value; can be used before a Resources test to establish an accurate price. Appraisal obstacles: coins or precious metals Ob 1; gems Ob 2; tapestries Ob 3; armaments Ob 3; antiquities Ob 4; art Ob 5; ephemera (such as wine, drugs or candles) Ob 6.', {
+    testProfile: { kind: 'contextual', modifiers: [{
+      when: { kind: 'circumstance', circumstanceId: 'appraising-magical-item' },
+      effect: { kind: 'obstacle-modifier', delta: 1 },
+    }] },
     rootRule: per, skillType: 'Special', tools: none, integrationTags: ['resources'], forkSuggestions: guidance({ target: {
       kind: 'anyOf', targets: [ { kind: 'skill-family', familyId: 'wises', relevance: 'appropriate' },
         { kind: 'skill-type', skillType: 'Academic', relevance: 'appropriate' },
         { kind: 'skill-type', skillType: 'Artisan', relevance: 'appropriate' },
         { kind: 'skill-type', skillType: 'Craftsman', relevance: 'appropriate' } ],
-    } }) }),
+    } }) }), source: [evidence('Appraisal', 255), evidence('Appraisal (continued)', 256)] },
   define('archcraft', 'Archcraft', 256, 'Elven architecture and engineering.', {
     rootRule: combined('will', 'agility'), skillType: 'Artisan', tools: workshop, ...magical, availabilityRestrictions: only(['elf']),
     forkSuggestions: forks('woodcraft', 'stonecraft'), relations: ['architect', 'engineering'].map(id => ({ kind: 'includes-capability', target: { kind: 'skill', id } })),
@@ -196,7 +201,16 @@ export const aDSkills: readonly SkillDefinition[] = [
   define('dye-manufacture', 'Dye Manufacture', 269, 'Find materials and manufacture dyes.', { rootRule: perAgi, skillType: 'Craftsman', tools: expendable }),
 ];
 
-export const aDIntegrations = [{ id: 'antiphon-creation', skillId: 'antiphon-union-training', subsystem: 'magic',
+export const aDIntegrations = [{ id: 'apothecary-medicines', skillId: 'apothecary', subsystem: 'injury',
+  medicinalPreparations: {
+    painRelief: { testObstacle: 3, effect: { kind: 'relieve-pain-obstacle-penalty', magnitude: 1 } },
+    localNumbing: { testObstacle: 4, effect: { kind: 'reduce-wound-die-penalty', dice: 1 },
+      sideEffect: { kind: 'obstacle-penalty', scope: 'all-tests', delta: 1 },
+      duration: { unit: 'hours', amount: 4 } },
+  },
+  summary: 'Pain relief and local numbing are separate medicines; the numbing tradeoff and duration do not carry over.',
+  source: [evidence('Apothecary', 255)],
+}, { id: 'antiphon-creation', skillId: 'antiphon-union-training', subsystem: 'magic',
   baseItemCreation: { stage: 'base-item-creation', requiredMethod: { kind: 'applicable-skill-song' },
     follows: 'selected-skill-own-rules-and-tools', obstacle: { kind: 'natural-obstacle-with-minimum', minimum: 5 },
     requiredQuality: 'highest-quality' },

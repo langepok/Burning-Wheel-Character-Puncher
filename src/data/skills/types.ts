@@ -521,6 +521,16 @@ export interface BattlefieldCommandBroadcast {
   readonly effect: { readonly kind: 'can-hear-command' };
 }
 
+/** Separate medicine recipes; effects are metadata, not injury state changes. */
+export interface MedicinalPreparations {
+  readonly painRelief: { readonly testObstacle: number;
+    readonly effect: { readonly kind: 'relieve-pain-obstacle-penalty'; readonly magnitude: number } };
+  readonly localNumbing: { readonly testObstacle: number;
+    readonly effect: { readonly kind: 'reduce-wound-die-penalty'; readonly dice: number };
+    readonly sideEffect: { readonly kind: 'obstacle-penalty'; readonly scope: 'all-tests'; readonly delta: number };
+    readonly duration: { readonly unit: 'hours'; readonly amount: number } };
+}
+
 export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'magic'; readonly fatePronouncement?: FatePronouncement; readonly spellListCasting?: SpellListCasting; readonly craftedPoison?: never; readonly craftedConsumableEffect?: never; readonly baseItemCreation?: MagicBaseItemCreation; readonly spellSongTransfer?: MagicSpellSongTransfer; readonly sustainedSpellReference?: SustainedSpellReference;
       readonly createdItemReference?: MagicCreatedItemReference; readonly equipmentResult?: never; readonly createdItemValueEffects?: never; readonly equipmentUseEffect?: never; readonly wagerSettlement?: never; readonly purchaseNegotiation?: never; readonly priceReduction?: never; readonly judicialFineAssessment?: never; readonly structureResistance?: never; readonly createdEquipmentCapability?: never }
@@ -537,8 +547,8 @@ export type SkillIntegration = SkillIntegrationIdentity & (
   | { readonly subsystem: 'range-and-cover'; readonly cooperation?: Cooperation }
   | { readonly subsystem: Exclude<IntegrationTag, 'range-and-cover'>; readonly cooperation?: never }
 ) & (
-  | { readonly subsystem: 'injury'; readonly poisonTreatment?: PoisonTreatment }
-  | { readonly subsystem: Exclude<IntegrationTag, 'injury'>; readonly poisonTreatment?: never }
+  | { readonly subsystem: 'injury'; readonly poisonTreatment?: PoisonTreatment; readonly medicinalPreparations?: MedicinalPreparations }
+  | { readonly subsystem: Exclude<IntegrationTag, 'injury'>; readonly poisonTreatment?: never; readonly medicinalPreparations?: never }
 ) & (
   | { readonly subsystem: 'battlefield-communication'; readonly battlefieldCommandBroadcast?: BattlefieldCommandBroadcast }
   | { readonly subsystem: Exclude<IntegrationTag, 'battlefield-communication'>; readonly battlefieldCommandBroadcast?: never }
