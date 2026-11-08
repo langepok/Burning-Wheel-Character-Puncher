@@ -67,4 +67,11 @@ describe('H-01 procedure integrity', () => {
       options: [row, { structure: 'wall', buildingObstacle: 2, coverIncrease: 'dice' }],
     }])).toThrow('Invalid field fortifications');
   });
+  it.each([{ cardinality: 'choose-one' }, { considerations: ['lifepaths', 'character-concept', 'stock'] }])(
+    'rejects narrowing Appropriate Weapons through invalid choice metadata %j', selection => {
+      const choices = content.choices.map(choice => ({ ...choice, selection: { ...choice.selection, ...selection } }));
+      expect(() => createSkillCatalog({ ...content, choices } as typeof content))
+        .toThrow('Invalid Appropriate Weapons selection');
+    },
+  );
 });

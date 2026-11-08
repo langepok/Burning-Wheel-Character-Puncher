@@ -165,6 +165,17 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   const references = index(content.references);
   const families = index(content.families);
   const choices = index(content.choices);
+  for (const choice of choices.values()) {
+    const selection = choice.selection;
+    const considerations = selection?.considerations;
+    if (choice.kind !== 'appropriate-weapons' || selection?.kind !== 'real-weapon-skills' ||
+        selection.contextRequired !== true ||
+        (selection.cardinality !== undefined && selection.cardinality !== 'any-and-all-appropriate') ||
+        (considerations !== undefined && (!Array.isArray(considerations) || considerations.length !== 3 ||
+          considerations[0] !== 'lifepaths' || considerations[1] !== 'character-concept' || considerations[2] !== 'game-setting'))) {
+      throw new Error('Invalid Appropriate Weapons selection');
+    }
+  }
   const forkBehaviors = index(content.forkBehaviors);
   const integrations = index(content.integrations);
   index([...content.skills, ...content.references, ...content.families, ...content.choices]);
