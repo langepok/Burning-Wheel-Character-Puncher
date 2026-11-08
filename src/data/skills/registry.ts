@@ -172,6 +172,12 @@ export function createSkillCatalog(content: SkillCatalogContent) {
   const requireSkill = (id: string) => {
     if (!skills.has(id) && !references.has(id)) throw new Error(`Unknown skill reference: ${id}`);
   };
+  const requireRollingSkill = (id: string) => {
+    requireSkill(id);
+    if (skills.get(id)?.training?.kind === 'training') {
+      throw new Error('Invalid acting ability: Training has no exponent');
+    }
+  };
   const validateForkTarget = (target: ForkTarget): void => {
     if (target.kind === 'skill') requireSkill(target.skillId);
     if (target.kind === 'skill-family' && !families.has(target.familyId)) {
@@ -183,10 +189,10 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     }
     // A probable target remains audit metadata, never a resolved FoRK reference.
   };
-  const validateAbility = (ability: AbilityReference): void => {
+  const validateRollingAbility = (ability: AbilityReference): void => {
     if (!ability || !['skill', 'stat', 'attribute'].includes(ability.kind) ||
         typeof ability.id !== 'string' || !ability.id.trim()) throw new Error('Invalid ability reference');
-    if (ability.kind === 'skill') requireSkill(ability.id);
+    if (ability.kind === 'skill') requireRollingSkill(ability.id);
   };
   const validateMetadata = (metadata: Partial<SkillMetadata>) => {
     if (metadata.useRequirements !== undefined) {
@@ -275,7 +281,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
             throw new Error('Invalid linked pre-test');
           }
           validateContext(special.when, requireSkill);
-          validateAbility(special.test.actingAbility);
+          validateRollingAbility(special.test.actingAbility);
           validateContextResolvedSkill(special.test.opposingAbility);
           if (special.test.opposingAbility.actorRole !== 'opponent') throw new Error('Invalid linked opponent role');
         } else throw new Error('Invalid skill procedure');
@@ -289,7 +295,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
         } else if (fact?.kind === 'permitted-test') {
           if (fact.abilities?.kind !== 'anyOf' || fact.purpose?.kind !== 'detect-skill-use') throw new Error('Invalid permitted test fact');
           validateOperands(fact.abilities.operands);
-          fact.abilities.operands.forEach(validateAbility);
+          fact.abilities.operands.forEach(validateRollingAbility);
           requireSkill(fact.purpose.skillId);
         } else throw new Error('Invalid activity fact');
       }
@@ -382,7 +388,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
             const id = ability.kind === 'skill' ? ability.skillId : ability.id;
             if (typeof id !== 'string' || !id.trim() || ids.has(`${ability.kind}:${id}`)) throw new Error('Invalid opposing ability');
             ids.add(`${ability.kind}:${id}`);
-            if (ability.kind === 'skill') requireSkill(id);
+            if (ability.kind === 'skill') requireRollingSkill(id);
             if (branch.modifiers !== undefined) {
               if (!Array.isArray(branch.modifiers)) throw new Error('Invalid opposing modifiers');
               for (const modifier of branch.modifiers) {
@@ -402,7 +408,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
             if (ability?.kind !== 'skill' || typeof ability.skillId !== 'string' || !ability.skillId.trim()) {
               throw new Error('Invalid opposing skill reference');
             }
-            requireSkill(ability.skillId);
+            requireRollingSkill(ability.skillId);
           }
         }
       } else if (profile?.kind === 'obstacle') {
@@ -460,7 +466,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
           const ability = followUp.test.ability;
           if (!ability || !['skill', 'stat', 'attribute'].includes(ability.kind) ||
               typeof ability.id !== 'string' || !ability.id.trim()) throw new Error('Invalid follow-up ability');
-          if (ability.kind === 'skill') requireSkill(ability.id);
+          if (ability.kind === 'skill') requireRollingSkill(ability.id);
           for (const modifier of followUp.modifiers) {
             if (modifier?.kind !== 'dynamic-value' || modifier.target !== 'hesitation-obstacle' ||
                 modifier.operation !== 'add' || 'delta' in modifier || modifier.value?.kind !== 'extra-successes' ||
@@ -619,12 +625,7 @@ export function createSkillCatalog(content: SkillCatalogContent) {
     }
     if (integration.shieldUse !== undefined) {
       if (integration.subsystem !== 'fight') throw new Error('Invalid shield-use subsystem');
-      validateShieldUse(integration.shieldUse, ability => {
-        validateAbility(ability);
-        if (ability.kind === 'skill' && skills.get(ability.id)?.training?.kind === 'training') {
-          throw new Error('Invalid acting ability: Training has no exponent');
-        }
-      });
+      validateShieldUse(integration.shieldUse, validateRollingAbility);
     }
     if (integration.fatePronouncement !== undefined) {
       if (integration.subsystem !== 'magic') throw new Error('Invalid fate pronouncement subsystem');

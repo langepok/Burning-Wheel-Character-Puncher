@@ -47,6 +47,23 @@ describe('Skill-test follow-up metadata', () => {
   it.each(['missing', 'steel'])('rejects dangling/fake skill ability %s', id => {
     expect(() => register({ ...expected, test: { actor: 'target', ability: { kind: 'skill', id } } })).toThrow('Unknown skill reference');
   });
+  it('rejects an exponentless Training as the ability rolled in a follow-up', () => {
+    expect(() => register({ ...expected,
+      test: { actor: 'target', ability: { kind: 'skill', id: 'armor-training' } },
+    })).toThrow('Training has no exponent');
+  });
+  it('rejects an exponentless Training as a fixed opposing ability', () => {
+    expect(() => createSkillCatalog({ ...generalSkillTranscriptionContent, skills: generalSkillTranscriptionContent.skills.map(skill =>
+      skill.id === 'inconspicuous' && skill.testProfile?.kind === 'versus' ? { ...skill,
+        testProfile: { ...skill.testProfile, opposingAbilities: [{ kind: 'skill', skillId: 'armor-training' }] },
+      } : skill) })).toThrow('Training has no exponent');
+  });
+  it('still accepts a Training identity as an opening prerequisite', () => {
+    const prerequisite = { kind: 'known-skill', skillId: 'armor-training' } as const;
+    const registered = createSkillCatalog({ ...generalSkillTranscriptionContent, skills: generalSkillTranscriptionContent.skills.map(skill =>
+      skill.id === 'intimidation' ? { ...skill, openingRequirements: [prerequisite] } : skill) });
+    expect(registered.skills.get('intimidation')?.openingRequirements).toEqual([prerequisite]);
+  });
   it.each([
     { ...expected, trigger: { kind: 'test-failure', source: 'primary-test' } },
     { ...expected, trigger: { kind: 'test-success', source: 'follow-up-test' } },
