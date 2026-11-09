@@ -1,0 +1,191 @@
+# General Skill List clause review — A–D
+
+In progress. The user confirmed the 604-page BWGR PDF as the project source.
+The earlier 601-page count was a text extraction cutoff. Page pairs below
+are book / PDF. This review is separate from the identity manifest.
+
+Thirteen headings, Abbey-wise through Animal Husbandry, were reviewed.
+Counts treat each obstacle row and each named FoRK as a clause; tool
+expendability is part of the tools clause. Bare Wise headings have no
+entry-specific clauses. The completed review accounts for 113 clauses,
+including 51 obstacle rows, before Antiphon. The Antiphon review below
+adds one definition and 11 clauses. Descriptive paraphrases are not verbatim source text.
+
+| Entry and pages | RAW paraphrase | Status and catalog location | Regression |
+| --- | --- | --- | --- |
+| Abbey-wise 253 / 255; Althing-wise and Ambition-wise 254 / 256 | Bare named topics; use shared Wises guidance (309 / 311). | Structured: separate records and family membership in `a-d-wises.ts`; no individual obstacle tables printed. | Manifest, family and catalog tests. |
+| Accounting 253 / 255 | Perception; Academic; tools required. Primarily recovers taxed Resources. FoRKs Research, Reading, Administration and Estate Management. | Structured: root, type, tools, resource interaction and three concrete FoRKs in `a-d.ts`. Unresolved: printed Reading, with existing Read hint only. | Catalog integrity and Resources/source-gap regressions. |
+| Accounting 253 / 255 | Simple single-income/residence tax Ob 1; personal finances 2; family income 3; small business 4; estate 5; large business 6; town 7; city 8; province 9; nation 10. | Precise guidance: `accounting.summary`; restored. | `general-a-d-clause-coverage` checks all ten pairs. |
+| Acting 253 / 255 | Imitation and recitation in performance. Perception; Special; no tools. FoRKs Conspicuous and Falsehood. | Precise guidance: purpose in `acting.summary`. Structured: root, type, tools and FoRKs. | Catalog and reference integrity. |
+| Acting 253 / 255 | Mummery Ob 1, morality play 2, miracle play 3, mystery play 4, classics 5. | Precise guidance: `acting.summary`; restored. | Clause coverage: all five pairs. |
+| Administration 253–254 / 255–256 | Run a business or organization; primarily recover taxed Resources. Perception; Special; no tools. | Structured: root, type, tools and recovery. Precise guidance: purpose in summary. | Catalog and Resources regressions. |
+| Administration 253–254 / 255–256 | Self Ob 1; shop 2; confraternity 3; small commune 4; small guild 5; small secret society 6; large secret society 7; small trading concern 8; large guild 9; giant trading concern 10. | Precise guidance: `administration.summary`; restored. Continuation has separate provenance. | Clause coverage: all ten pairs and both pages. |
+| Ages of the Etharch 254 / 256 | Specialized History; Will/Perception; Academic; no tools; Elves only; printed magical marker. | Structured: `ages-of-the-etharch` family, root, type, tools, availability and roll behavior. | Manifest and catalog tests. |
+| Ages of the Etharch 254 / 256 | Current age Ob 1; Third Age 2; Second Age 3; First Age 4; Years of the Sun 5; before the first Etharchs 6. | Precise guidance: `ages-of-the-etharch.summary`; restored. | Clause coverage: all six pairs. |
+| Alchemy 254 / 256 | Distill a material to find its essence; mix arcane substances for specific effects. Perception; Sorcerous; expendable tools; Humans only. FoRKs Enchanting, Herbalism, Apothecary, Munitions and Poisons. | Precise guidance: both uses in `alchemy.summary`; the entry gives no recipe or effect table for mixtures. Structured: root, type, tools, availability and FoRKs. | Catalog and reference integrity. |
+| Alchemy 254 / 256 | Distill earth Ob 1, water or other liquid 2, metal 3, blood 4. | Precise guidance: `alchemy.summary`; restored. | Clause coverage: all four pairs. |
+| Almanac 254 / 256 | Perception; Peasant; no tools. Knows the time of year nearly to the day; can predict the season's weather accurately. | Structured: root, type, tools. Precise guidance: `almanac.summary`; the two capabilities restored without a calendar or weather resolver. | Clause coverage checks both separate capabilities. |
+| Almanac 254 / 256 | General seasonal weather Ob 1; planting and harvest times 2; reasonably accurate weather prediction 3; festivals and holidays 4. | Precise guidance: `almanac.summary`; restored. | Clause coverage: all four pairs. |
+
+| Amercement 254 / 256 | Perception; School of Thought; no tools. Fines usually replace corporal punishment. Test obstacles measure accuracy and justice under the law: low justice (fine only) Ob 2; middle justice (amputation, branding or fine) Ob 3; high justice (capital crimes) Ob 5. | Structured: root, type and tools. Precise guidance: `amercement.summary`. | `judicial-fine-assessment` checks base metadata and all three test obstacles. |
+| Amercement 254 / 256 | May set the Resources obstacle of the fine; the source specifies no mapping from the skill test. | Structured: `amercement-judicial-fine-assessment` Resources integration, determination source-unspecified. | Descriptor, round-trip and rejection of invented numbers, conversion and payment. |
+| Ancient Languages 254 / 256 | Know defunct languages appropriate to the setting. Perception; Academic; no tools. Uses Foreign Languages mechanics. | Precise guidance: `ancient-languages.summary`. Structured: root, type, tools and same-mechanics relation. | Manifest and catalog reference integrity. |
+| Anatomy 255 / 257 | Study human body structure and function. Perception; Academic; no tools. FoRKs Surgery and Field Dressing. Dog Ob 1; superficial human anatomy 2; major organs 3; circulatory system 4; human dissection 5. | Structured: root, type, tools and FoRKs. Precise guidance: `anatomy.summary`, obstacle rows restored. | Clause coverage checks all five pairs. |
+| Animal Husbandry 255 / 257 | Raise, care for and breed animals. Will; Peasant; tools required. Chickens Ob 1; pigs or goats 2; cows or horses 3; exotic animals 4. When tending wounds and illness, use Field Dressing or Apothecary obstacles. | Structured: root, type, tools and contextual obstacle-reference. Precise guidance: `animal-husbandry.summary`, obstacle rows restored. | Clause coverage checks all four pairs; `obstacle-reference` covers the distinct medical procedure. |
+
+## Antiphon Union Training
+
+Book 255 / PDF 257. The entry describes two stages. The
+`antiphon-creation` integration represents making the base item with an
+applicable skill song under that song's own rules and tools. The owning
+record preserves Will, the Aptitude-only footnote, Artisan, Elves only, and no
+Antiphon tools (five clauses). Existing source-gap tests cover the preceding stage and
+non-propagation of its tools.
+
+| RAW clause | Status and regression |
+| --- | --- |
+| Base creation obstacle is at least 5; retain the natural obstacle if higher. | Structured: `baseItemCreation.obstacle` names the natural obstacle with minimum 5; transcription regression. |
+| An enchantment holds only in a structure of the highest quality; cheap or shoddy work does not hold it. | Structured: `baseItemCreation.requiredQuality`; no mapping to a named equipment quality. |
+| Once the item is created, sing the spell song under its own rules; the singer gets one chance to transfer the effect. | Structured: `spellSongTransfer` stage order, rules reference and single attempt. Tested by transcription and serialization, with invalid attempts and tool inheritance rejected. |
+| The spell effect is imbued in the item and active whenever it is used. | Structured: `spellSongTransfer.effect`; tests reject activation at crafting completion. |
+
+Catalog design: creation and transfer remain separate descriptors in
+the same magic integration. Neither introduces an evaluator or propagates
+tools. Next heading: Apothecary (255 / 257).
+
+## Apothecary and Appraisal
+
+| Entry and pages | RAW paraphrase | Status and catalog location | Regression |
+| --- | --- | --- | --- |
+| Apothecary 255 / 257 | Perception, Medicinal, expendable tools, Herbalism FoRK. Medicines prevent or treat ailments, ease infection or illness symptoms, and ease wound penalties. Itching Ob 2; warts Ob 3. | Structured: core fields and FoRK. Precise guidance: `apothecary.summary`. | Clause test covers both obstacle entries. |
+| Apothecary 255 / 257 | Medicine for +1 Ob pain is Ob 3. Local numbing is Ob 4: one fewer wound penalty die, +1 Ob to all tests, four hours. | Structured: separate recipes in `apothecary-medicines`. No duration assigned to the first recipe; no recovery engine. | Exact effects, duration and round-trip; rejects transferring duration between recipes. |
+| Appraisal 255–256 / 257–258 | Perception, Special, no tools. Appropriate Wises or Academic, Artisan or Craftsman FoRKs. Can precede a Resources test for an accurate price. | Structured: core fields and FoRKs. Precise guidance: `appraisal.summary`; no Resources modifier. | Catalog integrity and clause test. |
+| Appraisal 255–256 / 257–258 | Coin/metals Ob 1; gems 2; tapestries and armaments 3; antiques 4; art 5; ephemera 6. Magical items add +1 Ob to appraisal. | Precise guidance: `appraisal.summary` with continuation provenance. Structured: contextual +1 Ob modifier to the appraisal. | All seven obstacle pairs, both source pages and exact modifier. |
+
+## Appropriate Weapons through Artificer-wise
+
+| Entry and pages | RAW paraphrase | Status and catalog location | Regression |
+| --- | --- | --- | --- |
+| Appropriate Weapons 256 / 258 | Choose any and all weapons appropriate to the lifepaths, concept and setting. Individual weapon entries provide roots and obstacles. | Structured: `appropriate-weapons` choice, cardinality and considerations; individual weapon metadata remains on the selected definitions. | Choice is not a skill; all three considerations and cardinality checked. |
+| Archcraft 256 / 258 | Will/Agility, Artisan, Workshop, Elves only, magical. Uses architecture and engineering; can make enchanted dwellings with Antiphon and spell songs. Examples: Song of Arbors weaves around trees; Alarm warns of intruders; Weathersong predicts weather. FoRK Woodcraft or Stonecraft. Arch Ob 1; small gate 2; large gate 3; chamber 4; domed hall 5. | Structured: core fields, capability relations, FoRKs and existing Antiphon item-reference shape. Precise guidance: examples and obstacles in summary. External procedure: spell songs, no inferred identities or whitelist. | Antiphon linkage and five obstacle pairs. |
+| Architect 256 / 258 | Perception, Academic, Workshop. Draw plans for proposed or existing structures, or navigate with plans. Cottage Ob 1; longhouse 2; two-story structure 4; tower 5; complex designs 6; Outer Gods' designs 10. FoRK Engineer, Mason, Carpenter. | Structured: core fields and Mason. Precise guidance: three uses and obstacles in summary. Unresolved: Engineer and Carpenter retain probable target hints. | Six obstacle pairs and reference integrity. |
+| Armor Training 256 / 258 | Power/Speed for Aptitude only; Martial Training; no tools. Without Training, light mail adds +1 Ob to tests and heavy mail or heavier +2 Ob. Training removes those penalties and mitigates armor fatigue; Clumsy Weight still applies. | Structured: core fields and `armor-training-penalties` equipment integration. | Round-trip, exact tier and mitigation checks, and rejection under a wrong subsystem. |
+| Armorer 256–257 / 258–259 | Perception/Agility, Craftsman, Workshop; Blacksmith, Sewing and Tanner FoRKs. Manufacture armor and shields. Six armor tiers from padded armor to full plate; four shield obstacles from target to kite. | Structured: core fields and FoRKs. Precise guidance: all ten pairs in summary; continuation provenance retained. | Each armor/helmet grouping and each shield Ob checked. |
+| Arson 257 / 259 | Perception/Agility, Special, expendable tools; Human and Roden only in character burning. Quickly set buildings alight with common household items. Ob 1–8 from thatched cottage through castle. | Structured: core fields, tools and availability. Precise guidance: all eight pairs in summary. | Eight obstacle pairs. |
+| Army-wise and Artificer-wise 257 / 259 | Bare named Wise topics, no individual obstacles. | Structured: separate topics and Wises membership in `a-d-wises.ts`. | Manifest and family tests. |
+
+## Artillerist through Baking
+
+| Entry and pages | RAW paraphrase | Status and catalog location | Regression |
+| --- | --- | --- | --- |
+| Artillerist 257 / 259 | Design war engines and lob indirect fire. Construction needs teams of laborers and at least one carpenter. Scavenge shot Ob 1, carve shot Ob 2. Construction Ob 2–6 by engine and ranging Ob 2–4 by engine. Campaigns with black-powder weapons may use Artillerist to manufacture and operate cannons, bombards and shot; Munitions covers bombs and powder in that variant. Perception, Military, Workshop; Engineer and Architect FoRKs. | Precise guidance: purpose and the eleven obstacle pairs in summary. Structured: core fields, Architect, crew and campaign variant in `artillerist-procedure`. Unresolved: printed Engineer retains its hint. | Exact pairs, crew and variant round-trip, invalid descriptor rejected. |
+| Artillery Hand 257 / 259 | Assemble and dismantle artillery; fire direct-fire engines. Effective indirect-fire operation requires Artillerist. Perception/Agility, Special, tools required; Dwarves only in character burning; Artillerist FoRK. | Precise guidance: activities and indirect-fire boundary in summary. Structured: base fields, restriction and FoRK. The latter is distinct from the operating requirement. | Catalog and reference integrity. |
+| Astrology 257–258 / 259–260 | FoRK except Martial/Physical; six rerolls normally, one rerolls and failure subtracts a success. Alternate linked test toward any endeavor or gambit excludes special die. Stars Ob 1; horoscope 2; auspices 3; question 4; phenomena/omens 5. Perception, Academic, tools required; Humans only; Doctrine and Symbology FoRKs. | Structured: shared `astrology-fork` and base fields. Precise guidance: linked-test scope and obstacle pairs. Both pages retained. | Existing special FoRK regressions and five obstacle pairs. |
+| Atilliator 258 / 260 | Make and maintain crossbows. Ordinary Ob 2, heavy 3, hand 4, siege 5. Perception/Agility, Craftsman, Workshop; Bowyer, Blacksmith and Carpenter FoRKs. | Structured: core fields and two exact FoRKs. Precise guidance: summary. Unresolved: printed Carpenter with existing hint. | Four obstacle pairs. |
+| Aura Reading 258 / 260 | Read an aura only with separately acquired perception (trait, prayer or spell). Person, object and spell readings have printed Ob 1–9 by task; detecting a spirit's presence and nature is Ob 10 minus its Strength. Will/Perception, Sorcerous, no tools. | Structured: existing aura-perception use requirement and bounded spirit obstacle in `aura-reading-spirit`. Precise guidance: fourteen fixed rows and sources of aura perception in summary. No invented clamp, inferred trait, narrative resolver or generalized formula. | Fixed rows, scope and subtraction reference round-trip, invalid ability rejected. |
+| Axe 258 / 260 | Blade or haft strikes with one- or two-handed axes. Power/Agility, Martial, axe required; Brawling, Martial Arts or appropriate melee weapon FoRK. | Structured: core fields and FoRKs. Precise guidance: both strike surfaces and weapon forms in summary. | Existing FoRK and identity regressions. |
+| Back Alley-wise and Bad End-wise 258 / 260 | Bare named topics, no entry-specific obstacles. | Structured: Wises membership and separate identities. | Manifest and family tests. |
+| Baking 258 / 260 | Bread and pastries. Peasant bread Ob 1; flat cakes and nice bread 2; cream-filled buns 3; advanced pastry 4. Perception/Agility, Peasant, Workshop; Cooking FoRK. | Structured: core fields and FoRK. Precise guidance: all obstacle pairs in summary. | Clause coverage checks every group. |
+
+## Ballad of History through Boatwright
+
+| Entry and pages | RAW paraphrase | Status and catalog location | Regression |
+| --- | --- | --- | --- |
+| Ballad of History 259 / 261 | Elven mnemonic history; Perception, Academic, no tools, magical, Elf only. Appropriate History, Wise or song FoRK. Ob 1–6 from the current age to Creation and before time. | Structured: base fields and FoRK alternatives. Precise guidance: six pairs in summary. | Clause coverage and FoRK tests. |
+| Banner-wise, Bannerman-wise, Bat-wise, Beast of Burden-wise, Beer-wise 259 / 261 | Bare named topics. | Structured: Wises membership; no entry-specific obstacles. | Manifest and family tests. |
+| Bastions of Hatred 259 / 261 | Hatred, Artisan, Workshop, Orc only, open-ended. Combines architecture and engineering for fortresses and adaptation of caves/towers. Siege Engineer FoRK. Ob 1–4 for construction; converting Human/Dwarven structures or defiling Elven ones is Ob 1/2/3. | Structured: base fields, open-ended dice, capability relations and FoRK. Precise guidance: use and seven pairs in summary. | Clause coverage checks construction and conversion pairs. |
+| Beer Appraisal 259 / 261 | Distinguishes grain, brewing type and duration, cask age and wood. Will/Perception, Craftsman, no tools, Dwarf only in burning. Grain Appraisal/Nogger FoRKs. Ob 1–5 for Dwarven, Human, rat wine, Elven and Orcish drinks. | Structured: base fields and FoRKs. Precise guidance: five pairs and detectable features in summary. | Clause coverage. |
+| Beggardry 259 / 261 | Produce 1D cash or replenish taxed Resources. Ob typically victim's Will; convincing begging merits Advantage. Will, Social, no tools; Persuasion, Falsehood, Soothing Platitudes FoRKs. | Structured: base fields, separate direct Resources interactions, contextual typical Will and unquantified Advantage. | Round-trip and rejection of cash dice on recovery. |
+| Bird Husbandry 259 / 261 | Raise/care for birds. Chickens Ob 1; pigeons 2; raptors 3; exotic birds 4; dinosaurs 5. Treat wounds/illness at Field Dressing or Apothecary obstacles. Will, Forester, tools required. | Structured: base fields and scoped obstacle reference. Precise guidance: five pairs in summary. | Clause coverage and obstacle-reference tests. |
+| Black Legion-wise 260 / 262 | Know the structure and inner workings of one's clan legion and other legions in the region. Perception, printed Wise type, tools required; Orc-wise FoRK. | Structured: base fields, topic and FoRK. Precise guidance: scope in summary. No inferred stock-only gate from descriptive text. | Catalog and manifest tests. |
+| Black Metal Artifice 260 / 262 | Household metalwork and toolkits; optional +2 Ob to grant the tools +1D on tests using them. Horseshoes Ob 1; printed simple/advanced/specialist tool groups Ob 2/3/4. Will/Agility, Craftsman, Workshop, magical, Dwarf only; White Metal Artifice and War Art FoRKs. | Structured: core metadata and existing crafted-tool tradeoff. Precise guidance: all four pairs in summary. Repeatability remains unspecified. | Existing equipment-use and added obstacle coverage. |
+| Blacksmith 260 / 262 | Forge iron and steel implements and weapons; recovery requires a suitable place to ply the trade. Agility/Power, Craftsman, Workshop; Armorer and Weaponsmith FoRKs. Ob 1–5 by product, with two distinct Ob 3 groups. | Structured: base fields and separate workplace context for recovery. Precise guidance: all six pairs. | Source-gap context tests and clause coverage. |
+| Bloodletting 260 / 262 | Drain blood to treat illness; can stop bleeding. Perception, Medicinal, tools required; Apothecary and Surgery FoRKs. | Structured: base fields and FoRKs. External procedure: Anatomy of Injury reference in summary. | Catalog and reference integrity. |
+| Boatwright 260 / 262 | Build small craft. Repair/retar Ob 1; dugout/skiff/raft 2; rowboat/small barge 3; large barge/longboat 4; small sailing vessel 5. Perception/Agility, Craftsman, Workshop; Carpenter FoRK. | Structured: base fields. Precise guidance: use and five pairs. Unresolved: Carpenter retains its existing hint. | Clause coverage. |
+
+Checkpoint: 47 definitions and one choice reviewed through Boatwright.
+The review includes 167 fixed obstacle rows (grouped alternatives count as
+one row), plus the recorded prerequisites, modifiers, procedures and
+other clauses. Resume at Bow (261 / 263). No RED issue is recorded in
+this slice.
+
+## Bow through Butchery
+
+| Entry and pages | RAW paraphrase | Status and catalog location | Regression |
+| --- | --- | --- | --- |
+| Boss-wise 261 / 263; Bribe-wise and Burden of the Crown-wise 262 / 264 | Bare named topics. | Structured: Wises membership; no individual obstacles. | Manifest and family tests. |
+| Bow 261 / 263 | Agility, Martial, bow required; use in battle. Target-hit obstacles are in Fight and Range and Cover. | Structured: base fields and subsystem tags. External procedure: both chapters in summary. | Manifest and lifepath reference join. |
+| Bowcraft 261 / 263 | Will/Agility, Craftsman, expendable tools, Elf only, magical, Woodcraft FoRK. Arrows/flights Ob 1; hunting bow 2; great bow 3; horse bow 4; Elven bow 6. | Structured: base fields and FoRK. Precise guidance: summary; the entry does not impose a living-branch requirement. | Five obstacle pairs. |
+| Bowyer 261 / 263 | Make bows/arrows from suitable wood and strings from gut. Perception/Agility, Craftsman, expendable tools; Carpenter and Carving FoRKs. Arrows Ob 1; hunting bow 2; longbow or great bow 3. | Structured: base and Carving. Unresolved: printed Carpenter hint. Precise guidance: materials and obstacles. | Three obstacle pairs. |
+| Boxing (Martial Arts) 261 / 263 | Power/Agility, Martial, no tools. Trained unarmed skills allow attack, defense, basic and special actions; substitute skill for Power in Push and Lock. FoRK Brawling or appropriate melee weapons. Fight/Weapons supply obstacles. | Structured: `boxing-unarmed-access`, existing distinct Martial Arts identity and scoped substitution. External procedure: summary. | Action categories, substitution and identity. |
+| Brawling 261 / 263 | Power, Martial, no tools. Attack, defense and basic actions, no special actions; substitute skill for Power for Lock and Push. Found weapons count as melee but use Brawling. Boxing/melee FoRKs; see Fight and Weapons. | Structured: `brawling-unarmed-access`, substitution and FoRKs. External procedure: summary. | Action exclusion, found-weapon class and acting skill. |
+| Brazen Horn of Despair 261 / 263 | Hatred, Musical, brazen horn, Orc only, open-ended. Sounded before battle; exceeding opponents' mean Will adds the margin to their hesitation for the conflict. | Structured: `brazen-horn-hesitation`; no invented averaging/rounding execution. Precise guidance: prebattle use in summary. | Round-trip exact threshold, trigger, effect and duration. |
+| Brewer 262 / 264 | Perception, Craftsman, Workshop, Miller FoRK. Mill or ground grain and vat or brewery. Brew grades Ob 1–4. Home amount has no penalty; hostel +1, tavern/pub +2, brewery +3. | Structured: three contextual modifiers distinct from the four base grades. Precise guidance: material/facility alternatives and home amount. | Base rows and exact modifier scopes. |
+| Brutal Intimidation 262 / 264 | Hatred-based special Intimidation; open-ended, Social, no tools, Orc only. Torture if applicable and Interrogation FoRKs. | Structured: specialization, core fields, scoped FoRK. | Catalog integrity. |
+| Bureaucracy 262 / 264 | Navigate or direct government hierarchies. Will, Special, no tools; Research, Etiquette, Soothing Platitudes and Falsehood. Printed tasks at Ob 1, 3–8. | Structured: base fields and FoRKs. Precise guidance: seven obstacle pairs with no invented Ob 2. | Clause coverage. |
+| Butchery 262 / 264 | Kill and dress animals. Perception/Agility, Peasant, tools required. Ob 1–5 from small game to monsters. | Structured: base fields. Precise guidance: five obstacle pairs. | Clause coverage. |
+
+Checkpoint: 60 definitions and one choice through Butchery; 191 fixed
+obstacle rows. Resume at Cadence-wise / Call of the Wild (262 / 264).
+
+## C–D
+
+The base fields in the rows below were checked against their printed entries.
+Where an obstacle series is cited, its task-by-task guidance is in the owning
+summary and its ordered numbers are independently checked in
+`general-c-d-obstacles.test.ts`. Existing exact FoRKs and unresolved label
+hints are retained. The listed bare topics each have Wises membership and
+no individual obstacle clauses.
+
+| Entry and pages | Source-backed clauses, status and location |
+| --- | --- |
+| Cadence-wise 262 / 264 | Structured: bare Wise heading. |
+| Call of the Wild 262 / 264 | Structured: same-mechanics Hunting; magical, Elf only; Song of Paths and Ways FoRK. Rhyme of Rules remains unresolved. |
+| Calligraphy 263 / 265 | Precise guidance: formal script for religious, royal or government use; Ob 1–5 from mark to imitating sacred style. Structured: Write FoRK. |
+| Campaign-wise, Cargo-wise, Caulking-wise, Cave-In-wise, Cave-wise, Champion-wise, Chattel-wise 263 / 265 | Structured: seven bare topics, including the printed Caulking heading. |
+| Carpentry 263 / 265 | Structured: recover taxed Resources. Precise guidance: tree selection, lumber and wood construction; box/shelf to staircase Ob 1–5. Engineer unresolved, Carving exact. |
+| Cartography 263 / 265 | Precise guidance: create and interpret maps; rural and urban detail, sea charts and topographical maps Ob 1–7. Illumination unresolved; Calligraphy exact. |
+| Cartwright 263 / 265 | Precise guidance: animal-drawn conveyances from pushcart to carriage Ob 1–5. Structured: Carpentry FoRK. |
+| Carving 263 / 265 | Precise guidance: shapes, pictograms and patterns Ob 1–4. Structured: Carpentry, Etching, Engraving FoRKs and Traveling Gear. |
+| Chandler 263 / 265 | Precise guidance: fat, wax, reusable, hourly and ceremonial candles Ob 1–5. |
+| Cheating-wise, Citadel-wise, City-wise, Clan-wise 264 / 266 | Structured: four bare topics. |
+| Child-Rearing 264 / 266 | Structured: direct target Will and child-only substitution for Instruction, Cooking or Field Dressing. Precise guidance: substituted uses use the appropriate skill's obstacle. |
+| Chronology of Kings 264 / 266 | Precise guidance: own clan lineage through adventuring rulers Ob 1–7. Structured: Ancient and Obscure History FoRKs. |
+| Church Law 264 / 266 | Precise guidance: ecclesiastical, religious punishments; jurisdiction through scripture Ob 1–5. |
+| Clan History 264 / 266 | Precise guidance: history/names, grudges, oaths, obscure deeds/names Ob 1–4 and knowledge of works, hoards and halls. Structured: Dwarf-only burning restriction. |
+| Climbing 264 / 266 | Precise guidance: ropes/harnesses and rougher surfaces barehanded; Ob 1–5, 7 with printed examples tied to their difficulty tiers. Structured: expendable tools and Knots/Rigging. No new tools waiver or Ob 6. |
+| Cloth Dyeing 264 / 266 | Precise guidance: five color groups, retaining ordinary purple vs royal purple. Structured: Herbalism and Vintner. |
+| Coarse Persuasion 265 / 267 | Structured: target Will, manual increase for outlandish proposals, no invented delta; Persuasion substitution in Duel of Wits. |
+| Cobbler 265 / 267 | Precise guidance: sandals to courtly footwear Ob 1–4. |
+| Code of Citadels 265 / 267 | Structured: substitutes for Etiquette against Citadel-born Elves; separate Elf-only acquisition restriction and Etiquette FoRK. |
+| Command 265 / 267 | Structured: audible voice, non-hesitating commander, obstacle equal to hesitation, margin subtracts from hesitation within presence. Separate optional Range and Cover linked test against highest Will on own team. No allocation, rounding or resolution. Tested both procedures after JSON round-trip. |
+| Composition 265 / 267 | Precise guidance: letter, essay, editorial and book Ob 1–4. Structured: contextual content FoRK plus Calligraphy, Write, Research. |
+| Conspicuous 266 / 268 | Precise guidance: attract attention in successively busier settings, Ob 1–5. Structured: Command/Oratory. |
+| Contract-wise, Countryside-wise, Crop-wise, Crowd-wise 266 / 268 | Structured: four bare topics. |
+| Cooking 266 / 268 | Precise guidance: one-person/group meals, insufficient ingredients, fancy and exotic food Ob 1–5. Structured: Traveling Gear and printed FoRKs. |
+| Cooper 266 / 268 | Precise guidance: iron, wood, wax; staves, hoops, lids, watertight barrel Ob 1–4. Carpenter unresolved. |
+| Coppersmith 266 / 268 | Precise guidance: copper roofing, bowls/cups, coins and cookware at Ob 1/2/3/3; distinct Blacksmith/Whitesmith FoRKs. |
+| Counterfeiting 266 / 268 | Precise guidance: coin clipping, dies and coins Ob 1/3/4; printed goods Ob 5–10 by complexity, with no interpolation rule. |
+| Crossbow 266 / 268 | External procedure: Fight and Range and Cover. Structured: actual crossbow requirement. |
+| Cryptography 267 / 269 | Structured: creation successes become deciphering obstacle; Research or Cryptography may act. Distinct from FoRKs; exact regression checks both alternatives. |
+| Cudgel 267 / 269 | Precise guidance: short clubs or long staffs; Fight external procedure. Structured: Brawling, Martial Arts, Boxing and melee FoRK options. |
+| Daily Bread-wise, Darkened Streets-wise, Darkness-wise 267 / 269 | Structured: three bare topics. |
+| Dance 267 / 269 | Precise guidance: folk through arcane dance Ob 1–5. Structured: Acting and Seduction. |
+| Demonology 267 / 269 | Precise guidance: knowledge does not imply summoning; identify spirit activity, type, summoning, price and powers Ob 1–5. Structured: exact audited FoRKs, no ritual category. |
+| Dignity of the Wilderlands 267 / 269 | Structured: Etiquette substitution for Wilder-born Elves, not all Elves; Elf-only availability and separate FoRK. |
+| Disguise 267–268 / 269–270 | Precise guidance: gender, class and all printed stock groups. Unresolved: preserve multi-stock slash groups without interpreting direction or generating pairwise rules. Regression checks groups and continuation. |
+| Ditch Digging 268 / 270 | Precise guidance: grave through moat Ob 1–5. |
+| Doctrine, Cult Doctrine, Foreign Doctrine and Heretical Doctrine 268 / 270 | Precise guidance: common beliefs, passages and obscure saints Ob 1–3. Variants retain distinct meanings and explicit lifepath/general-point acquisition wording; their specialized-version relation links to Doctrine. No burning evaluator. |
+| Doctrine of Night's Blood 268 / 270 | Precise guidance: cult allegiance and five Ob groups; structured Orc-only in burning and Servant-wise FoRK. |
+| Drama-wise 268 / 270 | Structured: bare topic. |
+| Drinking 268 / 270 | Structured: preferred versus test between drinkers; no wager or intoxication formula. |
+| Driving 268 / 270 | Structured: Riding substitution for pursuit and travel. Precise guidance: field maneuvers involving carts/chariots, without substituting Riding or all field maneuver uses. |
+| Drum Maker 269 / 271 | Precise guidance: skins, wood, tuning and four Ob groups; structured Tools No and Carpentry. |
+| Drunking 269 / 271 | Structured: distinct intoxication race and Perception opposition to appear sober. More successes mean faster intoxication and do not reduce alcohol needed; no quantity inferred. The source's beer aside does not introduce a tool object. |
+| Drunkard-wise, Dwarf-wise, Dwarven Art-wise, Dwarven Heroes-wise 269 / 271 | Structured: four bare topics. |
+| Dwarven Rune Script 269 / 271 | Structured: Read and Write capability for Dwarves, writing-only expendable tools. External procedure: respective Read/Write obstacles retained in summary. |
+| Dye Manufacture 269 / 271 | Precise guidance: find and process materials; common, exotic and royal colors Ob 1–3. |
+
+A–D checkpoint: 126 definitions and Appropriate Weapons reviewed.
+Fixed obstacle rows: 322, plus the printed Counterfeiting range. No new
+RED issue blocks starting E. Next: Earth-wise (269 / 271).

@@ -49,7 +49,7 @@ describe('Skill Catalog schema foundation', () => {
 
   it.each(['antiphon-union-training', 'armor-training', 'shield-training', 'skirmish-tactics', 'two-fisted-fighting-training'])(
     '%s has no exponent, normal advancement or opening-exponent root', id => {
-      expect(skill(id).training).toEqual({ kind: 'training', rootPurpose: 'aptitude-and-practice', exponent: 'none', advancement: 'none', openingCost: 2 });
+      expect(skill(id).training).toEqual({ kind: 'training', rootUsage: 'aptitude-only', learningMethods: ['practice', 'instruction'], exponent: 'none', advancement: 'none', openingCost: 2 });
       expect(skill(id).printedMarkers).toEqual(['*']);
     },
   );

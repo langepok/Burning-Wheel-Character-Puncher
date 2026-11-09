@@ -122,6 +122,30 @@ This can become shared infrastructure for later conflict modules.
 
 AI must choose within the same rules engine as the player. It must not bypass legality or resolution rules.
 
+A finished minimum Fight trainer depends on Health/Injury: damage feeds wound
+severity, wound penalties, bleeding/Blood Clock, treatment and recovery.
+A Fight scaffold can precede full integration; the minimum trainer cannot omit
+wounds. This sets a dependency, not a delivery calendar.
+
+## Cross-subsystem follow-ups
+
+- **Consequence state:** design how declared outcomes become world-state
+  records with identity, provenance, duration or removal conditions, and a
+  downstream owner. Preserve established outcomes with unspecified parameters;
+  avoid a catalog-owned scheduler or simulator. See D-023.
+- **Autonomous narrative adjudication:** investigate player self-judgment,
+  AI referee, and hybrid proposal with player confirmation or challenge.
+  No mode is selected. An LLM may participate in play and may explain ambiguity;
+  deterministic legality and resolution stay separate. Optional templates may
+  generate free-form Beliefs; they are not a taxonomy or replacement for
+  stable character, faction or location references. See D-028.
+- **Task applicability:** preserve D-029's many-to-many relationships in future
+  action discovery. Do not infer interchangeability from thematic overlap.
+- **Depth retrospective:** scope later audits around the next playable slice.
+  See the [unresolved queue](audits/SKILL_CATALOG_UNRESOLVED.md) for Equipment,
+  Resources and other downstream work.
+- **Character Burner UX:** see the separate [UX roadmap](UX_ROADMAP.md).
+
 ## Later candidates
 
 - Range and Cover

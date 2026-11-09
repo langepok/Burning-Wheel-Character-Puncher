@@ -234,6 +234,19 @@ records have different coverage discriminants. Omitted fixture metadata means
 untranscribed, not unrestricted or ordinary. Name-only references are not skill
 definitions. Fixtures do not replace the current lifepath catalog's skill references.
 
+Production `coverage: 'complete'` distinguishes a definition with the required
+core metadata from a partial fixture. Exact manifest coverage establishes
+identity completeness. Neither establishes that every mechanical clause has
+been preserved; an empty field does not prove the source has no applicable rule.
+The General A–Z review checks clauses separately against the source and restores
+confirmed omissions. The agreed depth for this catalog still applies; a change
+of approach for later subsystems does not retroactively reduce A–Z scope.
+The narrower approach considered during Haggling was superseded for this
+catalog. Preserve mechanically important clauses as typed metadata, precise
+guidance, an external reference or explicit uncertainty. Missing execution is
+not a reason to omit a clause; changing a coverage label does not restore it.
+Later domains may choose their own depth after the A–Z retrospective.
+
 ## D-021 — FoRK guidance and contributor provenance
 
 **Status:** Accepted — architecture decision implementing verified RAW
@@ -270,10 +283,24 @@ permissions. Separate `SkillIntegration` records reserve a place for subsystem
 links; Fight, Range and Cover, Resources, Injury and magic execution remains
 outside the catalog.
 
+The future boundary is test result → structured consequence → world state →
+downstream resolver. The catalog describes the consequence contract; it does
+not emit runtime outcomes or own state. Preserve a result the source
+establishes even when downstream details are unknown. Ship Management
+(295 / PDF 297), for example, establishes the onset of crew deaths on failure,
+while count and timing remain unspecified. Surgery's Blood Clock and crafted
+poison exposure have separate downstream owners.
+
 Public data holds project-authored summaries and source references. Optional
 future licensed full text must remain separate from public core data and must
 never become runtime-parsed rules. Unresolved source references retain their
 printed labels and tentative targets without silently resolving them.
+
+The confirmed Antiphon audit keeps its direct tools as none. Its cross-reference
+to the preceding skill-song creation stage belongs in structured magic-integration
+metadata, not in ToolRequirement. Creation follows the chosen song's own rules
+and tools; this does not propagate them to the later enchantment stage. No
+inheritance evaluator or magic engine is introduced.
 
 ## D-024 — Composable audited skill metadata without identity normalization
 
@@ -291,6 +318,227 @@ use curated metadata, never substring matching. General literacy does not requir
 a cultural context. Non-Training base opening overrides need explicit provenance
 and cannot replace Training costs; marker/type inference and Gray-opening metadata
 are excluded. See the [review evidence](audits/SKILL_SCHEMA_FOUNDATION.md#pr-21-raw-review-corrections).
+
+The subsequent PDF audit and user resolution extend tool composition with a
+conditional context and then/otherwise branches. Dwarven Rune Script and Elven
+Script require expendable tools for writing, not reading. Reuse activity nodes
+and recursive tool validation; do not introduce a Script-specific node or an
+evaluator. See [the A–Z audit](audits/GENERAL_SKILL_CATALOG_AZ.md).
+
+The confirmed Blacksmith audit adds optional context to Resources interactions
+and a generic circumstance-id leaf to SkillContext. The suitable-workplace
+condition is independent of Workshop tools and is never inferred for other
+skills. This extends descriptive metadata only; no Resources evaluator follows.
+
+## D-025 — Created-object/result metadata belongs to equipment integration
+
+**Status:** Accepted — A–Z source audit and explicit user resolution
+
+Direct character Resources effects (tax recovery and cash generation) remain
+ResourceInteraction. Valuation of a crafting result belongs to equipment/Resources
+integration metadata. Store a created-item target, typed measure and integer delta;
+Resources obstacle and Resources value dice are distinct measures. An optional
+valuation tradeoff stores its pre-roll choice and crafting-obstacle cost separately
+from the automatic modifier. Do not infer repeatability or evaluate prices,
+crafting tests, equipment or character Resources.
+
+Gem Artifice and Gemcraft (BWGR 275 / PDF 277), with the White Metal Artifice
+representative (308/310), motivate this contract. Magic matrix/Antiphon references
+are independent of valuation. Other equipment properties (tool bonuses, weapon
+statistics, quality) are not valuation and must not be forced into its measures.
+Partial representatives do not replace the complete A–Z production transcription.
+
+The confirmed Forge Artifice audit (274/276) extends this boundary with a separate
+EquipmentUseEffect. It stores the created equipment kind, advantage dice for its
+user, optional crafting-obstacle cost, explicit repeatability and successful final
+creation condition. Forge's cost/bonus is per increment; Black Metal Artifice
+(260/262) leaves repeatability unspecified. Unspecified is not a boolean permission
+or prohibition. A single-tradeoff value is available for sources that establish it.
+Do not add a maximum, evaluate stacking or convert use bonuses into skill bonuses
+or Resources value. Descriptor validation is content integrity, not rules execution.
+
+The confirmed Siege Engineer audit (296/298) adds CreatedEquipmentCapability:
+completed war machines count as tools for destroying structures. A purpose-scoped
+capability of crafted equipment is independent of construction ToolRequirement,
+numeric use bonuses and structure resistance. Do not infer operating abilities,
+damage or destruction execution from this role. This extends the same boundary.
+
+The confirmed Hallmaster (276/278) and Stone Artifice (301/303) audit extends
+created-object/result metadata to structures. A distinct StructureResistance
+stores the created structure, optional building-obstacle cost and the obstacle
+penalty on tests against that structure for alteration/destruction. Both sources
+leave repeatability unspecified. This is neither a use bonus to the equipment
+user nor Resources valuation. No HP, durability, stacking or destruction engine
+follows from this descriptor; the equipment integration boundary is unchanged.
+
+The confirmed Leathercraft (280/282) audit extends result acquisition with
+EquipmentResult: a named equipment target, an allOf enchantment combination
+and a skill-specific use effect. Training components resolve as Training;
+spell-song source names remain external magic references, not General skills.
+This does not duplicate the existing generic Antiphon/matrix cross-reference:
+it records the particular combination and resulting benefit. No crafting cost,
+tool inheritance or enchanting/equipment-use execution is implied. The belt
+example supplies no numeric effect and remains a source-backed magic summary.
+
+The confirmed Nogger audit (285–286 / 287–288) extends this boundary with
+CraftedConsumableEffect: results triggered by consuming the crafted product,
+not by its crafting test. Cases have source-authored recipient stock/not-stock
+conditions and dose/threshold metadata. Next-ability and scene skill-type scopes
+are separate. Explicit once-active/non-stacking does not imply per-dose repetition;
+other repetition remains unspecified. Cases are independent conditions, not XOR.
+A limited attribute-derived duration stores hour unit, base and subtracted current
+attribute exponent, never an arbitrary formula or a computed/clamped result.
+Unspecified duration/restorative denial is explicit where supported. No stock
+engine assumptions, inventory consumption, scene clock, drinking, intoxication,
+Health/Forte or duration evaluator follows. Consumable results are distinct from
+valuation, tool-use bonuses and skill-test outcomes.
+
+The confirmed Poisons audit (288–289 / 290–291) extends this boundary with
+CraftedPoison: independent potency and intended-delivery dimensions for a created
+product. Potency stores base crafting obstacle plus obstacle penalty or fixed
+wound shade/exponent; delivery stores its own crafting-obstacle delta. Penalty
+scope is source-unspecified, not all-tests. No duration, onset, resistance,
+recovery or repeated-exposure semantics are inferred. B10 wound is not created
+device Mark, damage dice or weapon damage. Composition totals belong to tests;
+no arithmetic, exposure or wound processing follows from descriptor validation.
+The equipment integration is indexed for the poisons subsystem separately from
+Nogger consumption and skill-test outcome metadata.
+
+The confirmed Vile Poisoner audit (306/308) adds a mutually exclusive product-level
+CraftedPoison form rather than forcing distinct products into independent potency/
+delivery combinations. Each product retains source exposure, optional resistance
+and outcomes. Source-shaped physical/martial/social scopes are not inferred lists
+of stats or Skill Types. A shared resistance-test margin-of-failure reference feeds
+permanent Health/Health-maximum reductions. Literal Mark injection and a named
+six-plus-victim-Forte exchange delay preserve the additional wound without hit,
+Health or timer execution. No dose, coating persistence, stacking, recovery or
+arbitrary formula semantics are inferred. These remain crafted-output facts.
+
+The confirmed War Art audit (307/309) adds equipment-result metadata for independent
+physical-weapon improvement options, source-specific armor/shield qualities and
+effective crafting-skill shade eligibility. Named current-weapon VA/Power obstacle
+references are distinct from a fixed crafting-obstacle adjustment; Balance Dice
+remain an external equipment capability. Accepted interpretation: each distinct
+improvement may occur once per physical weapon, without a choose-one restriction.
+War Art's armor-quality rerolls retain source-specific provenance and an unresolved
+source-conflict marker for the later Equipment audit, without normalization or a
+stacking/exclusivity policy. Gray-device eligibility concerns the effective crafting
+skill at test time, through actual shade or temporary Epiphany, never any unrelated
+gray skill. No global quality reconciliation, arithmetic DSL, Artha activation,
+shade runtime or equipment stat generator is introduced.
+
+The confirmed Weaponsmith audit (308/310) adds CreatedEquipmentQuality for ordinary
+external weapon-quality categories, distinct from War Art's entry-specific quality
+statements. Superior manufacture associates +2 crafting Ob and success with an
+external superior-quality-weapon reference. Failed Weaponsmith manufacture links
+to poor-quality-weapon output, with generic failure interaction unresolved rather
+than replacement, stacking or exclusive-consequence semantics. Quality stats and
+combat effects remain external; no deliberate-failure action or equipment generator
+is introduced.
+
+The confirmed White Metal Artifice mithril audit (308/310) distinguishes semantic
+Resources value from a measurement unit omitted by RAW. Created-item modifiers may
+store resources-value with unit source-unspecified and provenance, separately from
+resources-obstacle and explicit resources-value-dice. Mithril's +2 is never silently
+converted to +2 obstacle or +2D; Gemcraft's explicit +1D remains unchanged. The
+material-conditioned owning-test modifier, base valuation, optional tradeoff and
+enchanter-vessel eligibility remain independent facts. No economic evaluator or
+resolution of the missing unit is implied.
+
+## D-026 — Training root usage, learning methods and source options
+
+**Status:** Accepted — explicit user resolution and verified BWGR source audit
+
+Training root purpose and learning methods are separate concepts. An explicit
+Aptitude-only footnote sets rootUsage aptitude-only: the root is used only to
+calculate Aptitude. Practice and instruction describe how learning tests are
+earned, not additional uses of the root (Learning Training Skills, book 51 / PDF 53).
+Do not infer root usage from a Training name or Skill Type. Missing root usage
+remains untranscribed. The seven General footnotes are Antiphon Union Training
+(255/257), Armor Training (256/258), Formation Fighting (274/276), Mounted Combat
+Training (284/286), Shield Training (295/297), Skirmish Tactics (297/299), and
+Two-Fisted Fighting Training (306/308).
+
+Mounted Combat Training and Mounted Combat: Bowman Training are distinct source
+identities/options, never display aliases or a fabricated Lancer Training identity.
+Selection belongs to a specific source acquisition, subject to the source's
+character/setting appropriateness, not globally exclusive ownership. Elven
+Outrider grants the Bowman option; Elven Lancer grants ordinary Mounted Combat
+Training (137/139). The Elven Lancer example owns both (130/132). Source mappings
+are content, not stock-specific engine assumptions. Combat consequences stay
+external subsystem references; no ownership, learning or combat evaluator follows.
+
+## D-027 — Physical equipment identity and combat-use profiles are separate
+
+**Status:** Accepted — explicit user resolution and verified Polearm source audit
+
+Physical equipment identity is separate from combat-use profiles. A single physical
+weapon may expose multiple combat/use profiles with different combat statistics
+where the source establishes them; this is not a requirement for all weapons.
+Selecting a profile for an attack does not create a separate inventory item.
+Equipment-level state such as possession, loss, repair, quality, enchantment and
+similar whole-item properties belongs to the physical item unless a source rule
+explicitly targets a specific profile.
+
+Fight/UI may render combat profiles as separate attacks or action rows while
+retaining one underlying equipment identity. This is presentation, not two items.
+
+Polearm is the first confirmed case: BWGR 289 / PDF 291 distinguishes blade cutting
+from beak/blade-tip thrusting, with different damage and weapon length. Weapons
+Appendix 554 / PDF 556 names Polearm Axe Strike and Polearm Thrust. Skill metadata
+stores stable typed external profile references without duplicating numeric stats.
+The profiles may remain unloaded; they are not dangling General skill identities.
+No inventory runtime, profile generation, equipment modifications or Fight evaluator
+is introduced by this decision.
+
+## D-028 — Free-form narrative content and structured mechanical relationships
+
+**Status:** Accepted — explicit user resolution and verified Rune Casting audit
+
+Narrative content remains free-form while mechanical relationships to narrative
+content are structured. Beliefs, Instincts and similar player-authored narrative
+elements are not catalog entries and are not semantically interpreted by the
+rules engine. Such entities should have stable runtime identity and may expose
+machine-trackable metadata such as ownership, revision/version and status.
+Rules may reference those entities and react to structural changes, while
+judgments about meaning, thematic correspondence, fulfillment or appropriateness
+remain manual/table adjudication unless RAW provides an objective procedure.
+
+Rune Casting (BWGR 293 / PDF 295) is the first explicit motivating case. Its
+integration distinguishes one target Belief from the caster character's commitment
+Belief, preserves manual meaning/link judgments, and records missing/changed
+commitment invalidation. A future runtime can bind those roles to concrete entity
+identities and revisions without parsing narrative text. Fulfillment, fatal
+fulfillment and target agency stay human decisions; their typed rewards are
+metadata, not automatic character/campaign changes.
+
+Torture (304–305 / PDF 306–307) links a result to the same declared intent
+without interpreting its wording. Voice of Thunder (307 / PDF 309) can
+refer to a recipient's Trait, Instinct or Belief about the same commander;
+stable identity can bind the relationship but cannot infer meaning from text.
+Hearing the command does not entail obedience or Command success. These are
+metadata examples, not implementation of those narrative entities.
+
+This decision adds no Belief catalog, predefined Belief types, semantic classifier,
+text matching, narrative mutation/revision runtime, or Belief/Artha/fate/death/
+campaign evaluator. It does not expand implementation to Instincts or Traits.
+
+## D-029 — Task and skill applicability is many-to-many
+
+**Status:** Accepted — architecture decision
+
+A game task has no single owning skill. Multiple source-supported procedures may
+reach the same goal while retaining different conditions, costs and effects.
+Adding a procedure does not replace the others. Thematic similarity does not
+establish interchangeability, and applicability may require contextual judgment.
+
+Keep independent procedures, FoRK guidance, helping/cooperation, prerequisites,
+and stages of a composite task distinct. A relation in one of these roles does
+not grant the others. For example, Antiphon Union's base-item creation stage
+does not make the chosen skill song a FoRK for enchantment.
+
+This decision does not introduce a task registry, action ontology, or automatic
+skill matching.
 
 ## Open decisions
 

@@ -117,11 +117,17 @@ not implemented skill/roll/subsystem evaluators.
   A related owned skill contributes one die, or two at exponent 7+. Stats and
   attributes do not FoRK. See *Fields of Related Knowledge*, book pp. 36–37
   (PDF pp. 38–39).
-- **RAW:** Training has no exponent and no normal advancement. Its printed root
-  supports Aptitude/practice, independently of Skill Type. The packet cites
-  *Character Burner*, book p. 88 / PDF p. 90. Antiphon Union Training is an
-  Artisan example (book p. 255), while Skirmish Tactics is Military Training
-  (book p. 297).
+- **RAW:** Training costs two points to open, has no exponent and no normal
+  advancement (book 88 / PDF 90). The seven explicit General footnotes limit the
+  root to Aptitude only: Antiphon Union (255), Armor (256), Formation Fighting
+  (274), Mounted Combat (284), Shield (295), Skirmish Tactics (297), Two-Fisted
+  Fighting (306); PDF pages are two greater. Learning tests are earned through
+  practice or instruction (book 51 / PDF 53), independently of root usage. See D-026.
+- **RAW:** Mounted Combat: Bowman Training is a separate source option from
+  Mounted Combat Training. Elven Outrider grants Bowman and Elven Lancer grants
+  ordinary Training (137/139). The character example owns both (130/132).
+  The appropriate character/setting choice (284/286) concerns an acquisition,
+  not global exclusive ownership; effects remain external mounted-combat rules.
 - **RAW:** The printed `§` identifies magical open-ended skills, but other rules
   can also make tests open-ended. Nogger is a Craftsman skill with this marker
   (book p. 285); Orc Torture uses Hatred and is open-ended (book p. 304).
@@ -162,9 +168,586 @@ Playwright's Write prerequisite is unchanged. The standard/special/Training
 opening-cost rules above support a sourced base-cost override representation,
 not cost inference from magical markers or an implemented spending engine.
 
+## General Skill List PDF corrections
+
+- **RAW:** The general Wises entry prints Skill Type Special (book p. 309 /
+  PDF p. 311). Named exceptions, including Black Legion-wise (book p. 260),
+  explicitly print Wise. Family membership does not normalize the printed type.
+
+- **RAW:** Demonology suggests Ancient History, Obscure History, Summoning and
+  Doctrine (book p. 267 / PDF p. 269). The ritual-type FoRK suggestion belongs
+  to Empyrealia (book p. 270 / PDF p. 272), alongside Doctrine and Summoning.
+  These remain distinct identities and non-exhaustive FoRK guidance.
+- **RAW:** Dwarven Rune Script and Elven Script require generic expendable tools
+  for writing only; reading has no tool requirement (book pp. 269–270 /
+  PDF pp. 271–272). This concerns tools, not eligibility to use the skill.
+
+## Antiphon creation-stage cross-reference
+
+- **RAW, confirmed source reading:** Antiphon Union Training has no direct tool
+  requirement. The Tools qualification refers to the skill-song stage that
+  creates the base item; that creation follows the selected song's own rules
+  and tools (book p. 255 / PDF p. 257). It does not automatically require those
+  creation tools during the later spell-song enchantment stage.
+
+## Contextual Resources metadata
+
+- **RAW:** Blacksmith can replenish taxed Resources if a suitable place to
+  practice the trade is available (book p. 260 / PDF p. 262). This circumstance
+  is encoded on recovery independently of the Workshop tool requirement.
+- **RAW:** Carpentry can replenish taxed Resources and requires Workshop tools
+  (book p. 263 / PDF p. 265); its recovery description does not contain the
+  Blacksmith workplace qualifier. Do not propagate that condition from Tools.
+
 ## Items still requiring audit before dependent implementation
 
 - complete manually verified data transcription for all lifepaths in the four supported areas;
 - curated semantic category membership for requirements such as horse-related/guard/priest/sorcerous;
 - special wife-lifepath skill/resource effects for later milestones;
 - gray/white shade edge cases if exposed in v2.
+
+### Created-item valuation (BWGR 275, 308 / PDF 277, 310)
+
+Gem Artifice increases a manufactured gem/stone's Resources obstacle by one;
+a pre-roll optional +2 crafting obstacle adds another one. Gemcraft adds one die
+of Resources value to a cut gemstone. White Metal Artifice has the same ordinary
+item obstacle/tradeoff shape. These modify created items, not character Resources.
+Gem Artifice's enchanting matrix and Gemcraft's Antiphon connection are separate
+magic references. The partial White Metal representative omits the mithril clause.
+
+### Equipment-use bonuses (BWGR 260, 274 / PDF 262, 276)
+
+Forge Artifice can embed one advantage die for each +2 crafting obstacle chosen;
+the final obstacle must be met. The bonus belongs to use of the created forge.
+Black Metal Artifice can add +2 crafting obstacle for +1 die on skill tests using
+the created tools. Its entry does not establish per-increment repeatability;
+metadata preserves that as unspecified. Neither effect is a Resources value bonus.
+
+### Games of Chance settlement (BWGR 275 / PDF 277)
+
+Set the prize Resources obstacle before the versus skill test. The loser then
+tests Resources at that obstacle. Passing gives the winner a Resources advancement
+credit at the same obstacle; taxation gives the winner cash equal to the loser's
+taxed dice. Store these separately conditioned consequences without imposing
+exclusivity. Gambling's wager/prize contest does not acquire this settlement rule.
+
+### Falsehood, Formation Fighting and Fortifications (BWGR 272, 274 / PDF 274, 276)
+
+Falsehood uses target Will, with +1D for a believable, particularly good
+or partly true lie and +2 Ob for a whopper or bad lie. Formation Fighting
+allows help on Steel-based Range and Cover maneuvers within formation,
+and separately reduces the Fight outnumbered penalty by one when shoulder
+to shoulder with allies. Fortifications distinguishes cover increases from
+position dice; the palisade's cover increase is not quantified.
+
+### Command and Cryptography (BWGR 265, 267 / PDF 267, 269)
+
+Command reaches as far as the voice. A commander who is not hesitating
+can test against hesitation and reduce hesitation within their presence
+by the margin. The optional Range and Cover linked test instead faces
+the team's highest Will and supports the team's field maneuvers.
+Cryptography successes from creating a code set the deciphering
+obstacle; Research or Cryptography can be the deciphering skill.
+
+### Unarmed access and Brazen Horn (BWGR 261 / PDF 263)
+
+Boxing and Martial Arts permit special actions in addition to attack,
+defense and basic actions. Brawling omits special actions, but uses
+Brawling for found weapons that count as melee weapons. Both procedures
+permit the skill in place of Power for Lock and Push. Brazen Horn of
+Despair adds only the margin above the opponents' mean Will to their
+hesitation for the conflict.
+
+### Beggardry (BWGR 259 / PDF 261)
+
+Begging can produce 1D cash or recover taxed Resources. The victim's Will
+is the typical obstacle; convincing begging warrants Advantage without
+an amount specified in the entry.
+
+### Artillerist and Aura Reading (BWGR 257–258 / PDF 259–260)
+
+Artillerist construction needs laborer teams and at least one carpenter.
+The black-powder option covers manufacture and operation of cannons,
+bombards and shot; bombs and powder use Munitions in that campaign variant.
+Aura Reading requires separately acquired aura perception. Detecting a
+spirit's presence and nature uses Ob 10 minus its Strength, with no clamp
+specified in the entry.
+
+### Armor Training and Archcraft (BWGR 256 / PDF 258)
+
+Without Armor Training, light mail adds +1 Ob to tests and heavy mail or
+heavier adds +2 Ob. Training removes those penalties and mitigates armor
+fatigue; Clumsy Weight still applies. Archcraft can create enchanted
+dwellings through Antiphon Union and spell songs. The printed examples
+illustrate the combination and do not restrict which spell songs may apply.
+
+### Apothecary and Appraisal (BWGR 255–256 / PDF 257–258)
+
+Apothecary pain medicine (Ob 3) eases a +1 Ob pain penalty. Local numbing
+(Ob 4) instead reduces a wound die penalty by one die, increases all
+obstacles by one and lasts four hours. The latter terms do not apply to
+the pain medicine. Appraisal can precede a Resources test to establish
+an accurate price; its +1 Ob for magical items applies to the appraisal.
+
+### Antiphon Union stages (BWGR 255 / PDF 257)
+
+Create the base item using an applicable skill song, with an obstacle of
+at least 5 or the song's higher natural obstacle. Only highest-quality
+work holds the enchantment. After creation, sing the spell song under its
+own rules with one transfer attempt. The effect belongs to the item and
+is active when it is used. Antiphon itself has no tools; creation tools
+remain governed by the skill song.
+
+### Amercement judicial fine assessment (BWGR 254 / PDF 256)
+
+Amercement can set the Resources obstacle of a judicial fine. Its own
+test obstacles, Ob 2/3/5 for low, middle and high justice respectively,
+concern the assessment's accuracy and justice under the law. They do not
+specify the resulting fine obstacle. The entry gives no conversion or
+payment procedure; the Resources descriptor keeps determination unspecified.
+
+### Haggling negotiation (BWGR 276 / PDF 278)
+
+Haggling negotiates price, purchase terms and contracts through a buyer/seller
+versus test. The buyer may lower the relevant obstacle by one. The General entry
+adds no separate outcome condition, seller consequence or price-calculation rule.
+Preserve this as Resources integration metadata, separate from gambling settlement
+and crafted-item valuation, without executing a purchase.
+
+### Structure resistance (BWGR 276, 301 / PDF 278, 303)
+
+Hallmaster and Stone Artifice allow an optional +2 obstacle during construction
+for +1 obstacle on any test to alter or destroy the resulting structure. Neither
+entry specifies per-increment repetition. Store repeatability as unspecified and
+the penalty as a property of tests against the structure, not user bonus dice,
+Resources value or hit points. No destruction calculation is implemented.
+
+## Skill-level opposed-test metadata
+
+Inconspicuous (book 278 / PDF 280) opposes Observation. Four separate obstacle
+penalties are preserved: garish or inappropriate attire (+1), inappropriate
+above/below social station (+1), regional-origin mismatch (+1), and race/stock
+mismatch with the crowd (+2). Typed comparisons retain actor/environment mismatch;
+this metadata does not evaluate them or decide stacking.
+
+Observation (286/288) can oppose Inconspicuous, Stealthy, Sleight of Hand or Trapper.
+Stealthy (301/303) opposes Observation, with advantage guidance for light, weather
+and ground. Representative excerpts preserve opposition without inventing fixed
+advantage dice or claiming complete transcription of either later record.
+
+## Husbandry obstacle guidance (BWGR 255, 259, 278 / PDF 257, 261, 280)
+
+Animal Husbandry and Bird Husbandry use Field Dressing OR Apothecary obstacles
+when tending wounds and illness. Insect Husbandry uses Apothecary obstacles for
+that activity. Their ordinary husbandry remains their own skill use. This is
+scoped obstacle guidance, not whole-skill substitution or inheritance of tools,
+roots, Skill Type, FoRKs, capabilities or special rules.
+
+Instruction (278/280) refers to Learning from Another for obstacle guidance.
+Its catalog record preserves that section reference in a concise authored summary;
+the external chapter's teaching procedure is not transcribed or executed here.
+
+## Target-derived skill obstacles (BWGR 278 / PDF 280)
+
+Interrogation uses the current Will exponent of the target as its obstacle, with
+trait and situational adjustments whose values are not quantified in the entry.
+A target Belief preventing disclosure is a source example of situational
+disadvantage, not a universal obstacle increase per Belief. The catalog stores
+manual/unquantified sources separately from numeric modifiers and executes none.
+
+Intimidation uses the victim's Will for the initial threat test (278-279/280-281).
+Its representative basis excerpt does not inherit Interrogation adjustments.
+The basis-only excerpt stays partial. The production record separately stores
+the approved success/Steel/hesitation metadata described below.
+
+## Intimidation follow-up (BWGR 278-279 / PDF 280-281)
+
+Outside Duel of Wits, Intimidation tests against target Will. If it succeeds, the
+target makes a Steel test; extra successes from the primary Intimidation test add
+to the hesitation obstacle. Store Steel as an attribute ability reference and the
+extra successes as a structured primary-test value reference, not a numeric delta.
+Scope this primary procedure and follow-up outside Duel of Wits while retaining
+the skill's separate Duel of Wits usage index. Metadata does not run any tests.
+
+
+## Jargon contextual opposition (BWGR 279 / PDF 281)
+
+Jargon identifies speakers and communicates plans/instructions; its versus case
+opposes the skill used by a participant trying to eavesdrop. The entry supplies no
+fixed opposing identity. Preserve a skill-only eavesdropper reference with manual
+context resolution, without selecting Observation, Perception or Jargon as default.
+This is source-supported contextual selection, not missing transcription data.
+
+
+## Knots opposition and Double Obstacle Penalty (BWGR 280 / PDF 282)
+
+For securing a person, Knots opposes Escape Artist or Power. Per the confirmed
+source reading, only Power suffers Double Obstacle Penalty. Store skill/stat
+alternatives with the named penalty on the Power branch. The canonical mechanic
+doubles base obstacle/opponent successes before other modifiers; modifiers are
+not doubled. This is descriptive metadata, not a final-obstacle multiplier or +2.
+Escape Artist has only identity/provenance from the Knots reference, not an
+invented full skill definition. No test or obstacle calculation is executed.
+
+
+## Leathercraft enchantment results (BWGR 280 / PDF 282)
+
+Leathercraft with Antiphon Union and Song of Silence can produce Elven boots
+granting one die to Stealthy. Store both components and the specific skill benefit
+without a crafting-obstacle cost or tool inheritance. Antiphon Union is Training;
+Song of Silence is an external magic source reference, not a General skill record.
+The Doom of Strength belt example has no numeric effect in this entry; retain
+only its source-backed magic summary. Metadata does not enchant or equip items.
+
+
+## Logistics contextual effects (BWGR 281-282 / PDF 283-284)
+
+A force with a majority of troops having Hatred grants +1D. Separately, +1 Ob
+applies to a non-Dwarven force in mountains/underground; war mounts in heavily
+wooded countryside; and presence of anyone with Prince of the Blood, Aman, Fea
+or Dvergar. War-mount source examples are destriers/coursers. +2 Ob applies to
+enemy scorched-earth countryside; the same countryside with a prior Logistics
+test within the last Resources maintenance cycle; and winter with war mounts,
+riding mounts or pack animals. Store all seven independently, preserving the
+printed composition/quantifiers rather than substituting a target stock or
+inventing thresholds. These are skill-test facts, not an army/supply evaluator.
+
+
+## Meditation procedures (BWGR 283 / PDF 285)
+
+Meditation substitutes for sleep: each hour counts as rest for wound/Tax recovery.
+The first hour is Ob 1, with +1 Ob per additional hour; failure means falling asleep
+at some point, without a stated time or credited-hours rule. Separately, centering
+is a linked pre-test. For versus/detailed conflict, Meditation opposes the opponent's
+contextual skill; winning grants +1D to the linked target test. The ordinary case
+references linked-test semantics without inventing an opposed procedure.
+Vague awareness remains separate, as do Perception/Observation tests to detect
+Stealthy characters. A Sorcerer may sustain spells while meditating and retests Tax
+under The Power Still Flows Through Him. No ability named Awareness or recovery,
+Tax, duration, centering or conflict evaluator is introduced.
+
+**RAW — Munitions adverse crafting outcome** (book 284 / PDF 286): zero
+successes when manufacturing powder or explosives cause cook-off/misfire; the
+maker takes the Mark result of the device being built. This is not every failed
+test. Skill metadata preserves the source-defined item reference without looking
+up damage or assigning a Mark to powder. Bomb Marks belong to item source facts,
+not a constant embedded in the consequence. No injury/detonation engine follows.
+
+**RAW — Musical Instrument contextual Advantage** (book 285 / PDF 287):
+base obstacle is the listener's Will. Performed music suitable to the current
+mood grants canonical Advantage; this entry specifies no fixed dice amount.
+The typed effect delegates general Advantage semantics to external rules/context,
+separate from fixed dice, obstacle modifiers and manual obstacle adjustments.
+The suitability leaf preserves the relation without a mood taxonomy or evaluator.
+
+**RAW — Name Ritual test outcomes** (book 285 / PDF 287): obstacle is target
+Will. Success bestows a name and 1D ordinary reputation on the character being
+named. Failure denies naming and gives an infamous reputation with explicitly
+unspecified magnitude. It is not inferred from other reputation examples or
+represented as zero. Reputation is a character/world-state outcome, not bonus
+dice on the ritual. No audience, reputation scope, permanent naming restriction,
+merging or Circles procedure is supplied by this entry or added to metadata.
+
+**RAW — Nogger crafted-consumable effects** (book 285–286 / PDF 287–288):
+a Dwarf's full draught gives 1D to the next Health test and +1 Ob to Social skill
+tests for the scene, once active without stacking from further drinking. Consumed
+steins at least current Forte cause drunkenness (+1 Ob all tests) for 10 minus
+Health hours. Other creatures become drunk on a mouthful, receive no restorative
+benefit and have no separately specified duration in this sentence. Do not inherit
+the Dwarf duration or invent a clamp. Equipment integration stores these independent
+consumption cases; no effects are applied at the Nogger crafting test. See D-025.
+
+**RAW — Oratory crowd obstacle** (book 286 / PDF 288): the obstacle is the
+most common current Will exponent in the crowd, not one target's Will. The entry
+specifies neither averaging/extrema nor tie resolution. Metadata references this
+source-defined aggregation without performing it. Duel of Wits use is a separate
+subsystem fact; Command, Persuasion and Rhetoric remain the printed FoRKs.
+
+**RAW — Orienteering journey results** (book 286 / PDF 288): success finds the
+intended way without delay. Failure makes the traveller and companions lost;
+they either reach the intended destination but miss relevant appointments, or
+reach an unintended location. No method for selecting an alternative, travel
+duration or distance is stated. A map supplies one advantage die to the test:
+fixed 1D, distinct from Musical Instrument's unquantified canonical Advantage.
+Maps are optional; Tools remains none.
+
+**RAW — P before Poisons** (book 287–288 / PDF 289–290): Paean of Deeds uses
+Conspicuous mechanics. Persuasion uses the intended victim's Will. Playwright
+retains Write as an opening requirement. Poetry adds 1 Ob when imitating another
+poet's style. Poisonous Platitudes combines Persuasion/Soothing Platitudes, uses
+Hatred with open-ended rolls, targets victim Will and separately refers to Duel
+of Wits. None of these metadata facts executes subsystem rules.
+
+**RAW — Poisons potency and delivery** (book 288–289 / PDF 290–291): sickening
+requires crafting Ob 2 and gives +1 Ob; debilitating Ob 3/+2 Ob; deadly Ob 4/B10
+wound. The entry gives no penalty test scope, duration, resistance, onset or
+recovery. Ingestion is baseline; blade, inhaled vapor and contact add 1/2/3 to
+crafting Ob respectively, not to product effect. Store independent dimensions
+without exposure/wound execution. Alchemical remains the printed unresolved FoRK,
+not silently Alchemy. See D-025.
+
+**RAW — Polearm combat profiles** (book 289 / PDF 291; Weapons Appendix book
+554 / PDF 556): one weapon can cut with the blade or thrust with beak/blade tip;
+these uses differ in damage and weapon length. Appendix names Polearm Axe Strike
+and Polearm Thrust. Skill metadata points to these external profiles and contains
+no copied numeric stats. D-027 separates physical item identity from use profiles;
+it does not create inventory items, grant weapon modifications or run Fight.
+
+**RAW — remaining P and reviewed early R** (book 289–292 / PDF 291–294):
+Purple Song and Riddle of Steel retain Antiphon references without invented wine
+or weapon enchantment bonuses. Ratiquette substitutes for Etiquette only with
+rats/relatives. Read is distinct from Write and adds 1 Ob for silent reading.
+Religious Diatribe uses interlocutor Will; Rhetoric uses victim Perception.
+Rhyme of the Gatherer/Mariner/Pathfinder explicitly act as Foraging/Rigging/Tracking;
+printed Seafarer and Seafaring remain distinct. Rituals of Blood references the
+Orc magic chapter, without implementing spells or their effects.
+
+**RAW — Rituals of Night spell-list casting** (book 292 / PDF 294): this
+Sorcerous skill governs casting from its external spell list, whose entries own
+the spell obstacles. Individual spells must be purchased or learned separately;
+owning the skill does not grant them. Typed magic integration preserves this
+requirement without prices, learning procedure or spell records/state. Rituals
+of Blood keeps its existing Orc-chapter reference; its audited entry does not
+state this acquisition sentence and does not inherit it by analogy.
+
+**RAW — later R before Rune Casting** (book 292–293 / PDF 294–295): Rope Chant
+reuses Knots with additional rope creation/repair/untangling guidance and permits
+Traveling Gear or Elven Rope. Round of Harvest follows Farming rules. Rule of Law
+separates researching-case FoRKs from presenting-case FoRKs. Rude Carpentry's
+Orc restriction applies to character burning. Weathersong is retained as printed
+unresolved FoRK guidance, without inventing a General Skill identity.
+
+**RAW — Rune Casting fate** (book 293 / PDF 295): pronouncement uses the lower
+of two named obstacles: ten minus the target's highest Circles/reputation/affiliation
+dice total, or ten minus their most expensive non-common trait point value. This
+is source-shaped metadata, not an arithmetic expression language or evaluator.
+
+After success, caster player may inspect target Beliefs and pronounce a suitably
+dire fate tied manually to one target Belief. The caster must change their own
+character's Belief to match it; missing that commitment or changing it later
+invalidates the fate. Target and caster Beliefs are different narrative entities.
+The target retains choice; meaning and fulfillment, including fatal fulfillment,
+are manual/table judgments. A fulfilled scene awards the fated player one Deeds;
+fatal fulfillment gives their next character in this campaign one starting Deeds.
+Standard Belief artha rules remain external. Rewards are independent conditional
+facts, not automatic execution or an exclusivity rule. Astrology special-FoRK
+semantics are preserved. D-028 defines the free-form narrative/structured-reference
+boundary without implementing Belief identity/revision state or text matching.
+
+**RAW — Scavenging item-search** (book 294 / PDF 296): a player declares an
+item type, excluding a specific or unique thing, in a contextually suitable place.
+Midden/ruin/battlefield are illustrative locations. Structured obstacle guidance
+keeps junk Ob 1, household goods Ob 2, hard-to-find items Ob 3, valuables Ob 4,
+rare objects Ob 5, obscure/out-of-place items Ob 6, with non-exhaustive examples.
+Neither request specificity nor location suitability is classified automatically.
+This is request legality/source guidance, not inventory lookup, item generation,
+Resources valuation or a success-to-equipment grant. D-028's manual/structured
+boundary applies; no new durable Decision is needed.
+
+**RAW — later S before Shield Training** (book 294–295 / PDF 296–297): Seduction
+uses target Will and separately refers to Duel of Wits; intercourse is not required.
+Servant-wise prints Wise (not Special) and restricts Orcs only in character burning.
+Sewing retains printed Weaver as unresolved with the existing probable Weaving
+audit hint; it is not a silently resolved FoRK.
+
+**RAW — Shield Training action-scoped use** (book 295 / PDF 297; Armor and
+Shields book 481/483 / PDF 483/485): trained use adds shield dice to Block and the
+defensive portion of Counterstrike, and grants Block & Strike with shield
+contribution to its defensive portion. Untrained use augments only Block and
+does not grant Block & Strike. This is not passive/always-on defense.
+
+When Striking with the shield itself, choose Brawling, a contextually appropriate
+Boxing skill, or Agility. This actor's ability choice is separate from action
+access, opposing abilities and the Training root. Shield Training remains
+Martial Training with Agility root for Aptitude only (D-026), not a rolled skill.
+Boxing selection remains manual, with no fixed/default id or new family; Boxing
+and Martial Arts stay distinct (D-024). Block resolution, pool division, VA, shield
+failure, positioning and other Fight details remain external rules.
+
+
+### Ship Management: voyage supply outcomes (BWGR book 295 / PDF 297)
+
+Success avoids supply trouble. Failure causes a shortage of critically needed
+supplies, serious complications, the beginning of crew mortality, and qualitative
+morale harm. The listed supplies are illustrative; selection is contextual. The
+entry gives neither casualty quantities/timing nor numeric morale mechanics.
+Vessel base Ob: rowboat/skiff 1, longboat 2, junk 3, caravel 4, carrack 5, felucca 6,
+treasure ship 7. Journey modifiers: moderate +1, long +2, ocean crossing +3 Ob.
+These are catalog facts; inventory, crew, voyage and consequence execution remain
+outside the skill catalog.
+
+
+### Shrewd Appraisal: identified flaws reduce price (BWGR book 296 / PDF 298)
+
+Shrewd Appraisal identifies flaws in the appraised item and thereby reduces its
+price. The entry establishes no reduction amount, Resources obstacle change,
+percentage, currency/value dice, bargaining procedure, minimum price or stacking
+behavior. Preserve the economic effect with source-unspecified magnitude.
+Common/expensive/rare/unique goods use Ob 2/3/4/5. Ordinary Appraisal instead
+supports accurate pricing before a Resources test; do not grant it this distinct
+price-reduction effect by analogy. Execution remains outside the catalog.
+
+
+### Siege Engineer: construction input vs equipment output (BWGR 296 / PDF 298)
+
+Siege Engineer requires tools for its building tests. Completed war machines are
+separate outputs that count as tools for destroying structures. The entry does
+not name an operating ability, bonus, damage or destruction procedure. Building
+guidance runs from Ob 1 for a simple ram/scaling ladder through Ob 5 for a massive
+metal-capped covered ram; these are construction obstacles only. Equipment output
+capability and construction tools remain independent under D-025.
+
+### Following S entries (BWGR 296–297 / PDF 298–299)
+
+Signaling uses a signal lantern or flags. Silent Fury explicitly uses Intimidation
+mechanics with its own identity. Silver Trumpet uses an Elven silver trumpet. Sing
+uses listener Will and canonical Advantage when the music suits the mood; the
+entry specifies no fixed advantage dice. Linked-test use does not import
+Meditation's special opposed procedure. These records add no subsystem execution.
+
+
+### Skirmish Tactics cooperation (BWGR 297 / PDF 299)
+
+Trained fighters may help other fighters with the same Training, on the same
+team, on Range and Cover maneuver rolls. The source limits mutually helping
+skirmishers to five: store a cooperating-group participant limit, not five helpers
+plus a primary. `maxParticipants: 5` is the accepted provisional interpretation
+pending the dedicated Range and Cover review; see
+[Q-10](audits/SKILL_CATALOG_UNRESOLVED.md). No contribution dice or helping calculation is specified here.
+Training's combined Will/Perception root is explicitly Aptitude-only; practice and
+instruction remain learning methods. Cooperation metadata grants no broader Fight
+or generic-test permission and executes no subsystem rules.
+
+### Subsequent S source distinctions (BWGR 297–299 / PDF 299–301)
+
+Sleight of Hand uses Observation opposition for victim-directed legerdemain.
+Smithcraft includes three metalworking capabilities and their obstacle guidance.
+Song of the Eldar is explicitly unmarked despite its Astrology mechanics relation.
+Elven spell-song crafting combinations remain external magic references with
+concise summaries, without invented spell/equipment effects. Song of Lordship
+retains the curated Etharchal/Fea/Aman target-trait context.
+
+
+### Song of Soothing (BWGR 299 / PDF 301)
+
+General injury treatment follows Herbalism in its own context. Poison-specific
+procedures are separate: injury poison uses Herbalism's wound obstacle and success
+halves poison die penalties, rounding up; Ob-penalty poison uses its current
+penalty as Ob and extra successes reduce it with no printed conversion rate;
+direct dice-subtraction poison uses twice the subtracted dice as Ob and restores
+one die per success over Ob. Do not transfer that 1:1 rate to Ob penalties.
+The half/round-up operation is recorded without choosing remaining-vs-removed
+arithmetic; re-audit before implementing an evaluator. No timing, resistance,
+recovery or penalty mutation is established by this metadata.
+
+### Subsequent S through Stealthy (BWGR 299–301 / PDF 301–303)
+
+Sorcery gates spell-casting use with Gifted while understanding formulae and
+opening remain separate; source restriction to Human/Roden is character-burning
+only. Printed Astronomy and Warcraft FoRKs remain unresolved source labels.
+Spider Husbandry substitutes for Instruction and Field Dressing in spider contexts.
+Starcraft crystals are Enchanting vessels. Stealthy uses Speed versus Observation;
+light/weather/ground conditions may provide canonical Advantage with contextual
+judgment, not a fixed dice amount or automatically stacked contributions.
+
+
+### Stentorious Debate humorous Tools line (BWGR 301 / PDF 303)
+
+**RAW:** the printed Tools line names A big Dwarvy mouth.
+**Interpretation, explicitly confirmed by the user:** this is flavor, with no
+enforceable tool requirement. Store tools none and preserve the joke in summary.
+It creates no anatomy/trait/item/size/manual check or missing-tools penalty.
+Will, Social, Dwarves only, victim Will obstacle, Oratory FoRK and Duel of Wits
+use remain source-backed; its conceptual comparison to three other skills does
+not import their mechanics. No new ToolRequirement kind or durable Decision.
+
+### Subsequent S through Suicidal Bravery-wise (BWGR 301–303 / PDF 303–305)
+
+Stentorious Singing separates canonical mood Advantage from numeric listener-group
+Ob penalties. Stone Artifice reuses audited structure resistance; Stonecraft does
+not inherit it merely because source tables resemble one another. Strategy has
+commander-versus use and fixed guidance; Strategy Games opposes itself. Stuff-wise
+prints Wise and restricts Dwarves in character burning. Suasion specializes
+Persuasion without an invented priest eligibility gate.
+
+
+### Summoning and Gifted use scope (BWGR 303/305; Gifted 327/329)
+
+Gifted permits magical manipulation; without it Sorcery, Summoning and Enchanting
+remain academic pursuits. Summoning's use-only summoning-magic requirement covers
+calling forth, binding and commanding spirits. It is neither spell-casting nor a
+prerequisite for possessing/opening/advancing the skill. Human-only character-
+burning availability stays separate. Do not disable academic/FoRK relationships
+by copying the magical-use gate to them. The Codex Summoning chapter remains the
+external source for procedures/obstacles; no spirit or academic-use evaluator.
+
+
+### Surgery failed-test Blood Clock effect (BWGR 303 / PDF 305)
+
+**RAW:** Surgery can repair limbs, stop bleeding, remove bodily aberrations and
+treat wounds of all types. Failed tests advance the wound's Blood Clock by one
+stage; treatment obstacles/mechanics refer to Anatomy of Injury. Store an ordinary
+failure outcome targeting the treated wound's clock, not direct severity increase.
+**Unresolved interaction:** Superficial/Light wounds do not bleed; the catalog does
+not create clocks for them, change their categories or decide that failure has no
+effect. Applicability remains external to Anatomy of Injury. Neither replacement
+nor stacking with all generic failed-treatment effects is established here.
+No timer, severity ladder, bleeding, death or wound-treatment evaluator is added.
+
+
+### Survival: existing obstacle-penalty relief (BWGR 303 / PDF 305)
+
+RAW guidance progresses from shelter Ob 1, water Ob 2, food Ob 3 and extreme-condition water/shelter Ob 4 to shrugging off a +1 Ob penalty at Ob 5. The named procedure targets an existing penalty on success, rather than granting a transferable -1 Ob modifier. Scope and duration are source-unspecified. No environmental-only, arbitrary-penalty or wound-only interpretation is selected, and no permanent deletion is inferred. The separate Injury Shrug It Off procedure supplies no inherited Health test, duration or action cost here.
+
+Sword and Symbology finish S on the same page: Sword references Fight; Symbology retains nine source guidance levels and Ancient History, Obscure History, Doctrine and Sorcery FoRKs. Tactics–Throwing (304 / 306) preserve their own roots/types/tools and source guidance. Tactics' ambush versus Observation is separate from field maneuvers in Range and Cover. Threading Chant references Sewing mechanics without replacing its own Perception/Agility root, Elven availability or expendable tools. No execution subsystem is introduced.
+
+
+### Torture intent, target obstacle and consequences (BWGR 304–305 / PDF 306–307)
+
+RAW requires an exact declared submission/information intent before the test, rather than a question. The obstacle is the higher victim Will/Forte exponent. Success fulfills that declared intent and grants a context-selected debilitating trait with value equal to the test obstacle; printed trait examples are non-exhaustive. Failure leaves the GM a choice of injury (severity unspecified), death, or a beneficial resistance trait for privation/torture/interrogation (identity/value unspecified). No automatic wound category, trait identity or death threshold follows from the obstacle.
+
+Torture normally uses Will/Perception; Orcs use Hatred and roll it open-ended. Special type, generic tools and Anatomy/Surgery/Interrogation FoRKs remain distinct. These facts are declarative only. Following T entries through Tunnel-wise (305–306 / 307–308) preserve their source guidance and do not create inferred stock restrictions from descriptive lore. Tree Pulling retains the collective expendable tool wording without defining how individual components are expended.
+
+
+### Two-Fisted Fighting Training (BWGR 306 / PDF 308)
+
+RAW eligibility: two weapons, each one-handed and at most Long; the off-hand weapon is no heavier than the other. Off-hand Strike has no off-hand penalty. Simultaneous Strikes divide dice between weapons; Block & Strike separately divides skill dice between attack and defense as the combatant chooses. No default allocation, minimum, numerical bonus or acting weapon skill is stated here.
+
+This is a separate access path to the same Fight Block & Strike action, not Shield Training ownership or inheritance of shield-specific effects. Agility is for Aptitude only; practice/instruction learning methods remain separate and the Training has no exponent (D-026). Physical weapon/profile identity remains external (D-027). Typed integration records preserve source facts without comparing equipment, choosing skills, splitting dice or executing Fight. Ugly Truth retains its five guidance levels and Duel of Wits use; Vein-wise remains a bare Wise topic on the same page.
+
+
+### Vile Poisoner products (BWGR 306 / PDF 308)
+
+RAW supplies three distinct crafted products, not combinations of ordinary Poisons potency and delivery. Contact Ob 2: a skin dose causes boils and +2 Ob to physical, martial and social tests for one scene; these source scopes are not closed stat/Skill Type lists, and no resistance is stated. Ingested Ob 4: victim Forte vs Ob 4; failed resistance permanently subtracts the same margin of failure from Health and Health maximum. No minimum, zero/death policy or recovery follows here.
+
+Weapon product Ob 5 coats a blade or arrowhead. Injection requires the literal Mark-result hit condition; the entry does not settle whether Superb qualifies. It delivers one additional B9 wound after six plus victim Forte exchanges, not an immediate wound or replacement for weapon damage. Coating lifetime, batch doses, misses, armor and stacking remain unspecified. Product metadata introduces no exposure, resistance, Health, wound, timer or Fight evaluator. Vile Poisoner preserves Perception/Agility, Medicinal, Herbalism, expendable tools, Orc-only availability and the printed magical marker. Following Village Secret-wise/Vine-wise/Vintage-wise/Vintner/Visage-wise retain their source records (306–307 / 308–309).
+
+
+### Voice of Thunder audibility exception (BWGR 307 / PDF 309)
+
+RAW reuses Command, then adds hearing for soldiers with a trait, Instinct or Belief about the issuing commander, regardless of distance on the battlefield. The typed broadcast is an audibility-distance extension, not automatic Command success, obedience, hesitation removal or linked-test benefit. Both commander and recipient remain within battlefield context; no world-wide range or arbitrary-barrier rule is inferred. Sword Singers/vassals are descriptive, not an exclusive audience list. Soldier is a contextual audience role, not a setting/lifepath, weapon-holder or all-allies category.
+
+The audience relation points to this commander. D-028 permits future stable entity/about-character identity references or manual semantic adjudication; metadata stores that binding contract without creating narrative state, resolving names or parsing text. Command reuse stays a separate relation and ordinary Command data is unchanged. Voice of Thunder retains Will/Forte, Social, no tools, Elf-only availability and its printed marker. Wagon-wise is a bare topic; Waiting Tables preserves Will/Special/no tools, Ob 1–5 guidance and direct taxed-Resources recovery without borrowing Blacksmith's workplace condition.
+
+
+### War Art improvements, source-specific quality and gray eligibility (307/309)
+
+RAW offers VA +1 at an obstacle equal to current weapon VA plus one; one balance die at +2 crafting Ob; and weapon Power +1 at an obstacle equal to current weapon Power (not Power+1). Balance Dice semantics stay external. Accepted interpretation for this catalog: each distinct option is once per physical weapon; distinct options are not mutually exclusive. No repeat stacking or per-profile reset is implied.
+
+War Art-specific Dwarven-made armor/shields cost +1 Ob and reroll one rolled 1 once. Its superior armor option costs +3 Ob and rerolls all 1s every applicable roll; that sentence does not include shields. WAR ART / ARMOR QUALITY SOURCE CONFLICT: these entry-specific statements do not literally match general equipment-quality rules elsewhere. Preserve the entry's provenance and leave reconciliation to Equipment audit. Do not resolve quality stacking, upgrades/replacement or exclusivity.
+
+Gray devices require the effective crafting skill to be gray at the test, by actual shade or temporary Epiphany. An unrelated gray skill does not satisfy this requirement. No Artha activation/cost/duration, equipment shade/stat generation or global Burner opening rule follows. War Art preserves Will/Agility, Craftsman, Workshop, Dwarves-only, Black-Metal Artifice and its base crafting guidance. War Engineer (307/309) separately preserves Will/Perception, Artisan, Workshop and building Ob 1–6; Materials owns destruction obstacles. The entry prints § and a Dwarves-only restriction. Do not infer the separate Siege Engineer output capability.
+
+
+### Weaponsmith ordinary output quality (BWGR 308 / PDF 310)
+
+RAW manufacturing guidance: knife Ob 1; spear/short sword/mace/light axe Ob 2; arming/long sword Ob 3; polearm Ob 4. Superior weapons add +2 crafting Ob and reference ordinary superior weapon quality on successful manufacture. Failed Weaponsmith manufacture is source-associated with poor-quality output. The entry does not settle replacement, stacking or exclusivity relative to generic failure consequences, and does not define voluntary failure, dice suppression or a reduced poor-quality obstacle. External Equipment categories own stats and combat effects. War Art's conflicting armor/shield rerolls remain separate and unresolved.
+
+Weaponsmith retains Perception/Agility, Craftsman, Workshop and Blacksmith. Weaving on the same page retains fiber guidance Ob 1–4. Weaving Way preserves its own Will/Agility, Elven availability and replacement of Weaving in the elven-weaving circumstance; that curated context is source-backed, not inferred from names. Its Antiphon Union/Threne of the Chameleon cloak combination remains an external magic cross-reference without invented cloak benefits. Web-wise/Well-wise/Whip-Wise/Whispered Secrets-wise remain independent bare topics with printed spellings.
+
+
+### White Metal Artifice / mithril omitted unit (308/310)
+
+RAW separates created-item Resources obstacle +1; optional +2 crafting Ob for another Resources obstacle +1; and mithril's +1 Ob to relevant tests plus Resources value +2. Accepted preservation policy: mithril's value unit is source-unspecified, never normalized to obstacle or dice. WHITE METAL ARTIFICE / MITHRIL: Gemcraft (275/277) explicitly gives +1D of Resources value, making dice a plausible comparison, but White Metal omits D; intended +2D remains unresolved. The unknown-unit effect has entry provenance and material context, while the enchanter vessel remains a separate capability. No character Resources mutation or prices are calculated.
+
+The final W entries (308–309 / 310–311) retain their source metadata. Wine Tasting's drinkable/swill/old/ancient adjustments remain four contextual +1/+2/+1/+2 Ob effects; no age/quality classifier or stacking evaluator is added. Wises family guidance has the printed Ob 1/2/3/4/5/7/8 sequence without inventing Ob 6. Write remains separate from Read: writing-only capability does not grant reading comprehension; the copyist description does not become a Read opening requirement or an invented gate on the entry's listed composition obstacle. Playwright's Write requirement is unchanged.

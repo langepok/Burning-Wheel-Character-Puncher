@@ -237,6 +237,14 @@ remain separate source metadata. Relations never merge skill identities.
 
 `SkillType` preserves printed labels, including both Seafaring and Seafarer.
 Tools, FoRK targets and contexts support small `allOf`/`anyOf` compositions.
+Tools also support a conditional node with a structured context and recursive
+then/otherwise tool branches. Reading and writing are distinct activity leaves;
+the Script fixtures require expendable tools only for writing. Registration
+checks both branches and the condition without evaluating the activity.
+Resource interactions can independently attach a SkillContext. A circumstance
+leaf carries a nonempty content id, such as suitable-workplace. Tools do not
+manufacture Resources contexts, and a context on recovery does not restrict
+other uses of the skill. Registration validates these contexts recursively.
 FoRK family/category/content-applicability leaves retain contextual guidance;
 curated ritual/song categories are not inferred from names. Target trait,
 stock, culture and origin leaves are distinct from actor stock/culture context.
@@ -260,9 +268,21 @@ Stuff-wise retain explicit family membership and audited overrides. These
 helpers compose data only; they do not open a skill or store character exponents.
 `SkillChoiceExpression` keeps Appropriate Weapons out of the skill map.
 
+The ongoing transcription lives in `src/data/skills/general/`, separately from
+partial fixtures. Reviewed blocks contain complete definitions; later-block
+name references carry identity/evidence only. The independent canonical oracle
+lives in `tests/data/general-skill-manifest.ts` and checks ids, names, record kinds
+and pages. The unfinished aggregate is not exposed by the UI. Wises use the
+printed Special default; explicitly printed Wise entries override it. The three
+named Doctrine variations are explicit definitions, not a new family model.
+
 Typed integration tags describe discovery/indexing. `SkillIntegration` records
 hold separate summaries and provenance; future subsystem logic belongs in
 `rules/`. No catalog strings are parsed into executable rules.
+Magic integrations can also hold a structured base-item-creation reference to
+an applicable skill song and its own rules/tools. This describes a preceding
+stage independently of the owning skill's ToolRequirement. It neither copies
+tools nor applies creation requirements to the later enchantment stage.
 
 ## Semantic category tags
 
@@ -388,3 +408,109 @@ For point-bearing actions, exact inverse operations are preferred over reconstru
 Start small. Add a dependency only when it removes meaningful complexity or risk.
 
 Do not add a backend, database, auth, global state library, plugin runtime or rules DSL during bootstrap without a concrete need and a recorded decision.
+
+Per D-025, direct character Resources interactions remain ResourceInteraction;
+created-item valuation is structured equipment/Resources integration metadata.
+Typed obstacle/dice measures and optional crafting costs do not calculate prices.
+Magic matrix and Antiphon references are stored independently.
+
+D-025 also separates EquipmentUseEffect from created-item valuation. Equipment
+integrations store crafting acquisition cost/condition/repeatability and the use
+bonus owned by the resulting equipment. No stacking or crafting evaluator exists.
+
+D-025 also covers created structures: StructureResistance stores a construction
+tradeoff and penalties on tests against the result for alteration/destruction.
+It is distinct from equipment-user dice bonuses and item valuation; no durability
+or destruction state/evaluator is added.
+
+SkillTestProfile is optional skill-level test metadata, separate from subsystem
+integrations. Versus opponents are catalog skill references; contextual obstacle
+modifiers use typed conditions/composition. These describe source facts without
+selecting opponents, combining modifiers, evaluating crowds or running tests.
+Attire and social-station/region/crowd-stock mismatch contexts describe comparisons,
+not target identity or a hard-coded stock. Missing partial-profile modifiers are
+untranscribed, not a declaration that no other test guidance exists.
+
+Obstacle-reference is a semantic skill relation owned by the source record. Its
+skill/anyOf targets supply only obstacle guidance in the specified context. It
+neither replaces the tested skill nor inherits target tools, roots, types or
+special rules. Targets are concrete registered identities and alternatives stay
+explicit; no obstacle selection or inheritance evaluator is introduced.
+
+Skill-level obstacle profiles can reference the target's current stat/attribute
+exponent. Ability references retain the existing extensible kind/id boundary;
+validation checks their shape, not a speculative character/ability registry.
+ManualTestAdjustment explicitly marks source quantities as unquantified and forbids
+numeric delta, including zero. Structured examples document source situations;
+they are not executable conditions, per-trait/per-Belief formulas or arbitration.
+These facts remain SkillTestProfile metadata, separate from subsystem execution.
+
+SkillTestFollowUp describes a primary-test success trigger, scoped context, generic
+primary-actor/target role and an existing AbilityReference. DynamicTestModifier
+stores a named primary-test result reference rather than a computed delta or formula.
+The current extra-successes reference adds to a hesitation obstacle. Fixed numeric
+modifiers, manual/unquantified adjustments and dynamic references remain separate.
+Profile context scopes the primary procedure; it does not restrict the skill's
+other subsystem uses. Outside-subsystem contexts are typed and recursively validated.
+No follow-up execution, success counting, Steel or hesitation evaluator is added.
+
+
+OpposingAbilityReference separates a fixed catalog skill from a context-resolved
+skill used by the eavesdropping participant. The latter has a constrained role
+and manual resolution, no concrete id/default/fallback. It is intentional source
+selection, not an unresolved source-name typo or an arbitrary ability selector.
+The catalog validates this metadata but does not perform GM adjudication.
+
+
+OpposingAbilities may use explicit anyOf branches with fixed skill or RootAbility
+references. Branch-local DoubleObstaclePenalty is a reusable canonical semantic
+modifier: double base obstacle/opponent successes before other modifiers, not the
+final modified obstacle. Skill data stores its name and scope; execution semantics
+are deferred to the rules engine. No automatic stat-versus-skill penalty inference,
+calculation or subsystem rule transcription is added.
+
+
+EquipmentResult extends created-object metadata with enchantment-combination
+acquisition and a skill-test-dice-bonus for the equipment user. allOf components
+reference registered Training or external magic spell-song source names. Existing
+generic Antiphon references and the preceding base-item-creation abstraction retain
+their meanings; a specific result is not a duplicate tool inheritance mechanism.
+This descriptor is distinct from EquipmentUseEffect crafting costs, valuation and
+structure resistance. Validation resolves references but executes no magic or use.
+
+
+ContextualTestModifier pairs an effect with SkillContext. Dice-bonus and
+obstacle-modifier are distinct typed effects; the earlier Inconspicuous obstacle
+metadata uses this shared shape with identical values/conditions. A contextual
+profile stores source-guided test effects without inventing an obstacle basis or
+opposing ability. Force is an aggregate context, not a target stock. Majority
+attribute conditions and trait/mount presence remain distinct; non-Dwarven is a
+source-defined classification without population thresholds. Prior-test contexts
+retain both area and Resources-cycle scope. Validation resolves skill references
+in contexts, including recursively composed/tool/integration contexts. No evaluator.
+
+
+SkillProcedure stores narrowly typed duration-rest-substitution and linked-pretest
+records separately. Named duration progression avoids a formula DSL; failure does
+not assign a time or credited rest. LinkedPretest references canonical linked-test
+semantics, with a separately scoped versus/detailed-conflict procedure and onWin
+benefit. Context-resolved opponent roles reuse the existing skill-only reference.
+SkillActivityFact preserves surrounding-awareness and permitted-test references
+without an Awareness ability. SustainedSpellReference remains a separate magic
+integration with external Tax rules. These descriptors execute no tests/recovery.
+
+
+The General Skill List data is exported by src/data/skills/general independently
+of representative foundation fixtures, UI and character spending. Final integrity
+tests compare every production id/name/kind/page to the complete independent
+manifest, prohibit partial substitutes and audit current lifepath references by
+identity. History topic and stock-specific references do not become fake General
+headings. External equipment-quality references store manufacturing outcomes
+without importing quality stats or War Art's entry-specific conflicting rerolls.
+
+Created-item valuation separates Resources obstacle, explicit value dice and
+semantic value with source-unspecified unit/provenance. The latter cannot default
+to either explicit measure. Integration contexts and skill-test contexts preserve
+material qualifications without evaluating them. Known unresolved source facts
+remain metadata/audit markers; no source reconciliation, item generation, prices,
+spending or other subsystem runtime is wired to this catalog.
