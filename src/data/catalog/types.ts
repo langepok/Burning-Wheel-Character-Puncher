@@ -22,7 +22,7 @@ export interface SettingDefinition {
   readonly sourceName: string;
   readonly uiQualifier: string;
   /** Referenced destinations need not have their complete definition loaded yet. */
-  readonly coverage: 'loaded' | 'reference-only';
+  readonly coverage: 'loaded' | 'partial' | 'reference-only';
   readonly kind?: 'setting' | 'subsetting';
   readonly aliases: readonly string[];
 }

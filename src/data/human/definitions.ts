@@ -1,4 +1,5 @@
 import type { FamilyDefinition, SettingDefinition, SkillReference, StockDefinition } from '../catalog';
+import { cityPilotSource, soldierPilotSource } from './m1-lifepaths';
 import { peasantSource, villagerSource } from './sources';
 
 export const humanStocks: readonly StockDefinition[] = [{ id: 'human', sourceName: 'Human' }];
@@ -28,7 +29,7 @@ export const humanSettings: readonly SettingDefinition[] = [
     stockId: 'human',
     sourceName: 'City Dweller Setting',
     uiQualifier: 'City',
-    coverage: 'reference-only',
+    coverage: 'partial',
     kind: 'setting',
     aliases: ['City Dweller', 'City'],
   },
@@ -37,7 +38,7 @@ export const humanSettings: readonly SettingDefinition[] = [
     stockId: 'human',
     sourceName: 'Professional Soldier Subsetting',
     uiQualifier: 'Soldier',
-    coverage: 'reference-only',
+    coverage: 'partial',
     kind: 'subsetting',
     aliases: ['Professional Soldier', 'Soldier'],
   },
@@ -353,11 +354,18 @@ export const humanFamilies: readonly FamilyDefinition[] = [
     source: villagerSource,
   },
   {
+    id: 'human.city-born',
+    stockId: 'human',
+    sourceName: 'City Born',
+    coverage: 'loaded',
+    source: cityPilotSource,
+  },
+  {
     id: 'human.foot-soldier',
     stockId: 'human',
     sourceName: 'Foot Soldier',
-    coverage: 'reference-only',
-    source: villagerSource,
+    coverage: 'loaded',
+    source: soldierPilotSource,
   },
   {
     id: 'human.squire',

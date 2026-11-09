@@ -55,7 +55,7 @@ describe('stock-independent catalog registration', () => {
     expect(getLifepathDisplayLabel(record, catalog)).toBe('Synthetic Conscript');
     expect(record.familyId).toBe('test.family');
     expect(record.sourceName).toBe('Conscript');
-    expect(catalog.lifepaths.size).toBe(61);
+    expect(catalog.lifepaths.size).toBe(64);
   });
 
   it('does not infer categories or skill metadata from names, labels or skills', () => {
@@ -171,7 +171,7 @@ describe('catalog integrity failures', () => {
   it('does not silently turn reference-only families into invented rows', () => {
     const catalog = createCatalog(humanContent);
     const references = [...catalog.families.values()].filter(family => family.coverage === 'reference-only');
-    expect(references).toHaveLength(15);
+    expect(references).toHaveLength(14);
     expect(references.every(family => ![...catalog.lifepaths.values()].some(row => row.familyId === family.id))).toBe(true);
     expect(() => createCatalog({
       ...humanContent,

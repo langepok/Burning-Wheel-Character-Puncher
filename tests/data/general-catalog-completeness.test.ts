@@ -54,8 +54,8 @@ describe('General catalog identity and core fields, and known lifepath reference
       expect(catalog.skills.get(reference.id)?.sourceName).toBe(reference.sourceName);
     }
   });
-  it('resolves four known uses of three skill IDs across 60 partial lifepath skill lists', () => {
-    expect(humanContent.lifepaths).toHaveLength(60);
+  it('resolves four known uses of three skill IDs across 63 partial lifepath skill lists', () => {
+    expect(humanContent.lifepaths).toHaveLength(63);
     const uses = humanContent.lifepaths.flatMap(lifepath => [
       ...lifepath.skillListMetadata.knownEntries.flatMap(entry => entry.kind === 'skill' ? [entry.skillId] : [...entry.skillIds]),
       ...requirementSkills(lifepath.requirements),
