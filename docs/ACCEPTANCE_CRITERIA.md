@@ -1001,3 +1001,16 @@ A Character Burner feature is done only when:
 - Command preserves audibility, a non-hesitating commander, the hesitation obstacle and margin effect separately from optional Range and Cover linked maneuvers. Cryptography preserves code-creation successes as the deciphering obstacle and Research or Cryptography as alternative acting skills.
 - Falsehood retains target Will, +1D for a believable, good or partly true lie and +2 Ob for a whopper or bad lie. Formation Fighting separates Steel-based Range and Cover help from Fight outnumbered relief; Fortifications keeps position dice separate from cover, including the unspecified palisade cover amount.
 - Games of Chance preserves the winner taking the prize separately from the loser's Resources test outcomes. Great Wolf Husbandry distinguishes typical animal Will obstacles from Field Dressing use, and History preserves own-culture default and separate topic ownership.
+
+### M1 pilot acceptance
+
+- Rules mode starts with Born Peasant, Village Born or City Born. No later Born is legal.
+- Village Born → Groom → Lead to Professional Soldier → Foot Soldier yields age 18.
+  City Born → Runner → the same Lead → Foot Soldier yields age 19.
+- Viewing settings leaves history unchanged. Only an applied Lead adds a year.
+  A Lead allowed by the source into an unloaded setting is shown as unavailable content.
+- Immediate requirements use the preceding history. Incomplete evidence is distinguished
+  from a failed requirement. Whole-build conditions are checked against the final history.
+- Free Creation applies deliberate overrides with the same rule diagnostics as Rules mode.
+  Undo reverses the last history action and Reset clears all character history.
+- City Dweller and Professional Soldier expose only the audited rows needed for the pilot.
