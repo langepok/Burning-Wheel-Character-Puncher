@@ -7,7 +7,7 @@ describe('catalog foundation', () => {
     const catalog = createCatalog(humanContent);
     expect(peasantLifepaths).toHaveLength(19);
     expect(villagerLifepaths).toHaveLength(41);
-    expect(catalog.lifepaths.size).toBe(60);
+    expect(catalog.lifepaths.size).toBe(63);
   });
 
   it('qualifies Conscript without changing either variant or its shared family', () => {

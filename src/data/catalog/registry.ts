@@ -87,7 +87,7 @@ export function validateCatalog(catalog: GameCatalog): string[] {
     check(catalog.stocks.has(setting.stockId), `Invalid ${setting.id} stock reference: ${setting.stockId}`);
     nonempty(setting.sourceName, `${setting.id} name`);
     nonempty(setting.uiQualifier, `${setting.id} qualifier`);
-    check(setting.coverage === 'loaded' || setting.coverage === 'reference-only', `Invalid ${setting.id} setting coverage`);
+    check(['loaded', 'partial', 'reference-only'].includes(setting.coverage), `Invalid ${setting.id} setting coverage`);
     check(setting.kind === 'setting' || setting.kind === 'subsetting' ||
       (setting.coverage === 'reference-only' && setting.kind === undefined), `Invalid ${setting.id} setting kind`);
     unique(setting.aliases, `${setting.id} aliases`);

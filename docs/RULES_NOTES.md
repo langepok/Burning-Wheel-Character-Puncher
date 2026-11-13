@@ -751,3 +751,23 @@ Weaponsmith retains Perception/Agility, Craftsman, Workshop and Blacksmith. Weav
 RAW separates created-item Resources obstacle +1; optional +2 crafting Ob for another Resources obstacle +1; and mithril's +1 Ob to relevant tests plus Resources value +2. Accepted preservation policy: mithril's value unit is source-unspecified, never normalized to obstacle or dice. WHITE METAL ARTIFICE / MITHRIL: Gemcraft (275/277) explicitly gives +1D of Resources value, making dice a plausible comparison, but White Metal omits D; intended +2D remains unresolved. The unknown-unit effect has entry provenance and material context, while the enchanter vessel remains a separate capability. No character Resources mutation or prices are calculated.
 
 The final W entries (308–309 / 310–311) retain their source metadata. Wine Tasting's drinkable/swill/old/ancient adjustments remain four contextual +1/+2/+1/+2 Ob effects; no age/quality classifier or stacking evaluator is added. Wises family guidance has the printed Ob 1/2/3/4/5/7/8 sequence without inventing Ob 6. Write remains separate from Read: writing-only capability does not grant reading comprehension; the copyist description does not become a Read opening requirement or an invented gate on the entry's listed composition obstacle. Playwright's Write requirement is unchanged.
+
+### M1 pilot routes and incomplete evidence
+
+The Human pilot includes the 19 Peasant and 41 Villager rows, plus City
+Born, City Runner and Professional Soldier Foot Soldier. City Dweller
+and Professional Soldier have partial setting coverage. Their other
+lifepaths are outside this pilot.
+
+- **RAW:** Village Born (10 years) can stay in Villager and choose Groom
+  (4 years). Groom lists Soldier as a Lead. Foot Soldier (3 years) has
+  no printed prerequisite. With the Lead year, the build is 18 years old.
+  See BWGR book pp. 165–166, 187 / PDF pp. 167–168, 189.
+- **RAW:** City Born (12 years) can stay in City Dweller and choose
+  Runner (3 years). Runner lists Soldier as a Lead, producing a
+  19-year-old build after Foot Soldier and the Lead year.
+  See BWGR book pp. 170, 187 / PDF pp. 172, 189.
+- **Product behavior:** An unloaded destination and insufficient
+  prerequisite evidence are separate from confirmed rule violations.
+  For example, a partial list that does not mention Sorcery cannot prove
+  the Recluse Wizard prerequisite failed.
