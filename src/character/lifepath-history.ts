@@ -1,5 +1,5 @@
 import type { GameCatalog } from '../data/catalog';
-import { evaluateLead, evaluateLifepath } from '../rules/lifepaths';
+import { evaluateLead, evaluateLifepath, validateLifepathRequirements } from '../rules/lifepaths';
 import type { LifepathIssue, LifepathProgress } from '../rules/lifepaths';
 import { createBuildHistory } from './index';
 import type { BuildHistory } from './index';
@@ -52,7 +52,17 @@ export function applyLifepathCommand(
   switch (command.kind) {
     case 'reset': return createBuildHistory<Entry>();
     case 'undo': return { entries: history.entries.slice(0, -1) };
-    case 'gender': return { entries: [...history.entries, command] };
+    case 'gender': {
+      const next = { entries: [...history.entries, command] };
+      if (mode === 'free') return next;
+      const before = validateLifepathRequirements(projectLifepathHistory(history, catalog));
+      const after = validateLifepathRequirements(projectLifepathHistory(next, catalog));
+      return after.some(({ index, issue }) => !before.some(previous =>
+        previous.index === index && previous.issue.code === issue.code &&
+        'requirement' in previous.issue && 'requirement' in issue &&
+        previous.issue.requirement === issue.requirement,
+      )) ? history : next;
+    }
     case 'lead':
     case 'lifepath': {
       const progress = projectLifepathHistory(history, catalog);

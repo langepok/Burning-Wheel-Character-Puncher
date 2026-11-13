@@ -116,4 +116,22 @@ describe('M1 lifepath history and legality', () => {
     expect(progress(older).age).toBeGreaterThan(50);
     expect(validateLifepathRequirements(progress(older))).toEqual([]);
   });
+
+  it('rejects a gender change that invalidates an existing path in Rules and permits it in Free Creation', () => {
+    const female = build(
+      { kind: 'gender', value: 'female' }, path(peasantBorn), path('human.peasant.augur'),
+    );
+    expect(progress(female).paths.map(row => row.sourceName)).toEqual(['Born Peasant', 'Augur']);
+    expect(validateLifepathRequirements(progress(female))).toEqual([]);
+
+    const maleCommand: LifepathCommand = { kind: 'gender', value: 'male' };
+    expect(apply(female, maleCommand, 'rules')).toBe(female);
+    const free = apply(female, maleCommand, 'free');
+    expect(progress(free).gender).toBe('male');
+    expect(validateLifepathRequirements(progress(free))).toMatchObject([
+      { path: { variantId: 'human.peasant.augur' }, issue: { code: 'REQUIREMENT_UNMET' } },
+    ]);
+    expect(apply(free, { kind: 'undo' })).toEqual(female);
+    expect(apply(female, { kind: 'gender', value: undefined }, 'rules')).toBe(female);
+  });
 });

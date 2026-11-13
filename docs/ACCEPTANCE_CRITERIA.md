@@ -1014,3 +1014,9 @@ A Character Burner feature is done only when:
 - Free Creation applies deliberate overrides with the same rule diagnostics as Rules mode.
   Undo reverses the last history action and Reset clears all character history.
 - City Dweller and Professional Soldier expose only the audited rows needed for the pilot.
+
+### M1 targeted review regressions (PR #23)
+
+- **Command policy / UX:** In Rules mode, changing character gender is rejected when it introduces an unmet or unresolved requirement in an already selected lifepath. The prior gender and history remain intact. Free Creation permits the same change and displays the resulting requirement diagnostic; Undo restores the prior gender.
+- **Picker UX:** After the first lifepath, the ordinary Rules picker omits Born lifepaths, including when browsing another setting. Free Creation keeps loaded Born paths available as deliberate overrides with the existing rule explanation.
+- **Interaction regression:** An automated UI test exercises selection, Lead, Undo, Reset, and Rules/Free switching through rendered controls, including at least one audited Soldier route and a later Born override. The existing 18/19-year route and rule diagnostics remain unchanged.

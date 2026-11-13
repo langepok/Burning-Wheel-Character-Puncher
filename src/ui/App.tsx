@@ -53,7 +53,8 @@ export function App() {
   const progress = projectLifepathHistory(history, catalog);
   const displayedSetting = browsedSetting || progress.settingId;
   const displayedPaths = paths.filter(path =>
-    displayedSetting ? path.settingId === displayedSetting : path.isBorn,
+    (displayedSetting ? path.settingId === displayedSetting : path.isBorn) &&
+    (mode === 'free' || progress.paths.length === 0 || !path.isBorn),
   );
   const finalIssues = validateLifepathRequirements(progress);
 
