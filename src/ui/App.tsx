@@ -151,7 +151,6 @@ export function App() {
           <ul>
             {settings.filter(setting => setting.id !== progress.settingId).map(setting => {
               const issues = evaluateLead(progress, setting.id, catalog);
-              if (mode === 'rules' && issues.some(issue => issue.code !== 'CONTENT_UNAVAILABLE')) return null;
               return (
                 <li key={setting.id}>
                   <button type="button" disabled={!canApplyChoice(mode, issues)}
