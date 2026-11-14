@@ -1020,3 +1020,9 @@ A Character Burner feature is done only when:
 - **Command policy / UX:** In Rules mode, changing character gender is rejected when it introduces an unmet or unresolved requirement in an already selected lifepath. The prior gender and history remain intact. Free Creation permits the same change and displays the resulting requirement diagnostic; Undo restores the prior gender.
 - **Picker UX:** After the first lifepath, the ordinary Rules picker omits Born lifepaths, including when browsing another setting. Free Creation keeps loaded Born paths available as deliberate overrides with the existing rule explanation.
 - **Interaction regression:** An automated UI test exercises selection, Lead, Undo, Reset, and Rules/Free switching through rendered controls, including at least one audited Soldier route and a later Born override. The existing 18/19-year route and rule diagnostics remain unchanged.
+
+### M1 Leads explanation follow-up
+
+- In Rules mode, after a lifepath is selected, every other catalog setting appears in the Leads list. An unavailable Lead remains disabled and displays the explanation for each issue returned by `evaluateLead`, including a missing listed Lead and unavailable destination content.
+- A legal, loaded Lead remains actionable. Browsing settings or viewing unavailable Leads does not alter history or age.
+- In Free Creation, the same Lead rows and rule explanations remain visible. A rule-illegal Lead to loaded content can be applied as a deliberate override; a Lead to unavailable content remains disabled by the existing command policy.

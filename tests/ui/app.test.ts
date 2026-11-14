@@ -49,6 +49,46 @@ function select(container: HTMLElement, label: string, value: string) {
   });
 }
 
+function leadRow(container: HTMLElement, label: string) {
+  return [...container.querySelectorAll('section[aria-labelledby="leads"] li')]
+    .find(item => item.querySelector('button')?.textContent?.includes(label));
+}
+
+it('shows unavailable Leads and their rule reasons in Rules mode', () => {
+  const container = mountApp();
+  click(container, 'Village Born');
+
+  const unlisted = leadRow(container, 'Lead to Professional Soldier');
+  expect(unlisted).toBeTruthy();
+  expect(unlisted!.querySelector('button')?.disabled).toBe(true);
+  expect(unlisted!.textContent).toContain('The last lifepath does not list this Lead.');
+
+  const unloaded = leadRow(container, 'Lead to Servitude');
+  expect(unloaded).toBeTruthy();
+  expect(unloaded!.querySelector('button')?.disabled).toBe(true);
+  expect(unloaded!.textContent).toContain('Lifepath data for this setting is outside the pilot.');
+  expect(leadRow(container, 'Lead to Peasant')?.querySelector('button')?.disabled).toBe(false);
+  expect(container.textContent).toContain('Age: 10 years');
+});
+
+it('keeps Lead diagnostics visible and allows loaded overrides in Free Creation', () => {
+  const container = mountApp();
+  click(container, 'Village Born');
+  select(container, 'Build mode', 'free');
+
+  const unlisted = leadRow(container, 'Lead to Professional Soldier');
+  expect(unlisted?.querySelector('button')?.disabled).toBe(false);
+  expect(unlisted?.textContent).toContain('The last lifepath does not list this Lead.');
+
+  const unloaded = leadRow(container, 'Lead to Servitude');
+  expect(unloaded?.querySelector('button')?.disabled).toBe(true);
+  expect(unloaded?.textContent).toContain('Lifepath data for this setting is outside the pilot.');
+
+  click(container, 'Lead to Professional Soldier');
+  expect(container.textContent).toContain('Age: 11 years');
+  expect(container.textContent).toContain('Free Creation override: The last lifepath does not list this Lead.');
+});
+
 it.each([
   ['Village Born', 'Groom', '18'],
   ['City Born', 'City Runner', '19'],
