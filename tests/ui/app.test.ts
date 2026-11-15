@@ -34,6 +34,16 @@ function mountApp() {
 }
 
 function click(container: HTMLElement, label: string) {
+  const node = [...container.querySelectorAll<HTMLButtonElement>('[data-variant-id]')]
+    .find(item => item.textContent?.includes(label));
+  if (node && !label.startsWith('Add ')) {
+    act(() => node.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    const action = container.querySelector<HTMLButtonElement>('.details-panel > button');
+    expect(action, 'Apply ' + label).toBeTruthy();
+    expect(action!.disabled, 'Apply ' + label).toBe(false);
+    act(() => action!.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    return;
+  }
   const button = [...container.querySelectorAll('button')].find(item => item.textContent?.includes(label));
   expect(button, label).toBeTruthy();
   expect(button!.disabled, label).toBe(false);
@@ -95,9 +105,8 @@ it.each([
 ])('plays the %s Soldier route through the UI and reverses it', (born, bridge, age) => {
   const container = mountApp();
   click(container, born);
-  expect([...container.querySelectorAll('button')].some(button =>
-    ['Born Peasant', 'Village Born', 'City Born'].some(name => button.textContent?.includes(name)),
-  )).toBe(false);
+  expect(container.querySelectorAll('[data-variant-id]')).not.toHaveLength(0);
+  expect(container.querySelector('[data-variant-id="human.' + (born === 'City Born' ? 'city-dweller.city-born' : 'villager.village-born') + '"]')?.getAttribute('data-state')).toBe('current');
   click(container, bridge);
   click(container, 'Lead to Professional Soldier');
   expect(container.textContent).toContain('Choose a lifepath in the destination');
@@ -106,6 +115,7 @@ it.each([
   click(container, 'Undo');
   expect(container.textContent).toContain('Choose a lifepath in the destination');
   click(container, 'Reset');
+  click(container, 'Confirm remove all');
   expect(container.textContent).toContain('Age: 0 years');
   expect(container.textContent).toContain('Village Born');
 });
@@ -113,15 +123,73 @@ it.each([
 it('keeps later Born overrides visible in Free Creation with rule diagnostics', () => {
   const container = mountApp();
   click(container, 'Village Born');
-  select(container, 'Browse setting', 'human.peasant');
-  expect([...container.querySelectorAll('button')].some(button => button.textContent?.includes('Born Peasant'))).toBe(false);
+  expect(container.querySelector('[data-variant-id="human.peasant.born-peasant"]')?.getAttribute('data-state')).toBe('locked');
   select(container, 'Build mode', 'free');
-  const born = [...container.querySelectorAll('button')].find(button => button.textContent?.includes('Born Peasant'));
-  expect(born?.disabled).toBe(false);
+  const born = container.querySelector('[data-variant-id="human.peasant.born-peasant"]');
+  expect(born).toBeTruthy();
+  act(() => born!.dispatchEvent(new MouseEvent('click', { bubbles: true })));
   expect(container.textContent).toContain('Born lifepaths are only available as the first choice.');
-  click(container, 'Born Peasant');
+  click(container, 'Add anyway Born Peasant');
   expect(container.textContent).toContain('Free Creation override: Born lifepaths are only available as the first choice.');
   select(container, 'Build mode', 'rules');
   click(container, 'Undo');
   expect(container.textContent).toContain('Age: 10 years');
+});
+
+it('renders catalog regions and inspects a locked path without changing history', () => {
+  const container = mountApp();
+  expect(container.querySelector('[aria-label="Lifepath map"]')).toBeTruthy();
+  expect(container.querySelector('[data-setting-id="human.professional-soldier"]')).toBeTruthy();
+  expect(container.querySelector('[data-setting-id="human.servitude-captive"]')?.getAttribute('data-state')).toBe('out-of-scope');
+  const row = container.querySelector('[data-variant-id="human.professional-soldier.foot-soldier"]') as HTMLElement;
+  expect(row.getAttribute('data-state')).toBe('locked');
+  act(() => row.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+  expect(container.querySelector('[aria-label="Lifepath details"]')?.textContent).toContain('Choose a Born lifepath first.');
+  expect(container.textContent).toContain('Age: 0 years');
+  expect(container.querySelectorAll('[data-history-step]')).toHaveLength(0);
+});
+
+it('previews declared Leads on hover without applying or inspecting a path', () => {
+  const container = mountApp();
+  const node = container.querySelector('[data-variant-id="human.city-dweller.runner"]') as HTMLElement;
+  act(() => node.dispatchEvent(new MouseEvent('mouseover', { bubbles: true })));
+  expect(container.querySelector('.hover-preview')?.textContent).toContain('Leads:');
+  expect(container.querySelectorAll('.lead-line').length).toBeGreaterThan(0);
+  expect(container.querySelector('[aria-label="Lifepath details"]')?.textContent).toContain('Inspect a lifepath');
+  expect(container.querySelectorAll('[data-history-step]')).toHaveLength(0);
+});
+
+it('keeps camera stable during inspection and actions, and moves it with map controls', () => {
+  const container = mountApp();
+  const camera = () => container.querySelector('[data-map-camera]')?.getAttribute('style');
+  const start = camera();
+  const born = container.querySelector('[data-variant-id="human.villager.village-born"]') as HTMLElement;
+  act(() => born.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+  expect(camera()).toBe(start);
+  click(container, 'Add Village Born');
+  expect(camera()).toBe(start);
+  click(container, 'Zoom in');
+  expect(camera()).not.toBe(start);
+  click(container, 'Fit all');
+  expect(camera()).toBe(start);
+  click(container, 'Center inspected');
+  expect(camera()).not.toBe(start);
+});
+
+it('shows the ordered route and exact Lead years through Undo and Reset', () => {
+  const container = mountApp();
+  click(container, 'Village Born');
+  click(container, 'Groom');
+  click(container, 'Lead to Professional Soldier');
+  click(container, 'Foot Soldier');
+  expect(container.querySelectorAll('[data-route-segment]')).toHaveLength(2);
+  expect(container.querySelectorAll('[data-history-step]')).toHaveLength(4);
+  expect(container.textContent).toContain('Age: 18 years');
+  click(container, 'Undo');
+  expect(container.querySelectorAll('[data-route-segment]')).toHaveLength(1);
+  expect(container.textContent).toContain('Age: 15 years');
+  click(container, 'Reset');
+  click(container, 'Confirm remove all');
+  expect(container.textContent).toContain('Age: 0 years');
+  expect(container.querySelectorAll('[data-route-segment]')).toHaveLength(0);
 });

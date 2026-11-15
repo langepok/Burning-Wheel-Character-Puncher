@@ -1,5 +1,13 @@
 # Character Burner UX roadmap
 
+## After M1-UX-01 map slice
+
+- Add case-insensitive substring map search across canonical name, qualified label, and setting name; distinguish same-name variants in results.
+- Add persistent pins in a tray, including explicit removal and Clear pinned.
+- Add Names, Grants, and Extended node detail density with a temporary higher-detail modifier; preserve node placement when changing density.
+- Add clearly labeled incoming structural exploration. Complete route planning waits for rules-aware evaluation of full character history, never simple graph reachability.
+- Add the historical shell, stats, skills, traits, resources, and derived panels in their respective audited UX tasks; the map slice does not imply those controls are complete.
+
 This records the pre-A–Z UX discussion (CH-06). It is a product handoff, not
 RAW, current behavior, or authorization to implement UI in catalog cleanup.
 D-005/D-006 and the existing character rules still govern actual state changes.
