@@ -1,0 +1,76 @@
+import { useEffect, useRef, useState } from 'react';
+import type { BuildMode } from '../character/lifepath-history';
+import type { LifepathProgress } from '../rules/lifepaths';
+import { buySkill, changeStat, changeStatShade, deriveSheet, refundSkill, rootAbilities, skillName, skillOpening, skillValue, skills, statIds } from '../character/workbench';
+import type { Pool, Shade, Sheet } from '../character/workbench';
+import type { SkillDefinition } from '../data/skills';
+
+function roots(s:SkillDefinition){ const root=rootAbilities(s);return (root.kind==='single'?[root.ability]:root.abilities).map(r=>skillName(r.id)).join(' / '); }
+function toolsLabel(s:SkillDefinition){const t=s.tools;return t.kind==='specific-item'?t.item:t.kind==='none'?'None':t.kind==='generic'?'Required tools':t.kind==='traveling-gear'?'Traveling gear':t.kind==='workshop'?'Workshop':'Depends on the activity (see rule reference)';}
+function Source({skill}:{skill:SkillDefinition}){return <small>BWGR · {skill.source.flatMap(s=>s.kind==='audit-packet'?s.pages?.printed??[]:[]).join(', ')}</small>;}
+export function SheetEditor({sheet,progress,mode,onChange,onError,externalIssues}:{sheet:Sheet;progress:LifepathProgress;mode:BuildMode;onChange:(s:Sheet)=>void;onError:(s:string)=>void;externalIssues:string[]}){
+  const [tab,setTab]=useState('Skills');const [pool,setPool]=useState<Pool>('ordinary');const [catalogOpen,setCatalogOpen]=useState(false);
+  const [skillFilter,setSkillFilter]=useState('');const [openingShade,setOpeningShade]=useState<'root'|Shade>('root');
+  const d=deriveSheet(sheet,progress);const ids=[...new Set([...d.available,...sheet.candidates,...sheet.purchases.map(p=>p.skillId)])].sort((a,b)=>Number(d.required.has(b))-Number(d.required.has(a))||skillName(a).localeCompare(skillName(b)));
+  const issues=[...externalIssues,...d.issues];
+  const commit=(result:{sheet:Sheet;error?:string})=>result.error?onError(result.error):onChange(result.sheet);
+  return <>
+    <section className="stats-section" aria-label="Characteristics">
+      <div className="section-top"><div><span className="eyebrow">02 / CHARACTERISTICS</span><h2>Shape their strengths</h2></div>
+        <div className="stat-pools"><span className={d.remaining.mental<0?'negative':'mental-text'}>Mental <b>{d.remaining.mental}</b> / {d.total.mental} left</span><span className={d.remaining.physical<0?'negative':'physical-text'}>Physical <b>{d.remaining.physical}</b> / {d.total.physical} left</span></div>
+      </div>
+      <div className="stat-grid">{statIds.map(id=><div key={id} className={'stat-card '+(id==='will'||id==='perception'?'mental':'physical')}>
+        <label>{skillName(id)}</label><div className="stat-edit"><button className={'shade shade-'+sheet.stats[id].shade} aria-label={id+' shade'} title="Change shade · gray costs 5 extra points; approval required" onClick={()=>commit(changeStatShade(sheet,progress,id,mode))}>{sheet.stats[id].shade}</button>
+          <strong>{sheet.stats[id].exponent||'—'}</strong><div className="stepper"><button aria-label={'Increase '+id} disabled={!progress.paths.length} onClick={()=>commit(changeStat(sheet,progress,id,1,mode))}>+</button><button aria-label={'Decrease '+id} disabled={!sheet.stats[id].exponent} onClick={()=>commit(changeStat(sheet,progress,id,-1,mode))}>−</button></div></div>
+      </div>)}</div>
+      <div className="stats-foot"><span>Age {progress.age} · BWGR 87–88, 197 · Default starting cap: 6</span><label><input type="checkbox" checked={sheet.grayApproved} onChange={e=>onChange({...sheet,grayApproved:e.target.checked})}/> GM & group approve gray shades</label></div>
+      {d.choices.length>0&&<div className="choice-row">{d.choices.map(c=><label key={c.key}>{c.label}<select value={sheet.choices[c.key]??''} onChange={e=>onChange({...sheet,choices:{...sheet.choices,[c.key]:e.target.value}})}><option value="">Choose…</option>{c.options.map(o=><option key={o} value={o}>{skillName(o)}</option>)}</select></label>)}</div>}
+    </section>
+    <section className="sheet-section" aria-label="Character sheet">
+      <div className="sheet-tabs" role="tablist" aria-label="Character sections">{['Skills','Traits','Resources','Review'].map(t=><button key={t} id={'tab-'+t} role="tab" aria-selected={tab===t} aria-controls={'panel-'+t} onClick={()=>setTab(t)}>{t}{t==='Review'&&<span className="badge">{issues.length}</span>}{t==='Traits'&&<small>{d.total.traits} pts</small>}{t==='Resources'&&<small>{d.total.resources} rps</small>}</button>)}</div>
+      <div className="tab-content" role="tabpanel" id={'panel-'+tab} aria-labelledby={'tab-'+tab}>
+      {tab==='Skills'&&<>
+        <div className="section-top"><div><span className="eyebrow">03 / SKILLS</span><h2>A lifetime of experience</h2><p>Choose a point pool, then open or improve a skill. Every purchase can be undone.</p></div><button className="primary" onClick={()=>setCatalogOpen(true)}>+ Add skill</button></div>
+        <div className="skills-toolbar"><div className="pool-controls">{(['ordinary','general'] as const).map(p=><button key={p} className={pool===p?'active':''} aria-pressed={pool===p} onClick={()=>setPool(p)}>{p==='ordinary'?'Ordinary':'General'} <b className={d.remaining[p]<0?'negative':''}>{d.remaining[p]}</b><span>/ {d.total[p]} left</span></button>)}</div>
+          <input aria-label="Filter character skills" placeholder="Filter your skills…" value={skillFilter} onChange={e=>setSkillFilter(e.target.value)}/>
+          <label className="opening-shade">Open at <select aria-label="Skill opening shade" value={openingShade} onChange={e=>setOpeningShade(e.target.value as 'root'|Shade)}><option value="root">Root shade</option><option value="G">Gray · 5 pts</option>{mode==='free'&&<option value="W">White · override</option>}</select></label>
+        </div>
+        <p className="pool-hint">{pool==='ordinary'?'Ordinary points buy lifepath skills. General-opened skills keep using General.':'General points can buy any unrestricted skill. They are never spent automatically.'} <span>BWGR 89–90</span></p>
+        {!ids.length&&<div className="empty-state"><span>✧</span><h3>Your skills begin with your story</h3><p>Choose lifepaths above to discover their skills, or add a candidate from the catalog.<br/>Adding a candidate does not spend points.</p><button onClick={()=>setCatalogOpen(true)}>Explore the skill catalog →</button></div>}
+        <div className="skill-list">{ids.filter(id=>skillName(id).toLowerCase().includes(skillFilter.toLowerCase())).map(id=>{
+          const s=skills.get(id);const value=skillValue(id,sheet);const paid=sheet.purchases.filter(p=>p.skillId===id);const opening=s&&skillOpening(s,sheet);const isOpen=paid.length>0;
+          const attempt=buySkill(sheet,progress,id,pool,mode,openingShade);
+          return <div className="skill-row" key={id} data-skill-id={id}>
+            <details><summary><strong>{skillName(id)}</strong>{d.required.has(id)&&<span className="required-tag">Required</span>}{!d.available.has(id)&&<span className="candidate-tag">Added</span>}<small>{s?roots(s)+' · '+s.skillType:'Topic / choice · manual resolution'}</small></summary>
+              {s?<div className="skill-description"><p>{s.summary}</p><p>Tools: {toolsLabel(s)}. {s.training.kind==='training'?'Training costs 2 points and has no exponent.':`Root opening: ${opening?.shade??'B'}${opening?.exponent??'—'}. Each advance costs 1 point.`}</p><Source skill={s}/><p>Purchases: {paid.map(p=>`${p.kind} · ${p.cost} ${p.pool}`).join('; ')||'None'}</p></div>:<p>This named topic or choice needs a dedicated editor. It is retained here so no lifepath grant silently disappears.</p>}
+            </details>
+            <div className="skill-rating">{value==='training'?<span className="training-owned">Learned</span>:<><span className={'shade shade-'+(value?.shade??opening?.shade??'B')}>{value?.shade??opening?.shade??'B'}</span><strong>{value?.exponent??'—'}</strong></>}</div>
+            <div className="skill-buttons"><button aria-label={'Decrease '+skillName(id)} disabled={!isOpen} title="Refund the most recent purchase" onClick={()=>onChange(refundSkill(sheet,id))}>−1</button><button aria-label={'Increase '+skillName(id)} title={attempt.error??(isOpen?'Advance skill':'Open skill')} disabled={!s||value==='training'} onClick={()=>commit(attempt)}>+1</button></div>
+            {sheet.candidates.includes(id)&&!d.available.has(id)&&<button className="remove-candidate" aria-label={'Remove candidate '+skillName(id)} title={isOpen?'Close the skill with −1 before removing':'Remove unopened candidate'} disabled={isOpen} onClick={()=>onChange({...sheet,candidates:sheet.candidates.filter(v=>v!==id)})}>×</button>}
+          </div>;
+        })}</div>
+      </>}
+      {tab==='Traits'&&<><div className="section-top"><div><span className="eyebrow">LIFEPATH TRAITS</span><h2>The marks life leaves</h2></div><span className="point-total">{d.total.traits} <small>trait points earned</small></span></div><div className="notice">Purchasing traits and applying their effects is not implemented yet. These are source-list options, not owned traits. Required traits cost 1 point each; the full trait catalog is still needed.</div><div className="trait-cards">{[...d.traits].map(t=><div key={t}><strong>{t}</strong><span>{d.requiredTraits.has(t)?'Required lifepath trait':'Optional lifepath trait'} · 1 pt</span></div>)}</div><p>BWGR 91 · Repeat-adjusted point pool. Special and cultural traits require table review.</p></>}
+      {tab==='Resources'&&<><div className="section-top"><div><span className="eyebrow">RESOURCE BUDGET</span><h2>A place in the world</h2></div><span className="point-total">{d.total.resources} <small>resource points earned</small></span></div><div className="resource-categories">{['Gear & property','Relationships','Affiliations & reputation','Spells'].map(c=><div key={c}><h3>{c}</h3><span>Purchase editor pending</span></div>)}</div><div className="notice">This is a budget summary, not a finished Resources attribute. Shopping, trait effects and the Resources/Circles calculations are not yet automated. Wife-derived grants remain unresolved.</div><p>BWGR 95–99 · Resource points and the Resources exponent are different values.</p></>}
+      {tab==='Review'&&<><div className="section-top"><div><span className="eyebrow">BUILD REVIEW</span><h2>What needs attention</h2><p>Drafts can be saved at any time. This workbench does not certify a complete character.</p></div></div><div className="review-grid"><div><h3>Current build checks</h3>{issues.length?<ul className="issue-list">{issues.map((i,n)=><li key={n}>{i}</li>)}</ul>:<p>No current stat or skill violations detected.</p>}{(d.remaining.mental>0||d.remaining.physical>0)&&<p>Unallocated stat points: {d.remaining.mental} mental / {d.remaining.physical} physical.</p>}<p>Unspent skill points: {d.remaining.ordinary} ordinary / {d.remaining.general} General.</p></div><div className="notice"><h3>Before play</h3><p>Complete traits, resources, Health/Steel and other derived attributes, Beliefs and Instincts with your group. Resolve any missing skill topics or special lifepath grants.</p><p>Free Creation warnings remain visible after switching back to Rules.</p></div></div></>}
+      </div>
+    </section>
+    {catalogOpen&&<SkillCatalog existing={new Set(ids)} onClose={()=>setCatalogOpen(false)} onAdd={id=>onChange({...sheet,candidates:[...sheet.candidates,id]})}/ >}
+  </>;
+}
+function SkillCatalog({existing,onAdd,onClose}:{existing:Set<string>;onAdd:(id:string)=>void;onClose:()=>void}){
+  const [search,setSearch]=useState('');const [root,setRoot]=useState('');const [selected,setSelected]=useState<string>('');const dialog=useRef<HTMLDialogElement>(null);const input=useRef<HTMLInputElement>(null);
+  useEffect(()=>{const previous=document.activeElement as HTMLElement|null;if(dialog.current?.showModal)dialog.current.showModal();else dialog.current?.setAttribute('open','');input.current?.focus();return ()=>previous?.focus();},[]);
+  const results=[...skills.values()].filter(s=>s.sourceName.toLowerCase().includes(search.toLowerCase())&&(!root||roots(s).includes(root))).sort((a,b)=>a.sourceName.localeCompare(b.sourceName));
+  const detail=results.find(s=>s.id===selected)||results[0];
+  return <div className="modal-backdrop"><dialog ref={dialog} className="catalog-dialog" aria-label="Add skill catalog" onCancel={e=>{e.preventDefault();onClose();}} onKeyDown={e=>{
+    if(e.key==='Escape'){e.preventDefault();onClose();}
+    if(e.key==='Tab'){const focusable=[...dialog.current!.querySelectorAll<HTMLElement>('button:not(:disabled),input,select,[tabindex="0"]')];const first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}
+  }}>
+    <div className="section-top"><div><span className="eyebrow">GENERAL SKILL CATALOG</span><h2>Find your next skill</h2><p>Explore before you choose. Adding spends no points.</p></div><button aria-label="Close skill catalog" onClick={onClose}>×</button></div>
+    <div className="catalog-filters"><input ref={input} aria-label="Search skill catalog" placeholder="Search skills…" value={search} onChange={e=>setSearch(e.target.value)}/><select aria-label="Filter root stat" value={root} onChange={e=>setRoot(e.target.value)}><option value="">All roots</option>{statIds.map(id=><option key={id} value={skillName(id)}>{skillName(id)}</option>)}</select><span>{results.length} skills</span></div>
+    <div className="catalog-body"><div className="catalog-results">{results.length?results.map(s=><button key={s.id} className={s.id===detail?.id?'selected':''} onClick={()=>setSelected(s.id)}><strong>{s.sourceName}</strong><small>{roots(s)} · {s.skillType}</small>{existing.has(s.id)&&<span>In your list ✓</span>}</button>):<p>No matching skills. Try another name or root.</p>}</div>
+      <div className="catalog-detail">{detail&&<><span className="eyebrow">{detail.skillType}</span><h3>{detail.sourceName}</h3><p>{detail.summary}</p><dl><dt>Root</dt><dd>{roots(detail)}</dd><dt>Tools</dt><dd>{toolsLabel(detail)}</dd><dt>Opening</dt><dd>{detail.training.kind==='training'?'2 points · Training, no exponent':'1 point · half root, rounded down'}</dd><dt>Availability</dt><dd>{detail.availabilityRestrictions.map(r=>r.stockIds.join(', ')).join('; ')||'No stock restriction listed'}</dd><dt>Prerequisites</dt><dd>{detail.openingRequirements.map(r=>skillName(r.skillId)).join(', ')||'None listed'}</dd></dl><Source skill={detail}/><h4>Suggested FoRKs</h4><p>{detail.forkSuggestions.suggestions.map(f=>f.target.kind==='skill'?skillName(f.target.skillId):f.target.kind==='unresolved-source-reference'?f.target.sourceLabel:f.target.kind==='category'?f.target.category:f.target.kind==='skill-type'?f.target.skillType:f.target.kind==='skill-family'?f.target.familyId:'Contextual guidance').join(', ')||'No printed suggestions'}</p><small>Suggestions are not a whitelist. Applicability is judged at the table.</small><button className="primary" disabled={existing.has(detail.id)} onClick={()=>onAdd(detail.id)}>{existing.has(detail.id)?'Added to your skills ✓':'+ Add to working list'}</button></>}</div>
+    </div>
+  </dialog></div>;
+}

@@ -1036,3 +1036,14 @@ A Character Burner feature is done only when:
 - In Rules mode, after a lifepath is selected, every other catalog setting appears in the Leads list. An unavailable Lead remains disabled and displays the explanation for each issue returned by `evaluateLead`, including a missing listed Lead and unavailable destination content.
 - A legal, loaded Lead remains actionable. Browsing settings or viewing unavailable Leads does not alter history or age.
 - In Free Creation, the same Lead rows and rule explanations remain visible. A rule-illegal Lead to loaded content can be applied as a deliberate override; a Lead to unavailable content remains disabled by the existing command policy.
+
+## Character workbench (continuation of PR #25)
+
+- Preserve PR #25 map, eligibility evaluator, Leads, age and mode diagnostics.
+- Add a character workspace with editable name, local draft persistence, validated JSON import/export, search and persistent lifepath pins. Inspection, search, pins and skill candidates never buy anything.
+- Derive Human mental/physical pools from the verified age table plus repeat-adjusted grants; M/P grants require an explicit choice. Allocate stats with separate shade/exponent, default starting cap 6, GM/group approval for gray, and visible pool balances. Allow incomplete editing; never silently rebalance allocations.
+- Use catalog metadata for skill roots, stock restrictions, prerequisites and Training. Ordinary/General spending is explicit; ordinary cannot advance a General-opened skill. Normal opening costs 1, Training 2 with no exponent, explicit gray opening 5 with approval. Purchases retain paid pool/cost; minus reverses the latest purchase and then closes, including required skills.
+- Verified lifepath skill lists expose required skills and explicit choice slots. Missing list/metadata or special manual calculations remain visible blockers to completion, never silently treated as complete.
+- Changing history/stats recalculates validity without erasing purchases; Undo restores the exact prior workspace. Remove all clears allocations/purchases but preserves identity, mode and planning pins. Invalid drafts can be saved, but never labeled finalized.
+- Traits/resources show earned points and source lists; complete trait effects/catalog, resource shopping, derived questionnaires and final sheet validation remain explicitly unfinished.
+- Keep all baseline tests; add domain tests for repeat grants, stat boundaries, restrictions, mixed-pool refunds, changed roots, save validation, and UI tests for the integrated purchase flow.
