@@ -35,7 +35,7 @@ export function buySkill(sheet:Sheet,p:LifepathProgress,id:string,pool:Pool,mode
   if((value&&value!=='training'&&value.exponent>=6)||(!open&&root&&root.exponent>6))reasons.push('Default starting exponent cap is 6.');
   if(!open&&shade==='G'&&!sheet.grayApproved)reasons.push('Gray shade requires GM/group approval.');
   if(!open&&shade==='W')reasons.push('White shade requires Free Creation.');
-  const cost=open?1:skill.training.kind==='training'?2:shade==='G'?5:skill.baseOpeningCostOverride?.points??1;
+  const cost=skillPurchaseCost(id,Boolean(open),shade);
   if(d.remaining[pool]<cost)reasons.push('Not enough '+pool+' points: this purchase costs '+cost+'.');
   if(reasons.length&&mode==='rules')return {sheet,error:reasons.join(' ')};
   return {sheet:{...sheet,purchases:[...sheet.purchases,{skillId:id,pool,cost,kind:open?'advance' as const:'open' as const,shade:skill.training.kind==='training'?'root' as const:shade,override:reasons.length>0}]}};
@@ -74,4 +74,19 @@ export function parseDraft(text:string,catalog:GameCatalog):Draft {
     }else if(!opened.has(p.skillId)||skill!.training.kind==='training'||p.cost!==1)fail();
   }
   return {version:1,name:d.name,mode:d.mode,history,sheet:s,pins:[...new Set(d.pins)] as string[]};
+}
+
+/** Remove a route step without undoing identity or purchases. */
+export function removeLastRouteStep(history:LifepathHistory):LifepathHistory {
+  let index=history.entries.length-1;
+  while(index>=0&&history.entries[index].kind==='gender')index--;
+  return index<0?history:{entries:history.entries.filter((_,i)=>i!==index)};
+}
+export function clearRoute(history:LifepathHistory):LifepathHistory {
+  const gender=[...history.entries].reverse().find(e=>e.kind==='gender');
+  return {entries:gender?[gender]:[]};
+}
+export function skillPurchaseCost(id:string,opened:boolean,shade:'root'|Shade='root'){
+  const skill=skills.get(id);
+  return opened?1:skill?.training.kind==='training'?2:shade==='G'?5:skill?.baseOpeningCostOverride?.points??1;
 }

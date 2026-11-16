@@ -17,10 +17,10 @@ export function layoutCatalog(catalog: GameCatalog, stockId: string) {
     const column = index % 3;
     const x = 24 + column * 354;
     const y = columnBottoms[column]!;
-    const height = paths.length ? 76 + Math.ceil(paths.length / 2) * 58 : 116;
+    const height = paths.length ? 76 + Math.ceil(paths.length / 2) * 70 : 116;
     paths.forEach((path, pathIndex) => points.set(path.variantId, {
-      x: x + 16 + (pathIndex % 2) * 150 + 64,
-      y: y + 62 + Math.floor(pathIndex / 2) * 58,
+      x: x + 87 + (pathIndex % 2) * 156,
+      y: y + 66 + Math.floor(pathIndex / 2) * 70,
     }));
     regions.push({ setting, x, y, height, paths });
     columnBottoms[column] = y + height + 24;
