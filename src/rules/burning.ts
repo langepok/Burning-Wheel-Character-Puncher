@@ -49,8 +49,10 @@ export function deriveSheet(sheet:Sheet, progress:LifepathProgress) {
   else if(progress.paths.length) issues.push('No audited stat age table for this age or stock.');
   const available=new Set<string>();const required=new Set<string>();const requiredTraits=new Set<string>();
   const traits=new Set<string>();const choices:{key:string;label:string;options:readonly string[]}[]=[];
+  const contributions:typeof total[]=[];
   const counts=new Map<string,number>();
   progress.paths.forEach((path,index)=>{
+    const before={...total};
     const n=(counts.get(path.familyId)??0)+1;counts.set(path.familyId,n);
     const list=humanBurningLists[path.variantId];
     const factor=n<3?1:n===3?.5:0;
@@ -82,6 +84,7 @@ export function deriveSheet(sheet:Sheet, progress:LifepathProgress) {
       list.traits.forEach(t=>traits.add(t));
       if(n<3){const t=list.traits.slice(n-1).find(t=>!requiredTraits.has(t));if(t)requiredTraits.add(t);}
     }
+    contributions.push(Object.fromEntries(Object.entries(total).map(([key,value])=>[key,value-before[key as keyof typeof total]])) as typeof total);
   });
   const remaining={...total};
   for(const id of statIds){const v=sheet.stats[id];remaining[id==='will'||id==='perception'?'mental':'physical']-=v.exponent+(v.shade==='G'?5:0);
@@ -107,7 +110,7 @@ export function deriveSheet(sheet:Sheet, progress:LifepathProgress) {
     if(open.shade==='W')issues.push(skill.sourceName+': white shade is a Free Creation override.');
     if(paid.some(p=>p.override))issues.push(skill.sourceName+': purchased using Free Creation override; review before play.');
   }
-  return {total,remaining,available,required,traits,requiredTraits,choices,issues:[...new Set(issues)]};
+  return {contributions,total,remaining,available,required,traits,requiredTraits,choices,issues:[...new Set(issues)]};
 }
 export function restrictionIssues(skill:SkillDefinition,sheet:Sheet,stockId='human'){
   const issues:string[]=[];

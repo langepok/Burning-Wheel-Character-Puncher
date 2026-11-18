@@ -75,3 +75,12 @@ export function applyLifepathCommand(
     }
   }
 }
+
+/** A single user-confirmed transaction; never expose a half-applied Lead. */
+export function planLeadAndLifepath(history:LifepathHistory,id:string,catalog:GameCatalog):LifepathHistory|undefined {
+  const path=catalog.lifepaths.get(id);const progress=projectLifepathHistory(history,catalog);
+  if(!path||progress.leadPending||path.settingId===progress.settingId||evaluateLead(progress,path.settingId,catalog).length)return;
+  const led=applyLifepathCommand(history,{kind:'lead',id:path.settingId},'rules',catalog);
+  if(evaluateLifepath(projectLifepathHistory(led,catalog),id,catalog).length)return;
+  return applyLifepathCommand(led,{kind:'lifepath',id},'rules',catalog);
+}

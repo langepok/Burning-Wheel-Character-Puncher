@@ -77,3 +77,15 @@ Do not merge this continuation before coordinating the PR #25 review and runner.
 See [UX_REFINEMENT_REVIEW.md](UX_REFINEMENT_REVIEW.md) for the user-video mapping,
 updated 1701-test verification, browser evidence and remaining limits. D-031
 records Redo, timeline separation and bounded-width skill-card decisions.
+
+## Next work after UX III
+
+1. Trait ownership, mandatory traits, catalog and effects with reversible purchases.
+2. Resources ledger: gear/property, relationships, affiliations/reputation, spells.
+3. Derived attributes and transparent Health/Steel questionnaires, then a complete
+   sheet with final validation and Beliefs/Instincts.
+4. Campaign settings as a separate layer: distinguish RAW defaults, campaign
+   parameters and explicit house rules (e.g. four-lifepath limit or altered caps).
+   Never silently relabel a GM override as RAW. No campaign editor in UX III.
+
+See UX_III_CHECKPOINT.md for continuation and acceptance evidence.

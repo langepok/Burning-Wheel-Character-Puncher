@@ -286,3 +286,47 @@ it('pans from a card without selecting text or inspecting it after the drag',()=
  act(()=>node.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true})));expect(c.querySelector('.details-panel > button')).toBeNull();
  act(()=>node.dispatchEvent(new MouseEvent('click',{bubbles:true})));expect(c.querySelector('.details-panel > button')).not.toBeNull();
 });
+
+it('preserves map selection and camera across expanded mode, and clears selection on blank click',()=>{
+ const c=mountApp();pressLabel(c,'Inspect Village Born');click(c,'Zoom in');
+ const camera=c.querySelector('[data-map-camera]')!.getAttribute('style');
+ expect(c.querySelectorAll('.lead-line').length).toBeGreaterThan(0);
+ click(c,'Expand map');expect(c.querySelector('.map-expanded')).not.toBeNull();
+ act(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true})));
+ expect(c.querySelector('.map-expanded')).toBeNull();expect(c.querySelector('[data-map-camera]')!.getAttribute('style')).toBe(camera);
+ expect(c.querySelector('.path-node.inspected')).not.toBeNull();
+ act(()=>c.querySelector('.map-viewport')!.dispatchEvent(new MouseEvent('click',{bubbles:true})));
+ expect(c.querySelector('.path-node.inspected')).toBeNull();expect(c.querySelectorAll('.lead-line')).toHaveLength(0);
+});
+it('supports history hotkeys without intercepting text fields or dialogs',()=>{
+ const c=mountApp();click(c,'Village Born');
+ const key=(target:EventTarget,k:string,shift=false)=>{const e=new KeyboardEvent('keydown',{key:k,ctrlKey:true,shiftKey:shift,bubbles:true,cancelable:true});act(()=>target.dispatchEvent(e));return e;};
+ expect(key(c.querySelector('input')!,'z').defaultPrevented).toBe(false);expect(c.querySelectorAll('[data-history-step]')).toHaveLength(1);
+ key(document,'z');expect(c.querySelectorAll('[data-history-step]')).toHaveLength(0);
+ key(document,'z',true);expect(c.querySelectorAll('[data-history-step]')).toHaveLength(1);
+ click(c,'Reset');expect(key(document,'z').defaultPrevented).toBe(false);expect(c.querySelectorAll('[data-history-step]')).toHaveLength(1);
+});
+
+it('confirms a Lead plus lifepath as one undoable edit and preserves modal priority',()=>{
+ const c=mountApp();click(c,'Born Peasant');click(c,'Farmer');pressLabel(c,'Inspect Village Tough');
+ click(c,'Expand map');click(c,'Take Lead & add Village Tough');
+ const cancel=[...c.querySelectorAll('dialog button')].find(b=>b.textContent==='Cancel')!;
+ act(()=>cancel.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true})));
+ expect(c.querySelector('.map-expanded')).not.toBeNull();expect(c.querySelector('dialog')).toBeNull();
+ click(c,'Take Lead & add Village Tough');click(c,'Confirm Lead and lifepath');
+ const saved=JSON.parse(localStorage.getItem('bw-workbench-v1')!);expect(saved.history.entries.map((e:{kind:string})=>e.kind)).toEqual(['lifepath','lifepath','lead','lifepath']);
+ click(c,'Undo');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).history.entries).toHaveLength(2);
+ click(c,'Redo');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).history).toEqual(saved.history);
+});
+it('shows catalog stat grants, history contributions and contextual General opening consequences',()=>{
+ const c=mountApp();click(c,'Born Peasant');click(c,'Farmer');
+ const density=c.querySelector<HTMLSelectElement>('[aria-label="Map detail density"]')!;
+ act(()=>{density.value='extended';density.dispatchEvent(new Event('change',{bubbles:true}));});
+ expect(c.querySelector('[data-variant-id="human.villager.corrupt-sergeant"] .card-stat-grant')?.textContent).toContain('+1 mental or physical');
+ expect(c.querySelector('.history-grants')?.textContent).toContain('3 general');
+ for(let i=0;i<4;i++)pressLabel(c,'Increase perception');
+ const general=[...c.querySelectorAll<HTMLButtonElement>('.pool-controls button')].find(b=>b.textContent?.includes('General'))!;act(()=>general.click());
+ expect(c.querySelector('[data-skill-id="farming"] .general-opening-note')?.textContent).toContain('all later advances must use General');
+ pressLabel(c,'Increase Farming');expect(c.querySelector('[data-skill-id="farming"] .general-opening-note')).toBeNull();
+ pressLabel(c,'Decrease Farming');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toEqual([]);
+});

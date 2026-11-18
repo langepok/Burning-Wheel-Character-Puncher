@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { createBuildHistory } from '../character';
-import { applyLifepathCommand, canApplyChoice, projectLifepathHistory } from '../character/lifepath-history';
+import { planLeadAndLifepath, applyLifepathCommand, canApplyChoice, projectLifepathHistory } from '../character/lifepath-history';
 import type { BuildMode, LifepathCommand } from '../character/lifepath-history';
 import { createCatalog, getLifepathDisplayLabel } from '../data/catalog';
 import type { RequirementNode } from '../data/catalog';
 import { humanContent } from '../data/human';
 import { evaluateLead, evaluateLifepath, validateLifepathRequirements } from '../rules/lifepaths';
 import type { LifepathIssue, LifepathProgress } from '../rules/lifepaths';
-import { layoutCatalog } from './map-layout';
+import { layoutCatalog, routeSegment } from './map-layout';
 import './app.css';
 import { clearRoute, removeLastRouteStep, createSheet, deriveSheet, encodeDraft, parseDraft, skillName } from '../character/workbench';
 import type { Draft, Sheet } from '../character/workbench';
@@ -89,28 +89,31 @@ export function App() {
   const [hovered, setHovered] = useState<string | null>(null);
   const [camera, setCamera] = useState({ x: 0, y: 0, scale: .95 });
   const [confirmReset, setConfirmReset] = useState(false);
+  const [transition,setTransition]=useState<string|null>(null);
   const drag=useRef<{x:number;y:number;startX:number;startY:number;moved:boolean}|null>(null);
   const suppressNodeClick=useRef(false);
   const viewport = useRef<HTMLDivElement>(null);
   const progress = projectLifepathHistory(history, catalog);
   const timeline=history.entries.filter(e=>e.kind!=='gender');
   const agePool=humanAgePools.find(r=>progress.age>=r[0]&&progress.age<=r[1]);
-  const totals=deriveSheet(sheet,progress).total;
+  const derived=deriveSheet(sheet,progress);
+  const totals=derived.total;
   const finalIssues = validateLifepathRequirements(progress);
   const warningCount = deriveSheet(sheet,progress).issues.length + finalIssues.length + history.entries.reduce((total, entry) =>
     total + ('overrides' in entry ? entry.overrides.length : 0), 0);
   const currentId = progress.paths.at(-1)?.variantId;
   const selectedPath = inspected ? catalog.lifepaths.get(inspected) : undefined;
   const hoveredPath = hovered ? catalog.lifepaths.get(hovered) : undefined;
+  const linkedPath = hoveredPath ?? selectedPath;
   const selectedIssues = selectedPath ? evaluateLifepath(progress, selectedPath.variantId, catalog) : [];
   const route = history.entries.flatMap(entry => entry.kind === 'lifepath' && 'id' in entry ? [entry.id] : []);
   const routePoints = route.map(id => layout.points.get(id)).filter(point => point !== undefined);
   const pathEntryIndices = history.entries.flatMap((entry, index) => entry.kind === 'lifepath' ? [index] : []);
-  const hoveredLeads = hoveredPath?.leads;
+  const hoveredLeads = linkedPath?.leads;
   const leadDestinations = hoveredLeads?.kind === 'to' ? hoveredLeads.settingIds :
-    hoveredLeads?.kind === 'any' ? layout.regions.map(region => region.setting.id).filter(id => id !== hoveredPath?.settingId) :
+    hoveredLeads?.kind === 'any' ? layout.regions.map(region => region.setting.id).filter(id => id !== linkedPath?.settingId) :
     hoveredLeads?.kind === 'anyExcept' ? layout.regions.map(region => region.setting.id)
-      .filter(id => id !== hoveredPath?.settingId && !hoveredLeads.excludedSettingIds.includes(id)) : [];
+      .filter(id => id !== linkedPath?.settingId && !hoveredLeads.excludedSettingIds.includes(id)) : [];
 
   function apply(command: LifepathCommand) {
     if(command.kind==='undo'){undo();return;}
@@ -150,16 +153,40 @@ export function App() {
     node.addEventListener('wheel',onWheel,{passive:false});
     return ()=>node.removeEventListener('wheel',onWheel);
   },[]);
+  useEffect(()=>{
+    if(!expanded)return;
+    const old=document.body.style.overflow;document.body.style.overflow='hidden';
+    const background=[...document.querySelectorAll<HTMLElement>('main.burner > :not(.workspace):not(dialog)')];
+    background.forEach(e=>e.inert=true);
+    return ()=>{document.body.style.overflow=old;background.forEach(e=>e.inert=false);};
+  },[expanded]);
+  useEffect(()=>{
+    const onKey=(e:KeyboardEvent)=>{
+      if(e.defaultPrevented||document.querySelector('dialog[open]'))return;
+      if(e.key==='Escape'&&expanded){e.preventDefault();setExpanded(false);return;}
+      const target=e.target as HTMLElement;
+      if(target.closest?.('input,textarea,select,[contenteditable]:not([contenteditable="false"])'))return;
+      if(!(e.ctrlKey||e.metaKey)||e.altKey)return;
+      const key=e.key.toLowerCase();
+      if(key==='z'&&!e.shiftKey){if(past.length||timeline.length){e.preventDefault();undo();}}
+      else if(key==='y'||(key==='z'&&e.shiftKey)){if(future.length){e.preventDefault();redo();}}
+    };
+    document.addEventListener('keydown',onKey);return ()=>document.removeEventListener('keydown',onKey);
+  });
   function leadSummary(path: typeof paths[number]) {
     if (path.leads.kind === 'any') return 'Any setting';
     if (path.leads.kind === 'anyExcept') return 'Any except ' + path.leads.excludedSettingIds.map(settingName).join(', ');
     return path.leads.settingIds.map(settingName).join(', ') || 'None';
   }
-  function grantSummary(path: typeof paths[number]) {
+  function statSummary(path: typeof paths[number]) {
     const stat = path.statGrant.kind === 'none' ? 'No stat points' :
       path.statGrant.kind === 'mentalAndPhysical' ? '+' + path.statGrant.mental + ' mental, +' + path.statGrant.physical + ' physical' :
       path.statGrant.kind === 'chooseMentalOrPhysical' ? '+' + path.statGrant.amount + ' mental or physical' :
       '+' + path.statGrant.amount + ' ' + path.statGrant.kind;
+    return stat;
+  }
+  function grantSummary(path: typeof paths[number]) {
+    const stat=statSummary(path);
     const resources = path.resourceGrant.kind === 'fixed' ? String(path.resourceGrant.amount) : 'manual resolution';
     return stat + ' · ' + path.skillPointGrant.ordinary + ' ordinary / ' +
       path.skillPointGrant.general + ' General skill points · ' + path.traitPointGrant +
@@ -201,6 +228,8 @@ export function App() {
                 entry.kind === 'lead' && 'id' in entry ? 'Lead to ' + settingName(entry.id) + ' (+1 year)' :
                   'Gender: ' + ('value' in entry ? entry.value ?? 'Unspecified' : 'Unspecified')}
               <small>Age {age}</small>
+              {entry.kind==='lifepath'&&(()=>{const i=timeline.slice(0,index+1).filter(e=>e.kind==='lifepath').length-1;const earned=derived.contributions[i];const list=humanBurningLists[entry.id];return <details className="history-grants"><summary>{earned.ordinary}sp · {earned.general} general · {earned.traits}tp · {earned.resources}rp</summary><p>Mental +{earned.mental} · Physical +{earned.physical}{derived.choices.some(c=>c.key===`stat:${i}`)&&!sheet.choices[`stat:${i}`]?' · stat bonus choice pending':''}</p><p>Skill list: {list?.skills.map(slot=>typeof slot==='string'?skillName(slot):slot.map(skillName).join(' or ')).join(', ')||'None'}</p><p>Trait options: {list?.traits.join(', ')||'None'}</p><small>Repeat-adjusted points. Listed skills and traits are options, not automatic purchases.</small></details>;})()}
+
               {entry.overrides.length > 0 &&
                 <span> · Free Creation override: {entry.overrides.map(describeIssue).join(' ')}</span>}
             </li>;
@@ -213,7 +242,8 @@ export function App() {
           </ul>}
         </section>
         <section className="map-panel" aria-labelledby="map-title">
-          <div className="map-heading"><div className="map-title-row"><h2 id="map-title">Lifepath map</h2><button onClick={()=>setExpanded(!expanded)}>{expanded?'Compact map':'Expand map'}</button></div>
+          <div className="map-toolbar">
+          <div className="map-heading"><div className="map-title-row"><h2 id="map-title">Lifepath map</h2><button onClick={()=>setExpanded(!expanded)}>{expanded?'Close expanded map · Esc':'Expand map'}</button></div>
             <div className="map-search"><input aria-label="Search lifepaths" placeholder="Find a lifepath or setting…" value={query} onChange={e=>setQuery(e.target.value)}/>
             {query&&<div className="search-results">{paths.filter(p=>(p.sourceName+' '+getLifepathDisplayLabel(p,catalog)+' '+settingName(p.settingId)).toLowerCase().includes(query.toLowerCase())).map(p=><button key={p.variantId} onClick={()=>{setInspected(p.variantId);focusPoint(layout.points.get(p.variantId)!);setQuery('');}}>{getLifepathDisplayLabel(p,catalog)}<small>{settingName(p.settingId)}</small></button>)}{!paths.some(p=>(p.sourceName+' '+getLifepathDisplayLabel(p,catalog)+' '+settingName(p.settingId)).toLowerCase().includes(query.toLowerCase()))&&<p>No matching lifepaths.</p>}</div>}</div>
             <div className="map-controls">
@@ -224,8 +254,9 @@ export function App() {
             <button type="button" disabled={!currentId} onClick={()=>focusPoint(layout.points.get(currentId!)!)}>Current lifepath</button><button type="button" disabled={!routePoints.length} onClick={fitRoute}>Fit history</button>
             <label className="density-label">Card details <select aria-label="Map detail density" value={density} onChange={e=>setDensity(e.target.value)}><option value="names">Names</option><option value="grants">Grants</option><option value="extended">Extended</option></select></label>
           </div><div className="setting-shortcuts">{layout.regions.filter(r=>r.paths.length).map(r=><button key={r.setting.id} onClick={()=>{const scale=.9;setCamera({scale,x:40-r.x*scale,y:24-r.y*scale});}}>{r.setting.uiQualifier}</button>)}</div></div>
-      <div className="pinned-tray"><strong>☆ Pinned paths</strong>{pins.length?pins.map(id=><span key={id}><button onClick={()=>{setInspected(id);focusPoint(layout.points.get(id)!);}}>{getLifepathDisplayLabel(catalog.lifepaths.get(id)!,catalog)}</button><button aria-label={'Unpin '+id} onClick={()=>togglePin(id)}>×</button></span>):<small>Keep possible futures close. Pin a path from its details.</small>}{pins.length>0&&<button onClick={()=>setDraft({...draft,pins:[]})}>Clear pinned</button>}</div>
+      <div className="pinned-tray"><strong>☆ Pinned paths</strong>{pins.length?pins.map(id=><span key={id}><button onClick={()=>{setInspected(id);focusPoint(layout.points.get(id)!);}}>{getLifepathDisplayLabel(catalog.lifepaths.get(id)!,catalog)}</button><button aria-label={'Unpin '+id} onClick={()=>togglePin(id)}>×</button></span>):<small>Pin a path from its details.</small>}{pins.length>0&&<button onClick={()=>setDraft({...draft,pins:[]})}>Clear pinned</button>}</div>
           <div className="map-context" role="status">{progress.leadPending?<>Lead taken → <strong>{settingName(progress.settingId!)}</strong>. Choose an available lifepath here; other requirements still apply.</>:<>Current setting: <strong>{progress.settingId?settingName(progress.settingId):'Choose a birthplace'}</strong></>}{camera.scale<.6&&<span>Overview · use a setting shortcut to read its cards</span>}</div>
+          </div>
           <div className="map-viewport" aria-label="Lifepath map" ref={viewport}
             onPointerDown={event=>{if(event.button!==0)return;event.preventDefault();suppressNodeClick.current=false;drag.current={x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,moved:false};}}
             onPointerMove={event=>{const d=drag.current;if(!d)return;if(!d.moved&&Math.hypot(event.clientX-d.startX,event.clientY-d.startY)<5)return;
@@ -234,24 +265,23 @@ export function App() {
             onPointerUp={event=>{suppressNodeClick.current=drag.current?.moved??false;drag.current=null;if(viewport.current?.hasPointerCapture?.(event.pointerId))viewport.current.releasePointerCapture(event.pointerId);}}
             onPointerCancel={()=>{drag.current=null;suppressNodeClick.current=false;}}
             onPointerLeave={()=>{if(!drag.current?.moved)drag.current=null;}}
+            onClick={event=>{if(!(event.target as HTMLElement).closest('.path-node')){setInspected(null);setHovered(null);}}}
             onClickCapture={event=>{if(suppressNodeClick.current){event.preventDefault();event.stopPropagation();suppressNodeClick.current=false;}}}>
             <div className="map-camera" data-map-camera style={{ transform: 'translate(' + camera.x + 'px, ' + camera.y + 'px) scale(' + camera.scale + ')' ,
               width: layout.width, height: layout.height }}>
               <svg className="map-lines" width={layout.width} height={layout.height} aria-hidden="true">
                 <defs><marker id="route-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
                   <path d="M 0 0 L 10 5 L 0 10 z" fill="#246d59" /></marker></defs>
-                {routePoints.slice(1).map((point,index)=>{const from=routePoints[index]!;const repeated=from.x===point.x&&from.y===point.y;
-                  const region=layout.regions.find(r=>r.paths.some(p=>p.variantId===route[index]))!;const rail=region.x+342;const side=from.x-region.x<165?-1:1;
-                  const d=repeated?`M ${from.x+side*74} ${from.y-10} C ${from.x+side*94} ${from.y-28}, ${from.x+side*94} ${from.y+28}, ${from.x+side*74} ${from.y+10}`:
-                    from.y===point.y?`M ${from.x} ${from.y+29} V ${from.y+35} H ${point.x} V ${point.y+29}`:
-                    `M ${from.x} ${from.y+29} V ${from.y+35} H ${rail} V ${point.y-35} H ${point.x} V ${point.y-29}`;
+                {routePoints.slice(1).map((point,index)=>{const from=routePoints[index]!;const region=layout.regions.find(r=>r.paths.some(p=>p.variantId===route[index]))!;
+                  const d=routeSegment(from,point,region.x+756);
                   return <path key={index} d={d} data-route-segment="" className="history-route" data-lead-transition={history.entries.slice(pathEntryIndices[index]!+1,pathEntryIndices[index+1]).some(e=>e.kind==='lead')||undefined} markerEnd="url(#route-arrow)"/>;
                 })}
-                {hoveredPath && leadDestinations.map(id => {
-                  const source = layout.points.get(hoveredPath.variantId);
+                {linkedPath && leadDestinations.map(id => {
+                  const source = layout.points.get(linkedPath.variantId);
                   const region = layout.regions.find(item => item.setting.id === id);
-                  return source && region ? <line key={id} className="lead-line"
-                    x1={source.x+74} y1={source.y} x2={region.x + 310} y2={region.y + 26} /> : null;
+                  const origin=layout.regions.find(r=>r.paths.some(p=>p.variantId===linkedPath.variantId));
+                  return source && region && origin ? <path key={id} className="lead-line" fill="none"
+                    d={`M ${source.x} ${source.y-42} V ${source.y-52} H ${origin.x+756} V ${region.y-12} H ${region.x+718} V ${region.y+12}`} /> : null;
                 })}
               </svg>
               {layout.regions.map(region => <section key={region.setting.id} className={'setting-region ' + (region.setting.coverage === 'reference-only' ? 'out-of-scope' : '')}
@@ -269,7 +299,7 @@ export function App() {
                       onClick={() => setInspected(path.variantId)}
                       onMouseEnter={() => setHovered(path.variantId)} onMouseLeave={() => setHovered(null)}
                       title={issues.map(describeIssue).join(' ')||'Available in the current setting'} aria-label={'Inspect ' + getLifepathDisplayLabel(path, catalog)}>
-                      <span className="path-name">{getLifepathDisplayLabel(path, catalog)}</span><span className="path-state">{state==='current'?'● Current':state==='in-history'?'✓ In history':issues.length?'⊘ '+(issues[0].code==='LEAD_REQUIRED'?'Lead needed':issues[0].code==='BORN_LIFEPATH_NOT_FIRST'?'Birth only':issues[0].code==='FIRST_LIFEPATH_MUST_BE_BORN'?'Choose birthplace':'Requires…'):'＋ Available'}{route.includes(path.variantId)?' · steps '+route.flatMap((id,i)=>id===path.variantId?[i+1]:[]).join(', '):''}</span>{density!=='names'&&<small>{path.skillPointGrant.ordinary}sp · {path.traitPointGrant}tp · {path.resourceGrant.kind==='fixed'?path.resourceGrant.amount:'?'}rp{density==='extended'?' · '+path.years+'y':''}</small>}{path.specialRules.length > 0 && <small> · manual</small>}
+                      <span className="path-name">{getLifepathDisplayLabel(path, catalog)}</span><span className="path-state">{state==='current'?'● Current':state==='in-history'?'✓ In history':issues.length?'⊘ '+(issues[0].code==='LEAD_REQUIRED'?'Lead needed':issues[0].code==='BORN_LIFEPATH_NOT_FIRST'?'Birth only':issues[0].code==='FIRST_LIFEPATH_MUST_BE_BORN'?'Choose birthplace':'Requires…'):'＋ Available'}{route.includes(path.variantId)?' · steps '+route.flatMap((id,i)=>id===path.variantId?[i+1]:[]).join(', '):''}</span>{density!=='names'&&<small>{path.skillPointGrant.ordinary}sp{path.skillPointGrant.general?' + '+path.skillPointGrant.general+' general':''} · {path.traitPointGrant}tp · {path.resourceGrant.kind==='fixed'?path.resourceGrant.amount:'?'}rp{density==='extended'?' · '+path.years+'y':''}</small>}{density==='extended'&&<small className="card-stat-grant">{statSummary(path)}</small>}{path.specialRules.length > 0 && <small> · manual</small>}
                     </button>;
                   })}</div>}
               </section>)}
@@ -280,7 +310,7 @@ export function App() {
             <span> · Leads: {leadSummary(hoveredPath)}</span>
             <span> · {evaluateLifepath(progress, hoveredPath.variantId, catalog).map(describeIssue).join(' ') || 'Available'}</span>
           </div>}
-          <div className="map-legend">＋ Available　● Current　✓ History　⊘ Locked　◌ Outside pilot <span>Green: route (dashed = taken Lead) · Amber: declared Leads on hover</span></div>
+          <div className="map-legend">＋ Available　● Current　✓ History　⊘ Locked　◌ Outside pilot <span>Green: route (dashed = taken Lead) · Amber: declared Leads of hovered / selected path</span></div>
         </section>
         <aside className="details-panel" aria-label="Lifepath details">
           <h2>Lifepath details</h2>
@@ -296,6 +326,7 @@ export function App() {
             <p>{selectedIssues.length ? selectedIssues.map(describeIssue).join(' ') : 'Available now.'}</p>
             {selectedPath.specialRules.length > 0 && <p>Manual resolution required: {selectedPath.specialRules.map(rule => rule.id).join(', ')}</p>}
             <p className="source-ref">BWGR · pp. {selectedPath.source.printedPages.join(', ')}</p>
+            {planLeadAndLifepath(history,selectedPath.variantId,catalog)&&<button className="primary" onClick={()=>setTransition(selectedPath.variantId)}>Take Lead & add {getLifepathDisplayLabel(selectedPath,catalog)}…</button>}
             <button type="button" disabled={!canApplyChoice(mode, selectedIssues)}
               onClick={() => apply({ kind: 'lifepath', id: selectedPath.variantId })}>
               {mode === 'free' && selectedIssues.length ? 'Add anyway ' : 'Add '}{getLifepathDisplayLabel(selectedPath, catalog)}
@@ -318,6 +349,7 @@ export function App() {
         ...history.entries.flatMap(entry=>'overrides' in entry?entry.overrides.map(describeIssue):[]),
         ...(progress.leadPending?['Finish the pending Lead by choosing a destination lifepath.']:[]),
       ]}/>
+      {transition&&<ConfirmReset title="Move to another setting?" label="Confirm Lead and lifepath" description={'Take a Lead to '+settingName(catalog.lifepaths.get(transition)!.settingId)+' (+1 year), then add '+getLifepathDisplayLabel(catalog.lifepaths.get(transition)!,catalog)+' (+'+catalog.lifepaths.get(transition)!.years+' years). One Undo restores both steps.'} onCancel={()=>setTransition(null)} onConfirm={()=>{const next=planLeadAndLifepath(history,transition,catalog);if(next)commit({...draft,history:next});else setNotice('This transition is no longer legal. Review the requirements.');setTransition(null);}}/>}
       {confirmReset&&<ConfirmReset onCancel={()=>setConfirmReset(false)} onConfirm={()=>apply({kind:'reset'})}/>}
       <footer className="app-footer"><span>BURNING WHEEL GOLD REVISED · HUMAN WORKBENCH</span><span>Draft creation · traits, resource purchases & final validation still in development</span></footer>
     </main>
