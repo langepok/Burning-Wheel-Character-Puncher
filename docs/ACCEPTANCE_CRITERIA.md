@@ -1058,3 +1058,13 @@ A Character Burner feature is done only when:
 - Skills use bounded-width cards with fixed shade/exponent slots, explicit costs and selected pool, ledger totals, detailed purchase history and a General-spending filter.
 - Training uses Learn/Refund states and the existing two-point cost. Missing roots link to stats; missing Ordinary access offers explicit General selection without spending.
 - Existing rules, refunds, save/import/export and all regression tests remain. Verify wide layout in a real browser document viewport.
+
+## UX Refinement III (2026-11-18)
+
+- Expanded map fills the viewport with inspector, controls and pins; Escape closes it unless a modal is open. Camera, selection, draft and page scroll survive toggling.
+- Stable four-column settings and gutter-routed chronology; no prerequisite edge is inferred from history. Hover temporarily overrides persistent inspected-path Leads; blank click clears selection, dragging does not.
+- Extended cards show catalog stat grants. History exposes repeat-adjusted point contributions and source skill/trait lists, preserving Leads and repeated entries.
+- A cross-setting shortcut may commit a legal Lead and legal destination together, only after explicit confirmation; one Undo reverses both. Failed transactions leave history unchanged. Explicit Leads remain.
+- Ctrl/Cmd+Z, Shift+Z and Y operate Undo/Redo except editable controls or open dialogs. Buttons remain available.
+- General opening warning is contextual; purchases, restrictions, exact refunds, import/export and autosave remain unchanged.
+- Full tests, typecheck, build and real-browser desktop/wide interaction checks before completion.

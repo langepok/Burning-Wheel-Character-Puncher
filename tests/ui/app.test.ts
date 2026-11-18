@@ -286,3 +286,23 @@ it('pans from a card without selecting text or inspecting it after the drag',()=
  act(()=>node.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true})));expect(c.querySelector('.details-panel > button')).toBeNull();
  act(()=>node.dispatchEvent(new MouseEvent('click',{bubbles:true})));expect(c.querySelector('.details-panel > button')).not.toBeNull();
 });
+
+it('preserves map selection and camera across expanded mode, and clears selection on blank click',()=>{
+ const c=mountApp();pressLabel(c,'Inspect Village Born');click(c,'Zoom in');
+ const camera=c.querySelector('[data-map-camera]')!.getAttribute('style');
+ expect(c.querySelectorAll('.lead-line').length).toBeGreaterThan(0);
+ click(c,'Expand map');expect(c.querySelector('.map-expanded')).not.toBeNull();
+ act(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true})));
+ expect(c.querySelector('.map-expanded')).toBeNull();expect(c.querySelector('[data-map-camera]')!.getAttribute('style')).toBe(camera);
+ expect(c.querySelector('.path-node.inspected')).not.toBeNull();
+ act(()=>c.querySelector('.map-viewport')!.dispatchEvent(new MouseEvent('click',{bubbles:true})));
+ expect(c.querySelector('.path-node.inspected')).toBeNull();expect(c.querySelectorAll('.lead-line')).toHaveLength(0);
+});
+it('supports history hotkeys without intercepting text fields or dialogs',()=>{
+ const c=mountApp();click(c,'Village Born');
+ const key=(target:EventTarget,k:string,shift=false)=>{const e=new KeyboardEvent('keydown',{key:k,ctrlKey:true,shiftKey:shift,bubbles:true,cancelable:true});act(()=>target.dispatchEvent(e));return e;};
+ expect(key(c.querySelector('input')!,'z').defaultPrevented).toBe(false);expect(c.querySelectorAll('[data-history-step]')).toHaveLength(1);
+ key(document,'z');expect(c.querySelectorAll('[data-history-step]')).toHaveLength(0);
+ key(document,'z',true);expect(c.querySelectorAll('[data-history-step]')).toHaveLength(1);
+ click(c,'Reset');expect(key(document,'z').defaultPrevented).toBe(false);expect(c.querySelectorAll('[data-history-step]')).toHaveLength(1);
+});
