@@ -1,5 +1,15 @@
 # Acceptance Criteria
 
+## M1-UX-01 — first visual lifepath map slice
+
+- The loaded catalog appears in a desktop-first pan/zoom map with setting and subsetting regions generated without Human-specific placement code. Referenced settings without loaded rows remain visible as out-of-scope regions.
+- Fit all, zoom, pan, center inspected, and fit history route move the camera. Inspection and character commands preserve camera position unless a camera control is used.
+- Every loaded row stays visible. Current, earlier-history, available, and locked states reflect the current history and `evaluateLifepath`; out-of-scope content is never selectable. Duplicate names use catalog display labels.
+- Hover previews a row and its declared Leads. Click inspects details without applying. A separate action applies a row through the existing command policy. Requirement text and rule diagnostics remain distinct from Leads.
+- The map and chronological panel show the ordered selected lifepath route, accumulated age, and explicit Lead years. Undo and Reset reverse the route and age; Reset asks for confirmation.
+- Rules blocks evaluated violations; Free Creation shows the same explanations and permits loaded overrides through the existing policy. Both modes retain unavailable Lead explanations and prohibit unloaded destinations.
+- Search, pins, detail-density controls, and reverse exploration are retained as subsequent roadmap tasks, with no nonfunctional controls shown in this slice.
+
 These criteria define the behavior contract for the current Character Burner v2 work. They are intentionally narrower than the full Burning Wheel Character Burner.
 
 ## Phase CB-0 — Repository and rules skeleton
