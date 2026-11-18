@@ -771,3 +771,34 @@ lifepaths are outside this pilot.
   prerequisite evidence are separate from confirmed rule violations.
   For example, a partial list that does not mention Sorcery cannot prove
   the Recluse Wizard prerequisite failed.
+
+## Character Workbench burning projection (2026-11-16)
+
+Source checks use the attached BWGR 2018 PDF; printed pages are two below PDF
+page numbers. This runtime does not replace the established lifepath evaluator.
+
+- pp. 86–88, 197: family-based diminishing returns; age-based Human mental and
+  physical pools; typed M/P choices; five extra stat points for gray, with group
+  and GM approval. Repeat half-grants use the existing D-013 rounding policy.
+- pp. 89–90: ordinary skill opening is one point at half root (half average for
+  combined roots), rounded down; Training costs two and has no exponent;
+  gray opening costs five with approval; advances cost one. General-opened
+  skills cannot use ordinary points for advances.
+- pp. 107–108: default starting exponent ceiling six; negotiated alternatives
+  are outside the Rules editor and can be represented as Free Creation.
+- p. 545 (also p. 49): combined mixed-shade roots use the darker shade and add
+  two to the exponent sum before averaging/halving.
+- pp. 163–170, 187: ordered skill and trait lists are supplied for all 63 loaded
+  Human pilot paths. Point grants and requirements remain in the prior catalog.
+- pp. 253, 277, 309: explicit named Wise and History topics inherit the audited
+  family defaults. Flute uses Musical Instrument (p. 285), named by Shepherd
+  (p. 163). No fuzzy matching creates new skill identities.
+
+Interpretation: Mining Engineer's printed “Engineer” is mapped explicitly to
+Engineering (p. 270); the source spelling and this mapping are documented rather
+than inferred at runtime. Required skills advance through the ordered lists
+already required by previous paths. Optional earlier-path ownership can also
+shift a requirement under p. 89; because transactions do not allocate an optional
+skill to a particular earlier path, overlap is flagged for table review instead
+of certifying that edge case. Appropriate Weapons and Wife-derived grants are
+explicit unresolved choices, never guessed grants.

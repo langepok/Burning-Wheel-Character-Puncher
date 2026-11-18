@@ -18,6 +18,7 @@ it('renders the three audited Born choices and initial age in the Burner', () =>
 
 const mounted: { root: ReturnType<typeof createRoot>; container: HTMLDivElement }[] = [];
 afterEach(() => {
+  localStorage.clear();
   for (const { root, container } of mounted.splice(0)) {
     act(() => root.unmount());
     container.remove();
@@ -162,6 +163,7 @@ it('previews declared Leads on hover without applying or inspecting a path', () 
 it('keeps camera stable during inspection and actions, and moves it with map controls', () => {
   const container = mountApp();
   const camera = () => container.querySelector('[data-map-camera]')?.getAttribute('style');
+  click(container, 'Fit all');
   const start = camera();
   const born = container.querySelector('[data-variant-id="human.villager.village-born"]') as HTMLElement;
   act(() => born.dispatchEvent(new MouseEvent('click', { bubbles: true })));
@@ -192,4 +194,48 @@ it('shows the ordered route and exact Lead years through Undo and Reset', () => 
   click(container, 'Confirm remove all');
   expect(container.textContent).toContain('Age: 0 years');
   expect(container.querySelectorAll('[data-route-segment]')).toHaveLength(0);
+});
+
+function pressLabel(container:HTMLElement,label:string){
+ const button=container.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`)!;
+ expect(button,label).toBeTruthy();expect(button.disabled,label).toBe(false);
+ act(()=>button.dispatchEvent(new MouseEvent('click',{bubbles:true})));
+}
+it('opens, advances and refunds a lifepath skill and restores it after reloading the draft',()=>{
+ const c=mountApp();click(c,'Born Peasant');click(c,'Farmer');
+ for(let i=0;i<4;i++)pressLabel(c,'Increase perception');
+ pressLabel(c,'Increase Farming');
+ expect(c.querySelector('[data-skill-id="farming"] .skill-rating')?.textContent).toBe('B2');
+ pressLabel(c,'Increase Farming');
+ expect(c.querySelector('[data-skill-id="farming"] .skill-rating')?.textContent).toBe('B3');
+ pressLabel(c,'Decrease Farming');pressLabel(c,'Decrease Farming');
+ expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toEqual([]);
+ pressLabel(c,'Increase Farming');
+ const restored=mountApp();
+ expect(restored.querySelector('[data-skill-id="farming"] .skill-rating')?.textContent).toBe('B2');
+ expect(restored.textContent).toContain('Age: 16 years');
+});
+it('adding a catalog candidate spends nothing, explains ordinary restrictions and uses General explicitly',()=>{
+ const c=mountApp();click(c,'Born Peasant');click(c,'Farmer');
+ for(let i=0;i<4;i++)pressLabel(c,'Increase agility');
+ click(c,'+ Add skill');
+ const input=c.querySelector<HTMLInputElement>('[aria-label="Search skill catalog"]')!;
+ act(()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,'Sword');input.dispatchEvent(new Event('input',{bubbles:true}));});
+ expect(c.querySelector('.catalog-detail h3')?.textContent).toBe('Sword');
+ click(c,'+ Add to working list');pressLabel(c,'Close skill catalog');
+ expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toEqual([]);
+ pressLabel(c,'Increase Sword');expect(c.querySelector('[role="status"]')?.textContent).toContain('Use General');
+ const general=[...c.querySelectorAll<HTMLButtonElement>('.pool-controls button')].find(b=>b.textContent?.startsWith('General'))!;
+ act(()=>general.click());pressLabel(c,'Increase Sword');
+ expect(c.querySelector('[data-skill-id="sword"] .skill-rating')?.textContent).toBe('B2');
+ pressLabel(c,'Decrease Sword');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toEqual([]);
+});
+it('reset and Undo restore stat and skill allocations while preserving pins',()=>{
+ const c=mountApp();click(c,'Born Peasant');click(c,'Farmer');
+ for(let i=0;i<4;i++)pressLabel(c,'Increase perception');pressLabel(c,'Increase Farming');
+ const before=JSON.parse(localStorage.getItem('bw-workbench-v1')!);
+ click(c,'Reset');click(c,'Confirm remove all');
+ expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toHaveLength(0);
+ click(c,'Undo');
+ expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet).toEqual(before.sheet);
 });

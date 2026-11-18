@@ -550,3 +550,31 @@ The following require an audit or implementation spike before being accepted:
 - persistence format and save/load versioning;
 - exact strategy for importing the complete human lifepath/skill dataset;
 - whether rule-reference metadata belongs directly on data records or in a separate mapping layer.
+
+## D-030 — Reversible Character Workbench on the M1 map
+
+**Status:** Accepted — implementation/UX, 2026-11-16 (within delegated scope)
+
+Continue PR #25's map and existing lifepath evaluator. A separate pure burning
+projection computes stat and skill budgets from history. The UI never owns a
+second eligibility algorithm. Skill purchases are ordered transactions with
+skill ID, paid pool, paid cost, opening/advance kind and override provenance.
+A per-skill decrement reverses its last transaction; root changes do not change
+refunds. Candidate selection and map pins do not buy character abilities.
+
+The version-1 draft saves identity, lifepath history, choices, allocations,
+purchases and pins. Import validates shape and known IDs and replays lifepath
+history; it does not trust saved lifepath diagnostics. Local autosave is a
+convenience, and explicit JSON export remains the portable backup. Corrupt
+saved drafts block overwriting until the user chooses replacement.
+
+Undo retains up to 100 in-session character snapshots; mode, name and map pins
+remain independent. Reloaded drafts retain their purchase provenance, but not
+the in-memory Undo stack. Reset clears mechanical allocations and preserves
+identity, mode, pins and camera. These are UX decisions, not new game rules.
+
+The bounded deliverable is lifepaths + stat allocation + reversible skill
+purchasing, with source-list trait options and a resource budget. Trait ownership,
+trait effects, resource shopping and final character certification remain
+explicitly incomplete. See CHARACTER_WORKBENCH.md for supported behavior and
+manual cases. No claim of full Character Burner completion is made.
