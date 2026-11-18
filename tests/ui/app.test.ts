@@ -225,7 +225,7 @@ it('adding a catalog candidate spends nothing, explains ordinary restrictions an
  click(c,'+ Add to working list');pressLabel(c,'Close skill catalog');
  expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toEqual([]);
  pressLabel(c,'Increase Sword');expect(c.querySelector('[role="status"]')?.textContent).toContain('Use General');
- const general=[...c.querySelectorAll<HTMLButtonElement>('.pool-controls button')].find(b=>b.textContent?.startsWith('General'))!;
+ const general=[...c.querySelectorAll<HTMLButtonElement>('.pool-controls button')].find(b=>b.textContent?.includes('General'))!;
  act(()=>general.click());pressLabel(c,'Increase Sword');
  expect(c.querySelector('[data-skill-id="sword"] .skill-rating')?.textContent).toBe('B2');
  pressLabel(c,'Decrease Sword');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toEqual([]);
@@ -238,4 +238,51 @@ it('reset and Undo restore stat and skill allocations while preserving pins',()=
  expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toHaveLength(0);
  click(c,'Undo');
  expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet).toEqual(before.sheet);
+});
+
+it('round trips purchases with Redo and clears Redo only on successful edits',()=>{
+ const c=mountApp();click(c,'Born Peasant');click(c,'Farmer');for(let i=0;i<4;i++)pressLabel(c,'Increase perception');
+ pressLabel(c,'Increase Farming');const saved=JSON.parse(localStorage.getItem('bw-workbench-v1')!);
+ click(c,'Undo');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toHaveLength(0);
+ click(c,'Redo');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet).toEqual(saved.sheet);
+ click(c,'Undo');pressLabel(c,'Increase agility');
+ expect([...c.querySelectorAll('button')].find(b=>b.textContent==='Redo')!.disabled).toBe(true);
+});
+it('keeps gender out of route history and preserves it through reset, Undo and Redo',()=>{
+ const c=mountApp();click(c,'Born Peasant');select(c,'Character gender','female');
+ expect(c.querySelectorAll('[data-history-step]')).toHaveLength(1);
+ expect(c.querySelector('.history-panel ol')?.textContent).not.toContain('Gender');
+ click(c,'Undo');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).history.entries).toHaveLength(1);
+ click(c,'Redo');click(c,'Reset');const dialog=c.querySelector('dialog')!;
+ expect(dialog.getAttribute('aria-label')).toBe('Confirm reset');expect(document.activeElement?.textContent).toBe('Cancel');
+ click(c,'Confirm remove all');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).history.entries).toEqual([{kind:'gender',value:'female'}]);
+ click(c,'Undo');expect(c.querySelectorAll('[data-history-step]')).toHaveLength(1);
+});
+it('removes the last route step independently of stat edits and restores it exactly',()=>{
+ const c=mountApp();click(c,'Born Peasant');click(c,'Farmer');pressLabel(c,'Increase perception');
+ click(c,'Remove last');const d=JSON.parse(localStorage.getItem('bw-workbench-v1')!);expect(d.sheet.stats.perception.exponent).toBe(1);expect(c.textContent).toContain('Age: 8 years');
+ click(c,'Undo');expect(c.textContent).toContain('Age: 16 years');click(c,'Redo');expect(c.textContent).toContain('Age: 8 years');
+});
+it('cancels map wheel only inside the map and exposes age-pool explanation',()=>{
+ const c=mountApp();click(c,'Born Peasant');const event=new WheelEvent('wheel',{bubbles:true,cancelable:true,deltaY:100});
+ act(()=>c.querySelector('.map-viewport')!.dispatchEvent(event));expect(event.defaultPrevented).toBe(true);
+ const outside=new WheelEvent('wheel',{bubbles:true,cancelable:true,deltaY:100});act(()=>c.querySelector('.stats-section')!.dispatchEvent(outside));expect(outside.defaultPrevented).toBe(false);
+ expect(c.querySelector('[role="tooltip"]')?.textContent).toContain('Mental 5, Physical 10');
+});
+it('makes Training and General provenance explicit without changing purchase cost',()=>{
+ const c=mountApp();click(c,'Born Peasant');expect(c.querySelector('details.leads-menu')?.hasAttribute('open')).toBe(false);
+ click(c,'+ Add skill');const input=c.querySelector<HTMLInputElement>('[aria-label="Search skill catalog"]')!;
+ act(()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,'Armor Training');input.dispatchEvent(new Event('input',{bubbles:true}));});
+ click(c,'+ Add to working list');pressLabel(c,'Close skill catalog');const row=c.querySelector<HTMLElement>('[data-skill-id="armor-training"]')!;
+ click(row,'Use General');click(row,'Learn');expect(row.textContent).toContain('Learned');expect(row.textContent).toContain('General 2');
+ pressLabel(c,'Decrease Armor Training');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toEqual([]);
+});
+it('pans from a card without selecting text or inspecting it after the drag',()=>{
+ const c=mountApp();const map=c.querySelector<HTMLElement>('.map-viewport')!;const node=c.querySelector<HTMLElement>('[data-variant-id="human.peasant.born-peasant"]')!;
+ const camera=()=>c.querySelector('[data-map-camera]')!.getAttribute('style');const before=camera();
+ const event=(type:string,x:number,y:number)=>new MouseEvent(type,{bubbles:true,cancelable:true,button:0,clientX:x,clientY:y});
+ const down=event('pointerdown',10,10);act(()=>node.dispatchEvent(down));expect(down.defaultPrevented).toBe(true);
+ act(()=>map.dispatchEvent(event('pointermove',70,50)));expect(camera()).not.toBe(before);act(()=>map.dispatchEvent(event('pointerup',70,50)));
+ act(()=>node.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true})));expect(c.querySelector('.details-panel > button')).toBeNull();
+ act(()=>node.dispatchEvent(new MouseEvent('click',{bubbles:true})));expect(c.querySelector('.details-panel > button')).not.toBeNull();
 });

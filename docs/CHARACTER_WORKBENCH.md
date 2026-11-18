@@ -71,3 +71,9 @@ available sources, so visual fidelity to that image is not claimed.
 persistence and reversal policy. Next coherent slice: trait ownership/required
 traits and effects, then the Resources purchase ledger and derived attributes.
 Do not merge this continuation before coordinating the PR #25 review and runner.
+
+## UX refinement follow-up
+
+See [UX_REFINEMENT_REVIEW.md](UX_REFINEMENT_REVIEW.md) for the user-video mapping,
+updated 1701-test verification, browser evidence and remaining limits. D-031
+records Redo, timeline separation and bounded-width skill-card decisions.

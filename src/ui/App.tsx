@@ -9,10 +9,11 @@ import { evaluateLead, evaluateLifepath, validateLifepathRequirements } from '..
 import type { LifepathIssue, LifepathProgress } from '../rules/lifepaths';
 import { layoutCatalog } from './map-layout';
 import './app.css';
-import { createSheet, deriveSheet, encodeDraft, parseDraft, skillName } from '../character/workbench';
+import { clearRoute, removeLastRouteStep, createSheet, deriveSheet, encodeDraft, parseDraft, skillName } from '../character/workbench';
 import type { Draft, Sheet } from '../character/workbench';
-import { humanBurningLists } from '../data/burning/human';
+import { humanAgePools, humanBurningLists } from '../data/burning/human';
 import { SheetEditor } from './SheetEditor';
+import { ConfirmReset } from './ConfirmReset';
 
 const catalog = createCatalog(humanContent);
 const settings = [...catalog.settings.values()];
@@ -62,6 +63,7 @@ export function App() {
   const [draft,setDraft]=useState<Draft>(()=>initial.draft??{version:1,name:'',mode:'rules',history:createBuildHistory(),sheet:createSheet(),pins:[]});
   const [recoveryBlocked,setRecoveryBlocked]=useState(Boolean(initial.error));
   const [past,setPast]=useState<Draft[]>([]);
+  const [future,setFuture]=useState<Draft[]>([]);
   const [notice,setNotice]=useState(initial.error);
   const [saveStatus,setSaveStatus]=useState(initial.error?'Recovery needed':'Saved on this device');
   const [query,setQuery]=useState('');
@@ -69,21 +71,31 @@ export function App() {
   const [expanded,setExpanded]=useState(false);
   const fileInput=useRef<HTMLInputElement>(null);
   const {history,mode,sheet,pins}=draft;
-  function commit(next:Draft){setPast(p=>[...p.slice(-99),draft]);setDraft(next);setNotice('');}
+  function commit(next:Draft){setFuture([]);setPast(p=>[...p.slice(-99),draft]);setDraft(next);setNotice('');}
   function updateSheet(next:Sheet){if(next!==sheet)commit({...draft,sheet:next});}
   function setMode(next:BuildMode){setDraft({...draft,mode:next});}
   function togglePin(id:string){setDraft(d=>({...d,pins:d.pins.includes(id)?d.pins.filter(p=>p!==id):[...d.pins,id]}));}
   useEffect(()=>{if(recoveryBlocked)return;try{localStorage.setItem('bw-workbench-v1',encodeDraft(draft));setSaveStatus('Saved on this device');}catch{setSaveStatus('Could not save · export a backup');}},[draft,recoveryBlocked]);
   function exportDraft(){const url=URL.createObjectURL(new Blob([encodeDraft(draft)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='burning-wheel-character.json';a.click();URL.revokeObjectURL(url);setNotice('Character draft exported.');}
-  function undo(){const previous=past.at(-1);if(previous){setDraft({...previous,mode:draft.mode,name:draft.name,pins:draft.pins});setPast(p=>p.slice(0,-1));setNotice('Last edit undone.');}else if(history.entries.length){setDraft({...draft,history:applyLifepathCommand(history,{kind:'undo'},mode,catalog)});}setConfirmReset(false);}
+  function restore(snapshot:Draft){return {...snapshot,mode:draft.mode,name:draft.name,pins:draft.pins};}
+  function undo(){
+    const previous=past.at(-1);const next=previous?restore(previous):{...draft,history:removeLastRouteStep(history)};
+    if(previous||next.history!==history){setFuture(f=>[...f.slice(-99),draft]);setDraft(next);setPast(p=>p.slice(0,-1));setNotice('Last edit undone.');}
+    setConfirmReset(false);
+  }
+  function redo(){const next=future.at(-1);if(next){setPast(p=>[...p.slice(-99),draft]);setDraft(restore(next));setFuture(f=>f.slice(0,-1));setNotice('Edit restored.');}setConfirmReset(false);}
 
   const [inspected, setInspected] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [camera, setCamera] = useState({ x: 0, y: 0, scale: .95 });
   const [confirmReset, setConfirmReset] = useState(false);
-  const drag = useRef<{ x: number; y: number } | null>(null);
+  const drag=useRef<{x:number;y:number;startX:number;startY:number;moved:boolean}|null>(null);
+  const suppressNodeClick=useRef(false);
   const viewport = useRef<HTMLDivElement>(null);
   const progress = projectLifepathHistory(history, catalog);
+  const timeline=history.entries.filter(e=>e.kind!=='gender');
+  const agePool=humanAgePools.find(r=>progress.age>=r[0]&&progress.age<=r[1]);
+  const totals=deriveSheet(sheet,progress).total;
   const finalIssues = validateLifepathRequirements(progress);
   const warningCount = deriveSheet(sheet,progress).issues.length + finalIssues.length + history.entries.reduce((total, entry) =>
     total + ('overrides' in entry ? entry.overrides.length : 0), 0);
@@ -102,7 +114,7 @@ export function App() {
 
   function apply(command: LifepathCommand) {
     if(command.kind==='undo'){undo();return;}
-    const next=applyLifepathCommand(history, command, mode, catalog);
+    const next=command.kind==='reset'?clearRoute(history):applyLifepathCommand(history, command, mode, catalog);
     if(next!==history)commit({...draft,history:next,sheet:command.kind==='reset'?createSheet():sheet});
     setConfirmReset(false);
   }
@@ -132,6 +144,12 @@ export function App() {
       return {scale,x:x-(x-previous.x)*scale/previous.scale,y:y-(y-previous.y)*scale/previous.scale};
     });
   }
+  useEffect(()=>{
+    const node=viewport.current;if(!node)return;
+    const onWheel=(event:WheelEvent)=>{event.preventDefault();event.stopPropagation();if(event.deltaY)zoom(event.deltaY<0?1.1:.9);};
+    node.addEventListener('wheel',onWheel,{passive:false});
+    return ()=>node.removeEventListener('wheel',onWheel);
+  },[]);
   function leadSummary(path: typeof paths[number]) {
     if (path.leads.kind === 'any') return 'Any setting';
     if (path.leads.kind === 'anyExcept') return 'Any except ' + path.leads.excludedSettingIds.map(settingName).join(', ');
@@ -152,7 +170,7 @@ export function App() {
       <header className="global-header">
         <div className="brand"><span className="brand-mark">✳</span><div><strong>BURNING WHEEL</strong><small>CHARACTER WORKBENCH</small></div></div>
         <nav aria-label="Modules"><strong>Character Burner</strong><span title="Not implemented yet">Equipment</span><span title="Not implemented yet">Fight!</span></nav>
-        <div className="file-actions"><span className="save-status">{saveStatus}</span><button onClick={()=>fileInput.current?.click()}>Import</button><button onClick={exportDraft}>Export</button><button disabled={!past.length&&!history.entries.length} onClick={undo}>Undo</button></div>
+        <div className="file-actions"><span className="save-status">{saveStatus}</span><button onClick={()=>fileInput.current?.click()}>Import</button><button onClick={exportDraft}>Export</button><button disabled={!past.length&&!timeline.length} onClick={undo}>Undo</button><button disabled={!future.length} onClick={redo}>Redo</button></div>
         <input ref={fileInput} hidden type="file" accept=".json,application/json" aria-label="Import character draft" onChange={async e=>{const file=e.target.files?.[0];if(!file)return;try{const imported=parseDraft(await file.text(),catalog);commit(imported);setNotice('Imported character draft. Undo restores your previous character.');}catch(error){setNotice(error instanceof Error?error.message:'Import failed.');}e.target.value='';}}/>
       </header>
       <div className="context-bar">
@@ -169,12 +187,12 @@ export function App() {
       <div className="workspace">
         <section className="history-panel" aria-labelledby="history">
           <span className="eyebrow">01 / LIFEPATHS</span><h2 id="history">Build history</h2>
-          <p aria-live="polite">Age: {progress.age} years · Current setting: {progress.settingId ? settingName(progress.settingId) : 'None'}</p>
+          <p aria-live="polite"><span className="age-help" tabIndex={0} aria-describedby="age-pools">Age: {progress.age} years<span role="tooltip" id="age-pools">{agePool?<>Age {agePool[0]}–{agePool[1]}: Mental {agePool[2]}, Physical {agePool[3]}.<br/>With lifepath adjustments: Mental {totals.mental}, Physical {totals.physical}.<br/>BWGR 87–88, 197</>:'Choose lifepaths to determine age pools.'}</span></span> · Current setting: {progress.settingId ? settingName(progress.settingId) : 'None'}</p>
           {!progress.paths.length&&<div className="start-guide"><h3>Every life starts somewhere.</h3><p>Inspect a birthplace, then add it to begin your story.</p>{paths.filter(p=>p.isBorn).map(p=><button key={p.variantId} onClick={()=>{setInspected(p.variantId);focusPoint(layout.points.get(p.variantId)!);}}>{p.sourceName} <span>›</span></button>)}</div>}
-          <ol>{history.entries.map((entry, index) => {
-            const age = history.entries.slice(0, index + 1).reduce((total, previous) =>
+          <ol>{timeline.map((entry, index) => {
+            const age = timeline.slice(0, index + 1).reduce((total, previous) =>
               total + (previous.kind === 'lead' ? 1 : previous.kind === 'lifepath' ? catalog.lifepaths.get(previous.id)!.years : 0), 0);
-            return <li key={index} data-history-step={entry.kind === 'gender' ? undefined : index + 1}>
+            return <li key={index} data-history-step={index + 1}>
               {entry.kind === 'lifepath' && 'id' in entry ? <button type="button" onClick={() => {
                 setInspected(entry.id);
                 const point = layout.points.get(entry.id);
@@ -183,15 +201,12 @@ export function App() {
                 entry.kind === 'lead' && 'id' in entry ? 'Lead to ' + settingName(entry.id) + ' (+1 year)' :
                   'Gender: ' + ('value' in entry ? entry.value ?? 'Unspecified' : 'Unspecified')}
               <small>Age {age}</small>
-              {entry.kind !== 'gender' && entry.overrides.length > 0 &&
+              {entry.overrides.length > 0 &&
                 <span> · Free Creation override: {entry.overrides.map(describeIssue).join(' ')}</span>}
             </li>;
           })}</ol>
-          <div className="history-actions"><button type="button" disabled={!history.entries.length&&!past.length} onClick={() => apply({ kind: 'undo' })}>Undo last edit</button>
-            <button type="button" disabled={!history.entries.length} onClick={() => setConfirmReset(true)}>Reset</button></div>
-          {confirmReset && <div role="group" aria-label="Confirm reset"><p>Remove all lifepaths, stat allocations and skill purchases? Your name, mode and pins are kept. Undo can restore this draft.</p>
-            <button type="button" onClick={() => apply({ kind: 'reset' })}>Confirm remove all</button>
-            <button type="button" onClick={() => setConfirmReset(false)}>Cancel</button></div>}
+          <div className="history-actions"><button type="button" disabled={!timeline.length} onClick={()=>commit({...draft,history:removeLastRouteStep(history)})}>Remove last</button>
+            <button type="button" disabled={!timeline.length&&!sheet.purchases.length&&!Object.values(sheet.stats).some(s=>s.exponent)} onClick={()=>setConfirmReset(true)}>Reset</button></div>
           {progress.leadPending && <p>Choose a lifepath in the destination to complete the transition.</p>}
           {finalIssues.length > 0 && <ul aria-label="Current build requirements">
             {finalIssues.map(({ index, path, issue }, item) => <li key={item}>{index + 1}. {path.sourceName}: {describeIssue(issue)}</li>)}
@@ -206,38 +221,41 @@ export function App() {
             <button type="button" onClick={() => zoom(0.8)}>Zoom out</button>
             <button type="button" onClick={fitAll}>Fit all</button>
             <button type="button" disabled={!inspected || !layout.points.has(inspected)} onClick={() => focusPoint(layout.points.get(inspected!)!)}>Center inspected</button>
-            <button type="button" disabled={!routePoints.length} onClick={fitRoute}>Fit history</button>
-            <select aria-label="Map detail density" value={density} onChange={e=>setDensity(e.target.value)}><option value="names">Names</option><option value="grants">Grants</option><option value="extended">Extended</option></select>
+            <button type="button" disabled={!currentId} onClick={()=>focusPoint(layout.points.get(currentId!)!)}>Current lifepath</button><button type="button" disabled={!routePoints.length} onClick={fitRoute}>Fit history</button>
+            <label className="density-label">Card details <select aria-label="Map detail density" value={density} onChange={e=>setDensity(e.target.value)}><option value="names">Names</option><option value="grants">Grants</option><option value="extended">Extended</option></select></label>
           </div><div className="setting-shortcuts">{layout.regions.filter(r=>r.paths.length).map(r=><button key={r.setting.id} onClick={()=>{const scale=.9;setCamera({scale,x:40-r.x*scale,y:24-r.y*scale});}}>{r.setting.uiQualifier}</button>)}</div></div>
+      <div className="pinned-tray"><strong>☆ Pinned paths</strong>{pins.length?pins.map(id=><span key={id}><button onClick={()=>{setInspected(id);focusPoint(layout.points.get(id)!);}}>{getLifepathDisplayLabel(catalog.lifepaths.get(id)!,catalog)}</button><button aria-label={'Unpin '+id} onClick={()=>togglePin(id)}>×</button></span>):<small>Keep possible futures close. Pin a path from its details.</small>}{pins.length>0&&<button onClick={()=>setDraft({...draft,pins:[]})}>Clear pinned</button>}</div>
+          <div className="map-context" role="status">{progress.leadPending?<>Lead taken → <strong>{settingName(progress.settingId!)}</strong>. Choose an available lifepath here; other requirements still apply.</>:<>Current setting: <strong>{progress.settingId?settingName(progress.settingId):'Choose a birthplace'}</strong></>}{camera.scale<.6&&<span>Overview · use a setting shortcut to read its cards</span>}</div>
           <div className="map-viewport" aria-label="Lifepath map" ref={viewport}
-            onPointerDown={event => { if (!(event.target as Element).closest('button')) drag.current = { x: event.clientX, y: event.clientY }; }}
-            onPointerMove={event => { if (drag.current) {
-              const dx = event.clientX - drag.current.x; const dy = event.clientY - drag.current.y;
-              drag.current = { x: event.clientX, y: event.clientY };
-              setCamera(previous => ({ ...previous, x: previous.x + dx, y: previous.y + dy }));
-            } }}
-            onPointerUp={() => { drag.current = null; }}
-            onPointerLeave={() => { drag.current = null; }}
-            onWheel={event => { event.preventDefault(); zoom(event.deltaY < 0 ? 1.1 : 0.9); }}>
+            onPointerDown={event=>{if(event.button!==0)return;event.preventDefault();suppressNodeClick.current=false;drag.current={x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,moved:false};}}
+            onPointerMove={event=>{const d=drag.current;if(!d)return;if(!d.moved&&Math.hypot(event.clientX-d.startX,event.clientY-d.startY)<5)return;
+              if(!d.moved){d.moved=true;viewport.current?.setPointerCapture?.(event.pointerId);}
+              const dx=event.clientX-d.x,dy=event.clientY-d.y;d.x=event.clientX;d.y=event.clientY;setCamera(c=>({...c,x:c.x+dx,y:c.y+dy}));}}
+            onPointerUp={event=>{suppressNodeClick.current=drag.current?.moved??false;drag.current=null;if(viewport.current?.hasPointerCapture?.(event.pointerId))viewport.current.releasePointerCapture(event.pointerId);}}
+            onPointerCancel={()=>{drag.current=null;suppressNodeClick.current=false;}}
+            onPointerLeave={()=>{if(!drag.current?.moved)drag.current=null;}}
+            onClickCapture={event=>{if(suppressNodeClick.current){event.preventDefault();event.stopPropagation();suppressNodeClick.current=false;}}}>
             <div className="map-camera" data-map-camera style={{ transform: 'translate(' + camera.x + 'px, ' + camera.y + 'px) scale(' + camera.scale + ')' ,
               width: layout.width, height: layout.height }}>
               <svg className="map-lines" width={layout.width} height={layout.height} aria-hidden="true">
-                <defs><marker id="route-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#1869bb" /></marker></defs>
-                {routePoints.slice(1).map((point, index) => <line key={index} data-route-segment="" className="history-route"
-                  data-lead-transition={history.entries.slice(pathEntryIndices[index]! + 1, pathEntryIndices[index + 1]).some(entry => entry.kind === 'lead') || undefined}
-                  x1={routePoints[index]!.x} y1={routePoints[index]!.y} x2={point.x} y2={point.y} markerEnd="url(#route-arrow)" />)}
-                {routePoints.map((point, index) => <g key={index} className="route-order"><circle cx={point.x - 55} cy={point.y - 16} r="11" />
-                  <text x={point.x - 55} y={point.y - 12} textAnchor="middle">{index + 1}</text></g>)}
+                <defs><marker id="route-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#246d59" /></marker></defs>
+                {routePoints.slice(1).map((point,index)=>{const from=routePoints[index]!;const repeated=from.x===point.x&&from.y===point.y;
+                  const region=layout.regions.find(r=>r.paths.some(p=>p.variantId===route[index]))!;const rail=region.x+342;const side=from.x-region.x<165?-1:1;
+                  const d=repeated?`M ${from.x+side*74} ${from.y-10} C ${from.x+side*94} ${from.y-28}, ${from.x+side*94} ${from.y+28}, ${from.x+side*74} ${from.y+10}`:
+                    from.y===point.y?`M ${from.x} ${from.y+29} V ${from.y+35} H ${point.x} V ${point.y+29}`:
+                    `M ${from.x} ${from.y+29} V ${from.y+35} H ${rail} V ${point.y-35} H ${point.x} V ${point.y-29}`;
+                  return <path key={index} d={d} data-route-segment="" className="history-route" data-lead-transition={history.entries.slice(pathEntryIndices[index]!+1,pathEntryIndices[index+1]).some(e=>e.kind==='lead')||undefined} markerEnd="url(#route-arrow)"/>;
+                })}
                 {hoveredPath && leadDestinations.map(id => {
                   const source = layout.points.get(hoveredPath.variantId);
                   const region = layout.regions.find(item => item.setting.id === id);
                   return source && region ? <line key={id} className="lead-line"
-                    x1={source.x} y1={source.y} x2={region.x + 165} y2={region.y + 26} /> : null;
+                    x1={source.x+74} y1={source.y} x2={region.x + 310} y2={region.y + 26} /> : null;
                 })}
               </svg>
               {layout.regions.map(region => <section key={region.setting.id} className={'setting-region ' + (region.setting.coverage === 'reference-only' ? 'out-of-scope' : '')}
-                data-setting-id={region.setting.id} data-state={region.setting.coverage === 'reference-only' ? 'out-of-scope' : 'loaded'}
+                data-current-setting={region.setting.id===progress.settingId||undefined} data-setting-id={region.setting.id} data-state={region.setting.coverage === 'reference-only' ? 'out-of-scope' : 'loaded'}
                 style={{ left: region.x, top: region.y, height: region.height }}>
                 <h3>{region.setting.sourceName}{region.setting.kind === 'subsetting' && <small> · subsetting</small>}</h3>
                 {region.setting.coverage === 'reference-only' ? <p>Referenced destination · content outside pilot</p> :
@@ -250,8 +268,8 @@ export function App() {
                       data-support={path.specialRules.length ? 'manual-resolution' : 'full'}
                       onClick={() => setInspected(path.variantId)}
                       onMouseEnter={() => setHovered(path.variantId)} onMouseLeave={() => setHovered(null)}
-                      aria-label={'Inspect ' + getLifepathDisplayLabel(path, catalog)}>
-                      {getLifepathDisplayLabel(path, catalog)}{density!=='names'&&<small>{path.skillPointGrant.ordinary}sp · {path.traitPointGrant}tp{density==='extended'?' · '+path.years+'y':''}</small>}{path.specialRules.length > 0 && <small> · manual</small>}
+                      title={issues.map(describeIssue).join(' ')||'Available in the current setting'} aria-label={'Inspect ' + getLifepathDisplayLabel(path, catalog)}>
+                      <span className="path-name">{getLifepathDisplayLabel(path, catalog)}</span><span className="path-state">{state==='current'?'● Current':state==='in-history'?'✓ In history':issues.length?'⊘ '+(issues[0].code==='LEAD_REQUIRED'?'Lead needed':issues[0].code==='BORN_LIFEPATH_NOT_FIRST'?'Birth only':issues[0].code==='FIRST_LIFEPATH_MUST_BE_BORN'?'Choose birthplace':'Requires…'):'＋ Available'}{route.includes(path.variantId)?' · steps '+route.flatMap((id,i)=>id===path.variantId?[i+1]:[]).join(', '):''}</span>{density!=='names'&&<small>{path.skillPointGrant.ordinary}sp · {path.traitPointGrant}tp · {path.resourceGrant.kind==='fixed'?path.resourceGrant.amount:'?'}rp{density==='extended'?' · '+path.years+'y':''}</small>}{path.specialRules.length > 0 && <small> · manual</small>}
                     </button>;
                   })}</div>}
               </section>)}
@@ -262,16 +280,16 @@ export function App() {
             <span> · Leads: {leadSummary(hoveredPath)}</span>
             <span> · {evaluateLifepath(progress, hoveredPath.variantId, catalog).map(describeIssue).join(' ') || 'Available'}</span>
           </div>}
-          <div className="map-legend">● Available　● Current　● In history　● Locked　◌ Out of scope　<span>━ History route　┄ Leads on hover</span></div>
+          <div className="map-legend">＋ Available　● Current　✓ History　⊘ Locked　◌ Outside pilot <span>Green: route (dashed = taken Lead) · Amber: declared Leads on hover</span></div>
         </section>
         <aside className="details-panel" aria-label="Lifepath details">
           <h2>Lifepath details</h2>
           {selectedPath ? <>
-            <div className="detail-name"><h3>{getLifepathDisplayLabel(selectedPath, catalog)}</h3><button aria-label="Pin inspected lifepath" aria-pressed={pins.includes(selectedPath.variantId)} onClick={()=>togglePin(selectedPath.variantId)}>{pins.includes(selectedPath.variantId)?'★':'☆'}</button></div>
+            <div className="detail-name"><h3>{getLifepathDisplayLabel(selectedPath, catalog)}</h3><button aria-label="Pin inspected lifepath" aria-pressed={pins.includes(selectedPath.variantId)} onClick={()=>togglePin(selectedPath.variantId)}>{pins.includes(selectedPath.variantId)?'★ Pinned':'☆ Pin path'}</button></div>
             <p>{settingName(selectedPath.settingId)} · {selectedPath.years} years</p>
             <p>{grantSummary(selectedPath)}</p>
             <h4>Skills</h4><p>{humanBurningLists[selectedPath.variantId]?.skills.map(slot=>typeof slot==='string'?skillName(slot):slot.map(skillName).join(' or ')).join(', ')||'No lifepath skills; General points are available.'}</p>
-            <h4>Leads</h4><p>{leadSummary(selectedPath)}</p>
+            <h4>Traits · 1 point each</h4><p>{humanBurningLists[selectedPath.variantId]?.traits.join(', ')||'None listed'}</p><details className="source-leads"><summary>Declared Leads</summary><p>{leadSummary(selectedPath)}</p></details>
             <h4>Requirements</h4><p>{selectedPath.requirements.length ?
               selectedPath.requirements.map(describeRequirement).join('; ') : 'None listed'}</p>
             <h4>Current rule evaluation</h4>
@@ -284,22 +302,23 @@ export function App() {
             </button>
           </> : <p>Inspect a lifepath on the map to see its grants and rule evaluation.</p>}
           {progress.paths.length > 0 && <section aria-labelledby="leads">
-            <h3 id="leads">Leads</h3><p>Lead actions are separate from inspecting a destination.</p>
+            <details className="leads-menu"><summary id="leads">Change setting · Leads <span>{settings.filter(s=>canApplyChoice(mode,evaluateLead(progress,s.id,catalog))).length} available</span></summary>
             <ul>{settings.filter(setting => setting.id !== progress.settingId).map(setting => {
               const issues = evaluateLead(progress, setting.id, catalog);
               return <li key={setting.id}><button type="button" disabled={!canApplyChoice(mode, issues)}
                 onClick={() => apply({ kind: 'lead', id: setting.id })}>Lead to {setting.sourceName} (+1 year)</button>
                 {issues.length > 0 && <span> · {issues.map(describeIssue).join(' ')}</span>}</li>;
-            })}</ul>
+            })}</ul></details>
           </section>}
         </aside>
       </div>
-      <div className="pinned-tray"><strong>☆ Pinned paths</strong>{pins.length?pins.map(id=><span key={id}><button onClick={()=>{setInspected(id);focusPoint(layout.points.get(id)!);}}>{getLifepathDisplayLabel(catalog.lifepaths.get(id)!,catalog)}</button><button aria-label={'Unpin '+id} onClick={()=>togglePin(id)}>×</button></span>):<small>Keep possible futures close. Pin a path from its details.</small>}{pins.length>0&&<button onClick={()=>setDraft({...draft,pins:[]})}>Clear pinned</button>}</div>
+
       <SheetEditor sheet={sheet} progress={progress} mode={mode} onChange={updateSheet} onError={setNotice} externalIssues={[
         ...finalIssues.map(({path,issue})=>path.sourceName+': '+describeIssue(issue)),
         ...history.entries.flatMap(entry=>'overrides' in entry?entry.overrides.map(describeIssue):[]),
         ...(progress.leadPending?['Finish the pending Lead by choosing a destination lifepath.']:[]),
       ]}/>
+      {confirmReset&&<ConfirmReset onCancel={()=>setConfirmReset(false)} onConfirm={()=>apply({kind:'reset'})}/>}
       <footer className="app-footer"><span>BURNING WHEEL GOLD REVISED · HUMAN WORKBENCH</span><span>Draft creation · traits, resource purchases & final validation still in development</span></footer>
     </main>
   );

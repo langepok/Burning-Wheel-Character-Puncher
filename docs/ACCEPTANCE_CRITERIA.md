@@ -1047,3 +1047,14 @@ A Character Burner feature is done only when:
 - Changing history/stats recalculates validity without erasing purchases; Undo restores the exact prior workspace. Remove all clears allocations/purchases but preserves identity, mode and planning pins. Invalid drafts can be saved, but never labeled finalized.
 - Traits/resources show earned points and source lists; complete trait effects/catalog, resource shopping, derived questionnaires and final sheet validation remain explicitly unfinished.
 - Keep all baseline tests; add domain tests for repeat grants, stat boundaries, restrictions, mixed-pool refunds, changed roots, save validation, and UI tests for the integrated purchase flow.
+
+## User-test UX refinement (2026-11-17)
+
+- Visible history contains only lifepaths/Leads; gender remains undoable and affects rules.
+- Undo/Redo round-trip purchases and gender exactly; new successful edits clear Redo, rejected edits do not.
+- Remove last removes the last route step independently of recent stat edits. Reset preserves current gender, name, mode and pins, clears allocations, and has a centered keyboard-accessible confirmation.
+- Map drag suppresses selection and post-drag clicks; wheel cancels page scroll only over the map. Camera stays stable on ordinary edits. Route/Lead relations remain distinct; repeats have readable step numbers.
+- Age reveals age-table and adjusted mental/physical pools on hover/focus. Leads are collapsed by default; pins live beside the map.
+- Skills use bounded-width cards with fixed shade/exponent slots, explicit costs and selected pool, ledger totals, detailed purchase history and a General-spending filter.
+- Training uses Learn/Refund states and the existing two-point cost. Missing roots link to stats; missing Ordinary access offers explicit General selection without spending.
+- Existing rules, refunds, save/import/export and all regression tests remain. Verify wide layout in a real browser document viewport.

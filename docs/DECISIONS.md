@@ -578,3 +578,28 @@ purchasing, with source-list trait options and a resource budget. Trait ownershi
 trait effects, resource shopping and final character certification remain
 explicitly incomplete. See CHARACTER_WORKBENCH.md for supported behavior and
 manual cases. No claim of full Character Burner completion is made.
+
+## D-031 — Route history, Redo and compact skill actions
+
+**Status:** Accepted — UX within delegated review, 2026-11-17.
+
+The timeline displays only lifepaths and Leads. Gender remains an undoable
+command in the version-1 draft, preserving saved-file compatibility and rule
+evaluation. Remove last removes the latest route step independently of stat or
+skill edits. Reset preserves current gender, name, mode, pins and camera while
+clearing allocations, with a centered keyboard-accessible confirmation.
+
+Undo/Redo retain at most 100 in-session snapshots; only a successful new
+mechanical edit clears Redo. Name, mode and pins remain independent. Neither
+stack survives reload; the existing fallback can remove a route step from a
+loaded draft, and Redo restores it immediately.
+
+Skill cards group name, exponent, shade, cost and controls within bounded width.
+Point pools are explicit choices, and Training has Learn/Refund states, not an
+invented subtype selector. Spending summaries and filters use the transaction
+ledger. Missing roots offer navigation to stat controls.
+
+Map state text augments colour. Green lines mean actual chronology, dashed green
+means a route segment containing a taken Lead, amber means declared setting
+Leads on hover. They are not prerequisite edges. Repeats remain one catalog node
+with step numbers; consecutive repeats use an outside loop.
