@@ -263,8 +263,8 @@ h3{font-family:Georgia,serif;font-weight:500;}
 .general-opening-note{grid-column:1/-1;border-left:3px solid #bd8b36;background:#fff6e3;padding:8px;font-size:11px;line-height:1.45;}.pool-guidance{flex:1;max-width:420px;font-size:12px;line-height:1.5;color:var(--muted);}.pool-guidance strong{display:block;color:var(--ink);}
 .history-grants{margin:7px 0;font-size:11px;line-height:1.5;}.history-grants summary{cursor:pointer;color:#466c54;}.history-grants p{margin:6px 0;font-size:11px;}.history-grants small{font-size:10px;}
 
-.map-toolbar { display: contents; }
-.map-expanded .map-toolbar {
+.map-panel { container: lifepath-map / inline-size; }
+.map-panel .map-toolbar {
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr) minmax(175px, .65fr);
   grid-template-areas:
@@ -278,12 +278,12 @@ h3{font-family:Georgia,serif;font-weight:500;}
   background: #fafaf4;
   border-bottom: 1px solid var(--line);
 }
-.map-expanded .map-toolbar .map-heading { display: contents; }
-.map-expanded .map-title-row { grid-area: title; }
-.map-expanded .map-search { grid-area: search; }
-.map-expanded .map-controls { grid-area: controls; }
-.map-expanded .setting-shortcuts { grid-area: shortcuts; }
-.map-expanded .pinned-tray {
+.map-panel .map-toolbar .map-heading { display: contents; }
+.map-panel .map-title-row { grid-area: title; }
+.map-panel .map-search { grid-area: search; }
+.map-panel .map-controls { grid-area: controls; }
+.map-panel .setting-shortcuts { grid-area: shortcuts; }
+.map-panel .pinned-tray {
   grid-area: pins;
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -291,8 +291,8 @@ h3{font-family:Georgia,serif;font-weight:500;}
   min-height: 32px;
   border-radius: 6px;
 }
-.map-expanded .pinned-tray > * { flex: none; white-space: nowrap; }
-.map-expanded .map-context {
+.map-panel .pinned-tray > * { flex: none; white-space: nowrap; }
+.map-panel .map-context {
   grid-area: setting;
   align-content: center;
   gap: 3px 6px;
@@ -300,8 +300,8 @@ h3{font-family:Georgia,serif;font-weight:500;}
   border: 0;
   border-radius: 6px;
 }
-@media (max-width: 1460px) {
-  .map-expanded .map-toolbar {
+@container lifepath-map (max-width: 1120px) {
+  .map-panel .map-toolbar {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-areas:
       "title title"
