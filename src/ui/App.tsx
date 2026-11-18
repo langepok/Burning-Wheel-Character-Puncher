@@ -156,7 +156,9 @@ export function App() {
   useEffect(()=>{
     if(!expanded)return;
     const old=document.body.style.overflow;document.body.style.overflow='hidden';
-    return ()=>{document.body.style.overflow=old;};
+    const background=[...document.querySelectorAll<HTMLElement>('main.burner > :not(.workspace):not(dialog)')];
+    background.forEach(e=>e.inert=true);
+    return ()=>{document.body.style.overflow=old;background.forEach(e=>e.inert=false);};
   },[expanded]);
   useEffect(()=>{
     const onKey=(e:KeyboardEvent)=>{
@@ -275,8 +277,9 @@ export function App() {
                 {linkedPath && leadDestinations.map(id => {
                   const source = layout.points.get(linkedPath.variantId);
                   const region = layout.regions.find(item => item.setting.id === id);
-                  return source && region ? <line key={id} className="lead-line"
-                    x1={source.x+86} y1={source.y} x2={region.x + 718} y2={region.y + 26} /> : null;
+                  const origin=layout.regions.find(r=>r.paths.some(p=>p.variantId===linkedPath.variantId));
+                  return source && region && origin ? <path key={id} className="lead-line" fill="none"
+                    d={`M ${source.x} ${source.y-42} V ${source.y-52} H ${origin.x+756} V ${region.y-12} H ${region.x+718} V ${region.y+12}`} /> : null;
                 })}
               </svg>
               {layout.regions.map(region => <section key={region.setting.id} className={'setting-region ' + (region.setting.coverage === 'reference-only' ? 'out-of-scope' : '')}
@@ -294,7 +297,7 @@ export function App() {
                       onClick={() => setInspected(path.variantId)}
                       onMouseEnter={() => setHovered(path.variantId)} onMouseLeave={() => setHovered(null)}
                       title={issues.map(describeIssue).join(' ')||'Available in the current setting'} aria-label={'Inspect ' + getLifepathDisplayLabel(path, catalog)}>
-                      <span className="path-name">{getLifepathDisplayLabel(path, catalog)}</span><span className="path-state">{state==='current'?'● Current':state==='in-history'?'✓ In history':issues.length?'⊘ '+(issues[0].code==='LEAD_REQUIRED'?'Lead needed':issues[0].code==='BORN_LIFEPATH_NOT_FIRST'?'Birth only':issues[0].code==='FIRST_LIFEPATH_MUST_BE_BORN'?'Choose birthplace':'Requires…'):'＋ Available'}{route.includes(path.variantId)?' · steps '+route.flatMap((id,i)=>id===path.variantId?[i+1]:[]).join(', '):''}</span>{density!=='names'&&<small>{path.skillPointGrant.ordinary}sp · {path.traitPointGrant}tp · {path.resourceGrant.kind==='fixed'?path.resourceGrant.amount:'?'}rp{density==='extended'?' · '+path.years+'y':''}</small>}{density==='extended'&&<small className="card-stat-grant">{statSummary(path)}</small>}{path.specialRules.length > 0 && <small> · manual</small>}
+                      <span className="path-name">{getLifepathDisplayLabel(path, catalog)}</span><span className="path-state">{state==='current'?'● Current':state==='in-history'?'✓ In history':issues.length?'⊘ '+(issues[0].code==='LEAD_REQUIRED'?'Lead needed':issues[0].code==='BORN_LIFEPATH_NOT_FIRST'?'Birth only':issues[0].code==='FIRST_LIFEPATH_MUST_BE_BORN'?'Choose birthplace':'Requires…'):'＋ Available'}{route.includes(path.variantId)?' · steps '+route.flatMap((id,i)=>id===path.variantId?[i+1]:[]).join(', '):''}</span>{density!=='names'&&<small>{path.skillPointGrant.ordinary}sp{path.skillPointGrant.general?' + '+path.skillPointGrant.general+' general':''} · {path.traitPointGrant}tp · {path.resourceGrant.kind==='fixed'?path.resourceGrant.amount:'?'}rp{density==='extended'?' · '+path.years+'y':''}</small>}{density==='extended'&&<small className="card-stat-grant">{statSummary(path)}</small>}{path.specialRules.length > 0 && <small> · manual</small>}
                     </button>;
                   })}</div>}
               </section>)}

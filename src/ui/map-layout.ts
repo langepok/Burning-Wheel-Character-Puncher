@@ -33,6 +33,7 @@ export function routeSegment(from:MapPoint,to:MapPoint,rail:number){
   if(from.x===to.x&&from.y===to.y)return `M ${from.x+86} ${from.y-12} C ${from.x+100} ${from.y-32}, ${from.x+100} ${from.y+32}, ${from.x+86} ${from.y+12}`;
   if(from.y===to.y){const sign=Math.sign(to.x-from.x);return Math.abs(to.x-from.x)===184?`M ${from.x+sign*86} ${from.y} H ${to.x-sign*86}`:`M ${from.x} ${from.y+42} V ${from.y+52} H ${to.x} V ${to.y+42}`;}
   const sign=Math.sign(to.y-from.y);
+  if(Math.abs(to.y-from.y)===104&&from.x!==to.x)return `M ${from.x} ${from.y+sign*42} V ${from.y+sign*52} H ${to.x} V ${to.y-sign*42}`;
   if(from.x===to.x&&Math.abs(to.y-from.y)===104)return `M ${from.x} ${from.y+sign*42} V ${to.y-sign*42}`;
   return `M ${from.x} ${from.y+sign*42} V ${from.y+sign*52} H ${rail} V ${to.y-sign*52} H ${to.x} V ${to.y-sign*42}`;
 }

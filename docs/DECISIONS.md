@@ -603,3 +603,22 @@ Map state text augments colour. Green lines mean actual chronology, dashed green
 means a route segment containing a taken Lead, amber means declared setting
 Leads on hover. They are not prerequisite edges. Repeats remain one catalog node
 with step numbers; consecutive repeats use an outside loop.
+
+## D-032 — Expanded map workspace and confirmed cross-setting choices
+
+Accepted UX, 2026-11-18. Expanded mode uses a fixed viewport workspace with
+inspector, search, pins and controls. It preserves camera/selection and locks
+background scrolling; Escape respects modal priority. Stable four-column
+settings replace two-column strips. Amber is declared Leads for hover or
+selection; green remains chronology. Requires stays textual in the inspector.
+Blank clicks clear inspection; drags do not.
+
+A strictly legal Lead plus destination can be previewed and explicitly confirmed
+as one undoable edit. Both commands are evaluated by the existing rules engine;
+no partial application, automatic destination, or waived year. The explicit
+Lead menu and Free Creation actions remain. This shortcut never bypasses rules,
+even in Free Creation. BWGR, Leads: Moving to a New Setting.
+
+History exposes the existing calculation's repeat-adjusted contributions and
+labels source skill/trait lists as options, not ownership. General opening
+consequences appear where Ordinary opening is also currently legal.
