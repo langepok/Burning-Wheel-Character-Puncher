@@ -2,6 +2,8 @@ import type { LifepathProgress } from './lifepaths';
 import type { SkillDefinition, FixedRoot } from '../data/skills';
 import { generalSkillTranscriptionContent } from '../data/skills/general';
 import { lifepathTopicSkills } from '../data/burning/topics';
+import { resourceContribution, traitState } from './traits';
+import { traits as traitCatalog } from '../data/traits';
 import { humanAgePools, humanBurningLists } from '../data/burning/human';
 
 export const statIds = ['will','perception','agility','speed','power','forte'] as const;
@@ -11,6 +13,7 @@ export type Pool = 'ordinary' | 'general';
 export type Ability = { exponent: number; shade: Shade };
 export interface Purchase { skillId: string; pool: Pool; cost: number; kind: 'open' | 'advance'; shade: 'root' | Shade; override: boolean }
 export interface Sheet {
+  traitPurchases?: import('../data/traits/types').TraitPurchase[];
   stats: Record<StatId, Ability>;
   choices: Record<string, string>;
   candidates: string[];
@@ -31,7 +34,13 @@ export function skillOpening(skill:SkillDefinition, sheet:Sheet): Ability | unde
   const order:Shade[]=['B','G','W'];
   const shade=order[Math.min(...values.map(v=>order.indexOf(v.shade)))];
   const mixed=new Set(values.map(v=>v.shade)).size>1;
-  return {exponent:Math.floor((values.reduce((n,v)=>n+v.exponent,0)+(mixed?2:0))/(values.length*2)),shade};
+  const ids=refs.map(r=>r.id as string);
+  const roundUp=sheet.traitPurchases?.some(p=>{
+    const roots=traitCatalog.get(p.id)?.roundRoots;
+    return roots?.every(id=>ids.includes(id)) && (roots.length===1 || ids.length===roots.length);
+  });
+  const round=roundUp?Math.ceil:Math.floor;
+  return {exponent:round((values.reduce((n,v)=>n+v.exponent,0)+(mixed?2:0))/(values.length*2)),shade};
 }
 export function skillValue(id:string,sheet:Sheet): Ability | 'training' | undefined {
   const skill=skills.get(id);const paid=sheet.purchases.filter(p=>p.skillId===id); const open=paid.find(p=>p.kind==='open');
@@ -45,7 +54,10 @@ export function deriveSheet(sheet:Sheet, progress:LifepathProgress) {
   const total={mental:0,physical:0,ordinary:0,general:0,traits:0,resources:0};
   const stockId=progress.paths[0]?.stockId;
   const age=stockId==='human'?humanAgePools.find(r=>progress.age>=r[0]&&progress.age<=r[1]):undefined;
-  if(age){total.mental=age[2];total.physical=age[3];}
+  const traitBuild=traitState(sheet,progress);
+  const poolEffect=[...traitBuild.owned].map(id=>traitCatalog.get(id)?.agePools).find(e=>e && stockId==='human' && progress.age>e.above);
+  if(poolEffect){total.mental=poolEffect.mental;total.physical=poolEffect.physical;}
+  else if(age){total.mental=age[2];total.physical=age[3];}
   else if(progress.paths.length) issues.push('No audited stat age table for this age or stock.');
   const available=new Set<string>();const required=new Set<string>();const requiredTraits=new Set<string>();
   const traits=new Set<string>();const choices:{key:string;label:string;options:readonly string[]}[]=[];
@@ -57,7 +69,7 @@ export function deriveSheet(sheet:Sheet, progress:LifepathProgress) {
     const list=humanBurningLists[path.variantId];
     const factor=n<3?1:n===3?.5:0;
     total.ordinary+=Math.ceil(path.skillPointGrant.ordinary*factor);total.general+=Math.ceil(path.skillPointGrant.general*factor);
-    total.resources+=Math.ceil((path.resourceGrant.kind==='fixed'?path.resourceGrant.amount:path.resourceGrant.base)*(n<3?1:.5));
+    total.resources+=resourceContribution(path,n);
     if(n<3) total.traits+=Math.max(0,path.traitPointGrant-(n===2&&list&&list.traits.length<2?1:0));
     if(n<3){
       const g=path.statGrant;
@@ -82,11 +94,12 @@ export function deriveSheet(sheet:Sheet, progress:LifepathProgress) {
       resolved.forEach(id=>{if(id){available.add(id);if(!skills.has(id))issues.push(path.sourceName+': '+skillName(id)+' needs a topic/choice editor.');}});
       if(n<=3){const needed=resolved.slice(n-1).find(id=>id&&!required.has(id));if(needed){if(previousAvailable.has(needed)&&sheet.purchases.some(p=>p.skillId===needed))issues.push(path.sourceName+': if '+skillName(needed)+' was learned as an optional skill on a previous path, open the next unowned skill as well (BWGR 89; source allocation needs table review).');required.add(needed);}}
       list.traits.forEach(t=>traits.add(t));
-      if(n<3){const t=list.traits.slice(n-1).find(t=>!requiredTraits.has(t));if(t)requiredTraits.add(t);}
+      if(n<3){const id=traitBuild.paths[index].required;if(id)requiredTraits.add(traitCatalog.get(id)!.name);}
     }
     contributions.push(Object.fromEntries(Object.entries(total).map(([key,value])=>[key,value-before[key as keyof typeof total]])) as typeof total);
   });
-  const remaining={...total};
+  const remaining={...total,traits:traitBuild.remaining};
+  issues.push(...traitBuild.issues);
   for(const id of statIds){const v=sheet.stats[id];remaining[id==='will'||id==='perception'?'mental':'physical']-=v.exponent+(v.shade==='G'?5:0);
     if(progress.paths.length&&v.exponent<1)issues.push(skillName(id)+': allocate at least one point.');
     if(v.exponent>6)issues.push(skillName(id)+': exceeds default starting cap 6.');

@@ -4,9 +4,10 @@ import { applyLifepathCommand } from './lifepath-history';
 import type { BuildMode, LifepathHistory } from './lifepath-history';
 import { deriveSheet, restrictionIssues, skillOpening, skillValue, skills, statIds } from '../rules/burning';
 import type { Pool, Shade, Sheet, StatId } from '../rules/burning';
+import { parseTraitPurchases } from './traits';
 export * from '../rules/burning';
 export function createSheet():Sheet {
-  return {stats:Object.fromEntries(statIds.map(id=>[id,{exponent:0,shade:'B'}])) as Sheet['stats'],choices:{},candidates:[],purchases:[],grayApproved:false};
+  return {stats:Object.fromEntries(statIds.map(id=>[id,{exponent:0,shade:'B'}])) as Sheet['stats'],choices:{},candidates:[],traitPurchases:[],purchases:[],grayApproved:false};
 }
 export function changeStat(sheet:Sheet,p:LifepathProgress,id:StatId,delta:number,mode:BuildMode){
   const exponent=sheet.stats[id].exponent+delta;
@@ -73,7 +74,7 @@ export function parseDraft(text:string,catalog:GameCatalog):Draft {
       if(p.cost!==expected)fail();
     }else if(!opened.has(p.skillId)||skill!.training.kind==='training'||p.cost!==1)fail();
   }
-  return {version:1,name:d.name,mode:d.mode,history,sheet:s,pins:[...new Set(d.pins)] as string[]};
+  return {version:1,name:d.name,mode:d.mode,history,sheet:{...s,traitPurchases:parseTraitPurchases(s.traitPurchases,catalog)},pins:[...new Set(d.pins)] as string[]};
 }
 
 /** Remove a route step without undoing identity or purchases. */
