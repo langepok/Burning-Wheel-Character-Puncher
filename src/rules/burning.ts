@@ -16,6 +16,7 @@ export interface Sheet {
   traitPurchases?: import('../data/traits/types').TraitPurchase[];
   stats: Record<StatId, Ability>;
   choices: Record<string, string>;
+  traitCandidates?: string[];
   candidates: string[];
   purchases: Purchase[];
   grayApproved: boolean;

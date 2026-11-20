@@ -40,3 +40,11 @@ Prior checkpoint (6c10023): TypeScript passed, 1,719 tests passed in 73 files, a
 Reconciliation acceptance: assert all six descriptive types and absence of effect warnings, distinct Pragmatic identity, Breeder project price and Orc suite exclusion, Tough stock/path/catalog charges and duplicate prevention, continued restrictions on other common traits and Black Lung. Exercise refunds and imports plus the existing full workbench regression suite.
 
 Reconciliation checkpoint builds on published HEAD 6c10023. The PR description records the final commit SHA, full suite and CI outcome. Remaining audit scope is index-only metadata and unindexed stock entries. Issue #31 tracks custom traits separately.
+
+Worklist acceptance: stage twenty distinct traits plus a duplicate, compare budget, obligations and effects, remove and round-trip candidates, reject malformed IDs and load legacy drafts. Exercise required selection, purchase, refund, route changes, Reset and Undo/Redo through the sheet. Confirm unavailable entries can be staged. Run all Workbench tests, typecheck, production build and CI.
+
+### Worklist checkpoint
+
+Based on PR #30 commit d0e0be1. Required entries open a single candidate or owned row. Review the production preview by opening Traits, choosing Explore Trait Catalog, adding candidates, closing the dialog and selecting a source in the expanded row. The p. 181 path and other non-pilot paths remain outside this interface. Catalog notes and manual dependencies retain their existing coverage. Candidate IDs persist in version 1 drafts and omitted lists restore empty. The catalog query, filters and expanded row are session UI state.
+
+Local verification: 1,725 tests in 73 files, TypeScript and production build passed. The PR description records the published HEAD and CI run. The local worklist preview is on port 4198. To reproduce from the PR branch, run npm ci, npm run build and npx vite preview --host 127.0.0.1 --port 4198.

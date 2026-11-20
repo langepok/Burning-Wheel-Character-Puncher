@@ -632,3 +632,7 @@ The sheet stores paid acquisitions with their source, charge and creation mode. 
 The five lifepath-only names listed in M2_TRAIT_EFFECTS use the descriptive Character interpretation. Their lifepath pages remain the sources and no general price is inferred. Breeder is Char in the index. The Orc example on p. 227 differs from the normative suite on pp. 236–237. We use that suite, and explicitly set a stock-independent project price of 1 TP for Breeder.
 
 Tough is one trait. BWGR pp. 119, 181 and 351 supply the Dwarven grant, listed path and printed price. We interpret pp. 310–311 to permit a separate general purchase for 2 TP for Tough alone. Common grants and Fey Blood retain their own costs. Black Lung (pp. 311, 315) has no general purchase in Rules. Later trait votes and custom trait creation (issue #31) are outside this burner.
+
+## Trait worklist
+
+Shortlisted trait IDs persist separately from skills and trait purchases. Catalog selection only stages an option. Opening a requirement stages or expands the same worklist row. Buying from the row records the chosen source. Refund keeps a previously staged candidate. Rules availability uses the purchase validator including outstanding obligations and budget. The catalog remains open for selecting several candidates.

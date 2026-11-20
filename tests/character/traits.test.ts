@@ -198,3 +198,21 @@ it('retains a legacy Fey Breeder charge for repair after import',()=>{
   expect(traitState(sheet,route('born-peasant')).issues.join(' ')).toContain('Breeder: Requires Fey Blood');
   expect(refundTrait(sheet,'breeder')).toEqual(createSheet());
 });
+
+it('persists twenty planning choices independently of obligations, ownership, points and effects',()=>{
+  const progress=route('born-peasant','farmer');
+  const empty=createSheet(),ids=['vigor-of-youth','hoarding','black-lung',...[...traits.keys()].slice(0,17)];
+  const staged=ids.reduce(shortlistTrait,empty);
+  expect(staged.traitCandidates).toHaveLength(20);
+  expect(shortlistTrait(staged,'hoarding')).toBe(staged);
+  expect(traitState(staged,progress)).toEqual(traitState(empty,progress));
+  expect(deriveSheet(staged,progress)).toEqual(deriveSheet(empty,progress));
+  const draft={version:1,name:'',history:{entries:[]},mode:'rules',pins:[],sheet:staged};
+  expect(parseDraft(JSON.stringify(draft),catalog).sheet.traitCandidates).toEqual(ids);
+  for(const invalid of [null,{},['unknown'],['tough','tough']]){
+    expect(()=>parseDraft(JSON.stringify({...draft,sheet:{...staged,traitCandidates:invalid}}),catalog)).toThrow();
+  }
+  expect(parseDraft(JSON.stringify({...draft,sheet:{...staged,traitCandidates:undefined}}),catalog).sheet.traitCandidates).toEqual([]);
+  expect(refundTrait(purchaseTrait(staged,progress,'hoarding',source,'rules').sheet,'hoarding')).toEqual(staged);
+});
+import { shortlistTrait } from '../../src/character/traits';

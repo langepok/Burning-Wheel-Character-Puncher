@@ -317,3 +317,13 @@ h3{font-family:Georgia,serif;font-weight:500;}
 .trait-toolbar label,.trait-cards article { display:grid; gap:.45rem; align-content:start; }
 .trait-cards article { padding:1rem; border:1px solid var(--line, #b6aa93); border-radius:.4rem; }
 .trait-cards article h3,.trait-cards article p { margin:0; }
+
+.trait-required {border-left:3px solid var(--green);padding:.2rem 1rem .8rem;margin:1rem 0;border-bottom:1px solid var(--line)}
+.trait-required button {margin:0 .4rem .3rem 0}
+.trait-row {border-bottom:1px solid var(--line)}
+.trait-row>button {display:flex;width:100%;align-items:center;justify-content:space-between;padding:.4rem .7rem;background:transparent;color:inherit;border:0;text-align:left}
+.trait-row>button span {font-size:.85em}
+.trait-owned {font-weight:bold;text-decoration:underline}
+.trait-detail {padding:.5rem 1rem 1rem}
+.trait-detail small {display:block}
+.trait-detail button {margin:.25rem .35rem .25rem 0}

@@ -334,11 +334,43 @@ it('buys, undoes, redoes and refunds a required trait through the sheet and auto
   const container=mountApp();
   click(container,'Born Peasant');click(container,'Farmer');click(container,'Traits');
   const ledger=()=>JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.traitPurchases;
-  click(container,'Required · Farmer');
+  click(container,'Hoarding · Farmer #1');
+  expect(ledger()).toHaveLength(0);
+  expect(container.querySelectorAll('.trait-row')).toHaveLength(1);
+  click(container,'Buy · Farmer');
   expect(ledger()).toMatchObject([{id:'hoarding',cost:1,source:{kind:'lifepath',occurrence:1}}]);
   click(container,'Undo');expect(ledger()).toHaveLength(0);
   click(container,'Redo');expect(ledger()).toHaveLength(1);
   click(container,'Reset');click(container,'Confirm remove all');expect(ledger()).toHaveLength(0);
   click(container,'Undo');expect(ledger()).toHaveLength(1);
+  if(!container.querySelector('.trait-detail'))click(container,'HoardingOwned');
   click(container,'Refund 1 TP');expect(ledger()).toHaveLength(0);
+});
+
+it('stages a full worklist through Explore Trait Catalog, including unavailable traits',()=>{
+  const c=mountApp();
+  click(c,'Born Peasant');click(c,'Farmer');click(c,'Traits');
+  const budget=()=>c.querySelector('[aria-label="Trait burner"] .point-total')?.textContent;
+  const before=budget();
+  click(c,'Explore Trait Catalog');
+  const dialog=c.querySelector<HTMLDialogElement>('dialog[aria-label="Explore Trait Catalog"]')!;
+  const rows=[...dialog.querySelectorAll<HTMLButtonElement>('.catalog-results button')];
+  const select=(name:string)=>act(()=>rows.find(row=>row.textContent===name)!.click());
+  for(const name of ['Hoarding','Black Lung',...rows.slice(0,18).map(row=>row.textContent!)]){
+    select(name);click(dialog,'Add to worklist');
+    expect(dialog.querySelector<HTMLButtonElement>('.trait-detail button')?.disabled).toBe(true);
+  }
+  expect(budget()).toBe(before);
+  click(dialog,'Close catalog');
+  expect(c.querySelectorAll('.trait-row')).toHaveLength(20);
+  click(c,'Hoarding · Farmer #1');
+  expect(c.querySelectorAll('.trait-row')).toHaveLength(20);
+  expect(c.querySelector('.trait-required')?.textContent).toContain('1 TP still required');
+  click(c,'Black LungConsidering');
+  expect(c.querySelector('.trait-detail')?.textContent).toContain('No purchase source');
+  click(c,'Remove from shortlist');
+  expect(c.querySelectorAll('.trait-row')).toHaveLength(19);
+  expect(budget()).toBe(before);
+  click(c,'Undo');expect(c.querySelectorAll('.trait-row')).toHaveLength(20);
+  click(c,'Redo');expect(c.querySelectorAll('.trait-row')).toHaveLength(19);
 });

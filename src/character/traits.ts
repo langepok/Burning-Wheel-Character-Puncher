@@ -7,21 +7,31 @@ import { traitState, accessIssues, sameSource, pathTraitIds, traitCost } from '.
 import type { BuildMode } from './lifepath-history';
 
 export function purchaseTrait(sheet:Sheet,progress:LifepathProgress,id:string,source:TraitSource,mode:BuildMode):{sheet:Sheet;error?:string} {
-  const t=traits.get(id);
-  if(!t) return {sheet,error:'Unknown trait.'};
   const state=traitState(sheet,progress);
-  if(state.owned.has(id)) return {sheet,error:'Already owned.'};
+  const error=traitPurchaseError(state,id,source,mode);
+  if(error)return {sheet,error};
+  const cost=traitCost(traits.get(id)!,source)!;
+  return {sheet:{...sheet,traitPurchases:[...state.ledger,{id,source,cost,mode}]}};
+}
+export function traitPurchaseError(state:ReturnType<typeof traitState>,id:string,source:TraitSource,mode:BuildMode):string|undefined {
+  const t=traits.get(id);
+  if(!t) return 'Unknown trait.';
+  if(state.owned.has(id)) return 'Already owned.';
   const cost=traitCost(t,source);
-  if(cost===null || !Number.isSafeInteger(cost) || cost<0 || cost>100) return {sheet,error:'No confirmed price for this source.'};
+  if(cost===null || !Number.isSafeInteger(cost) || cost<0 || cost>100) return 'No confirmed price for this source.';
   if(source.kind==='lifepath' && !state.paths.some(p=>sameSource(p.source,source)&&p.ids.includes(id)))
-    return {sheet,error:'Choose a listed source, or an explicit Free Creation price.'};
+    return 'Choose a listed source, or an explicit Free Creation price.';
   const issues=accessIssues(t,source,state);
   const required=state.missing.find(m=>m.id===id);
   if(required && !sameSource(required.source,source)) issues.push('Purchase from the required lifepath occurrence.');
   const reserve=state.missing.length-(required?1:0);
   if(cost>state.remaining || (!required && state.remaining-cost<reserve)) issues.push('Insufficient trait points after required purchases.');
-  if(mode==='rules' && issues.length) return {sheet,error:issues.join(' ')};
-  return {sheet:{...sheet,traitPurchases:[...state.ledger,{id,source,cost,mode}]}};
+  if(mode==='rules' && issues.length) return issues.join(' ');
+}
+
+export function shortlistTrait(sheet:Sheet,id:string):Sheet {
+  const candidates=sheet.traitCandidates??[];
+  return traits.has(id)&&!candidates.includes(id)?{...sheet,traitCandidates:[...candidates,id]}:sheet;
 }
 export function changeTraitCategory(sheet:Sheet,progress:LifepathProgress,id:string,category:string,mode:BuildMode):{sheet:Sheet;error?:string} {
   const t=traits.get(id),ledger=sheet.traitPurchases??[],paid=ledger.find(p=>p.id===id);
