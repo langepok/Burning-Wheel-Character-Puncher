@@ -640,3 +640,9 @@ Shortlisted trait IDs persist separately from skills and trait purchases. Catalo
 ## Trait sheet comparison
 
 Owned traits use Character, Die and Call-on columns. Hybrid traits appear once in Die with both types identified. Candidates use their own responsive grid. Each tile expands independently and retains expansion across purchases, refunds and sheet tabs. Catalog quick-add leaves the detail selection alone. Price sorting uses the least listed source price for the current route, irrespective of budget; absent prices sort last in either direction. Source-specific prices stay visible. Affinity for… awaits a future skill-target selector and continues to require manual recording.
+
+## Trait sheet controls and inherited requirements
+
+The sheet derives unpaid requirement cards directly from the current route and places them first in Considering. A single header toggles each card and includes its type and required source visit. Fulfilled requirements use the same status treatment on the owned card. An owned trait bought from a different source keeps its recorded purchase visible for repair. Showing a requirement never changes shortlist history.
+
+Clear optional candidates affects visible, manually staged optional choices. Reset traits refunds all recorded trait purchases and clears trait choices and the entire shortlist in one undoable edit. Stock grants and lifepath obligations follow from the route. The sheet groups both commands with the TP balance, catalog, review and point rules.

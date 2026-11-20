@@ -52,3 +52,14 @@ Local verification: 1,725 tests in 73 files, TypeScript and production build pas
 UX II acceptance: quick-add without purchase or selection change, numeric and reverse sorting with missing prices last, hybrid filtering, four simultaneous cards across purchase/refund, independent collapse, fulfilled requirement styling, readable sources, full regression suite and isolated production preview.
 
 UX II preview uses port 4199 with its own production output. Preview with npm run build -- --outDir ../tmp/ux2-dist and npx vite preview --outDir ../tmp/ux2-dist --host 127.0.0.1 --port 4199 --strictPort. The PR description records the published commit and verification. Expanded cards persist across sheet tabs within the session. Affinity for… still requires manual skill selection.
+
+### Trait controls and requirement cards
+
+Acceptance for the annotated sheet:
+
+- Reading the sheet, expanding a card or adding a lifepath never writes a candidate just to display a requirement. Show unpaid requirements first in Considering. Render one card per trait, with its type, requirement status and source visit. A purchase from another source remains owned and visibly needs repair.
+- The complete card header toggles with a pointer or keyboard, including the type and status. Opening and closing it leaves other cards alone. Display purchase terms immediately after the effect and above the reference footer.
+- Keep the catalog, remaining TP, outstanding requirements, review and a short cited rules reference together. Show both bulk actions in the same panel.
+- Clear optional candidates in one undoable edit. Preserve paid traits, implicit requirements and the shortlist provenance of owned traits. Reset traits clears paid acquisitions, trait choices and the shortlist in one undoable edit. Recompute grants and requirements from the route. Exercise Cancel, Undo and Redo, source-specific charges, stock grants and legacy drafts.
+
+UX verification used the five-lifepath saved character from the annotations. The new preview under `http://127.0.0.1:4199/traits-review/` shares the draft with the previous build at the root URL. To reproduce beside that build, run `npm run build -- --base=./ --outDir ../tmp/ux2-dist/traits-review` and serve `../tmp/ux2-dist` on port 4199. Local verification passed TypeScript, all 1,730 tests in 73 files and the production build. See PR #30 for the published commit and CI result.

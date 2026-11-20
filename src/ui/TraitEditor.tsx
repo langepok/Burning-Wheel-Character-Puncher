@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { traits } from '../data/traits';
-import type { Trait, TraitSource } from '../data/traits/types';
-import { purchaseTrait, refundTrait, changeTraitCategory, shortlistTrait, traitPurchaseError } from '../character/traits';
+import { ConfirmReset } from './ConfirmReset';
+import type { PathSource, Trait, TraitSource } from '../data/traits/types';
+import { purchaseTrait, refundTrait, changeTraitCategory, shortlistTrait, traitPurchaseError, removeTraitCandidates, resetTraits } from '../character/traits';
 import type { BuildMode } from '../character/lifepath-history';
 import type { Sheet } from '../rules/burning';
 import type { LifepathProgress } from '../rules/lifepaths';
@@ -20,9 +21,24 @@ export function TraitEditor({sheet,progress,mode,onChange,onError,expanded,setEx
 
   const [catalog,setCatalog]=useState(false);
   const [overrides,setOverrides]=useState<Record<string,string>>({});
-  const candidates=sheet.traitCandidates??[];
-  const worklist=new Set([...candidates,...state.owned]);
-  const required=state.paths.filter(p=>p.required);
+  const [openGuide, setOpenGuide] = useState<'review' | 'rules' | null>(null);
+  const [confirmTraitReset, setConfirmTraitReset] = useState(false);
+  const candidates = sheet.traitCandidates ?? [];
+  const requirements = new Map<string, PathSource>();
+  for (const path of state.paths) {
+    if (path.required) requirements.set(path.required, path.source);
+  }
+  const unpaid = new Set(state.missing.map(entry => entry.id));
+  const optionalCandidates = candidates.filter(id => !state.owned.has(id) && !requirements.has(id));
+  const considering = [...[...unpaid].filter(id => !state.owned.has(id)), ...optionalCandidates];
+  const worklist = new Set([...considering, ...state.owned]);
+  const spent = state.total - state.remaining;
+  const hasTraitEdits = state.ledger.length > 0 || candidates.length > 0 ||
+    Object.keys(sheet.choices).some(key => key.startsWith('trait:'));
+
+  function toggleTrait(id: string) {
+    setExpanded(ids => ids.includes(id) ? ids.filter(other => other !== id) : [...ids, id]);
+  }
   function consider(id:string){
     if(!worklist.has(id))onChange(shortlistTrait(sheet,id));
     setExpanded(ids=>ids.includes(id)?ids:[...ids,id]);
@@ -54,55 +70,146 @@ export function TraitEditor({sheet,progress,mode,onChange,onError,expanded,setEx
       const result=purchaseTrait(sheet,progress,t.id,source,mode);
       if(result.error)onError(result.error);else onChange(result.sheet);
     }
-    return <div className="trait-detail" data-type={t.type}>{browse&&<h3>{t.name}</h3>}
-      <TypeLabel trait={t}/>
-      <p>{t.note??(t.type==='character'?'Descriptive character trait.':'See the cited rules for its effect during play.')}</p>
-      {owned && <strong>Owned · {paid?paid.cost+' TP':'free common trait'}</strong>}
-      {owned && !browse && <>
-        {paid && t.categories && <fieldset><legend>Animal categories · first included, then 1 TP each</legend>
-          {t.categories.map(c=><label key={c}><input type="checkbox" checked={paid.categories?.includes(c)??false} onChange={()=>{
-            const result=changeTraitCategory(sheet,progress,t.id,c,mode);
-            if(result.error)onError(result.error);else onChange(result.sheet);
-          }}/>{c}</label>)}</fieldset>}
-        {t.poolTransfer && <label><input type="checkbox" checked={sheet.choices['trait:'+t.id]==='transfer'} onChange={e=>onChange({...sheet,choices:{...sheet.choices,['trait:'+t.id]:e.target.checked?'transfer':'keep'}})}/> {t.note}</label>}
-        {paid&&<><p>Source: {paid.source.kind==='lifepath'?pathLabel(paid.source.path)+' · visit '+paid.source.occurrence:({catalog:'General catalog',fey:'Fey Blood',free:'Custom price'})[paid.source.kind]} · {paid.mode==='rules'?'Rules':'Free Creation'}</p><button onClick={()=>onChange(refundTrait(sheet,t.id))}>Refund {paid.cost} TP</button></>}</>}
-      {!owned && <div>{options.map(({source,label})=>{
-        const reason=traitPurchaseError(state,t.id,source,browse?'rules':mode);
-        const text=label+' · '+traitCost(t,source)+' TP';
-        return <div key={label}>{browse?<span>{text}</span>:<button disabled={!!reason} onClick={()=>buy(source)}>Buy · {text}</button>}
-          {reason&&<small> {reason}</small>}</div>;
-      })}{options.length===0&&<p>No purchase source on this route.</p>}</div>}
-      {!browse && !owned && mode==='free'&&<label>Override cost <input type="number" min="0" max="100" value={override} onChange={e=>setOverrides({...overrides,[t.id]:e.target.value})}/>
-        <button disabled={!override.trim()} onClick={()=>buy({kind:'free',points:Number(override)})}>Use override</button></label>}
-      {browse?<button disabled={worklist.has(t.id)} onClick={()=>consider(t.id)}>{worklist.has(t.id)?'In worklist':'Add to worklist'}</button>:
-        !owned&&<button onClick={()=>onChange({...sheet,traitCandidates:candidates.filter(id=>id!==t.id)})}>Remove from shortlist</button>}
+    return <div className="trait-detail" data-type={t.type}>
+      {browse && <><h3>{t.name}</h3><TypeLabel trait={t}/></>}
+      <p>{t.note ?? (t.type === 'character' ? 'Descriptive character trait.' : 'See the cited rules for its effect during play.')}</p>
+      <div className="trait-acquisition">
+        {owned && <strong>Owned · {paid ? paid.cost + ' TP' : 'free common trait'}</strong>}
+        {owned && !browse && <>
+          {paid && t.categories && <fieldset><legend>Animal categories · first included, then 1 TP each</legend>
+            {t.categories.map(category => <label key={category}>
+              <input type="checkbox" checked={paid.categories?.includes(category) ?? false} onChange={() => {
+                const result = changeTraitCategory(sheet, progress, t.id, category, mode);
+                if (result.error) onError(result.error);
+                else onChange(result.sheet);
+              }}/>{category}
+            </label>)}
+          </fieldset>}
+          {t.poolTransfer && <label>
+            <input type="checkbox" checked={sheet.choices['trait:' + t.id] === 'transfer'} onChange={event =>
+              onChange({...sheet, choices: {...sheet.choices, ['trait:' + t.id]: event.target.checked ? 'transfer' : 'keep'}})
+            }/> {t.note}
+          </label>}
+          {paid && <>
+            <p>Source: {paid.source.kind === 'lifepath'
+              ? pathLabel(paid.source.path) + ' · visit ' + paid.source.occurrence
+              : ({catalog:'General catalog', fey:'Fey Blood', free:'Custom price'})[paid.source.kind]}
+              {' · '}{paid.mode === 'rules' ? 'Rules' : 'Free Creation'}</p>
+            {unpaid.has(t.id) && <p>Refund this purchase to buy the trait from its required lifepath.</p>}
+            <button onClick={() => onChange(refundTrait(sheet, t.id))}>Refund {paid.cost} TP</button>
+          </>}
+        </>}
+        {!owned && <>
+          {options.map(({source, label}) => {
+            const reason = traitPurchaseError(state, t.id, source, browse ? 'rules' : mode);
+            const text = label + ' · ' + traitCost(t, source) + ' TP';
+            return <div key={label}>
+              {browse ? <span>{text}</span> : <button disabled={!!reason} onClick={() => buy(source)}>Buy · {text}</button>}
+              {reason && <small>{reason}</small>}
+            </div>;
+          })}
+          {options.length === 0 && <p>No purchase source on this route.</p>}
+          {!browse && mode === 'free' && <label>Override cost <input type="number" min="0" max="100" value={override}
+            onChange={event => setOverrides({...overrides, [t.id]: event.target.value})}/>
+            <button disabled={!override.trim()} onClick={() => buy({kind:'free', points:Number(override)})}>Use override</button>
+          </label>}
+        </>}
+        {browse && <button disabled={worklist.has(t.id)} onClick={() => consider(t.id)}>
+          {worklist.has(t.id) ? 'In worklist' : 'Add to worklist'}
+        </button>}
+        {!browse && !owned && !requirements.has(t.id) &&
+          <button onClick={() => onChange(removeTraitCandidates(sheet, [t.id]))}>Remove from shortlist</button>}
+      </div>
       <footer>BWGR {t.pages.join(', ')} · {sourceLabels[t.coverage]}</footer>
     </div>;
   }
-  function tile(id:string){
-    const t=traits.get(id)!;
-    const open=expanded.includes(id);
-    return <article className="trait-row" key={id} data-type={t.type}>
-      <button id={'worklist-'+id} aria-expanded={open} onClick={()=>setExpanded(ids=>open?ids.filter(other=>other!==id):[...ids,id])}>
-        <strong>{t.name}</strong><span aria-hidden="true">{open?'−':'⌄'}</span></button>
-      {open?detail(t,false):<TypeLabel trait={t}/>}</article>;
+
+  function tile(id: string) {
+    const trait = traits.get(id)!;
+    const open = expanded.includes(id);
+    const source = requirements.get(id);
+    const needsSource = unpaid.has(id) && state.owned.has(id);
+    return <article className="trait-row" key={id} data-type={trait.type}>
+      <button className="trait-toggle" id={'worklist-' + id} aria-expanded={open}
+        aria-controls={open ? 'trait-body-' + id : undefined} onClick={() => toggleTrait(id)}>
+        <span className="trait-heading">
+          <strong>{trait.name}</strong>
+          <span className="trait-meta">
+            <TypeLabel trait={trait}/>
+            {source && <>
+              <span className="trait-obligation" data-met={!unpaid.has(id)}>
+                {unpaid.has(id) ? (needsSource ? 'Source needed' : 'Required') : '✓ Fulfilled'}
+              </span>
+              <span className="trait-visit">{pathLabel(source.path)} · visit {source.occurrence}</span>
+            </>}
+          </span>
+        </span>
+        <span className="trait-chevron" aria-hidden="true"/>
+      </button>
+      {open && <div id={'trait-body-' + id}>{detail(trait, false)}</div>}
+    </article>;
   }
-  return <section aria-label="Trait burner"><div className="section-top"><h2>Trait burner</h2><button className="primary" onClick={()=>setCatalog(true)}>Explore Trait Catalog</button>
-    <span className="point-total">{state.remaining} / {state.total} <small>trait points left</small></span></div>
-    <section className="trait-required"><h3>Required by Lifepaths</h3>
-    {required.length?<><p>{state.missing.length} TP still required</p>{required.map(p=><button className={state.missing.some(m=>m.source===p.source)?'pending':'fulfilled'} key={p.source.path+p.source.occurrence}
-      onClick={()=>{
-        consider(p.required!);
-        window.setTimeout(()=>document.getElementById('worklist-'+p.required)?.focus());
-      }}>{traits.get(p.required!)!.name} · {p.name} #{p.source.occurrence} · 1 TP · {state.missing.some(m=>m.source===p.source)?'Required':'Fulfilled'}</button>)}</>:<p>No required purchases on this route.</p>}</section>
-    <h3>Owned traits</h3><div className="owned-columns">{(['character','die','call-on'] as const).map(type=>{
-      const ids=[...state.owned].filter(id=>traits.get(id)!.type.split('/')[0]===type);
-      return <section key={type} aria-label={typeNames[type]+' owned traits'}><h4>{typeNames[type]} <small>{ids.length}</small></h4>{ids.map(tile)}</section>;
+
+  return <section aria-label="Trait burner">
+    <h2 className="trait-title">Trait burner</h2>
+    <section className="trait-controls" aria-label="Trait budget and actions">
+      <div className="trait-controls-main">
+        <button className="primary" onClick={() => setCatalog(true)}>Explore Trait Catalog</button>
+        <div className="trait-budget">
+          <span className="point-total">{state.remaining} <small>/ {state.total} TP left</small></span>
+          <span>{spent} TP spent</span>
+        </div>
+        <div className="trait-requirements-summary" data-pending={unpaid.size > 0}>
+          <strong>{requirements.size > 0
+            ? (requirements.size - unpaid.size) + ' of ' + requirements.size + ' lifepath requirements met'
+            : 'No lifepath requirements'}</strong>
+          {requirements.size > 0 && <span>{unpaid.size > 0 && <>{unpaid.size} TP still required · </>}
+            {Math.max(0, state.remaining - unpaid.size)} TP unreserved</span>}
+        </div>
+      </div>
+      <div className="trait-controls-tools">
+        <div className="trait-guide-buttons">
+          <button aria-expanded={openGuide === 'review'} aria-controls="trait-review"
+            onClick={() => setOpenGuide(openGuide === 'review' ? null : 'review')}>Trait review ({state.issues.length})</button>
+          <button aria-expanded={openGuide === 'rules'} aria-controls="trait-rules"
+            onClick={() => setOpenGuide(openGuide === 'rules' ? null : 'rules')}>Trait point rules</button>
+        </div>
+        <div className="trait-clear-actions">
+          <button disabled={!optionalCandidates.length}
+            onClick={() => onChange(removeTraitCandidates(sheet, optionalCandidates))}>Clear optional candidates</button>
+          <button disabled={!hasTraitEdits} onClick={() => setConfirmTraitReset(true)}>Reset traits…</button>
+        </div>
+      </div>
+      <div id="trait-review" className="trait-guide" hidden={openGuide !== 'review'}>
+        {state.issues.length > 0
+          ? <ul>{state.issues.map((issue, index) => <li key={index}>{issue}</li>)}</ul>
+          : <p>No current trait issues.</p>}
+      </div>
+      <div id="trait-rules" className="trait-guide" hidden={openGuide !== 'rules'}>
+        <p>Each trait bought from a lifepath costs 1 TP. On the first visit, take the first listed trait
+          you do not already have from an earlier path. On the second visit, start at the second entry.
+          Spend all trait points during character creation. <cite>BWGR pp. 84, 89.</cite></p>
+      </div>
+    </section>
+    <h3>Owned traits</h3>
+    <div className="owned-columns">{(['character','die','call-on'] as const).map(type => {
+      const ids = [...state.owned].filter(id => traits.get(id)!.type.split('/')[0] === type);
+      return <section key={type} aria-label={typeNames[type] + ' owned traits'}>
+        <h4>{typeNames[type]} <small>{ids.length}</small></h4>{ids.map(tile)}
+      </section>;
     })}</div>
-    <h3>Considering</h3><div className="candidate-tiles">{candidates.filter(id=>!state.owned.has(id)).map(tile)}</div>
-    {!candidates.some(id=>!state.owned.has(id))&&<p>Add candidates from the catalog or select a required trait.</p>}
-    {catalog&&<TraitCatalog priceInfo={priceInfo} existing={worklist} add={id=>onChange(shortlistTrait(sheet,id))} listed={id=>state.paths.some(p=>p.ids.includes(id))} available={available} detail={t=>detail(t,true)} close={()=>setCatalog(false)}/>}
-    {state.issues.length>0&&<details><summary>Trait review ({state.issues.length})</summary><ul>{state.issues.map((s,i)=><li key={i}>{s}</li>)}</ul></details>}
+    <h3>Considering</h3>
+    <div className="candidate-tiles">{considering.map(tile)}</div>
+    {considering.length === 0 && <p className="trait-empty">Add a candidate from the catalog to compare traits here.</p>}
+    {catalog && <TraitCatalog priceInfo={priceInfo} existing={worklist} add={id => onChange(shortlistTrait(sheet, id))}
+      listed={id => state.paths.some(p => p.ids.includes(id))} available={available} detail={t => detail(t, true)}
+      close={() => setCatalog(false)}/>}
+    {confirmTraitReset && <ConfirmReset title="Reset traits?" label="Confirm trait reset"
+      description={'Refund ' + spent + ' TP, clear the shortlist and reset trait choices. Your lifepaths determine which traits are required and which are granted. Undo restores this edit.'}
+      onCancel={() => setConfirmTraitReset(false)} onConfirm={() => {
+        onChange(resetTraits(sheet));
+        setConfirmTraitReset(false);
+      }}/>}
   </section>;
 }
 

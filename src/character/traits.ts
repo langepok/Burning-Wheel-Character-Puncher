@@ -49,6 +49,20 @@ export function refundTrait(sheet:Sheet,id:string):Sheet {
   const choices={...sheet.choices};delete choices['trait:'+id];
   return {...sheet,choices,traitPurchases:sheet.traitPurchases.filter(p=>p.id!==id)};
 }
+export function removeTraitCandidates(sheet: Sheet, ids: readonly string[]): Sheet {
+  const removed = new Set(ids);
+  const candidates = sheet.traitCandidates ?? [];
+  const kept = candidates.filter(id => !removed.has(id));
+  return kept.length === candidates.length ? sheet : {...sheet, traitCandidates: kept};
+}
+
+export function resetTraits(sheet: Sheet): Sheet {
+  const choices = Object.fromEntries(
+    Object.entries(sheet.choices).filter(([key]) => !key.startsWith('trait:'))
+  );
+  return {...sheet, choices, traitPurchases: [], traitCandidates: []};
+}
+
 export function parseTraitPurchases(raw:unknown,catalog:GameCatalog):TraitPurchase[] {
   if(raw===undefined)return [];
   const invalid=():never=>{throw new Error('Invalid trait purchase in character draft.');};

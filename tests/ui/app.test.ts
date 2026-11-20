@@ -330,11 +330,26 @@ it('shows catalog stat grants, history contributions and contextual General open
  pressLabel(c,'Increase Farming');expect(c.querySelector('[data-skill-id="farming"] .general-opening-note')).toBeNull();
  pressLabel(c,'Decrease Farming');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toEqual([]);
 });
+function traitToggle(container: HTMLElement, id: string) {
+  const button = container.querySelector<HTMLButtonElement>('#worklist-' + id);
+  expect(button, id).toBeTruthy();
+  return button!;
+}
+
 it('buys, undoes, redoes and refunds a required trait through the sheet and autosave', () => {
   const container=mountApp();
   click(container,'Born Peasant');click(container,'Farmer');click(container,'Traits');
   const ledger=()=>JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.traitPurchases;
-  click(container,'Hoarding · Farmer #1');
+  const header = traitToggle(container, 'hoarding');
+  expect(header.closest('.candidate-tiles')).toBeTruthy();
+  expect(header.textContent).toContain('Required');
+  expect(header.textContent).toContain('Farmer');
+  act(() => header.querySelector<HTMLElement>('.trait-type')!.click());
+  expect(header.getAttribute('aria-expanded')).toBe('true');
+  act(() => header.click());
+  expect(header.getAttribute('aria-expanded')).toBe('false');
+  expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.traitCandidates).toEqual([]);
+  act(() => header.click());
   expect(ledger()).toHaveLength(0);
   expect(container.querySelectorAll('.trait-row')).toHaveLength(1);
   click(container,'Buy · Farmer');
@@ -357,7 +372,8 @@ it('stages a full worklist through Explore Trait Catalog, including unavailable 
   const rows=[...dialog.querySelectorAll<HTMLButtonElement>('.trait-result button[aria-pressed]')];
   expect(dialog.querySelector('[aria-label="Black Lung"]')?.textContent).toContain('Cannot buy now');
   const first=dialog.querySelector('h3')!.textContent;
-  for(const name of ['Hoarding','Black Lung',...rows.slice(0,18).map(row=>row.getAttribute('aria-label')!)]){
+  expect(dialog.querySelector<HTMLButtonElement>('[aria-label="Add Hoarding to candidates"]')!.disabled).toBe(true);
+  for(const name of ['Black Lung',...rows.slice(0,18).map(row=>row.getAttribute('aria-label')!)]){
     const plus=dialog.querySelector<HTMLButtonElement>('[aria-label="Add '+name+' to candidates"]')!;
     act(()=>plus.click());
     expect(plus.disabled).toBe(true);
@@ -366,9 +382,9 @@ it('stages a full worklist through Explore Trait Catalog, including unavailable 
   expect(budget()).toBe(before);
   click(dialog,'Close catalog');
   expect(c.querySelectorAll('.trait-row')).toHaveLength(20);
-  click(c,'Hoarding · Farmer #1');
+  act(() => traitToggle(c, 'hoarding').click());
   expect(c.querySelectorAll('.trait-row')).toHaveLength(20);
-  expect(c.querySelector('.trait-required')?.textContent).toContain('1 TP still required');
+  expect(c.querySelector('[aria-label="Trait budget and actions"]')?.textContent).toContain('1 TP still required');
   act(()=>c.querySelector<HTMLButtonElement>('#worklist-black-lung')!.click());
   expect(c.querySelector('#worklist-black-lung')!.parentElement!.textContent).toContain('No purchase source');
   click(c.querySelector('#worklist-black-lung')!.parentElement!,'Remove from shortlist');
@@ -376,12 +392,12 @@ it('stages a full worklist through Explore Trait Catalog, including unavailable 
   expect(budget()).toBe(before);
   click(c,'Undo');expect(c.querySelectorAll('.trait-row')).toHaveLength(20);
   click(c,'Redo');expect(c.querySelectorAll('.trait-row')).toHaveLength(19);
-}, 15000)
+}, 15000);
 
 it('compares four expanded candidates across purchase, refund and sheet navigation',()=>{
   const c=mountApp();
   click(c,'Born Peasant');click(c,'Farmer');click(c,'Traits');click(c,'Explore Trait Catalog');
-  for(const name of ['Hoarding','Black Lung','Linguist','Keen Taste']){
+  for(const name of ['Black Lung','Linguist','Keen Taste']){
     pressLabel(c,'Add '+name+' to candidates');
   }
   click(c,'Close catalog');
@@ -390,13 +406,13 @@ it('compares four expanded candidates across purchase, refund and sheet navigati
   for(const id of ['hoarding','black-lung','linguist','keen-taste'])toggle(id);
   expect(count()).toBe(4);
   toggle('black-lung');expect(count()).toBe(3);
-  expect(c.querySelector('.pending')).toBeTruthy();
+  expect(traitToggle(c,'hoarding').textContent).toContain('Required');
   click(c,'Buy · Farmer');
   const owned=c.querySelector('[aria-label="Character owned traits"]')!;
   expect(owned.querySelector('#worklist-hoarding')).toBeTruthy();
   expect(owned.textContent).toContain('Farmer · visit 1');
   expect(c.querySelector('#panel-Traits')!.textContent).not.toContain('human.peasant.');
-  expect(c.querySelector('.fulfilled')).toBeTruthy();
+  expect(traitToggle(c,'hoarding').textContent).toContain('Fulfilled');
   expect(count()).toBe(3);
   click(c,'Skills');click(c,'Traits');expect(count()).toBe(3);
   click(c,'Refund 1 TP');expect(count()).toBe(3);
@@ -422,4 +438,74 @@ it('orders catalog prices numerically with missing prices last and includes hybr
     select('Type',type);expect(d.querySelector('[aria-label="Linguist"]')).toBeTruthy();
     expect(rows().every(row=>row.getAttribute('data-type')?.includes(type))).toBe(true);
   }
+});
+
+it('clears optional candidates and resets traits as separate undoable edits', () => {
+  const c = mountApp();
+  click(c, 'Born Peasant');
+  click(c, 'Farmer');
+  click(c, 'Traits');
+  const saved = () => JSON.parse(localStorage.getItem('bw-workbench-v1')!);
+  const controls = c.querySelector<HTMLElement>('[aria-label="Trait budget and actions"]')!;
+  expect(controls.querySelector('#worklist-hoarding')).toBeNull();
+  expect(controls.textContent).toContain('Trait review');
+  expect(controls.textContent).toContain('Trait point rules');
+  act(() => traitToggle(c, 'hoarding').click());
+  click(c, 'Buy · Farmer');
+  click(controls, 'Explore Trait Catalog');
+  pressLabel(c, 'Add A Little Crazy to candidates');
+  pressLabel(c, 'Add Black Lung to candidates');
+  pressLabel(c, 'Add Abashed to candidates');
+  click(c, 'Close catalog');
+  act(() => traitToggle(c, 'a-little-crazy').click());
+  click(c, 'Buy · General catalog');
+  const before = saved();
+
+  click(controls, 'Clear optional candidates');
+  expect(saved().sheet.traitCandidates).toEqual(['a-little-crazy']);
+  expect(saved().sheet.traitPurchases).toEqual(before.sheet.traitPurchases);
+  click(c, 'Undo');
+  expect(saved()).toEqual(before);
+  click(c, 'Redo');
+  expect(c.querySelector('.candidate-tiles #worklist-black-lung')).toBeNull();
+  click(c, 'Undo');
+
+  click(controls, 'Reset traits');
+  click(c.querySelector('dialog')!, 'Cancel');
+  expect(saved()).toEqual(before);
+  click(controls, 'Reset traits');
+  const dialog = c.querySelector('dialog')!;
+  expect(dialog.textContent).toContain('2 TP');
+  click(dialog, 'Confirm trait reset');
+  expect(saved().sheet).toEqual({...before.sheet, traitCandidates: [], traitPurchases: []});
+  expect(saved().history).toEqual(before.history);
+  expect(controls.textContent).toContain('1 TP still required');
+  expect(c.querySelectorAll('.candidate-tiles .trait-row')).toHaveLength(1);
+  expect(traitToggle(c, 'hoarding').textContent).toContain('Required');
+  expect([...controls.querySelectorAll('button')].find(b => b.textContent === 'Reset traits…')?.disabled).toBe(true);
+  click(c, 'Undo');
+  expect(saved()).toEqual(before);
+  click(c, 'Redo');
+  expect(saved().sheet.traitPurchases).toEqual([]);
+});
+
+it('keeps a wrong-source purchase visible for repair when a lifepath later requires it', () => {
+  const c = mountApp();
+  click(c, 'Born Peasant');
+  select(c, 'Build mode', 'free');
+  click(c, 'Traits');
+  click(c, 'Explore Trait Catalog');
+  pressLabel(c, 'Add Hoarding to candidates');
+  click(c, 'Close catalog');
+  act(() => traitToggle(c, 'hoarding').click());
+  click(c, 'Use override');
+  click(c, 'Farmer');
+  const header = traitToggle(c, 'hoarding');
+  expect(header.closest('.owned-columns')).toBeTruthy();
+  expect(header.textContent).toContain('Source needed');
+  expect(c.querySelectorAll('#worklist-hoarding')).toHaveLength(1);
+  click(c, 'Refund 1 TP');
+  expect(traitToggle(c, 'hoarding').closest('.candidate-tiles')).toBeTruthy();
+  click(c, 'Buy · Farmer');
+  expect(traitToggle(c, 'hoarding').textContent).toContain('Fulfilled');
 });

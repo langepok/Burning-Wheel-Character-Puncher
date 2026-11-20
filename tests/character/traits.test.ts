@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { createSheet } from '../../src/character/workbench';
-import { purchaseTrait, refundTrait, changeTraitCategory } from '../../src/character/traits';
+import { purchaseTrait, refundTrait, changeTraitCategory, resetTraits } from '../../src/character/traits';
 import { traitState } from '../../src/rules/traits';
 import { createCatalog } from '../../src/data/catalog';
 import { humanContent } from '../../src/data/human';
@@ -216,3 +216,24 @@ it('persists twenty planning choices independently of obligations, ownership, po
   expect(refundTrait(purchaseTrait(staged,progress,'hoarding',source,'rules').sheet,'hoarding')).toEqual(staged);
 });
 import { shortlistTrait } from '../../src/character/traits';
+
+it('resets the recorded trait ledger, including category costs and transfer choices', () => {
+  const progress = route('born-peasant', 'farmer');
+  const base = {...createSheet(), choices: {'unrelated-choice': 'keep'}, candidates: ['observation']};
+  const lowSpeech = purchaseTrait(base, progress, 'low-speech', {kind:'catalog'}, 'free').sheet;
+  const birds = changeTraitCategory(lowSpeech, progress, 'low-speech', 'Birds', 'free').sheet;
+  const fish = changeTraitCategory(birds, progress, 'low-speech', 'Fish', 'free').sheet;
+  const robust = purchaseTrait(fish, progress, 'robust', {kind:'free', points:7}, 'free').sheet;
+  const sheet = {...robust, traitCandidates:['robust'], choices:{...robust.choices, 'trait:robust':'transfer'}};
+  const before = traitState(sheet, progress);
+  const reset = resetTraits(sheet);
+  expect(reset).toEqual(base);
+  expect(traitState(reset, progress).remaining - before.remaining).toBe(11);
+  expect(sheet.traitPurchases).toHaveLength(2);
+  const dwarf = {...progress, paths:progress.paths.map(p => ({...p, stockId:'dwarf'}))};
+  expect(traitState(reset, dwarf).owned.has('tough')).toBe(true);
+  const legacy = {...base};
+  delete legacy.traitCandidates;
+  delete legacy.traitPurchases;
+  expect(resetTraits(legacy).choices).toEqual(base.choices);
+});
