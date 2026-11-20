@@ -66,7 +66,9 @@ export function parseTraitPurchases(raw:unknown,catalog:GameCatalog):TraitPurcha
     const categories:unknown=p.categories;
     if(categories!==undefined && (!t.categories || !Array.isArray(categories) || categories.length>t.categories.length ||
       new Set(categories).size!==categories.length || categories.some(v=>!t.categories!.includes(v))))return invalid();
-    const baseCost=traitCost(t,source);
+    // Older M2 drafts could record Breeder as the zero-cost Fey Blood selection.
+    // Preserve the historical charge; accessIssues flags it for explicit repair.
+    const baseCost=t.id==='breeder' && source.kind==='fey' ? 0 : traitCost(t,source);
     const extra=Array.isArray(categories)?Math.max(0,categories.length-1):0;
     if(baseCost===null||!Number.isInteger(p.cost)||p.cost!==baseCost+extra)return invalid();
     return {id:t.id,source,cost:p.cost,mode:p.mode,...(Array.isArray(categories)?{categories:[...categories]}:{})};

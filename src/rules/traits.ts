@@ -81,8 +81,8 @@ export function accessIssues(t:Trait,source:TraitSource,state:AccessContext):str
     if(!state.paths.some(p=>sameSource(p.source,source)&&p.ids.includes(t.id)))issues.push('Lifepath source is absent.');
   }else if(source.kind==='catalog'){
     if(!t.catalogAvailable) issues.push('Catalog access is restricted or awaits source review.');
-    if(t.access==='common')issues.push('Common traits require a stock grant or Fey Blood.');
-    if(t.stocks.length && !t.stocks.includes(state.stock??'')) issues.push('Restricted to '+t.stocks.join(' / ')+'.');
+    if(!t.unrestrictedCatalog && t.access==='common')issues.push('Common traits require a stock grant or Fey Blood.');
+    if(!t.unrestrictedCatalog && t.stocks.length && !t.stocks.includes(state.stock??'')) issues.push('Restricted to '+t.stocks.join(' / ')+'.');
   }else if(source.kind==='fey'){
     if(!state.owned.has('fey-blood') || !t.stocks.some(s=>['elf','dwarf','orc'].includes(s))
       || !['common','lifepath','special'].includes(t.access))issues.push('Requires Fey Blood and an eligible stock trait.');

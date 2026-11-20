@@ -135,3 +135,66 @@ it('grants the stock suite once for a Born path and checks final history restric
   const child=purchaseTrait(createSheet(),p,'child-prodigy',{kind:'catalog'},'free').sheet;
   expect(traitState(child,route('born-peasant','farmer','peddler')).issues.join(' ')).toMatch(/at most 2 lifepaths/i);
 });
+
+it('classifies six descriptive traits without adding mechanical review items',()=>{
+  const progress=route('born-peasant');
+  for(const id of ['flee-from-battle','handicapped','lugubrious','many-colored-hands','pragmatic','breeder']){
+    const t=traits.get(id)!;
+    expect(t.type).toBe('character');
+    expect(t.effect).toBe('play');
+    if(id!=='breeder')expect(t.price).toBeNull();
+    const bought=purchaseTrait(createSheet(),progress,id,{kind:'free',points:1},'free');
+    expect(bought.error).toBeUndefined();
+    expect(traitState(bought.sheet,progress).issues.filter(x=>x.startsWith(t.name+':'))).toEqual([
+      t.name+': Explicit Free Creation price.',t.name+': acquired in Free Creation; review recorded source.'
+    ]);
+  }
+  expect(traits.get('pragmatic-outlook')?.name).toBe('Pragmatic Outlook');
+});
+it('applies Breeder and Tough exceptions without changing other stock access',()=>{
+  const base=route('born-peasant');
+  const withStock=(stockId:string)=>({...base,paths:base.paths.map(p=>({...p,stockId,traitPointGrant:4}))});
+  const general={kind:'catalog'} as const;
+  const sheet=createSheet();
+  for(const stock of ['human','orc']){
+    const progress=withStock(stock);
+    expect(traitState(sheet,progress).owned.has('breeder')).toBe(false);
+    const bought=purchaseTrait(sheet,progress,'breeder',general,'rules');
+    expect(bought.sheet.traitPurchases?.[0]?.cost).toBe(1);
+    expect(traits.get('breeder')?.priceOrigin).toBe('project');
+  }
+  const dwarf=withStock('dwarf'),human=withStock('human');
+  expect(traitState(sheet,dwarf).common.filter(t=>t.id==='tough')).toHaveLength(1);
+  expect(traitState(sheet,dwarf).remaining).toBe(4);
+  expect(purchaseTrait(sheet,dwarf,'tough',general,'rules').error).toMatch(/owned/i);
+  const bought=purchaseTrait(sheet,human,'tough',general,'rules');
+  expect(bought.sheet.traitPurchases?.[0]?.cost).toBe(2);
+  expect(refundTrait(bought.sheet,'tough')).toEqual(sheet);
+  expect(purchaseTrait(sheet,human,'bearded',general,'rules').error).toBeTruthy();
+  expect(purchaseTrait(sheet,human,'black-lung',general,'rules').error).toMatch(/price/i);
+  expect(traits.get('black-lung')).toMatchObject({type:'die',price:null});
+});
+it('charges the lifepath price for Tough when the source lists it',()=>{
+  const progress=route('born-peasant','farmer');
+  // The printed p. 181 path is outside the pilot. Supply its ordered trait slots
+  // to this fixture so the production source lookup and purchase both run.
+  const lists={...humanBurningLists};
+  const path=source.path;
+  const original=lists[path];
+  try {
+    Object.assign(humanBurningLists,{[path]:{...original,traits:['Pragmatic','Tough','Determined']}});
+    const first=purchaseTrait(createSheet(),progress,'pragmatic',source,'rules');
+    const second=purchaseTrait(first.sheet,progress,'tough',source,'rules');
+    expect(second.error).toBeUndefined();
+    expect(second.sheet.traitPurchases?.at(-1)).toMatchObject({id:'tough',source,cost:1});
+  } finally {Object.assign(humanBurningLists,{[path]:original});}
+});
+
+it('retains a legacy Fey Breeder charge for repair after import',()=>{
+  const purchase={id:'breeder',source:{kind:'fey'},cost:0,mode:'rules'};
+  const draft={version:1,name:'',mode:'rules',history:{entries:[]},pins:[],sheet:{...createSheet(),traitPurchases:[purchase]}};
+  const sheet=parseDraft(JSON.stringify(draft),catalog).sheet;
+  expect(sheet.traitPurchases).toEqual([purchase]);
+  expect(traitState(sheet,route('born-peasant')).issues.join(' ')).toContain('Breeder: Requires Fey Blood');
+  expect(refundTrait(sheet,'breeder')).toEqual(createSheet());
+});

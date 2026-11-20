@@ -130,13 +130,6 @@ Current inventory of explicit creation dependencies. The effect status is indepe
 - **Lucky**, BWGR 334. Once per adventure, call on any ability. Sacrifice Lucky to pass one failed life-saving roll. An unwitting in-character guess is true.
 - **Unlucky**, BWGR 352. Arbitrary in-game choices go wrong. A decisive success may become a disaster for fate and persona, removing the trait.
 
-## Outstanding effect verification
+## Descriptive traits
 
-The following entries still need an article-level decision about whether anything must be recorded during burning. A point price or valid lifepath source does not settle that question.
-
-- Breeder (p. 316)
-- Flee from Battle (p. 163)
-- Handicapped (p. 165)
-- Lugubrious (p. 169)
-- Many-Colored Hands (p. 168)
-- Pragmatic (p. 169)
+Flee from Battle, Handicapped, Lugubrious, Many-Colored Hands and Pragmatic use the project's descriptive Character classification under Lifepath Character Traits (p. 199). Pragmatic Outlook is a separate entry. Breeder is Char in the printed index. All six need no mechanical resolution. Tough retains its manual Mortal Wound dependency.

@@ -6,6 +6,7 @@ export type TraitRow = [id:string, name:string, type:TraitType, price:number|nul
 export interface Trait {
   id:string; name:string; type:TraitType; price:number|null; pages:number[]; coverage:Coverage;
   access:Access; stocks:string[]; catalogAvailable:boolean; effect:Effect; note?:string; requires?:string;
+  priceOrigin?:'printed'|'project'; unrestrictedCatalog?:boolean;
   categories?:string[]; poolTransfer?:'mental-to-physical'|'physical-to-mental'; graySkill?:string; maxPaths?:number; maxResources?:number; roundRoots?:string[];
   agePools?: {above:number; mental:number; physical:number};
 }

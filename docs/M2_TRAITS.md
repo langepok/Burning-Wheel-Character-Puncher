@@ -25,14 +25,18 @@ The index on BWGR pp. 584–589, the articles on pp. 310–355, stock chapters a
 | Article heading without index row | 2 |
 | Lifepath list only | 5 |
 
-554 records carry a numeric printed price. 553 are enabled for catalog purchase subject to their restrictions. Tough has a printed price of 2 (p. 351) and appears in the Dwarven common suite (p. 119). Its general purchase remains pending reconciliation with p. 310. The 146 absent prices remain null. A listed lifepath supplies its own price under p. 89. The evidence labels describe checks on entry metadata. They do not certify a line-by-line review of the article effects.
+554 records carry a printed price. Breeder adds one project-priced record. All 555 priced records allow catalog purchase subject to restrictions. The other 145 have no catalog price. Tough supports Dwarven common, listed lifepath and general acquisition. A listed lifepath supplies its own price under p. 89. The evidence labels describe checks on entry metadata. They do not certify a line-by-line review of the article effects.
 
-The identified stock suites include seven Dwarven, six Elven and seven Orc common traits. Playable lifepath history remains the Human pilot. The effect inventory lists 113 entries with manual creation dependencies, five marked automated, four unique play procedures and six outstanding classifications. Another 572 are currently classified for play. Review surfaces outstanding effects on owned traits. See [effect inventory](M2_TRAIT_EFFECTS.md) for names, pages and work remaining.
+The identified stock suites include seven Dwarven, six Elven and six Orc common traits. Playable lifepath history remains the Human pilot. The effect inventory lists 113 entries with manual creation dependencies, five marked automated, four unique play procedures and zero outstanding classifications. Another 578 are currently classified for play. Review surfaces outstanding effects on owned traits. See [effect inventory](M2_TRAIT_EFFECTS.md) for names, pages and work remaining.
 
 ## Recovery checkpoint
 
 Initial local implementation e805713, 7abc5ed, 879ff65. The corresponding published foundation ends at f62c443af8fdd175bb54887e8aa660164b755f43 in Draft PR #30. The PR head contains the follow-up inventory, effect handling, editor and tests. Resolve the current checkpoint with git rev-parse HEAD after checking out work/m2-trait-burner. Compare the PR head before resuming. Run the TypeScript check, the entire Vitest suite and the Vite production build. The local Windows preview uses port 4196. Local Vite dependency installation has a sandbox-only workaround for Windows mapped-drive detection.
 
-For the next catalog pass, start with the six entries at the end of the effect inventory and the index-only rows. Verify unindexed stock chapter entries, record evidence per article, and audit manual dependencies against each newly implemented character subsystem. The hosted Workbench preview has a separate deployment history.
+For the next catalog pass, start with the index-only rows. Verify unindexed stock chapter entries, record evidence per article, and audit manual dependencies against each newly implemented character subsystem. The hosted Workbench preview has a separate deployment history.
 
-Checkpoint verification: TypeScript passed, 1,719 tests passed in 73 files, and the production build succeeded.
+Prior checkpoint (6c10023): TypeScript passed, 1,719 tests passed in 73 files, and the production build succeeded.
+
+Reconciliation acceptance: assert all six descriptive types and absence of effect warnings, distinct Pragmatic identity, Breeder project price and Orc suite exclusion, Tough stock/path/catalog charges and duplicate prevention, continued restrictions on other common traits and Black Lung. Exercise refunds and imports plus the existing full workbench regression suite.
+
+Reconciliation checkpoint builds on published HEAD 6c10023. The PR description records the final commit SHA, full suite and CI outcome. Remaining audit scope is index-only metadata and unindexed stock entries. Issue #31 tracks custom traits separately.

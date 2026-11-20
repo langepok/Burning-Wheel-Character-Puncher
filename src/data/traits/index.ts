@@ -283,7 +283,8 @@ const details: Record<string, Partial<Trait>> = {
   tonsured: {effect:'manual',note:'Record the 1D affiliation with the religious order and review the remaining obligations on p. 350.'},
   hardened: {effect:'manual',note:'Round up Health.'},
   'quickened-pulse': {effect:'manual',note:'Round up Reflexes.'},
-  tough: {effect:'manual',note:'Round up Mortal Wound.'},
+  breeder: {priceOrigin:'project',note:'Descriptive character trait. The project sets its catalog price at 1 TP.'},
+  tough: {unrestrictedCatalog:true,effect:'manual',note:'Round up Mortal Wound.'},
   lame: {effect:'manual',note:'Reduce stride by one. Ignore effects that increase stride.'},
   sprinter: {effect:'manual',note:'Increase stride by one unless another trait forbids the gain.'},
   'touch-of-the-devil': {effect:'manual',note:'Use the printed gray Perception root for the listed craft and medical skills on p. 351. Record the sensory ability and additional superficial wound rule.'},
@@ -303,7 +304,7 @@ const details: Record<string, Partial<Trait>> = {
   'lost-faith': {effect:'manual',note:'Answer Faith questions for the time before losing Faith. Mark that attribute lost and inaccessible.'},
 };
 export const traits = new Map<string,Trait>(rows.map(([id,name,type,price,pages,coverage,access,stocks,catalogAvailable,effect]) =>
-  [id,{id,name,type,price,pages,coverage,access,stocks,catalogAvailable,effect,...details[id]}]));
+  [id,{id,name,type,price,pages,coverage,access,stocks,catalogAvailable,effect,...(price!==null?{priceOrigin:'printed' as const}:{}),...details[id]}]));
 // The existing burning lists carry source names. Resolve them only at the data boundary.
 export const traitNameKey=(name:string)=>name.toLowerCase().replaceAll(String.fromCharCode(0x2019),String.fromCharCode(39));
 export const sourceTraitIds = new Map([...traits.values()].map(t=>[traitNameKey(t.name),t.id]));
