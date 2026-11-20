@@ -4,6 +4,7 @@ import { applyLifepathCommand } from './lifepath-history';
 import type { BuildMode, LifepathHistory } from './lifepath-history';
 import { deriveSheet, restrictionIssues, skillOpening, skillValue, skills, statIds } from '../rules/burning';
 import type { Pool, Shade, Sheet, StatId } from '../rules/burning';
+import { traits as traitCatalog } from '../data/traits';
 import { parseTraitPurchases } from './traits';
 export * from '../rules/burning';
 export function createSheet():Sheet {
@@ -65,6 +66,10 @@ export function parseDraft(text:string,catalog:GameCatalog):Draft {
   const s=d.sheet;if(!s||typeof s.grayApproved!=='boolean'||!s.stats||!s.choices||Array.isArray(s.choices)||typeof s.choices!=='object'||!Array.isArray(s.candidates)||!Array.isArray(s.purchases)||s.purchases.length>2000)fail();
   for(const id of statIds){const a=s.stats[id];if(!a||!Number.isInteger(a.exponent)||a.exponent<0||a.exponent>20||!['B','G','W'].includes(a.shade))fail();}
   if(s.candidates.some((id:unknown)=>typeof id!=='string'||!skills.has(id))||Object.values(s.choices).some(v=>typeof v!=='string'))fail();
+  const traits=parseTraitPurchases(s.traitPurchases,catalog);
+  for(const [key,value] of Object.entries(s.choices)){
+    if(key.startsWith('trait:') && (!traits.some(p=>p.id===key.slice(6) && traitCatalog.get(p.id)?.poolTransfer) || !['transfer','keep'].includes(String(value))))fail();
+  }
   const opened=new Map<string,{pool:Pool}>();
   for(const p of s.purchases){
     const skill=skills.get(p.skillId);if(!skill||!['ordinary','general'].includes(p.pool)||!['root','B','G','W'].includes(p.shade)||typeof p.override!=='boolean'||!['open','advance'].includes(p.kind))fail();
@@ -74,7 +79,7 @@ export function parseDraft(text:string,catalog:GameCatalog):Draft {
       if(p.cost!==expected)fail();
     }else if(!opened.has(p.skillId)||skill!.training.kind==='training'||p.cost!==1)fail();
   }
-  return {version:1,name:d.name,mode:d.mode,history,sheet:{...s,traitPurchases:parseTraitPurchases(s.traitPurchases,catalog)},pins:[...new Set(d.pins)] as string[]};
+  return {version:1,name:d.name,mode:d.mode,history,sheet:{...s,traitPurchases:traits},pins:[...new Set(d.pins)] as string[]};
 }
 
 /** Remove a route step without undoing identity or purchases. */

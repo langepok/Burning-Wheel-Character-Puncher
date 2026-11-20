@@ -622,3 +622,7 @@ even in Free Creation. BWGR, Leads: Moving to a New Setting.
 History exposes the existing calculation's repeat-adjusted contributions and
 labels source skill/trait lists as options, not ownership. General opening
 consequences appear where Ordinary opening is also currently legal.
+
+## M2 trait ownership and recovery
+
+The sheet stores paid acquisitions with their source, charge and creation mode. Source lists supply offers and ordered obligations. Common stock grants derive from the Born path. Recomputing history preserves purchases for explicit repair or refund. A missing printed price stays unknown. Manual and unresolved creation effects produce Review items. See [M2 audit](M2_TRAITS.md).

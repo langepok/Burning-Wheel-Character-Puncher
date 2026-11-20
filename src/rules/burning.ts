@@ -47,7 +47,8 @@ export function skillValue(id:string,sheet:Sheet): Ability | 'training' | undefi
   if(!skill || !open) return undefined;
   if(skill.training.kind==='training') return 'training';
   const root=skillOpening(skill,sheet); if(!root) return undefined;
-  return {exponent:root.exponent+paid.filter(p=>p.kind==='advance').length,shade:open.shade==='root'?root.shade:open.shade};
+  const shiftsGray=sheet.traitPurchases?.some(p=>traitCatalog.get(p.id)?.graySkill===id);
+  return {exponent:root.exponent+paid.filter(p=>p.kind==='advance').length,shade:shiftsGray?'G':open.shade==='root'?root.shade:open.shade};
 }
 export function deriveSheet(sheet:Sheet, progress:LifepathProgress) {
   const issues:string[]=[];
@@ -59,6 +60,13 @@ export function deriveSheet(sheet:Sheet, progress:LifepathProgress) {
   if(poolEffect){total.mental=poolEffect.mental;total.physical=poolEffect.physical;}
   else if(age){total.mental=age[2];total.physical=age[3];}
   else if(progress.paths.length) issues.push('No audited stat age table for this age or stock.');
+  for(const id of traitBuild.owned){
+    const direction=traitCatalog.get(id)?.poolTransfer;
+    if(direction && sheet.choices['trait:'+id]==='transfer'){
+      const delta=direction==='physical-to-mental'?1:-1;
+      total.mental+=delta;total.physical-=delta;
+    }
+  }
   const available=new Set<string>();const required=new Set<string>();const requiredTraits=new Set<string>();
   const traits=new Set<string>();const choices:{key:string;label:string;options:readonly string[]}[]=[];
   const contributions:typeof total[]=[];

@@ -61,7 +61,7 @@ p { font-size: 13px; line-height: 1.5; }
 .details-panel ul { padding-left: 18px; }
 .details-panel li { margin: 8px 0; line-height: 1.4; }
 
-/* Character workbench вЂ” shared visual tokens and panels. */
+/* Character workbench — shared visual tokens and panels. */
 :root { --ink:#27352f; --muted:#68736c; --line:#dddcd2; --paper:#fffef9; --green:#235a47; --gold:#b98535; color:var(--ink); background:#efeee6; font-family:Inter,'Segoe UI',sans-serif; }
 button,input,select { font:inherit; }
 button { border:1px solid var(--line); border-radius:6px; padding:7px 11px; background:var(--paper); color:var(--ink); transition:background .15s,box-shadow .15s; }
@@ -200,8 +200,8 @@ h3{font-family:Georgia,serif;font-weight:500;}
 .skill-row{display:flex;align-items:center;gap:20px;padding:12px 9px;border-bottom:1px solid #e9e8dd;position:relative;}
 .skill-row details{flex:1;min-width:0;}
 .skill-row summary{cursor:pointer;list-style:none;font-size:13px;}
-.skill-row summary::before{content:'вЂє';display:inline-block;width:16px;color:#aa8d58;}
-.skill-row details[open] summary::before{content:'вЊ„';}
+.skill-row summary::before{content:'›';display:inline-block;width:16px;color:#aa8d58;}
+.skill-row details[open] summary::before{content:'⌄';}
 .skill-row summary small{display:block;padding-left:16px;margin-top:5px;color:var(--muted);font-size:10px;}
 .required-tag,.candidate-tag{font-size:8px;text-transform:uppercase;letter-spacing:.07em;margin-left:10px;padding:3px 6px;border-radius:3px;color:#876526;background:#f3ead2;}
 .candidate-tag{background:#eeefea;color:#687164;}

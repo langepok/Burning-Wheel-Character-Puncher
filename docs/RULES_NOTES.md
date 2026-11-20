@@ -802,3 +802,5 @@ shift a requirement under p. 89; because transactions do not allocate an optiona
 skill to a particular earlier path, overlap is flagged for table review instead
 of certifying that edge case. Appropriate Weapons and Wife-derived grants are
 explicit unresolved choices, never guessed grants.
+
+Trait burning uses BWGR pp. 84 and 89 for repeats and ordered requirements. Stock chapters and pp. 310–355 supply access and effects. See [M2 audit](M2_TRAITS.md) for price exceptions, index coverage and individual verification limits.

@@ -23,9 +23,21 @@ export function purchaseTrait(sheet:Sheet,progress:LifepathProgress,id:string,so
   if(mode==='rules' && issues.length) return {sheet,error:issues.join(' ')};
   return {sheet:{...sheet,traitPurchases:[...state.ledger,{id,source,cost,mode}]}};
 }
+export function changeTraitCategory(sheet:Sheet,progress:LifepathProgress,id:string,category:string,mode:BuildMode):{sheet:Sheet;error?:string} {
+  const t=traits.get(id),ledger=sheet.traitPurchases??[],paid=ledger.find(p=>p.id===id);
+  if(!t?.categories?.includes(category)||!paid)return {sheet,error:'Unknown category or unowned trait.'};
+  const current=paid.categories??[],remove=current.includes(category);
+  const categories=remove?current.filter(c=>c!==category):[...current,category];
+  const cost=traitCost(t,paid.source)!+Math.max(0,categories.length-1);
+  const state=traitState(sheet,progress);
+  if(cost>paid.cost && mode==='rules' && accessIssues(t,paid.source,state).length)return {sheet,error:'Repair the existing purchase source first.'};
+  if(cost>paid.cost && mode==='rules' && state.remaining-state.missing.length<cost-paid.cost)return {sheet,error:'Not enough unreserved trait points.'};
+  return {sheet:{...sheet,traitPurchases:ledger.map(p=>p===paid?{...p,categories,cost,mode:!remove&&mode==='free'?'free':p.mode}:p)}};
+}
 export function refundTrait(sheet:Sheet,id:string):Sheet {
   if(!sheet.traitPurchases?.some(p=>p.id===id))return sheet;
-  return {...sheet,traitPurchases:sheet.traitPurchases.filter(p=>p.id!==id)};
+  const choices={...sheet.choices};delete choices['trait:'+id];
+  return {...sheet,choices,traitPurchases:sheet.traitPurchases.filter(p=>p.id!==id)};
 }
 export function parseTraitPurchases(raw:unknown,catalog:GameCatalog):TraitPurchase[] {
   if(raw===undefined)return [];
@@ -50,7 +62,13 @@ export function parseTraitPurchases(raw:unknown,catalog:GameCatalog):TraitPurcha
         source={kind:'free',points:p.source.points};break;
       default:return invalid();
     }
-    if(!Number.isInteger(p.cost)||p.cost!==traitCost(t,source))return invalid();
-    return {id:t.id,source,cost:p.cost,mode:p.mode};
+    if(p.mode==='rules' && source.kind==='catalog' && !t.catalogAvailable)return invalid();
+    const categories:unknown=p.categories;
+    if(categories!==undefined && (!t.categories || !Array.isArray(categories) || categories.length>t.categories.length ||
+      new Set(categories).size!==categories.length || categories.some(v=>!t.categories!.includes(v))))return invalid();
+    const baseCost=traitCost(t,source);
+    const extra=Array.isArray(categories)?Math.max(0,categories.length-1):0;
+    if(baseCost===null||!Number.isInteger(p.cost)||p.cost!==baseCost+extra)return invalid();
+    return {id:t.id,source,cost:p.cost,mode:p.mode,...(Array.isArray(categories)?{categories:[...categories]}:{})};
   });
 }

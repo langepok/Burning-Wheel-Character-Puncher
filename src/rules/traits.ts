@@ -1,5 +1,5 @@
 import { humanBurningLists } from '../data/burning/human';
-import { traits, sourceTraitIds } from '../data/traits';
+import { traits, sourceTraitIds, traitNameKey } from '../data/traits';
 import type { PathSource, Trait, TraitPurchase, TraitSource } from '../data/traits/types';
 import type { Sheet } from './burning';
 import type { LifepathProgress } from './lifepaths';
@@ -10,7 +10,7 @@ export function resourceContribution(path:LifepathProgress['paths'][number],repe
 }
 export function pathTraitIds(path:string) {
   return (humanBurningLists[path]?.traits ?? []).map(name => {
-    const id = sourceTraitIds.get(name.toLowerCase());
+    const id = sourceTraitIds.get(traitNameKey(name));
     if (!id) throw new Error('Unregistered lifepath trait: '+name);
     return id;
   });
@@ -23,7 +23,8 @@ export function traitCost(t:Trait,source:TraitSource):number|null {
     case 'lifepath': return 1;
     case 'catalog': return t.price;
     case 'free': return source.points;
-    case 'fey': return t.access==='common'||t.access==='lifepath'?0:t.access==='special'?t.price:null;
+    case 'fey': if(!t.stocks.some(s=>['elf','dwarf','orc'].includes(s)))return null;
+      return t.access==='common'||t.access==='lifepath'?0:t.access==='special'?t.price:null;
   }
 }
 export function traitState(sheet:Sheet,progress:LifepathProgress) {
@@ -64,6 +65,7 @@ export function traitState(sheet:Sheet,progress:LifepathProgress) {
   }
   for(const id of owned){
     const t=traits.get(id)!;
+    if(t.categories && ledger.find(p=>p.id===id)?.categories?.length)continue;
     if(t.id==='fey-blood' && ledger.some(p=>p.source.kind==='fey'))continue;
     if(t.effect==='manual' || t.effect==='review') issues.push(t.name+': '+(t.note??'Effect needs table review, BWGR p. '+t.pages.join(', ')+'.'));
   }

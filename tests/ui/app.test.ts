@@ -330,3 +330,15 @@ it('shows catalog stat grants, history contributions and contextual General open
  pressLabel(c,'Increase Farming');expect(c.querySelector('[data-skill-id="farming"] .general-opening-note')).toBeNull();
  pressLabel(c,'Decrease Farming');expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.purchases).toEqual([]);
 });
+it('buys, undoes, redoes and refunds a required trait through the sheet and autosave', () => {
+  const container=mountApp();
+  click(container,'Born Peasant');click(container,'Farmer');click(container,'Traits');
+  const ledger=()=>JSON.parse(localStorage.getItem('bw-workbench-v1')!).sheet.traitPurchases;
+  click(container,'Required · Farmer');
+  expect(ledger()).toMatchObject([{id:'hoarding',cost:1,source:{kind:'lifepath',occurrence:1}}]);
+  click(container,'Undo');expect(ledger()).toHaveLength(0);
+  click(container,'Redo');expect(ledger()).toHaveLength(1);
+  click(container,'Reset');click(container,'Confirm remove all');expect(ledger()).toHaveLength(0);
+  click(container,'Undo');expect(ledger()).toHaveLength(1);
+  click(container,'Refund 1 TP');expect(ledger()).toHaveLength(0);
+});
