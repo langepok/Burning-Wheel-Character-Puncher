@@ -352,7 +352,7 @@ it('buys, undoes, redoes and refunds a required trait through the sheet and auto
   act(() => header.click());
   expect(ledger()).toHaveLength(0);
   expect(container.querySelectorAll('.trait-row')).toHaveLength(1);
-  click(container,'Buy · Farmer');
+  click(container,'Buy · Peasant — Farmer');
   expect(ledger()).toMatchObject([{id:'hoarding',cost:1,source:{kind:'lifepath',occurrence:1}}]);
   click(container,'Undo');expect(ledger()).toHaveLength(0);
   click(container,'Redo');expect(ledger()).toHaveLength(1);
@@ -407,10 +407,11 @@ it('compares four expanded candidates across purchase, refund and sheet navigati
   expect(count()).toBe(4);
   toggle('black-lung');expect(count()).toBe(3);
   expect(traitToggle(c,'hoarding').textContent).toContain('Required');
-  click(c,'Buy · Farmer');
+  click(c,'Buy · Peasant — Farmer');
   const owned=c.querySelector('[aria-label="Character owned traits"]')!;
   expect(owned.querySelector('#worklist-hoarding')).toBeTruthy();
-  expect(owned.textContent).toContain('Farmer · visit 1');
+  expect(owned.textContent).toContain('Farmer');
+  expect(owned.textContent).not.toMatch(/visit 1|· Rules/);
   expect(c.querySelector('#panel-Traits')!.textContent).not.toContain('human.peasant.');
   expect(traitToggle(c,'hoarding').textContent).toContain('Fulfilled');
   expect(count()).toBe(3);
@@ -451,7 +452,7 @@ it('clears optional candidates and resets traits as separate undoable edits', ()
   expect(controls.textContent).toContain('Trait review');
   expect(controls.textContent).toContain('Trait point rules');
   act(() => traitToggle(c, 'hoarding').click());
-  click(c, 'Buy · Farmer');
+  click(c, 'Buy · Peasant — Farmer');
   click(controls, 'Explore Trait Catalog');
   pressLabel(c, 'Add A Little Crazy to candidates');
   pressLabel(c, 'Add Black Lung to candidates');
@@ -506,6 +507,14 @@ it('keeps a wrong-source purchase visible for repair when a lifepath later requi
   expect(c.querySelectorAll('#worklist-hoarding')).toHaveLength(1);
   click(c, 'Refund 1 TP');
   expect(traitToggle(c, 'hoarding').closest('.candidate-tiles')).toBeTruthy();
-  click(c, 'Buy · Farmer');
+  click(c, 'Buy · Peasant — Farmer');
   expect(traitToggle(c, 'hoarding').textContent).toContain('Fulfilled');
+});
+
+it('identifies the source only when the same lifepath is taken twice', () => {
+  const c = mountApp();
+  click(c, 'Born Peasant'); click(c, 'Farmer'); click(c, 'Farmer'); click(c, 'Traits');
+  expect(traitToggle(c, 'hoarding').textContent).toContain('Farmer (first time)');
+  act(() => traitToggle(c, 'hoarding').click());
+  expect(c.querySelector('#trait-body-hoarding')?.textContent).toContain('Farmer (second time)');
 });

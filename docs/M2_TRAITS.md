@@ -63,3 +63,5 @@ Acceptance for the annotated sheet:
 - Clear optional candidates in one undoable edit. Preserve paid traits, implicit requirements and the shortlist provenance of owned traits. Reset traits clears paid acquisitions, trait choices and the shortlist in one undoable edit. Recompute grants and requirements from the route. Exercise Cancel, Undo and Redo, source-specific charges, stock grants and legacy drafts.
 
 UX verification used the five-lifepath saved character from the annotations. The new preview under `http://127.0.0.1:4199/traits-review/` shares the draft with the previous build at the root URL. To reproduce beside that build, run `npm run build -- --base=./ --outDir ../tmp/ux2-dist/traits-review` and serve `../tmp/ux2-dist` on port 4199. Local verification passed TypeScript, all 1,730 tests in 73 files and the production build. See PR #30 for the published commit and CI result.
+
+Lifepath source labels show the occurrence when a path repeats. The recorded purchase mode is displayed for Free Creation. Follow-up for Skills: adapt the compact controls and independently expandable, full-width card headers.

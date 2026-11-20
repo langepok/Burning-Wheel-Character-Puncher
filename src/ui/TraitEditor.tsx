@@ -43,9 +43,19 @@ export function TraitEditor({sheet,progress,mode,onChange,onError,expanded,setEx
     if(!worklist.has(id))onChange(shortlistTrait(sheet,id));
     setExpanded(ids=>ids.includes(id)?ids:[...ids,id]);
   }
+  function lifepathSourceLabel(source: PathSource) {
+    const name = pathLabel(source.path);
+    const repeated = source.occurrence > 1 || state.paths.some(
+      entry => entry.source.path === source.path && entry.source.occurrence > 1
+    );
+    if (!repeated) return name;
+    const times = ['first time', 'second time', 'third time'];
+    return name + ' (' + (times[source.occurrence - 1] ?? 'pass ' + source.occurrence) + ')';
+  }
+
   function offers(t:Trait){
     const options:{source:TraitSource;label:string}[]=state.paths.filter(p=>p.ids.includes(t.id))
-      .map(p=>({source:p.source,label:p.name+' #'+p.source.occurrence}));
+      .map(p=>({source:p.source,label:lifepathSourceLabel(p.source)}));
     if(t.price!==null)options.push({source:{kind:'catalog'},label:'General catalog'});
     if(!accessIssues(t,{kind:'fey'},state).length)options.push({source:{kind:'fey'},label:'Fey Blood'});
     return options;
@@ -92,9 +102,10 @@ export function TraitEditor({sheet,progress,mode,onChange,onError,expanded,setEx
           </label>}
           {paid && <>
             <p>Source: {paid.source.kind === 'lifepath'
-              ? pathLabel(paid.source.path) + ' · visit ' + paid.source.occurrence
+              ? lifepathSourceLabel(paid.source)
               : ({catalog:'General catalog', fey:'Fey Blood', free:'Custom price'})[paid.source.kind]}
-              {' · '}{paid.mode === 'rules' ? 'Rules' : 'Free Creation'}</p>
+              </p>
+            {paid.mode === 'free' && <p>Purchased in Free Creation.</p>}
             {unpaid.has(t.id) && <p>Refund this purchase to buy the trait from its required lifepath.</p>}
             <button onClick={() => onChange(refundTrait(sheet, t.id))}>Refund {paid.cost} TP</button>
           </>}
@@ -140,7 +151,7 @@ export function TraitEditor({sheet,progress,mode,onChange,onError,expanded,setEx
               <span className="trait-obligation" data-met={!unpaid.has(id)}>
                 {unpaid.has(id) ? (needsSource ? 'Source needed' : 'Required') : '✓ Fulfilled'}
               </span>
-              <span className="trait-visit">{pathLabel(source.path)} · visit {source.occurrence}</span>
+              <span className="trait-visit">{lifepathSourceLabel(source)}</span>
             </>}
           </span>
         </span>
