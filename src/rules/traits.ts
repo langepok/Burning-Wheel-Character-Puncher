@@ -55,7 +55,7 @@ export function traitState(sheet:Sheet,progress:LifepathProgress) {
     ledger.filter(p=>sameSource(p.source,source)&&ids.includes(p.id)).forEach(p=>earlier.add(p.id));
   }
   const remaining=total-ledger.reduce((sum,p)=>sum+p.cost,0);
-  const issues=missing.map(m=>'Required trait: '+traits.get(m.id)!.name+' ('+m.source.path+', visit '+m.source.occurrence+').');
+  const issues=missing.map(m=>'Required trait: '+traits.get(m.id)!.name+' ('+paths.find(p=>sameSource(p.source,m.source))!.name+', visit '+m.source.occurrence+').');
   const state={ledger,owned,common,paths,missing,total,remaining,stock,issues,resources};
   for(const p of ledger){
     const t=traits.get(p.id)!;

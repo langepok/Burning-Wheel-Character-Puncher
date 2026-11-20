@@ -344,7 +344,10 @@ export function App() {
         </aside>
       </div>
 
-      <SheetEditor sheet={sheet} progress={progress} mode={mode} onChange={updateSheet} onError={setNotice} externalIssues={[
+      <SheetEditor pathLabel={id=>{
+        const path=catalog.lifepaths.get(id);
+        return path ? settingName(path.settingId).replace(/ Setting$/,'')+' — '+path.sourceName : 'Former lifepath';
+      }} sheet={sheet} progress={progress} mode={mode} onChange={updateSheet} onError={setNotice} externalIssues={[
         ...finalIssues.map(({path,issue})=>path.sourceName+': '+describeIssue(issue)),
         ...history.entries.flatMap(entry=>'overrides' in entry?entry.overrides.map(describeIssue):[]),
         ...(progress.leadPending?['Finish the pending Lead by choosing a destination lifepath.']:[]),

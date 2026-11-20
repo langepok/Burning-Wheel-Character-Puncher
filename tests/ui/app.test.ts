@@ -343,7 +343,7 @@ it('buys, undoes, redoes and refunds a required trait through the sheet and auto
   click(container,'Redo');expect(ledger()).toHaveLength(1);
   click(container,'Reset');click(container,'Confirm remove all');expect(ledger()).toHaveLength(0);
   click(container,'Undo');expect(ledger()).toHaveLength(1);
-  if(!container.querySelector('.trait-detail'))click(container,'HoardingOwned');
+  if(!container.querySelector('.trait-detail'))act(()=>container.querySelector<HTMLButtonElement>('#worklist-hoarding')!.click());
   click(container,'Refund 1 TP');expect(ledger()).toHaveLength(0);
 });
 
@@ -354,11 +354,14 @@ it('stages a full worklist through Explore Trait Catalog, including unavailable 
   const before=budget();
   click(c,'Explore Trait Catalog');
   const dialog=c.querySelector<HTMLDialogElement>('dialog[aria-label="Explore Trait Catalog"]')!;
-  const rows=[...dialog.querySelectorAll<HTMLButtonElement>('.catalog-results button')];
-  const select=(name:string)=>act(()=>rows.find(row=>row.textContent===name)!.click());
-  for(const name of ['Hoarding','Black Lung',...rows.slice(0,18).map(row=>row.textContent!)]){
-    select(name);click(dialog,'Add to worklist');
-    expect(dialog.querySelector<HTMLButtonElement>('.trait-detail button')?.disabled).toBe(true);
+  const rows=[...dialog.querySelectorAll<HTMLButtonElement>('.trait-result button[aria-pressed]')];
+  expect(dialog.querySelector('[aria-label="Black Lung"]')?.textContent).toContain('Cannot buy now');
+  const first=dialog.querySelector('h3')!.textContent;
+  for(const name of ['Hoarding','Black Lung',...rows.slice(0,18).map(row=>row.getAttribute('aria-label')!)]){
+    const plus=dialog.querySelector<HTMLButtonElement>('[aria-label="Add '+name+' to candidates"]')!;
+    act(()=>plus.click());
+    expect(plus.disabled).toBe(true);
+    expect(dialog.querySelector('h3')!.textContent).toBe(first);
   }
   expect(budget()).toBe(before);
   click(dialog,'Close catalog');
@@ -366,11 +369,57 @@ it('stages a full worklist through Explore Trait Catalog, including unavailable 
   click(c,'Hoarding · Farmer #1');
   expect(c.querySelectorAll('.trait-row')).toHaveLength(20);
   expect(c.querySelector('.trait-required')?.textContent).toContain('1 TP still required');
-  click(c,'Black LungConsidering');
-  expect(c.querySelector('.trait-detail')?.textContent).toContain('No purchase source');
-  click(c,'Remove from shortlist');
+  act(()=>c.querySelector<HTMLButtonElement>('#worklist-black-lung')!.click());
+  expect(c.querySelector('#worklist-black-lung')!.parentElement!.textContent).toContain('No purchase source');
+  click(c.querySelector('#worklist-black-lung')!.parentElement!,'Remove from shortlist');
   expect(c.querySelectorAll('.trait-row')).toHaveLength(19);
   expect(budget()).toBe(before);
   click(c,'Undo');expect(c.querySelectorAll('.trait-row')).toHaveLength(20);
   click(c,'Redo');expect(c.querySelectorAll('.trait-row')).toHaveLength(19);
+}, 15000)
+
+it('compares four expanded candidates across purchase, refund and sheet navigation',()=>{
+  const c=mountApp();
+  click(c,'Born Peasant');click(c,'Farmer');click(c,'Traits');click(c,'Explore Trait Catalog');
+  for(const name of ['Hoarding','Black Lung','Linguist','Keen Taste']){
+    pressLabel(c,'Add '+name+' to candidates');
+  }
+  click(c,'Close catalog');
+  const toggle=(id:string)=>act(()=>c.querySelector<HTMLButtonElement>('#worklist-'+id)!.click());
+  const count=()=>c.querySelectorAll('.trait-row button[aria-expanded="true"]').length;
+  for(const id of ['hoarding','black-lung','linguist','keen-taste'])toggle(id);
+  expect(count()).toBe(4);
+  toggle('black-lung');expect(count()).toBe(3);
+  expect(c.querySelector('.pending')).toBeTruthy();
+  click(c,'Buy · Farmer');
+  const owned=c.querySelector('[aria-label="Character owned traits"]')!;
+  expect(owned.querySelector('#worklist-hoarding')).toBeTruthy();
+  expect(owned.textContent).toContain('Farmer · visit 1');
+  expect(c.querySelector('#panel-Traits')!.textContent).not.toContain('human.peasant.');
+  expect(c.querySelector('.fulfilled')).toBeTruthy();
+  expect(count()).toBe(3);
+  click(c,'Skills');click(c,'Traits');expect(count()).toBe(3);
+  click(c,'Refund 1 TP');expect(count()).toBe(3);
+  expect(c.querySelector('.candidate-tiles #worklist-hoarding')).toBeTruthy();
+});
+it('orders catalog prices numerically with missing prices last and includes hybrids in both filters',()=>{
+  const c=mountApp();click(c,'Traits');click(c,'Explore Trait Catalog');
+  const d=c.querySelector('dialog')!;
+  const select=(prefix:string,value:string)=>{
+    const select=[...d.querySelectorAll('label')].find(l=>l.textContent?.startsWith(prefix))!.querySelector('select')!;
+    act(()=>{select.value=value;select.dispatchEvent(new Event('change',{bubbles:true}));});
+  };
+  const rows=()=>[...d.querySelectorAll('.trait-result')];
+  select('Sort by','price');
+  const prices=()=>rows().map(row=>Number(row.querySelector('small')?.textContent?.match(/Catalog (\d+) TP/)?.[1])||null);
+  const numeric=prices().filter((p):p is number=>p!==null);
+  expect(numeric).toEqual([...numeric].sort((a,b)=>a-b));
+  expect(numeric.length).toBeGreaterThan(500);
+  pressLabel(c,'Reverse sort order');
+  expect(prices().slice(0,numeric.length)).toEqual([...numeric].reverse());
+  expect(prices().at(-1)).toBeNull();
+  for(const type of ['call-on','die','die/call-on']){
+    select('Type',type);expect(d.querySelector('[aria-label="Linguist"]')).toBeTruthy();
+    expect(rows().every(row=>row.getAttribute('data-type')?.includes(type))).toBe(true);
+  }
 });

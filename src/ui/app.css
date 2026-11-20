@@ -327,3 +327,36 @@ h3{font-family:Georgia,serif;font-weight:500;}
 .trait-detail {padding:.5rem 1rem 1rem}
 .trait-detail small {display:block}
 .trait-detail button {margin:.25rem .35rem .25rem 0}
+
+/* Trait sheet uses the column's available width inside the workbench. */
+section[aria-label="Trait burner"] {container-type:inline-size}
+.owned-columns,.candidate-tiles {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
+.owned-columns h4 {margin:0 0 6px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.owned-columns h4 small {color:var(--muted);font-weight:normal}
+.trait-row,.trait-result,.trait-detail {--tint:#f1f1e8;--tone:#555d42;overflow-wrap:anywhere}
+[data-type="die"] {--tint:#edf1f4;--tone:#405966}
+[data-type="call-on"] {--tint:#f4edf0;--tone:#785269}
+[data-type="die/call-on"] {--tint:linear-gradient(105deg,#edf1f4 15%,#f4edf0 85%);--tone:#57536a}
+.trait-row,.trait-detail,.trait-result {background:var(--tint)}
+.trait-row {border:1px solid var(--line);border-left:3px solid var(--tone);border-radius:5px;margin-bottom:5px;min-width:0}
+.trait-row>button {gap:5px;padding:7px 8px 2px}
+.trait-row>.trait-type {display:block;padding:0 8px 6px;font-size:11px}
+.trait-type,.catalog-results .trait-type {display:inline;color:var(--tone);font-size:13px;font-weight:650}
+.trait-detail {padding:4px 8px 8px}
+.trait-detail p {margin:6px 0;line-height:1.4}
+.trait-detail footer {margin-top:9px;padding:6px 0 0;border-top:1px solid var(--line);font-size:10px;color:var(--muted);text-align:left}
+.trait-detail fieldset,.trait-detail input {min-width:0;max-width:100%}
+.trait-required button.fulfilled {background:#e4edde;color:#36563d;border-color:#9eaf99}
+.trait-required button.pending {background:#f5ebd9;color:#694d24;border-color:#c5ab81}
+.trait-dialog[open] {display:flex;flex-direction:column}
+.trait-dialog .catalog-body {flex:1;min-height:0;grid-template-columns:minmax(0,45fr) minmax(0,55fr)}
+.trait-dialog .catalog-detail {padding:12px}
+.trait-dialog .trait-detail {padding:14px;border-radius:6px}
+.trait-dialog .trait-toolbar {gap:8px}
+.trait-dialog .trait-result {display:grid;grid-template-columns:minmax(0,1fr) 36px;border-bottom:1px solid var(--line);align-items:center;padding-right:4px}
+.trait-result button:first-child {min-width:0;background:transparent;text-align:left;border:0;border-left:3px solid transparent;padding:7px 9px;color:var(--ink)}
+.trait-result button[aria-pressed="true"] {border-left-color:var(--tone);box-shadow:inset 0 0 0 1px var(--tone)}
+.trait-result small {margin:2px 0 0}
+.trait-result .trait-add {padding:0;width:29px;height:29px;justify-self:center;color:var(--green);font-weight:bold}
+@container (max-width:580px){.candidate-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container (max-width:450px){.owned-columns,.candidate-tiles{grid-template-columns:minmax(0,1fr)}}

@@ -636,3 +636,7 @@ Tough is one trait. BWGR pp. 119, 181 and 351 supply the Dwarven grant, listed p
 ## Trait worklist
 
 Shortlisted trait IDs persist separately from skills and trait purchases. Catalog selection only stages an option. Opening a requirement stages or expands the same worklist row. Buying from the row records the chosen source. Refund keeps a previously staged candidate. Rules availability uses the purchase validator including outstanding obligations and budget. The catalog remains open for selecting several candidates.
+
+## Trait sheet comparison
+
+Owned traits use Character, Die and Call-on columns. Hybrid traits appear once in Die with both types identified. Candidates use their own responsive grid. Each tile expands independently and retains expansion across purchases, refunds and sheet tabs. Catalog quick-add leaves the detail selection alone. Price sorting uses the least listed source price for the current route, irrespective of budget; absent prices sort last in either direction. Source-specific prices stay visible. Affinity for… awaits a future skill-target selector and continues to require manual recording.

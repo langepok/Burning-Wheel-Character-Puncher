@@ -9,7 +9,8 @@ import type { SkillDefinition } from '../data/skills';
 function roots(s:SkillDefinition){ const root=rootAbilities(s);return (root.kind==='single'?[root.ability]:root.abilities).map(r=>skillName(r.id)).join(' / '); }
 function toolsLabel(s:SkillDefinition){const t=s.tools;return t.kind==='specific-item'?t.item:t.kind==='none'?'None':t.kind==='generic'?'Required tools':t.kind==='traveling-gear'?'Traveling gear':t.kind==='workshop'?'Workshop':'Depends on the activity (see rule reference)';}
 function Source({skill}:{skill:SkillDefinition}){return <small>BWGR · {skill.source.flatMap(s=>s.kind==='audit-packet'?s.pages?.printed??[]:[]).join(', ')}</small>;}
-export function SheetEditor({sheet,progress,mode,onChange,onError,externalIssues}:{sheet:Sheet;progress:LifepathProgress;mode:BuildMode;onChange:(s:Sheet)=>void;onError:(s:string)=>void;externalIssues:string[]}){
+export function SheetEditor({sheet,progress,mode,onChange,onError,externalIssues,pathLabel}:{pathLabel:(id:string)=>string;sheet:Sheet;progress:LifepathProgress;mode:BuildMode;onChange:(s:Sheet)=>void;onError:(s:string)=>void;externalIssues:string[]}){
+  const [expandedTraits,setExpandedTraits]=useState<string[]>([]);
   const [tab,setTab]=useState('Skills');const [pool,setPool]=useState<Pool>('ordinary');const [catalogOpen,setCatalogOpen]=useState(false);
   const [generalOnly,setGeneralOnly]=useState(false);const statsPanel=useRef<HTMLElement>(null);
   const [skillFilter,setSkillFilter]=useState('');const [openingShade,setOpeningShade]=useState<'root'|Shade>('root');
@@ -56,7 +57,7 @@ export function SheetEditor({sheet,progress,mode,onChange,onError,externalIssues
           </article>;
         })}</div>
       </>}
-      {tab==='Traits'&&<TraitEditor {...{sheet,progress,mode,onChange,onError}}/>}
+      {tab==='Traits'&&<TraitEditor expanded={expandedTraits} setExpanded={setExpandedTraits} pathLabel={pathLabel} {...{sheet,progress,mode,onChange,onError}}/>}
       {tab==='Resources'&&<><div className="section-top"><div><span className="eyebrow">RESOURCE BUDGET</span><h2>A place in the world</h2></div><span className="point-total">{d.total.resources} <small>resource points earned</small></span></div><div className="resource-categories">{['Gear & property','Relationships','Affiliations & reputation','Spells'].map(c=><div key={c}><h3>{c}</h3><span>Purchase editor pending</span></div>)}</div><div className="notice">This is a budget summary, not a finished Resources attribute. Shopping, trait effects and the Resources/Circles calculations are not yet automated. Wife-derived grants remain unresolved.</div><p>BWGR 95–99 · Resource points and the Resources exponent are different values.</p></>}
       {tab==='Review'&&<><div className="section-top"><div><span className="eyebrow">BUILD REVIEW</span><h2>What needs attention</h2><p>Drafts can be saved at any time. This workbench does not certify a complete character.</p></div></div><div className="review-grid"><div><h3>Current build checks</h3>{issues.length?<ul className="issue-list">{issues.map((i,n)=><li key={n}>{i}</li>)}</ul>:<p>No current workbench violations detected.</p>}{(d.remaining.mental>0||d.remaining.physical>0)&&<p>Unallocated stat points: {d.remaining.mental} mental / {d.remaining.physical} physical.</p>}<p>Unspent skill points: {d.remaining.ordinary} ordinary / {d.remaining.general} General.</p></div><div className="notice"><h3>Before play</h3><p>Complete traits, resources, Health/Steel and other derived attributes, Beliefs and Instincts with your group. Resolve any missing skill topics or special lifepath grants.</p><p>Free Creation warnings remain visible after switching back to Rules.</p></div></div></>}
       </div>
