@@ -646,3 +646,15 @@ Owned traits use Character, Die and Call-on columns. Hybrid traits appear once i
 The sheet derives unpaid requirement cards directly from the current route and places them first in Considering. A single header toggles each card and includes its type and required source visit. Fulfilled requirements use the same status treatment on the owned card. An owned trait bought from a different source keeps its recorded purchase visible for repair. Showing a requirement never changes shortlist history.
 
 Clear optional candidates affects visible, manually staged optional choices. Reset traits refunds all recorded trait purchases and clears trait choices and the entire shortlist in one undoable edit. Stock grants and lifepath obligations follow from the route. The sheet groups both commands with the TP balance, catalog, review and point rules.
+
+## M2 final review — earlier paths and catalog purchases
+
+BWGR p. 89 uses the order of the character's paths. A trait supplied by an earlier path advances the current requirement to the next unacquired listed trait. A catalog purchase uses discretionary points and supplies no earlier path. Apply the repeat rules on p. 84 before scanning the remaining list. An editor action may happen at any time while building the draft.
+
+M2 identifies a listed purchase by path and occurrence. If adding Peddler makes a previously catalog-bought Blank Stare mandatory, retain the 3 TP transaction, show the open requirement on the owned card, and block a duplicate. The player can refund 3 TP and buy it from Peddler for 1 TP. This explicit repair preserves the player's spending history. BWGR specifies the resulting purchase obligations and prices but prescribes no draft-editing procedure.
+
+## M2 final review — effects while repairing a draft
+
+D-018 and the M2 recovery policy distinguish command validation from projection of a saved sheet. The current sheet shows the effects of its recorded purchases in both modes. Review independently evaluates the current route, sources and budget. An illegal source remains actionable even if the displayed stats or skill exponents fit their limits. A Free Creation provenance notice alone does not establish a present source violation.
+
+Retain this behavior for the editable draft. Changing mode or removing a path can affect eligibility without being a refund. Silently suspending a transfer or changing a skill opening would introduce a second version of the same sheet during repair. Restoring the path clears its missing-source diagnostic. Refunding removes the effect and returns the recorded charge. No final character certification or export-for-play policy is established here. BWGR describes effects on an acquired trait (pp. 200, 311, 329, 336, 343–344, 353). The behavior of an inconsistent draft is an editor decision.

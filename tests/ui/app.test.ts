@@ -518,3 +518,30 @@ it('identifies the source only when the same lifepath is taken twice', () => {
   act(() => traitToggle(c, 'hoarding').click());
   expect(c.querySelector('#trait-body-hoarding')?.textContent).toContain('Farmer (second time)');
 });
+
+it('keeps a Free Creation transfer visible in Rules and reverses it through Refund, Undo and Redo', () => {
+  const c = mountApp();
+  click(c, 'Born Peasant');
+  const pools = () => c.querySelector('.stat-pools')!.textContent;
+  const before = pools();
+  select(c, 'Build mode', 'free');
+  click(c, 'Traits');
+  click(c, 'Explore Trait Catalog');
+  pressLabel(c, 'Add Robust to candidates');
+  click(c, 'Close catalog');
+  act(() => traitToggle(c, 'robust').click());
+  click(c, 'Use override');
+  act(() => c.querySelector<HTMLInputElement>('#trait-body-robust input[type=checkbox]')!.click());
+  const transferred = pools();
+  expect(transferred).not.toBe(before);
+  select(c, 'Build mode', 'rules');
+  expect(pools()).toBe(transferred);
+  expect(c.textContent).toContain('Robust: Explicit Free Creation price.');
+  click(c, 'Refund 1 TP');
+  expect(pools()).toBe(before);
+  click(c, 'Undo');
+  expect(pools()).toBe(transferred);
+  expect(JSON.parse(localStorage.getItem('bw-workbench-v1')!).mode).toBe('rules');
+  click(c, 'Redo');
+  expect(pools()).toBe(before);
+});

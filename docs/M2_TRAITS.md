@@ -65,3 +65,18 @@ Acceptance for the annotated sheet:
 UX verification used the five-lifepath saved character from the annotations. The new preview under `http://127.0.0.1:4199/traits-review/` shares the draft with the previous build at the root URL. To reproduce beside that build, run `npm run build -- --base=./ --outDir ../tmp/ux2-dist/traits-review` and serve `../tmp/ux2-dist` on port 4199. Local verification passed TypeScript, all 1,730 tests in 73 files and the production build. See PR #30 for the published commit and CI result.
 
 Lifepath source labels show the occurrence when a path repeats. The recorded purchase mode is displayed for Free Creation. Follow-up for Skills: adapt the compact controls and independently expandable, full-width card headers.
+
+### Final edge-case checkpoint for PR #30
+
+Reviewed against parent `946665cdd923a319086f94cf1b3e109baaf9df39`. The checkpoint commit on `work/m2-trait-burner` adds regression coverage and records the existing behavior. The rule engine, catalog and version-1 draft format require no migration.
+
+| Scenario | Evidence and expected result |
+|---|---|
+| Peddler added after a Rules catalog purchase | The character tests buy Blank Stare using Born Peasant and Woodcutter, add Peddler, reject a duplicate, refund 3 TP, reject the wrong source, and buy for 1 TP. With the full route and obligation paid, a separate general purchase can use the remaining budget. The UI source-repair test checks the explanation and the transition back to Fulfilled. BWGR pp. 84, 89. |
+| Earlier lifepath purchase | Fisherman supplies Superstitious and Sailor requires Sea Legs. The existing Peddler repeat test also covers earlier optional purchases, the second slot and the third traversal. |
+| Effects when a source disappears | Five parameterized character tests hold age and stats constant while removing and restoring the source. They check actual age pools, both transfer directions, single and combined skill roots, the precise Review reason, import and exact refund. The listed source is a test fixture because the Human pilot does not offer these five traits on its paths. It tests the Rules purchase mechanism without adding a Human route to Acute. |
+| Free Creation and Rules | Each effect also has a custom-price acquisition accepted only in Free Creation, retained on import in Rules and flagged independently of its effect. An app test switches a Robust character to Rules, checks the transfer and warning, refunds, undoes and redoes, and checks the autosaved mode. |
+
+The effects use BWGR pp. 200 and 353 (Vigor of Youth), 311 (Acute), 329 (Hand-Eye Coordination), 336 (Mind over Matter), and 343–344 (Robust). See DECISIONS.md for the boundary between the rules and draft recovery. A numerical result alone does not certify the draft for play. Revisit eligibility-dependent projection only if a future finalization workflow needs a separate rules-valid sheet.
+
+Local checkpoint verification passed TypeScript, the production build, and 1,739 tests in 73 files (eight new cases). The PR checks record verification for the published commit.

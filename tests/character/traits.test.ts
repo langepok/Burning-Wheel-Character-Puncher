@@ -237,3 +237,99 @@ it('resets the recorded trait ledger, including category costs and transfer choi
   delete legacy.traitPurchases;
   expect(resetTraits(legacy).choices).toEqual(base.choices);
 });
+
+it('repairs a catalog purchase after a route edit at its recorded price', () => {
+  const before = route('born-peasant', 'woodcutter');
+  const after = route('born-peasant', 'woodcutter', 'peddler');
+  const peddler = {kind:'lifepath', path:'human.peasant.peddler', occurrence:1} as const;
+  const general = {kind:'catalog'} as const;
+  const blank = createSheet();
+  const first = purchaseTrait(blank, before, 'blank-stare', general, 'rules');
+  expect(first.error).toBeUndefined();
+  const state = traitState(first.sheet, after);
+  expect(state.owned.has('blank-stare')).toBe(true);
+  expect(state.missing).toEqual([{id:'blank-stare', source:peddler}]);
+  expect(state.remaining).toBe(state.total - 3);
+  expect(purchaseTrait(first.sheet, after, 'blank-stare', peddler, 'rules')).toEqual({
+    sheet:first.sheet, error:'Already owned.'
+  });
+  const refunded = refundTrait(first.sheet, 'blank-stare');
+  expect(traitState(refunded, after).remaining).toBe(state.remaining + 3);
+  expect(purchaseTrait(refunded, after, 'blank-stare', general, 'rules').error).toMatch(/required/);
+  const repaired = purchaseTrait(refunded, after, 'blank-stare', peddler, 'rules');
+  expect(repaired.error).toBeUndefined();
+  expect(traitState(repaired.sheet, after)).toMatchObject({remaining:state.total - 1, missing:[]});
+  expect(refundTrait(repaired.sheet, 'blank-stare')).toEqual(blank);
+  const optional = purchaseTrait(repaired.sheet, after, 'robust', general, 'rules');
+  expect(optional.error).toBeUndefined();
+  expect(traitState(optional.sheet, after).remaining).toBe(state.total - 4);
+  expect(refundTrait(optional.sheet, 'robust')).toEqual(repaired.sheet);
+});
+
+it('skips Superstitious from Fisherman when Sailor subsequently requires a trait', () => {
+  const commands = [
+    {kind:'lifepath', id:'human.peasant.born-peasant'},
+    {kind:'lifepath', id:'human.peasant.fisherman'},
+    {kind:'lead', id:'human.villager'},
+    {kind:'lifepath', id:'human.villager.sailor'}
+  ] as const;
+  const history = commands.reduce<LifepathHistory>((h, cmd) => applyLifepathCommand(h, cmd, 'rules', catalog), {entries:[]});
+  const p = projectLifepathHistory(history, catalog);
+  const first = {kind:'lifepath', path:commands[1].id, occurrence:1} as const;
+  const bought = purchaseTrait(createSheet(), p, 'superstitious', first, 'rules');
+  expect(bought.error).toBeUndefined();
+  expect(traitState(bought.sheet, p).missing).toEqual([
+    {id:'sea-legs', source:{kind:'lifepath', path:commands[3].id, occurrence:1}}
+  ]);
+});
+
+it.each(['vigor-of-youth', 'acute', 'hand-eye-coordination', 'robust', 'mind-over-matter'])(
+  'projects %s from recorded ownership through source loss, import, repair and refund', id => {
+    // Isolate source validity from age, budget and stock. No pilot path offers all five effects.
+    const original = humanBurningLists[source.path];
+    const name = traits.get(id)!.name;
+    try {
+      Object.assign(humanBurningLists, {[source.path]:{...original, traits:[name]}});
+      const complete = {...route('born-peasant','farmer'), age:60};
+      const removed = {...route('born-peasant'), age:60};
+      const base = createSheet();
+      base.stats.perception.exponent = base.stats.agility.exponent = 5;
+      const legal = purchaseTrait(base, complete, id, source, 'rules');
+      expect(legal.error).toBeUndefined();
+      const custom = {kind:'free', points:4} as const;
+      expect(purchaseTrait(base, removed, id, custom, 'rules').error).toBeTruthy();
+      const override = purchaseTrait(base, removed, id, custom, 'free');
+      expect(override.error).toBeUndefined();
+
+      for (const [purchased, reason] of [[legal.sheet, 'Lifepath source is absent.'],
+        [override.sheet, 'Explicit Free Creation price.']] as const) {
+        const sheet = traits.get(id)!.poolTransfer
+          ? {...purchased, choices:{['trait:'+id]:'transfer'}} : purchased;
+        const history = applyLifepathCommand({entries:[]}, {kind:'lifepath', id:'human.peasant.born-peasant'}, 'rules', catalog);
+        const loaded = parseDraft(encodeDraft({version:1, mode:'rules', name:'', pins:[], history, sheet}), catalog);
+        expect(loaded.sheet).toEqual(sheet);
+        const measure = (s:typeof base, p:typeof removed) => {
+          const {mental, physical} = deriveSheet(s,p).total;
+          return [mental, physical, ...['observation','atilliator'].map(skill => skillOpening(skills.get(skill)!,s)?.exponent)];
+        };
+        for (const p of [complete, removed]) {
+          const [mental, physical] = measure(base,p);
+          const delta = id==='robust' ? -1 : id==='mind-over-matter' ? 1 : 0;
+          const expected = [mental!+delta, physical!-delta, id==='acute'?3:2,
+            id==='acute'||id==='hand-eye-coordination'?3:2];
+          if (id==='vigor-of-youth') expected[1] += 3; // At 60 the ordinary physical base is 11.
+          expect(measure(loaded.sheet,p)).toEqual(expected);
+        }
+        expect(deriveSheet(loaded.sheet,removed).issues).toContain(name+': '+reason);
+        if (purchased===legal.sheet) expect(deriveSheet(loaded.sheet,complete).issues).not.toContain(name+': '+reason);
+        const refunded = refundTrait(loaded.sheet,id);
+        expect(refunded).toEqual(base);
+        expect(measure(refunded,removed)).toEqual([7,11,2,2]);
+        expect(traitState(refunded,removed).remaining - traitState(loaded.sheet,removed).remaining)
+          .toBe(purchased.traitPurchases![0].cost);
+      }
+    } finally {
+      Object.assign(humanBurningLists, {[source.path]:original});
+    }
+  }
+);
