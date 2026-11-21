@@ -235,7 +235,7 @@ export function App() {
             </li>;
           })}</ol>
           <div className="history-actions"><button type="button" disabled={!timeline.length} onClick={()=>commit({...draft,history:removeLastRouteStep(history)})}>Remove last</button>
-            <button type="button" disabled={!timeline.length&&!sheet.purchases.length&&!Object.values(sheet.stats).some(s=>s.exponent)} onClick={()=>setConfirmReset(true)}>Reset</button></div>
+            <button type="button" disabled={!timeline.length&&!sheet.traitPurchases?.length&&!sheet.purchases.length&&!Object.values(sheet.stats).some(s=>s.exponent)} onClick={()=>setConfirmReset(true)}>Reset</button></div>
           {progress.leadPending && <p>Choose a lifepath in the destination to complete the transition.</p>}
           {finalIssues.length > 0 && <ul aria-label="Current build requirements">
             {finalIssues.map(({ index, path, issue }, item) => <li key={item}>{index + 1}. {path.sourceName}: {describeIssue(issue)}</li>)}
@@ -344,14 +344,17 @@ export function App() {
         </aside>
       </div>
 
-      <SheetEditor sheet={sheet} progress={progress} mode={mode} onChange={updateSheet} onError={setNotice} externalIssues={[
+      <SheetEditor pathLabel={id=>{
+        const path=catalog.lifepaths.get(id);
+        return path ? settingName(path.settingId).replace(/ Setting$/,'')+' — '+path.sourceName : 'Former lifepath';
+      }} sheet={sheet} progress={progress} mode={mode} onChange={updateSheet} onError={setNotice} externalIssues={[
         ...finalIssues.map(({path,issue})=>path.sourceName+': '+describeIssue(issue)),
         ...history.entries.flatMap(entry=>'overrides' in entry?entry.overrides.map(describeIssue):[]),
         ...(progress.leadPending?['Finish the pending Lead by choosing a destination lifepath.']:[]),
       ]}/>
       {transition&&<ConfirmReset title="Move to another setting?" label="Confirm Lead and lifepath" description={'Take a Lead to '+settingName(catalog.lifepaths.get(transition)!.settingId)+' (+1 year), then add '+getLifepathDisplayLabel(catalog.lifepaths.get(transition)!,catalog)+' (+'+catalog.lifepaths.get(transition)!.years+' years). One Undo restores both steps.'} onCancel={()=>setTransition(null)} onConfirm={()=>{const next=planLeadAndLifepath(history,transition,catalog);if(next)commit({...draft,history:next});else setNotice('This transition is no longer legal. Review the requirements.');setTransition(null);}}/>}
       {confirmReset&&<ConfirmReset onCancel={()=>setConfirmReset(false)} onConfirm={()=>apply({kind:'reset'})}/>}
-      <footer className="app-footer"><span>BURNING WHEEL GOLD REVISED · HUMAN WORKBENCH</span><span>Draft creation · traits, resource purchases & final validation still in development</span></footer>
+      <footer className="app-footer"><span>BURNING WHEEL GOLD REVISED · HUMAN WORKBENCH</span><span>Draft creation · resource purchases & final validation still in development</span></footer>
     </main>
   );
 }
