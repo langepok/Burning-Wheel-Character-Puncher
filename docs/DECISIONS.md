@@ -622,3 +622,39 @@ even in Free Creation. BWGR, Leads: Moving to a New Setting.
 History exposes the existing calculation's repeat-adjusted contributions and
 labels source skill/trait lists as options, not ownership. General opening
 consequences appear where Ordinary opening is also currently legal.
+
+## M2 trait ownership and recovery
+
+The sheet stores paid acquisitions with their source, charge and creation mode. Source lists supply offers and ordered obligations. Common stock grants derive from the Born path. Recomputing history preserves purchases for explicit repair or refund. A missing printed price stays unknown. Manual and unresolved creation effects produce Review items. See [M2 audit](M2_TRAITS.md).
+
+## M2 RAW reconciliation
+
+The five lifepath-only names listed in M2_TRAIT_EFFECTS use the descriptive Character interpretation. Their lifepath pages remain the sources and no general price is inferred. Breeder is Char in the index. The Orc example on p. 227 differs from the normative suite on pp. 236–237. We use that suite, and explicitly set a stock-independent project price of 1 TP for Breeder.
+
+Tough is one trait. BWGR pp. 119, 181 and 351 supply the Dwarven grant, listed path and printed price. We interpret pp. 310–311 to permit a separate general purchase for 2 TP for Tough alone. Common grants and Fey Blood retain their own costs. Black Lung (pp. 311, 315) has no general purchase in Rules. Later trait votes and custom trait creation (issue #31) are outside this burner.
+
+## Trait worklist
+
+Shortlisted trait IDs persist separately from skills and trait purchases. Catalog selection only stages an option. Opening a requirement stages or expands the same worklist row. Buying from the row records the chosen source. Refund keeps a previously staged candidate. Rules availability uses the purchase validator including outstanding obligations and budget. The catalog remains open for selecting several candidates.
+
+## Trait sheet comparison
+
+Owned traits use Character, Die and Call-on columns. Hybrid traits appear once in Die with both types identified. Candidates use their own responsive grid. Each tile expands independently and retains expansion across purchases, refunds and sheet tabs. Catalog quick-add leaves the detail selection alone. Price sorting uses the least listed source price for the current route, irrespective of budget; absent prices sort last in either direction. Source-specific prices stay visible. Affinity for… awaits a future skill-target selector and continues to require manual recording.
+
+## Trait sheet controls and inherited requirements
+
+The sheet derives unpaid requirement cards directly from the current route and places them first in Considering. A single header toggles each card and includes its type and required source visit. Fulfilled requirements use the same status treatment on the owned card. An owned trait bought from a different source keeps its recorded purchase visible for repair. Showing a requirement never changes shortlist history.
+
+Clear optional candidates affects visible, manually staged optional choices. Reset traits refunds all recorded trait purchases and clears trait choices and the entire shortlist in one undoable edit. Stock grants and lifepath obligations follow from the route. The sheet groups both commands with the TP balance, catalog, review and point rules.
+
+## M2 final review — earlier paths and catalog purchases
+
+BWGR p. 89 uses the order of the character's paths. A trait supplied by an earlier path advances the current requirement to the next unacquired listed trait. A catalog purchase uses discretionary points and supplies no earlier path. Apply the repeat rules on p. 84 before scanning the remaining list. An editor action may happen at any time while building the draft.
+
+M2 identifies a listed purchase by path and occurrence. If adding Peddler makes a previously catalog-bought Blank Stare mandatory, retain the 3 TP transaction, show the open requirement on the owned card, and block a duplicate. The player can refund 3 TP and buy it from Peddler for 1 TP. This explicit repair preserves the player's spending history. BWGR specifies the resulting purchase obligations and prices but prescribes no draft-editing procedure.
+
+## M2 final review — effects while repairing a draft
+
+D-018 and the M2 recovery policy distinguish command validation from projection of a saved sheet. The current sheet shows the effects of its recorded purchases in both modes. Review independently evaluates the current route, sources and budget. An illegal source remains actionable even if the displayed stats or skill exponents fit their limits. A Free Creation provenance notice alone does not establish a present source violation.
+
+Retain this behavior for the editable draft. Changing mode or removing a path can affect eligibility without being a refund. Silently suspending a transfer or changing a skill opening would introduce a second version of the same sheet during repair. Restoring the path clears its missing-source diagnostic. Refunding removes the effect and returns the recorded charge. No final character certification or export-for-play policy is established here. BWGR describes effects on an acquired trait (pp. 200, 311, 329, 336, 343–344, 353). The behavior of an inconsistent draft is an editor decision.
