@@ -658,3 +658,100 @@ M2 identifies a listed purchase by path and occurrence. If adding Peddler makes 
 D-018 and the M2 recovery policy distinguish command validation from projection of a saved sheet. The current sheet shows the effects of its recorded purchases in both modes. Review independently evaluates the current route, sources and budget. An illegal source remains actionable even if the displayed stats or skill exponents fit their limits. A Free Creation provenance notice alone does not establish a present source violation.
 
 Retain this behavior for the editable draft. Changing mode or removing a path can affect eligibility without being a refund. Silently suspending a transfer or changing a skill opening would introduce a second version of the same sheet during repair. Restoring the path clears its missing-source diagnostic. Refunding removes the effect and returns the recorded charge. No final character certification or export-for-play policy is established here. BWGR describes effects on an acquired trait (pp. 200, 311, 329, 336, 343–344, 353). The behavior of an inconsistent draft is an editor decision.
+
+## D-033 — M3-A acquisitions precede inventory and combat loadout
+
+**Status:** Accepted — M3 architecture, 2026-11-21.
+
+Start M3 with a data-driven Resource Purchasing catalog, an instance-based,
+reversible purchase ledger and rules-derived results for the current Human pilot.
+Keep three concepts separate: (1) the paid acquisition and its exact recorded
+cost/source, (2) the property, equipment, social asset or spell represented by
+the acquisition, and (3) its current combat use or worn/held configuration.
+The third layer belongs to later inventory/Fight integration, not M3-A.
+
+Present acquisitions by meaningful groups: gear and property; relationships,
+reputations and affiliations; spells separately as appropriate. A purchase's
+semantic category is not itself its rules accounting category: whether it
+contributes to starting Resources, Circles or another derived value must be
+explicitly declared by audited rules data. In particular, do not infer property
+contributions for a riding animal merely because it is owned; distinguish a
+mount from a herd when the source says they count differently. No complete
+body-slot simulation or combat-ready loadout is required for M3-A.
+
+The ledger supports multiple purchases of the same catalog entry, distinct
+instance IDs, exact refunds, Undo/Redo, Reset, versioned draft import and
+recomputation after lifepath edits. Rules vs Free Creation follows D-018.
+Preserve the distinction between Resource Points for burning and the starting
+Resources exponent. The existing Lifepaths/Skills/Traits systems must not be
+rewritten for resource shopping. RAW pricing and category details still require
+a dedicated audit against BWGR Resource Points and the stock resource lists
+(BWGR pp. 93–97 and Human Resources pp. 202–205).
+
+## D-034 — Arms bundles and item-specific weapon modifications
+
+**Status:** Accepted — M3 modeling/UX direction, subject to the detailed
+weapon-price and allowable-composition audit, 2026-11-21.
+
+Represent an Arms acquisition as a priced, quality-bearing bundle rather than
+automatically charging for every included mundane weapon individually.
+Let the player declare the reasonable set of weapons granted by that purchase,
+for example by selecting named weapon entries in a checklist or by recording
+a reviewed free-form selection. The checklist describes bundle composition;
+it must not introduce extra charges merely for choosing an included weapon.
+Do not interpret this as an unlimited or unrestricted arsenal.
+
+Within a bundle, a specific physical weapon can have its own stable identity.
+Paid modifications (for example a beak or pommel modification) attach to that
+particular weapon instance, not to all axes or all weapons in the bundle.
+Two axes remain two distinct weapons; purchasing a modification for one does
+not modify the other. Record each modification's original price and parent item
+for precise reversal. Confirm applicability, compatibility, prices and what the
+bundle covers from the RAW weapon/resource tables before enabling automated
+purchase restrictions. Preserve D-027: one physical weapon can later expose
+multiple combat-use profiles without becoming multiple inventory items.
+
+M3-A only needs enough structure to account for the acquisition and any
+item-targeted additions; complete weapon statistics, use profiles and swapping
+weapons in hands are deferred.
+
+## D-035 — So Close! uses an explicit manual Resources rounding checkbox
+
+**Status:** Accepted — M3 UX decision, 2026-11-21.
+
+Display the automatically derived starting Resources exponent and a simple
+user-controlled checkbox such as "Round up Resources (So Close!)".
+The checkbox is **off by default** and, when enabled, applies the permitted
+round-up to the starting Resources exponent only. It never awards additional
+Resource Points, never changes item prices and never increases the purchasing
+budget. Unchecking restores the unmodified derived exponent.
+
+Do not automatically check this option or build a separate GM-approval workflow
+or elaborate eligibility gate into this control. Use by the player/GM is their
+decision. Persist the explicit choice so its manual provenance remains visible,
+and keep it separate from the underlying RAW calculation. The checkbox is not
+evidence that a given character meets every printed condition for So Close!;
+a future finalization/review workflow may distinguish a RAW-eligible use from
+a discretionary GM override. BWGR p. 97. Do not generalize this single checkbox
+into unrestricted exponent editing.
+
+## D-036 — Future weapon and armor constructors, not part of M3-A
+
+**Status:** Accepted roadmap marker — deferred until equipment/combat work,
+2026-11-21.
+
+After the initial acquisition ledger and inventory foundation, build dedicated
+**weapon** and **armor constructors** backed by audited declarative rules.
+Weapons need item-specific configuration and paid additions; armor needs
+configurable partial and modified components, including examples such as
+lightened mail sleeves and half greaves, rather than treating every armor
+purchase as an indivisible fixed suit. A constructor should preserve provenance,
+component costs, the physical item identity and future mechanical properties.
+
+Coverage of body locations and targeted-hit/armor interactions belongs to the
+later Fight integration. A compact grouped equipment display is sufficient
+outside combat; a visual equipment doll or location map can become a UI view
+of the same data if it proves helpful, never the authoritative rules engine.
+Do not create item-body constraints, automatic armor coverage, compatibility
+rules or combat effects without checking the relevant RAW. Neither constructor
+nor a full loadout is a blocker for M3-A Resource Purchasing.
