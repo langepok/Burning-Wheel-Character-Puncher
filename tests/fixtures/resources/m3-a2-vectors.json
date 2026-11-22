@@ -1,0 +1,61 @@
+{
+  "status": "Specification only: M3-A1 deliberately provides no purchase/projection engine",
+  "source": "BWGR pp. 84, 93-97, 202-205; D-013, D-033, D-034, D-035",
+  "resources": [
+    {"qualifyingRps":0,"roundUp":false,"expectedExponent":0},
+    {"qualifyingRps":0,"roundUp":true,"expectedExponent":0},
+    {"qualifyingRps":12,"roundUp":false,"expectedExponent":0},
+    {"qualifyingRps":13,"roundUp":false,"expectedExponent":0},
+    {"qualifyingRps":13,"roundUp":true,"expectedExponent":1},
+    {"qualifyingRps":14,"roundUp":true,"expectedExponent":1},
+    {"qualifyingRps":15,"roundUp":true,"expectedExponent":1},
+    {"qualifyingRps":29,"roundUp":false,"expectedExponent":1},
+    {"qualifyingRps":29,"roundUp":true,"expectedExponent":2},
+    {"qualifyingRps":30,"roundUp":true,"expectedExponent":2},
+    {"qualifyingRps":90,"roundUp":false,"grayApproved":true,"expectedExponent":1,"expectedShade":"G"}
+  ],
+  "soCloseDiagnostic": [
+    {"qualifyingRps":13,"budgetRps":13,"spentRps":13,"rawEligible":true},
+    {"qualifyingRps":14,"budgetRps":20,"spentRps":20,"rawEligible":true},
+    {"qualifyingRps":14,"budgetRps":20,"spentRps":19,"rawEligible":false},
+    {"qualifyingRps":12,"budgetRps":12,"spentRps":12,"rawEligible":false},
+    {"qualifyingRps":15,"budgetRps":15,"spentRps":15,"rawEligible":false},
+    {"qualifyingRps":14,"budgetRps":null,"spentRps":14,"rawEligible":"unknown"}
+  ],
+  "circles": [
+    {"will":1,"shade":"B","propertyAndRelationshipRps":0,"expectedExponent":1,"expectedShade":"B"},
+    {"will":5,"shade":"G","propertyAndRelationshipRps":49,"expectedExponent":2,"expectedShade":"G"},
+    {"will":5,"shade":"G","propertyAndRelationshipRps":50,"expectedExponent":3,"expectedShade":"G"},
+    {"will":5,"shade":"B","propertyAndRelationshipRps":100,"expectedExponent":3,"expectedShade":"B"},
+    {"will":null,"shade":"B","propertyAndRelationshipRps":0,"expectedExponent":null,"diagnostic":"allocate-will"}
+  ],
+  "relationships": [
+    {"significance":"minor","modifiers":["other-family","hateful"],"expectedRps":2,"source":"BWGR p. 94 cousin example"},
+    {"significance":"powerful","modifiers":["hateful"],"expectedRps":13},
+    {"significance":"minor","modifiers":["immediate-family","forbidden","hateful"],"expectedRps":1},
+    {"significance":"significant","modifiers":["romantic"],"expectedRps":8},
+    {"kind":"companion","suggestedModifiers":["immediate-family","hateful"],"expectedRps":10,"discountsApplied":false}
+  ],
+  "bundles": [
+    {"kind":"gang","childCosts":{"relationship":5,"affiliation":10,"reputation":7},"expectedTotal":22,"resourcesQualifyingRps":17,"circlesQualifyingRps":5,"parentDebit":0},
+    {"kind":"arms","quality":"superior","items":["axe-a","axe-b","dagger-c"],"baseRps":20,"modifications":[{"itemId":"axe-a","kind":"beak","rps":4},{"itemId":"axe-b","kind":"weighted-pommel","rps":4}],"expectedTotal":28,"refundBeakRps":4,"unmodifiedItem":"dagger-c"}
+  ],
+  "repeatGrants": [
+    {"printedRps":5,"occurrence":1,"expectedRps":5},
+    {"printedRps":5,"occurrence":2,"expectedRps":5},
+    {"printedRps":5,"occurrence":3,"expectedRps":3},
+    {"printedRps":5,"occurrence":4,"expectedRps":3},
+    {"printedRps":5,"occurrence":5,"expectedRps":3}
+  ],
+  "incompleteAndRejected": [
+    {"scenario":"Wife has no chosen husband","expected":"incomplete budget; never silently certify base grant as final"},
+    {"scenario":"Poor or superior individual armor part","expected":"unknown quote; explicit resolution or Free Creation provenance, never zero"},
+    {"scenario":"50 rps made from workshop, herd and relationships","expected":"unresolved Circles property classification diagnostic"},
+    {"scenario":"Fourth purchased affiliation","expected":"Rules rejection; Free Creation retains violation"},
+    {"scenario":"Beak on dagger","expected":"Rules rejection for incompatible weapon kind"},
+    {"scenario":"Companion for PC limit 4, exponent cap 6","expected":"NPC limit 2, cap 5, reciprocal 10-rp relationship and own gear"},
+    {"scenario":"Round up Resources toggled with unspent rps","expected":"budget unchanged; manual rounding applied; RAW eligibility diagnostic remains false"},
+    {"scenario":"Refund after path or catalog price change","expected":"restore originalPaidRps to original funding pools; no repricing"},
+    {"scenario":"Delete parent with child modification","expected":"atomic cascade or explicit rejection; no dangling item and no double refund"}
+  ]
+}

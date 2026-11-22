@@ -1,0 +1,27 @@
+{
+  "source": "BWGR printed pp. 202-205, direct transcription; quality calculations as specified there",
+  "arms": [3,5,20],
+  "missiles": [
+    ["throwing-weapons",2,3,9], ["hunting-bow",3,5,15], ["great-bow",5,10,30],
+    ["crossbow",4,7,21], ["heavy-crossbow",6,12,36], ["pistol",8,15,45], ["arquebus",10,20,60]
+  ],
+  "armor": [
+    ["gambeson",2,3,12,2,1], ["reinforced-leather",3,6,24,3,2],
+    ["light-mail",5,10,40,5,4], ["heavy-mail",8,15,60,8,5],
+    ["plated-mail",10,20,80,10,7], ["full-plated-mail",25,50,200,25,17]
+  ],
+  "fixed": [
+    ["riding-mount",5,202], ["warhorse",12,202], ["clothes",1,202], ["traveling-gear",1,202],
+    ["shoes",1,202], ["personal-effects",1,202], ["finery",5,202], ["cash",6,202],
+    ["skill-toolkit",8,202], ["workshop",20,202], ["companion-animal",3,202], ["herd",20,202], ["rent",5,202],
+    ["leaky-shack",1,205], ["small-cottage",3,205], ["house",10,205], ["cottage-industry",10,205],
+    ["villa",15,205], ["farm",15,205], ["knights-fee",15,205], ["small-business",20,205], ["moderate-business",30,205],
+    ["manor",40,205], ["estate",40,205], ["urban-hotel",40,205], ["well-paid-position",45,205],
+    ["successful-small-business",60,205], ["large-business",60,205], ["keep",60,205],
+    ["fortress",75,205], ["moderate-estate",75,205], ["castle-with-town",90,205], ["large-estate",90,205],
+    ["palace",105,205], ["government-position",105,205],
+    ["rowboat",5,205], ["skiff",5,205], ["longboat",10,205], ["junk",15,205], ["felucca",30,205],
+    ["carrack",60,205], ["caravel",75,205], ["treasure-ship",105,205]
+  ],
+  "specialHeads": ["bodkin-head","leaf-head","frog-crotch","blunt-head","barbed-tip","mallet-head","fisted-bolt","spear-tip"]
+}

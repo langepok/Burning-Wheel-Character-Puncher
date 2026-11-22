@@ -804,3 +804,22 @@ of certifying that edge case. Appropriate Weapons and Wife-derived grants are
 explicit unresolved choices, never guessed grants.
 
 Trait burning uses BWGR pp. 84 and 89 for repeats and ordered requirements. Stock chapters and pp. 310–355 supply access and effects. See [M2 audit](M2_TRAITS.md) for price exceptions, index coverage and individual verification limits.
+
+## M3-A1 resource purchase audit (2026-11-22)
+
+BWGR pp. 93–97 and 202–205 distinguish paid rps from the Resources exponent.
+Starting Resources uses property, reputation and affiliation spending divided by
+15, rounded down. Starting Circles uses half Will rounded down (minimum 1), Will's
+shade, and one extra die for at least 50 rps spent on property and relationships.
+Social bonus dice are separate from base Circles. Cash buys one expendable die
+for 6 rps, not an exponent. D-035's manual rounding changes only starting Resources.
+
+The 67 spell prices on pp. 207–223 are retained as printed, including differences
+from the general p. 205 pricing guidance. Wyrd Light is 4 rps on p. 223; its price
+is visible in the scan but missing in the text layer. Wave spans pp. 221–222.
+
+Workshop, Herd and Rent explicitly count as property for Resources. Application
+to Circles is left for interpretation; ordinary mounts have no equivalent clause.
+Armor partial-quality prices, half-piece prices, property threshold scope and
+other open points are recorded in [M3_RESOURCE_CATALOG.md](M3_RESOURCE_CATALOG.md).
+This audit adds data/contracts, not a purchase engine or revised existing rules.
