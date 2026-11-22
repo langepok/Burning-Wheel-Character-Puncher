@@ -1,3 +1,4 @@
+import { projectResources, knownRps } from './resources';
 import type { LifepathProgress } from './lifepaths';
 import type { SkillDefinition, FixedRoot } from '../data/skills';
 import { generalSkillTranscriptionContent } from '../data/skills/general';
@@ -13,6 +14,9 @@ export type Pool = 'ordinary' | 'general';
 export type Ability = { exponent: number; shade: Shade };
 export interface Purchase { skillId: string; pool: Pool; cost: number; kind: 'open' | 'advance'; shade: 'root' | Shade; override: boolean }
 export interface Sheet {
+  resourcePurchases?: readonly import('../character/resource-contracts').ResourcePurchase[];
+  resourceChoices?: import('../character/resource-contracts').ResourceBurningChoices;
+  resourceBudgetOverrides?: readonly import('./resource-types').ResourceBudgetOverride[];
   traitPurchases?: import('../data/traits/types').TraitPurchase[];
   stats: Record<StatId, Ability>;
   choices: Record<string, string>;
@@ -132,7 +136,10 @@ export function deriveSheet(sheet:Sheet, progress:LifepathProgress) {
     if(open.shade==='W')issues.push(skill.sourceName+': white shade is a Free Creation override.');
     if(paid.some(p=>p.override))issues.push(skill.sourceName+': purchased using Free Creation override; review before play.');
   }
-  return {contributions,total,remaining,available,required,traits,requiredTraits,choices,issues:[...new Set(issues)]};
+  const resources=projectResources(sheet,progress);
+  total.resources=knownRps(resources.budget);remaining.resources=knownRps(resources.remaining);
+  issues.push(...resources.diagnostics.map(d=>'Resources: '+d.message));
+  return {contributions,total,remaining,available,required,traits,requiredTraits,choices,resources,issues:[...new Set(issues)]};
 }
 export function restrictionIssues(skill:SkillDefinition,sheet:Sheet,stockId='human'){
   const issues:string[]=[];

@@ -819,3 +819,74 @@ Access may be available, restricted or unresolved; removing Outlaw must not eras
 other active conditions. The treatment of restricted assets in starting Resources/
 Circles and mixed-funded purchases remains the existing `outlaw-pools` question.
 M3-A1 specifies types and future-engine scenarios only; implementation is M3-A2.
+
+## D-040 — Atomic resource purchases inside the existing Sheet
+
+**Status:** Accepted — implementation within M3-A2 scope, 2026-11-23.
+
+`Sheet.resourcePurchases` is the primary acquisition ledger. Pure rules quote
+prices and plan funding; commands return a new Sheet only when the complete
+batch passes structural and Rules checks. The existing App snapshot history,
+Reset and draft persistence therefore include resources without a second store.
+Callers provide stable purchase/item IDs. Parent purchases precede additions;
+gang components precede their zero-debit container in a batch. A selected shield
+creates a deterministic, linked zero-debit component only after explicit choice.
+
+Parent refunds cascade through descendants exactly once. Refunding a gang
+component refunds the whole group, preventing an incomplete supporting group.
+An included armor component cannot be refunded separately while its parent still
+selects it; refund the parent. This is an editing policy, not an equipment rule.
+Refund results identify original funding and charges; no current catalog price
+is used. Removed route sources are not silently replaced with new funding.
+Missing or overspent funding must be repaired before new Rules purchases.
+
+Named physical declarations remain distinct from combat profiles (D-027). No
+body coverage, staff/NPC creation or combat effects follow from a purchase.
+
+## D-041 — Resource quotation, contextual review and incomplete calculations
+
+**Status:** Accepted — implementation/UX, 2026-11-23; RAW anchors are recorded
+in M3_PURCHASE_ENGINE.md, not inferred from these workflow choices.
+
+Quotes distinguish known/unknown/unavailable price and available/unavailable/
+review/explicit-override status. They explain requirements and affordability;
+the command reuses the same funding plan. A missing numeric price remains
+unknown. Free Creation needs an explicit paid amount and explanation when
+bypassing price, eligibility or budget; it cannot bypass IDs, ownership, funding
+integrity or zero-debit container/inclusion invariants.
+
+Contextual judgments (Arms composition, property threshold, social scope,
+modification combinations) accept an explicit table
+review record. This records assessment of one purchase, not a global RAW
+resolution. Reviews are tied to route/trait/skill/Will/external context facts;
+changed facts or edited social text require renewed review or refund/rebuy.
+A review note cannot replace missing companion/campaign evidence, numeric
+prices or the deferred validation of armor substitutions. A linked companion is supplied as current external facts, not generated
+or serialized as a second character inside this ledger. Missing facts on reload
+are reported again; an integration must provide them to the pure projection.
+
+Starting ability numbers are draft arithmetic. `calculationStatus` and diagnostics
+identify unresolved accounting/access, rather than inventing exclusion/inclusion
+for Outlaw assets. Known qualifying Circles spend of at least 50 already proves
+the one-die bonus even if additional disputed purchases exist. Wife-derived
+budget remains incomplete. Its known base is displayed, while the incomplete
+pool requires an explicit Free Creation override to spend; other confirmed pools
+remain usable. This conservative editor policy does not declare a RAW spending ban. Only actual debits enter starting arithmetic.
+
+## D-042 — Backward-compatible resource draft records
+
+**Status:** Accepted — persistence implementation, 2026-11-23.
+
+Keep draft version 1 with optional resource fields: old M2/M3-A1 drafts need no
+migration of existing purchases. Parse resource configurations, original charges,
+provenance, funding identities, physical identities and ownership as one graph.
+Reject malformed graphs atomically; preserve structurally valid acquisitions
+that are currently illegal so they can be repaired. Do not reprice imports.
+Discard cached projections/access and reconstruct primary Sheet fields.
+
+M3-A1 contracts are extended additively with historical quotation/review metadata,
+projection calculation status, and starting cash dice. These distinguish original
+price from a Free Creation charge and arithmetic previews from unresolved RAW;
+existing definitions, stable IDs and catalog fixtures remain unchanged. Paid
+provenance still contains no current-access flag. Explained budget overrides
+are primary Free Creation choices, never inferred grants or RAW bonuses.

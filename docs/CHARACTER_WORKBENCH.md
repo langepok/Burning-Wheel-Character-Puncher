@@ -92,3 +92,14 @@ records Redo, timeline separation and bounded-width skill-card decisions.
    Never silently relabel a GM override as RAW. No campaign editor in UX III.
 
 See UX_III_CHECKPOINT.md for continuation and acceptance evidence.
+
+
+## M3-A2 headless purchase engine
+
+M3-A2 now integrates resource acquisitions into Sheet, draft validation, Review,
+and the existing snapshot history without adding purchase controls. The resource
+budget reflects actual spending; Resources/Circles, quotes, source access and
+cash dice are available in the pure projection. See [M3_PURCHASE_ENGINE.md](M3_PURCHASE_ENGINE.md)
+for commands, executable vectors, unresolved RAW and the M3-A3 UI boundary.
+The M3-A1-only descriptions above are the historical handoff; the next stage is
+independent engine audit followed by the visual Resource Burner.

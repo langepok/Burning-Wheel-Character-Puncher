@@ -6,6 +6,8 @@ import { deriveSheet, restrictionIssues, skillOpening, skillValue, skills, statI
 import type { Pool, Shade, Sheet, StatId } from '../rules/burning';
 import { traits as traitCatalog } from '../data/traits';
 import { parseTraitPurchases } from './traits';
+import { parseResourcePurchases, parseResourceChoices, parseResourceBudgetOverrides } from '../rules/resource-validation';
+import { resourceCatalog } from '../rules/resources';
 export * from '../rules/burning';
 export function createSheet():Sheet {
   return {stats:Object.fromEntries(statIds.map(id=>[id,{exponent:0,shade:'B'}])) as Sheet['stats'],choices:{},candidates:[],traitCandidates:[],traitPurchases:[],purchases:[],grayApproved:false};
@@ -71,6 +73,9 @@ export function parseDraft(text:string,catalog:GameCatalog):Draft {
     traitCandidates.some((id:unknown)=>typeof id!=='string'||!traitCatalog.has(id))||
     new Set(traitCandidates).size!==traitCandidates.length)fail();
   const traits=parseTraitPurchases(s.traitPurchases,catalog);
+  const resourcePurchases=parseResourcePurchases(s.resourcePurchases,resourceCatalog,catalog);
+  const resourceChoices=parseResourceChoices(s.resourceChoices);
+  const resourceBudgetOverrides=parseResourceBudgetOverrides(s.resourceBudgetOverrides);
   for(const [key,value] of Object.entries(s.choices)){
     if(key.startsWith('trait:') && (!traits.some(p=>p.id===key.slice(6) && traitCatalog.get(p.id)?.poolTransfer) || !['transfer','keep'].includes(String(value))))fail();
   }
@@ -83,7 +88,7 @@ export function parseDraft(text:string,catalog:GameCatalog):Draft {
       if(p.cost!==expected)fail();
     }else if(!opened.has(p.skillId)||skill!.training.kind==='training'||p.cost!==1)fail();
   }
-  return {version:1,name:d.name,mode:d.mode,history,sheet:{...s,traitCandidates,traitPurchases:traits},pins:[...new Set(d.pins)] as string[]};
+  return {version:1,name:d.name,mode:d.mode,history,sheet:{stats:s.stats,choices:s.choices,candidates:s.candidates,purchases:s.purchases,grayApproved:s.grayApproved,traitCandidates,traitPurchases:traits,...(s.resourcePurchases!==undefined?{resourcePurchases}:{}),...(resourceChoices?{resourceChoices}:{}),...(s.resourceBudgetOverrides!==undefined?{resourceBudgetOverrides}:{})},pins:[...new Set(d.pins)] as string[]};
 }
 
 /** Remove a route step without undoing identity or purchases. */
