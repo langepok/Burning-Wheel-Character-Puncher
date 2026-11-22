@@ -1,6 +1,7 @@
 # Character Workbench — delivery and continuation
 
-Built from Draft PR #25 (`c77bf24`), not main. The work branch is isolated from
+Historical initial delivery: built from Draft PR #25 (`c77bf24`), not main.
+The work branch was isolated from
 `m1-ux-visual-lifepath-map`; no runner branch was edited and no PR was merged.
 
 ## Working slice
@@ -45,10 +46,12 @@ source removal, prerequisites and malformed imports.
 
 ## Honest boundaries
 
-This is a usable stats-and-skills workbench, not a complete playable-character
-validator. Trait lists and points are visible, but purchasing, special/common
-traits and effects are not implemented. Resources are a point budget, not the
-Resources exponent; shopping, relationships, affiliations and spells remain.
+This is not a complete playable-character validator. M2 (merged PR #30) added
+trait purchasing, required/common traits and audited effects, with remaining
+manual/review cases documented in M2_TRAITS.md. Resources in the UI are still a
+point budget, not the Resources exponent. M3-A1 now supplies an audited purchase
+catalog and data contracts; shopping, social purchases and spell purchases are
+not wired into the workbench. See [M3_RESOURCE_CATALOG.md](M3_RESOURCE_CATALOG.md).
 Health, Steel, Circles, other derived values, Beliefs and Instincts still need
 editors. Only the existing Human pilot is loaded, not all stocks/settings.
 
@@ -68,9 +71,9 @@ available sources, so visual fidelity to that image is not claimed.
 
 `npm ci`, `npm test`, `npm run dev`. Production: `npm run build`.
 `docs/CHARACTER_BURNER_UX.md` remains the broader UX contract. D-030 records
-persistence and reversal policy. Next coherent slice: trait ownership/required
-traits and effects, then the Resources purchase ledger and derived attributes.
-Do not merge this continuation before coordinating the PR #25 review and runner.
+persistence and reversal policy. PR #25 and M2 are complete. After review of the
+M3-A1 catalog, the next slice is M3-A2: Resources purchase ledger and projections;
+M3-A3 adds its UI. Preserve the existing preview and independent automation.
 
 ## UX refinement follow-up
 
@@ -80,8 +83,8 @@ records Redo, timeline separation and bounded-width skill-card decisions.
 
 ## Next work after UX III
 
-1. Trait ownership, mandatory traits, catalog and effects with reversible purchases.
-2. Resources ledger: gear/property, relationships, affiliations/reputation, spells.
+1. Trait ownership milestone M2 is complete; retain its manual/review boundaries.
+2. Review M3-A1 data, then implement the Resources ledger and its UI in M3-A2/A3.
 3. Derived attributes and transparent Health/Steel questionnaires, then a complete
    sheet with final validation and Beliefs/Instincts.
 4. Campaign settings as a separate layer: distinguish RAW defaults, campaign
