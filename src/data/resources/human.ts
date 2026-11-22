@@ -86,7 +86,7 @@ export const humanPurchases: readonly ResourceDefinition[] = [
     ...base(id, name, [202, 203, 479, 480]), configuration: 'armor',
     price: { kind: 'armor', fullSuitRps: rps, costs: { poor: armorCosts(rps, 'poor'),
       'run-of-the-mill': armorCosts(rps, 'run-of-the-mill'), superior: armorCosts(rps, 'superior') } },
-    grants: { shieldIncluded: true },
+    includedOptions: ['human.resource.shield-in-kit'],
     note: 'Suit includes helmet, arms, chest and legs. Individual full pieces have printed fractions. Lighter substitutions are allowed; heavier additions are purchased. No invented refund or half-piece discount.',
   })),
   ...gearRows.map(([id, name, rps, page, note]): ResourceDefinition => ({
@@ -95,7 +95,7 @@ export const humanPurchases: readonly ResourceDefinition[] = [
   })),
   { ...base('shield-in-kit', 'Shield (included in armor kit)', [203, 480]),
     price: { kind: 'included', parentDefinitionIds: humanArmorIds },
-    note: 'An included component, not a repeatable free standalone shield.' },
+    note: 'Optional selected component of an armor kit, not an automatic grant or a repeatable free standalone shield.' },
   { ...base('shield-standalone', 'Shield (standalone)', [203, 480]),
     price: unknown('shield-standalone'), note: 'Reference-only purchase option: no printed standalone price.' },
   { ...base('cash', 'Cash', [202, 204]), category: 'cash', price: fixed(6), grants: { cashDice: 1 },
@@ -114,7 +114,7 @@ export const humanPurchases: readonly ResourceDefinition[] = [
     ...base(id, name, [205]), category: 'property', price: fixed(rps), accounting: propertyAccounting,
     printedPropertyStar: starred,
     // All property participates in unresolved aggregate/per-item threshold review.
-    constraints: [{ kind: 'review', questionId: 'property-threshold' }], grants: { staffIncluded: true },
+    constraints: [{ kind: 'review', questionId: 'property-threshold' }], propertyBenefits: { staff: 'as-appropriate' },
     note: `${starred ? 'Starred' : 'Unstarred'} printed price. Appropriate staff, buildings and accoutrements; no other free catalog purchases.`,
   })),
   ...(['spiked-pommel', 'weighted-pommel', 'beak'] as const).map((id): ResourceDefinition => ({

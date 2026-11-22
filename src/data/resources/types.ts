@@ -55,7 +55,14 @@ export interface ResourceDefinition {
   readonly additions?: { readonly target: 'physical-weapon' | 'missile-purchase'; readonly parentDefinitionIds: readonly ResourceId[];
     readonly weaponKinds?: readonly ('axe' | 'spear' | 'polearm')[];
     readonly ammunitionKind?: 'arrow' | 'bolt' };
-  readonly grants?: { readonly cashDice?: number; readonly shieldIncluded?: true; readonly staffIncluded?: true };
+  readonly grants?: { readonly cashDice?: number };
+  /** Optional no-extra-cost components, never automatically materialized. Each
+   * option has its own definition and included-price parent references. This
+   * does not make shields/helmets of other stocks universally free. */
+  readonly includedOptions?: readonly ResourceId[];
+  /** Descriptive entitlement where appropriate to the property (BWGR p. 205),
+   * not a count, NPC identity, relationship purchase or generation instruction. */
+  readonly propertyBenefits?: { readonly staff: 'as-appropriate' };
   readonly printedPropertyStar?: boolean;
 }
 

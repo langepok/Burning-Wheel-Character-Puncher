@@ -85,6 +85,11 @@ export function registerResources(
   };
   for (const d of definitions) {
     dependencies(d.price).forEach(link);
+    for (const optionId of d.includedOptions ?? []) {
+      link(optionId);
+      const option = result.get(optionId)!;
+      check(option.price.kind === 'included' && option.price.parentDefinitionIds.includes(d.id), `Invalid included option: ${optionId}`);
+    }
     if (d.additions) {
       check(d.additions.parentDefinitionIds.length > 0, 'Missing addition parent');
       d.additions.parentDefinitionIds.forEach(link);

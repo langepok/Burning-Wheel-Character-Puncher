@@ -755,3 +755,67 @@ of the same data if it proves helpful, never the authoritative rules engine.
 Do not create item-body constraints, automatic armor coverage, compatibility
 rules or combat effects without checking the relevant RAW. Neither constructor
 nor a full loadout is a blocker for M3-A Resource Purchasing.
+
+## D-037 — Optional included equipment and contextual property staff
+
+**Status:** Accepted — explicit M3-A1 contract refinement, 2026-11-22.
+
+**RAW anchors:** BWGR p. 203 permits including a shield in an armor kit at no
+extra cost; p. 205 includes staff appropriate to the property. Neither statement
+instructs the application to create a shield with every armor piece or a named
+NPC with every property transaction.
+
+**Project representation:** definitions advertise `includedOptions`, while armor
+configuration records `selectedIncludedDefinitionIds`, initially empty. Only an
+explicit selection can later produce a linked included component. Do not add an
+unverified full-suit-only gate, quantity cap or new pricing rule. A catalog entry
+for a shield or helmet may instead have its own price and stock-specific rules;
+Human kit inclusion is never a global equipment default. Other stock catalogs
+remain deferred, as does the unresolved standalone Human shield price.
+
+Property records `propertyBenefits.staff = 'as-appropriate'` as a descriptive
+entitlement. It neither materializes NPCs nor grants relationships, affiliations
+or reputations. A household description may identify relevant staff; creating
+full important NPCs still follows the applicable rules. No generator is added.
+
+## D-038 — Social descriptions are separate from mechanics and reactions
+
+**Status:** Accepted — explicit UX/data contract, 2026-11-22; not additional RAW.
+
+Relationships (including accompanying NPCs), affiliations and reputations have
+freely editable `name` and `description`. NPC name/identity remains distinct from
+the title of a relationship. Mechanical dice, paid rps, significance, family and
+other modifiers stay in structured fields; prose is not parsed to compute them.
+Existing RAW prices, scope and limits remain unchanged.
+
+Affiliation may link an organization by ID, but a descriptive organization does
+not require a registry entry. Reputation has an explicit free-text audience and
+scope with an optional organization link; the same applies to projected social
+bonuses. Reputation carries no mandatory positive/negative flag. Its reception
+can differ by audience, situation and player/GM judgment. No sentiment, faction
+opinion or automatic contextual modifier engine follows from this contract.
+
+Gangs and Crews may retain their explicit group identity and child references;
+that composite does not make organization IDs mandatory for independent social
+purchases. Unresolved social/trait interactions are not settled by this UX choice.
+
+## D-039 — Funding provenance is immutable; resource access is derived
+
+**Status:** Accepted — explicit architecture refinement, 2026-11-22.
+
+**RAW anchor:** Outlaw permits spending affected City/Noble/Religious rps while
+restricting access to those resources until the trait is removed (BWGR p. 200).
+This is not a prohibition on spending those rps.
+
+**Project representation:** a saved funding allocation stores only its pool ID,
+origin and paid rps. Current access and its reasons belong to `ResourceProjection`
+and are recomputed from currently active traits and other conditions. Acquiring,
+refunding or restoring Outlaw never writes a permanent lock into funding history.
+Undo/Redo and import must recompute access too. Returning a resource purchase
+restores exactly its original charge to its original pool, then evaluates that
+pool under the current conditions, rather than restoring an old access flag.
+
+Access may be available, restricted or unresolved; removing Outlaw must not erase
+other active conditions. The treatment of restricted assets in starting Resources/
+Circles and mixed-funded purchases remains the existing `outlaw-pools` question.
+M3-A1 specifies types and future-engine scenarios only; implementation is M3-A2.

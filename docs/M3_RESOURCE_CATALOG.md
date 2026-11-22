@@ -19,13 +19,32 @@
 - Check data against independently transcribed source fixtures and validate
   registration failures. Run typecheck, all tests and production build; draft PR only.
 
+### Final contract refinement acceptance (2026-11-22, before edits)
+
+- Armor advertises an optional included shield; the purchase explicitly selects
+  included components. No automatic shield from a suit or a single piece; no new
+  full-suit-only restriction. Independently priced shields/helmets remain possible.
+- Relationships, companions, affiliations and reputations have editable names
+  and descriptions. Reputation supports a free audience/scope without an
+  organization ID or polarity. Dice, charges and relationship modifiers remain
+  structured and are never inferred from that text.
+- Saved funding retains source and charge only. Current access is a projection
+  recalculated on trait changes, including adding/refunding Outlaw; it is not
+  an irreversible property of the funding history. Specify future-engine cases.
+- Property staff is a context-dependent descriptive benefit, not an NPC factory.
+- Preserve 144 definitions, 67 spell prices, existing RAW constraints and all 14
+  unresolved questions. Add targeted catalog/type-contract checks and run full
+  tests, typecheck, build and CI on PR #32. No purchase engine or UI.
+
 ## Checkpoint and scope
 
 Base: `main` at `c9ff741547e6ef3297a384e79ddf8f02e660f69c`; M2 PR #30 is
 complete. Work branch: `work/m3-a1-resource-catalog`. A fresh clean clone was
 used; existing checkouts, their previews and Sol's automation were untouched.
-D-027 and D-033–D-036 remain in force. No new rule interpretation is silently
-adopted here, and DECISIONS.md is unchanged.
+D-027 and D-033–D-036 remain in force. The explicit final-refinement decisions
+are recorded as D-037–D-039: optional equipment/contextual staff, free social
+descriptions and derived funding access. These are project contracts, not newly
+inferred RAW. All 14 unresolved questions remain open.
 
 This delivery is data, registration checks, compile-time transaction/projection
 contracts and a future-engine specification. It does **not** wire resource
@@ -76,7 +95,7 @@ separate source transcription and comparison, not a claim of a second reviewer.
 | Spells | 67 | Complete pp. 207–223 purchase list |
 
 These are **definitions**, not 144 independently priced single-item buttons.
-Included shield and standard arrow/bolt heads are child grants; standalone shield
+Selected included shield and standard arrow/bolt heads are child components; standalone shield
 has unknown cost; Gangs and Crews is an uncharged container. Quality, armor parts
 and social ratings are configurations, not accidental duplicate definitions.
 Different Property alternatives with the same price remain distinct IDs.
@@ -183,6 +202,20 @@ it rejects duplicate IDs, invalid numeric prices, missing sources, unknown
 question IDs, broken links, cyclic composition and double-counting containers.
 It is a typed-content validator, **not** a decoder for arbitrary JSON imports.
 
+Armor definitions now advertise `includedOptions` instead of `shieldIncluded`.
+Configuration stores `selectedIncludedDefinitionIds`, initially empty. A suit or
+individual piece with an empty selection grants no shield. The model retains
+selection without declaring a new full-suit-only rule or resolving the composition
+of every possible kit. Registration checks that each option exists and names its
+parent in an `included` price; an option is not an unconditional dependency or
+materialization instruction. Selected components later retain purchase/item links.
+Independently priced stock-specific shields and helmets remain ordinary catalog
+definitions; no other stocks or new prices were added.
+
+Property's `staffIncluded` flag is replaced by
+`propertyBenefits: { staff: 'as-appropriate' }`. This is a descriptive entitlement
+under p. 205, not a staff count, NPC identity, generator or free social purchase.
+
 `ResourceCost` distinguishes fixed zero/positive price, unknown price, unavailable
 purchase and inclusion in a parent. An unresolved price cannot enter an automatic
 Rules quote; Free Creation needs an explicit paid cost and override provenance.
@@ -200,10 +233,35 @@ relationships, rating tiers, target quality and sums of child purchases.
   (D-027); no hands, body slots, combat statistics or equipment runtime.
 - **ResourceProjection:** known/incomplete budget and balance, paid totals,
   qualifying expenses, starting abilities, physical declarations, separate social
-  bonuses and actionable diagnostics. Never treat a missing Wife grant as zero.
+  bonuses, current `fundingAccess` and actionable diagnostics. Never treat a
+  missing Wife grant as zero.
 - **ResourceBurningChoices:** manual `roundUpResources` defaulting to false;
   gray Resources choice and its separate RAW permission requirement. D-035 removes
   a special approval workflow only for the rounding checkbox.
+
+Relationships and companions have editable titles (`name`) and free descriptions
+as well as their separate NPC name/identity. Specialized `affiliation` and
+`reputation` configurations share name/description/scope and an optional
+`organizationId`. Reputation additionally describes its audience freely; neither
+purchase nor projected bonus requires a registered organization. Dice rating,
+original charge and relationship modifiers remain structured values. There is no
+reputation polarity field, sentiment calculation or automatic context modifier.
+A reputation such as “Associates with the Rangers” may be received differently
+by different inhabitants of Bree without changing its recorded dice or cost.
+Existing social-limit metadata remains; descriptive context may require review,
+not mandatory registry IDs or inference of mechanics by parsing prose.
+
+`ResourceFundingAllocation` holds only pool ID, paid rps and source. Historical
+funding no longer stores `access`. `ResourceFundingAccess` is a projection entry
+keyed by pool ID with current available/restricted/unresolved status and reasons.
+Adding/refunding Outlaw, Undo/Redo or importing a draft must recalculate these
+entries from active traits and conditions. A resource refund restores the original
+sum and origin, then applies current conditions; it cannot restore a stale lock.
+Outlaw's access restriction is not an inability to spend its rps. Other conditions
+are reevaluated too; dropping Outlaw does not blindly unlock every pool.
+Five future-engine scenarios are specified in `m3-a2-vectors.json.outlawFunding`.
+The treatment of restricted assets in starting attributes and mixed funding is
+still unresolved. No access evaluator or history operation is implemented here.
 
 Multiple instances of the same definition are allowed. For example, a superior
 Arms purchase may declare axe A, axe B and dagger C. A 4-rp Beak charge targets
@@ -274,7 +332,7 @@ newly adopted RAW or automatic eligibility rules**.
 | `relationship-combinations` | 94 demonstrates additive family/hatred; does not enumerate every fictional combination | One family value and boolean modifiers, floor 1; contextual review for contradictory fiction |
 | `companion-limits` | 96 requires two fewer LPs and lower cap; unusably low/unspecified campaign limits are unaddressed | Require full NPC, reciprocal cost and valid campaign parameters |
 | `wife-grants` | 164/169/177 resource fractions lack rounding and repeat-order guidance | Preserve unresolved grants; D-013 alone does not settle this different fraction |
-| `outlaw-pools` | 200/339 permits spending certain resources but locks access until trait removal | Preserve pool provenance; audit locked/mixed-funded assets and starting attributes in A2 |
+| `outlaw-pools` | 200/339 permits spending certain resources but restricts access until trait removal | Preserve pool provenance; derive current access per D-039; audit restricted/mixed-funded assets and starting attributes in A2 |
 | `spell-price-discrepancies` | Printed prices differ from 205's generic guidance | Printed spell price controls; no silent erratum |
 | `shield-standalone` | 203 grants an included kit shield, not a separate price | Included child only; standalone cost unknown |
 | `property-circles-inclusion` | 204–205 reclassifies Workshop/Herd/Rent specifically when factoring Resources; 97 Circles excludes gear | Resources is confirmed; include/exclude for Circles only after explicit interpretation |
@@ -310,9 +368,10 @@ RAW. The core criteria are:
 M3-A3 consumes definitions, quotes, projections and reason codes. Show gear/property,
 relationships/social assets and spells as meaningful groups. A display category
 must not decide arithmetic. Staging a candidate spends nothing. Relationship
-inputs supply NPC name, description, significance, family, romance, conflict and
+inputs supply title, NPC name, description, significance, family, romance, conflict and
 conditions; companion flow requires a linked full character. Organization identity
-and reputation scope are explicit. Surface original charge, parent item and source.
+is optional for independent affiliations/reputations; reputation audience/scope
+are explicit free text. Surface original charge, parent item and source.
 Show review/unknown costs honestly and keep `Round up Resources` off by default.
 Do not build a GM-approval flow for that checkbox.
 
@@ -325,8 +384,19 @@ the acquisition catalog or preserve its original transactions.
 ## Verification
 
 Initial source tests were written before catalog implementation and failed on the
-missing module. The completed source/data suite adds **170 tests**. Full regression:
-**74 files, 1909 tests passed** (existing baseline 1739). Typecheck passed.
+missing module. The original source/data suite added **170 tests** (baseline
+1739), with **74 files / 1909 tests** passing at the initial checkpoint.
+
+Final contract refinement adds **19 checks** in
+`tests/character/resource-contracts.test.ts`. Before implementation, catalog
+assertions failed on the automatic grant flags and missing option validation;
+typecheck failed on the missing refined contracts. After implementation,
+**75 files / 1928 tests pass**, as do typecheck and production build. The
+compile-time checks require typecheck: Vitest alone does not enforce types.
+Five Outlaw vectors specify future behavior and are not counted as executed
+engine tests. Existing 170 catalog tests, price fixtures, all 144 IDs and the
+67-spell transcription remain intact. No Lifepaths/Stats/Skills/Traits runtime,
+UI, dependency, automation or saved draft format was changed.
 Production build passed, with the existing Vite >500 kB chunk advisory (671.14 kB
 main JS, 177.54 kB gzip). No UI or bundle integration was added. Remote CI is
 recorded separately in the Draft PR checkpoint; local success is not called CI.

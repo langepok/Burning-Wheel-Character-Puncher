@@ -67,7 +67,7 @@ export const resourceQuestions: readonly ResourceQuestion[] = [
     recommendation: 'Reuse WifeDerivedGrant and preserve the incomplete budget diagnostic. D-013 repeat rounding alone does not decide wife-grant rounding or ordering.' },
   { id: 'outlaw-pools', source: bw('Outlaw', 200, 339),
     observation: 'City/Noble/Religious-derived resources may be spent but remain inaccessible until the trait is voted off. Other resources are normal.',
-    recommendation: 'Preserve funding-pool provenance and access state. Resolve how locked assets participate in starting projections and mixed-funded purchases before automation.' },
+    recommendation: 'Preserve funding-pool provenance; derive current access from active traits/conditions, never store a permanent funding lock. Resolve how restricted assets participate in starting projections and mixed-funded purchases before automation.' },
   { id: 'spell-price-discrepancies', source: bw('Purchasing Spells; Sorcery Spells', 205, 207, 210, 211, 212, 213, 219, 221, 223),
     observation: 'Several printed prices disagree with the generic obstacle-based guidance.',
     recommendation: 'Use explicit printed prices for this catalog. General formula is for custom pricing, not correction of published entries.' },

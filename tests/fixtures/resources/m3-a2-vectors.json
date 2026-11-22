@@ -1,6 +1,6 @@
 {
   "status": "Specification only: M3-A1 deliberately provides no purchase/projection engine",
-  "source": "BWGR pp. 84, 93-97, 202-205; D-013, D-033, D-034, D-035",
+  "source": "BWGR pp. 84, 93-97, 200, 202-205; D-013, D-033-D-039. Contract choices are project decisions, not additional RAW.",
   "resources": [
     {"qualifyingRps":0,"roundUp":false,"expectedExponent":0},
     {"qualifyingRps":0,"roundUp":true,"expectedExponent":0},
@@ -47,6 +47,49 @@
     {"printedRps":5,"occurrence":4,"expectedRps":3},
     {"printedRps":5,"occurrence":5,"expectedRps":3}
   ],
+  "outlawFunding": {
+    "status": "Future-engine scenarios only; current access must be derived, not saved in funding",
+    "initialFunding": [
+      {"poolId":"city-source","paidRps":5,"origin":{"kind":"lifepath","variantId":"human.city-dweller.city-born","occurrence":1}},
+      {"poolId":"peasant-source","paidRps":3,"origin":{"kind":"lifepath","variantId":"human.peasant.born-peasant","occurrence":1}}
+    ],
+    "scenarios": [
+      {
+        "name":"Acquire and refund Outlaw after purchases",
+        "steps":[
+          {"event":"initial","activeTraits":[],"expectedAccess":{"city-source":"available","peasant-source":"available"}},
+          {"event":"acquire-outlaw","activeTraits":["outlaw"],"expectedAccess":{"city-source":"restricted","peasant-source":"available"}},
+          {"event":"refund-outlaw","activeTraits":[],"expectedAccess":{"city-source":"available","peasant-source":"available"}}
+        ],
+        "fundingAndPaidCostsUnchanged":true
+      },
+      {
+        "name":"Purchase while Outlaw is already active, then refund the trait",
+        "initialActiveTraits":["outlaw"],"cityRpsMayBeSpent":true,
+        "expectedAccessBeforeTraitRefund":"restricted","expectedAccessAfterTraitRefund":"available",
+        "fundingAndPaidCostsUnchanged":true
+      },
+      {
+        "name":"Refund a resource purchase under the current trait state",
+        "refundedPoolId":"city-source","expectedRefundRps":5,
+        "expectedAccessWithOutlaw":"restricted","expectedAccessWithoutOutlaw":"available",
+        "restoreHistoricalAccessFlag":false
+      },
+      {
+        "name":"Undo, Redo and import derive access again",
+        "activeTraitsByStep":[["outlaw"],[],["outlaw"],[]],
+        "expectedCityAccessByStep":["restricted","available","restricted","available"],
+        "fundingAndPaidCostsUnchanged":true,"importMayTrustCachedAccess":false
+      },
+      {
+        "name":"Removing Outlaw must re-evaluate another condition",
+        "otherCondition":"synthetic review condition, not a new RAW rule",
+        "expectedAccessAfterTraitRefund":"unresolved","blindlyUnlockAllPools":false,
+        "fundingAndPaidCostsUnchanged":true
+      }
+    ],
+    "stillUnresolved":"How restricted assets enter starting calculations and mixed-funded purchases (outlaw-pools); no new policy is selected here."
+  },
   "incompleteAndRejected": [
     {"scenario":"Wife has no chosen husband","expected":"incomplete budget; never silently certify base grant as final"},
     {"scenario":"Poor or superior individual armor part","expected":"unknown quote; explicit resolution or Free Creation provenance, never zero"},

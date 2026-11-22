@@ -23,3 +23,15 @@ poor, ordinary, superior. Fixed rows are ID, rps, printed price page.
 All 30 named Property alternatives on p. 205 are enumerated separately.
 `m3-a2-vectors.json` is a future-engine acceptance fixture. No test currently
 claims to execute these transactions or starting-ability calculations.
+
+Final refinement: `outlawFunding` in that fixture supplies five future-engine
+scenarios (acquire/refund trait, purchase under Outlaw, refund purchase, history/
+import, another active condition). The reversible projection boundary is D-039;
+the permission to spend restricted rps is BWGR p. 200. No mixed-funding or
+starting-attribute ambiguity is resolved by these scenarios. Synthetic conditions
+and standalone equipment examples are schema tests, not new stock content or RAW.
+
+`tests/character/resource-contracts.test.ts` combines catalog checks with TypeScript
+`expectTypeOf` and negative compilation checks. Run **typecheck as well as Vitest**;
+Vitest alone does not enforce the type assertions. They prove representability and
+field separation, not a working purchase/projection engine.
