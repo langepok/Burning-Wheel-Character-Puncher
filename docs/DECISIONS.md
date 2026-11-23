@@ -819,3 +819,32 @@ Access may be available, restricted or unresolved; removing Outlaw must not eras
 other active conditions. The treatment of restricted assets in starting Resources/
 Circles and mixed-funded purchases remains the existing `outlaw-pools` question.
 M3-A1 specifies types and future-engine scenarios only; implementation is M3-A2.
+
+## M3-A3 design checkpoint — preparations, paid acquisitions and portable drafts
+
+**Status:** Selected UX direction for the next implementation pass, 2026-11-24.
+Design only; M3-A2 integration/audit remains a prerequisite. No new RAW or runtime
+behavior is established by this documentation commit.
+
+Use an on-demand resource catalog, independently expandable unpaid preparation
+cards and a separate owned-acquisitions view. Simple fully specified legal items
+can be bought directly. Compare prepared alternatives against the same committed
+sheet without reserving points. Complex Arms/Gang preparations may commit their
+linked records atomically; there is no general cart checkout or alternative price
+engine in React. Paid mechanics remain historical; use supported narrative edits
+or explicit refund/rebuy rather than rewriting charges or provenance.
+
+Preserve authored preparations through autosave/export/import, outside Sheet and
+the paid ledger. The selected implementation design is a version-2 Draft envelope
+with an optional `resourcePreparation` field and explicit lossless v1 migration.
+This is justified by substantial editable social text and named bundle contents;
+session-only state would lose that work, and a separate storage sidecar would
+complicate character identity and recovery. Existing paid data keeps its semantics.
+Migration, recovery and history tests must precede the change. The current v1
+format remains implemented until that later pass; D-030's primary-data/snapshot
+principles and existing identity/mode/pin behavior are preserved.
+
+Use the [M3-A3 plan](M3_RESOURCE_UX_PLAN.md) for layout, category editors, API gaps,
+acceptance criteria and the exact migration/Undo contract. Neither this checkpoint
+nor a table-review note resolves any of M3-A1's 14 RAW questions. Inventory, Fight!,
+other stocks, NPC generation and complete equipment constructors remain deferred.
