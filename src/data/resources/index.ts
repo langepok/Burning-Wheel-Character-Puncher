@@ -66,6 +66,7 @@ export function registerResources(
     check(!result.has(d.id), `Duplicate resource ID: ${d.id}`);
     check(Boolean(d.sourceName.trim()) && d.stockIds.length > 0 && d.stockIds.every(Boolean), 'Missing resource identity');
     source(d.source); source(d.accountingSource); price(d.price);
+    if(d.declaredItemKinds)check(Array.isArray(d.declaredItemKinds)&&new Set(d.declaredItemKinds).size===d.declaredItemKinds.length&&d.declaredItemKinds.every(k=>['weapon','armor','shield','other'].includes(k)), 'Invalid declared item kinds');
     check(typeof d.accounting.resources === 'boolean', 'Missing Resources accounting flag');
     if (typeof d.accounting.circles !== 'boolean') question(d.accounting.circles.questionId);
     if (d.price.kind === 'sum-children') check(!d.accounting.resources && !d.accounting.circles, 'Composite double accounting');

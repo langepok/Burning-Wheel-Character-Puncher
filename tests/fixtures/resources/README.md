@@ -35,3 +35,10 @@ and standalone equipment examples are schema tests, not new stock content or RAW
 `expectTypeOf` and negative compilation checks. Run **typecheck as well as Vitest**;
 Vitest alone does not enforce the type assertions. They prove representability and
 field separation, not a working purchase/projection engine.
+
+M3-A2 execution update (2026-11-23): the historical statements above describe the
+M3-A1 handoff. The vectors now run in `resource-engine.test.ts`,
+`resource-purchases.test.ts`, `resource-outlaw.test.ts`, and
+`resource-history.test.ts`; see `docs/M3_PURCHASE_ENGINE.md` for the exact coverage
+and blocked outcomes. All expected values remain unchanged. Funding aliases in
+Outlaw specifications map to canonical variant-visit IDs in engine tests.

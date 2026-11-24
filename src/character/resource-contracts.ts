@@ -1,5 +1,4 @@
-/** M3-A2 boundary contracts only. No commands, projection runtime, draft schema
- * migration, inventory simulation or automatic integration with Sheet in M3-A1. */
+/** Acquisition contracts shared by the headless engine and future UI. */
 import type { LifepathVariantId, SkillId, SourceReference, StockId } from '../data/catalog';
 import type { ArmorPiece, RelationshipSignificance, ResourceId, ResourceQuality } from '../data/resources';
 import type { Ability } from '../rules/burning';
@@ -85,6 +84,11 @@ export interface ResourcePurchase {
     readonly mode: BuildMode;
     readonly origin: 'catalog' | 'free-creation';
     readonly catalogRevision: string;
+    /** Original quotation is historical; current legality is evaluated separately. */
+    readonly quotedCost?: import('../rules/resource-types').QuotedResourceCost;
+    readonly reviews?: readonly import('../rules/resource-types').ResourceReview[];
+    /** Opaque scoped context fingerprint; missing/legacy fingerprints need review. */
+    readonly reviewContext?: string;
     readonly source: readonly SourceReference[];
     readonly overrides: readonly { readonly code: string; readonly explanation: string }[];
     /** Sum must equal originalPaidRps. Refund restores these same pools. */
@@ -108,6 +112,10 @@ export type ResourceTotal = { readonly kind: 'known'; readonly rps: number }
 
 export interface ResourceProjection {
   readonly stockId: StockId;
+  /** Starting expendable cash dice; spending them during play is outside this engine. */
+  readonly cashDice?: number;
+  /** Numeric fields remain useful draft previews; unresolved values are not certified. */
+  readonly calculationStatus?: { readonly resources: 'known' | 'unresolved'; readonly circles: 'known' | 'unresolved' };
   readonly budget: ResourceTotal;
   readonly spentRps: number;
   readonly remaining: ResourceTotal;

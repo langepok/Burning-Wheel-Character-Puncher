@@ -823,3 +823,28 @@ to Circles is left for interpretation; ordinary mounts have no equivalent clause
 Armor partial-quality prices, half-piece prices, property threshold scope and
 other open points are recorded in [M3_RESOURCE_CATALOG.md](M3_RESOURCE_CATALOG.md).
 This audit adds data/contracts, not a purchase engine or revised existing rules.
+
+## M3-A2 resource purchase execution
+
+BWGR p. 84 repeats grant full rps on visits one/two and half thereafter; D-013
+supplies rounding up. Repeat identity follows the family while funding identifies
+the concrete variant visit. Wife-derived amounts remain incomplete (pp. 164,
+169, 177); no additional rounding formula is introduced.
+
+BWGR pp. 93–96 supply relationship discounts (minimum 1), social prices/limits,
+gang component purchases, and fixed-price companions with campaign-relative
+limits. BWGR pp. 202–205 supply equipment prices and property treatment; spells
+use their printed prices (pp. 207–223). Workshop, Herd and Rent count toward
+Resources; their Circles classification remains unresolved. Modification charges
+are per physical weapon (p. 202); beaks apply to polearm/axe/spear (p. 555).
+
+BWGR p. 97: qualifying paid property/affiliation/reputation rps / 15 rounded down;
+gray Resources costs five exponent points with GM permission. Circles starts at
+half Will rounded down, minimum one, with Will's shade; at least 50 qualifying
+property/relationship rps adds one. D-035's manual rounding does not alter rps.
+BWGR p. 200 permits spending Outlaw's affected sources while restricting access.
+The engine derives that access and flags unresolved starting-ability treatment.
+Keys to the Church (pp. 331–332) and Lesson of One (p. 332) retain manual social
+interaction review; their dice are not fabricated paid resource points.
+
+See M3_PURCHASE_ENGINE.md for executable coverage and remaining questions.

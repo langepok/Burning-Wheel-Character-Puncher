@@ -1,5 +1,5 @@
 {
-  "status": "Specification only: M3-A1 deliberately provides no purchase/projection engine",
+  "status": "M3-A1 expected values executed by M3-A2 tests; see docs/M3_PURCHASE_ENGINE.md for coverage and unresolved assertions",
   "source": "BWGR pp. 84, 93-97, 200, 202-205; D-013, D-033-D-039. Contract choices are project decisions, not additional RAW.",
   "resources": [
     {"qualifyingRps":0,"roundUp":false,"expectedExponent":0},
@@ -48,7 +48,7 @@
     {"printedRps":5,"occurrence":5,"expectedRps":3}
   ],
   "outlawFunding": {
-    "status": "Future-engine scenarios only; current access must be derived, not saved in funding",
+    "status": "Executed by tests/character/resource-outlaw.test.ts and tests/ui/resource-history.test.ts; access is derived, not saved in funding",
     "initialFunding": [
       {"poolId":"city-source","paidRps":5,"origin":{"kind":"lifepath","variantId":"human.city-dweller.city-born","occurrence":1}},
       {"poolId":"peasant-source","paidRps":3,"origin":{"kind":"lifepath","variantId":"human.peasant.born-peasant","occurrence":1}}
