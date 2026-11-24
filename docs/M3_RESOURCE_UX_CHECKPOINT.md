@@ -295,3 +295,68 @@ weakening its assertion. No engine/catalog/RAW/automation source was changed.
 First-slice validation after focus fix: all **2174 tests / 83 files**, typecheck,
 production build and diff check passed locally. Vite large-chunk advisory remains.
 Exact published head and CI result are reported in PR #34.
+
+## Complex editor checkpoint — 2026-11-24 (in progress)
+
+Unpublished implementation now adds engine dry-run bundle quotes, four-record Gang
+preparations, declared Arms objects/targeted additions, skill selection, relationship
+modifiers, explicit per-request Free Creation charges, gray Resources choices,
+explained funding grants and paid social narrative edits. Cascade returns require
+confirmation. Duplicate alternatives remap internal identities. Assessment notes
+persist separately from their scoped certification; returned notes are retained but
+must be certified again. Unrelated Clothes purchases do not invalidate assessment.
+
+Targeted tests: 14 passed across the preparation, complex preparation and App DOM
+suites; typecheck passed. Full regression/build/browser/CI are still pending for this
+slice. Existing published PR #34 remains at 741198a9f86b5ba8e7f763c99d981fe9271d3448.
+Next: complex editor DOM scenarios, catalog density/empty state/source labels,
+reset/resources diagnostics, responsive browser review and final acceptance matrix.
+No engine, RAW catalog, other subsystem or automation files changed.
+
+## Integrated complex UI delivery — 2026-11-24
+
+This supersedes the first-slice remaining-work list above. G0 remains verified:
+main was fetched again and is still 920272b2161d8a5d91c9a508525fcead3b703d29.
+
+Implemented in this continuation:
+- Engine dry-run totals/remaining/Starting Resources for independent preparations;
+  explicit Free Creation per-request charge/reason and separate explained grants.
+- Arms physical declarations and targeted additions; complete atomic Gang; skill
+  picker; relationship modifiers; social audience/scope; optional armor inclusion.
+- Scoped assessment certification, fresh IDs for duplication/returns, preservation
+  of returned notes without renewal, pruning annotations when a component is removed.
+- Cascade confirmation with engine-provided original refund; paid social narrative
+  edits; gray Resources/permission controls; resource-only Reset with confirmation.
+- Compact searchable catalog disclosures, empty-result message, live action notices,
+  human-readable historical funding labels, cash and social-dice summaries.
+
+New targeted tests: six adapter scenarios and five complex DOM scenarios. Combined
+with earlier tests, **2185 tests / 85 files**, typecheck, production build passed.
+The existing large-chunk Vite advisory remains; no dependency or workflow change.
+
+Live browser observations on Mara (42 earned rps):
+1. Superior Arms plus one Beak: assessed, bought for 24, refunded as a two-record
+   cascade. Reload restored 42 rps and named axe/notes; new assessment was required.
+2. Gambeson helmet: shield initially unchecked, explicitly checked, bought for 2;
+   included shield appeared once at 0. No full-suit restriction introduced.
+3. Reputation “Водится со следопытами”: free audience “Жители Бри”, scope and table
+   assessment, bought for 7 without organization/polarity fields.
+4. Standalone shield remained Price unresolved; explicit Free Creation price 3
+   and reason allowed purchase. Returning to Rules preserved the original charge
+   and reason with warnings. Test character now has 30 rps left / 12 spent.
+5. At the observed 1348 px viewport, DOM scroll width equals viewport width; paid
+   rail, preparations, sticky budget and actions are visible. Browser zoom keyboard
+   attempts did not change the observed CSS viewport, so they are NOT 200% evidence.
+
+Review limits, not new RAW decisions: full 1000/1280/1440/200% and screen-reader
+matrix is not certified. Dedicated comparison pinning and category grouping of
+owned cards remain optional polish; current alternatives are independently
+expandable/duplicable beside a chronological paid ledger. Catalog search/category
+persist, but scroll/disclosures reset on close. Native text-undo still needs a
+browser-specific check. Existing unsupported companion evidence and armor
+substitution/unknown-price cases remain engine diagnostics; all 14 RAW questions
+remain open. No Inventory/Fight/NPC generator or other-stock expansion was added.
+
+Resume from this section and the current PR #34 head; do not repeat base research.
+The working managed preview remains http://127.0.0.1:4173/ for this session. Exact
+published HEAD and CI evidence belong in the PR body (avoiding self-reference here).

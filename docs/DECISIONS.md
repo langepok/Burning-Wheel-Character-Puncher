@@ -954,3 +954,20 @@ pause autosave. The existing active storage key is retained. These are transport
 and recovery choices, not RAW. The implementation checkpoint explicitly tracks
 unfinished complex preparation/assessment/UI gates; first preview is not final
 acceptance.
+
+### M3-A3 preparation assessments and composite editor (UX / architecture)
+
+Unpaid preparations retain editable assessment notes and raw explicit override
+price/reason fields separately from engine requests. Certification is tied to the
+current mode, complete prepared composition and each request's engine-provided
+review context. Editing relevant configuration invalidates certification, while
+an unrelated purchase does not. Buy derives transient reviews and runs the same
+atomic engine transaction as the preview. No quote or funding allocation is saved
+as an authorization. Duplicate/returned preparations retain notes but require new
+certification; duplication intentionally requires a new explicit Free exception.
+
+Gang preparations contain the three priced children and their zero-price container.
+Arms declarations identify physical objects; additions target those identities.
+Cascade returns preview the records and original charges selected by the engine
+and require confirmation. Social narrative edits use describeResource and explicitly
+warn that prior assessment is cleared. None of these workflows adds a RAW rule.

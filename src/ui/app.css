@@ -453,3 +453,14 @@ section[aria-label="Trait burner"] {container-type:inline-size}
 @media(max-width:1250px){.resource-columns{grid-template-columns:1fr}.resource-fields{grid-template-columns:1fr}}
 
 .resource-fields input,.resource-fields textarea,.resource-fields select{font:inherit;border:1px solid #c8ccbf;border-radius:5px;padding:.55rem;background:#fffef9}.resource-card :focus-visible{outline:2px solid #286d59;outline-offset:3px}
+
+/* Resource preparations keep each component and its quote together. */
+.resource-part { border-top: 1px solid var(--line, #d8d0bd); padding: .8rem 0; }
+.resource-part h4 { margin: 0 0 .35rem; }
+.resource-object { border-left: 3px solid #788575; padding: .5rem .75rem; margin: .75rem 0; }
+.resource-object label, .resource-part > label { display: grid; gap: .3rem; margin: .5rem 0; }
+.resource-quote { padding: .7rem; background: #edf0e6; border-radius: .4rem; margin: .75rem 0; }
+.resource-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.resource-card input, .resource-card textarea, .resource-card select { max-width: 100%; min-width: 0; }
+.resource-card p, .resource-card small { overflow-wrap: anywhere; }
+.resource-card textarea { min-height: 4rem; }
