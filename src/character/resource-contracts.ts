@@ -87,6 +87,7 @@ export interface ResourcePurchase {
     /** Original quotation is historical; current legality is evaluated separately. */
     readonly quotedCost?: import('../rules/resource-types').QuotedResourceCost;
     readonly reviews?: readonly import('../rules/resource-types').ResourceReview[];
+    /** Opaque scoped context fingerprint; missing/legacy fingerprints need review. */
     readonly reviewContext?: string;
     readonly source: readonly SourceReference[];
     readonly overrides: readonly { readonly code: string; readonly explanation: string }[];

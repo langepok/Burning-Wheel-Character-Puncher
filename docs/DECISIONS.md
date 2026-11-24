@@ -890,3 +890,27 @@ price from a Free Creation charge and arithmetic previews from unresolved RAW;
 existing definitions, stable IDs and catalog fixtures remain unchanged. Paid
 provenance still contains no current-access flag. Explained budget overrides
 are primary Free Creation choices, never inferred grants or RAW bonuses.
+
+## M3-A2 final audit refinement — declaration capabilities and scoped reviews
+
+**Status:** Contract and persistence refinement, 2026-11-24. This records technical
+validation policy, not new RAW or a resolution of an open rules question.
+
+Physical declaration kinds must be supported by their catalog definition. Names
+and agreed kit descriptions remain free text; no weapon-name classifier or new
+composition/count restriction is introduced. Shield inclusion retains its explicit
+linked purchase contract. Declared quality cannot contradict purchased quality.
+
+Manual assessments certify a purchase and its relevant ownership/target context,
+including all modifications of the same physical weapon. Unrelated purchases and
+other physical weapons do not enter that target's fingerprint. Gang ownership is
+included explicitly. The existing character/external-fact dependencies remain.
+New batch records are stamped against the complete atomic batch; old records are
+never silently renewed. Reverting to the exact assessed context restores validity.
+Legacy unscoped assessments remain historical notes but require renewed review;
+no paid costs, funding provenance or accepted rules are rewritten.
+
+The exact acceptance cases and compatibility limits are recorded in
+[M3_PURCHASE_ENGINE.md](M3_PURCHASE_ENGINE.md#final-audit-refinement--2026-11-24).
+The accepted M3-A3 UX plan is preserved on its documentation branch; no UI work is
+part of this refinement.

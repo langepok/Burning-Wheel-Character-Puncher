@@ -45,9 +45,30 @@ export function fundingAccess(pools:readonly {id:string;settingId?:string}[],act
     return {poolId:pool.id,access:conditions.some(c=>c.access==='unresolved')?'unresolved':conditions.length?'restricted':'available',reasons:conditions.map(c=>({code:c.code,message:c.message,...c.code==='outlaw'?{traitId:'outlaw'}:{}}))};
   });
 }
-export function resourceReviewContext(sheet:Sheet,p:LifepathProgress,context:ResourceContext={}):string {
-  return JSON.stringify({paths:p.paths.map(x=>x.variantId),traits:(sheet.traitPurchases??[]).map(x=>x.id).sort(),skills:sheet.purchases.map(x=>x.skillId).sort(),will:sheet.stats.will,context});
+/** Stable serialization avoids invalidation from object/ledger ordering alone. */
+function canonicalReviewValue(value:unknown):unknown {
+  if(Array.isArray(value))return value.map(canonicalReviewValue);
+  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>[k,canonicalReviewValue(v)]));
+  return value;
 }
+export function resourceReviewContext(sheet:Sheet,p:LifepathProgress,context:ResourceContext={},purchase?:ResourceRequest):string {
+  const ledger=sheet.resourcePurchases??[];
+  const describe=(r:ResourceRequest)=>({id:r.id,definitionId:r.definitionId,configuration:r.configuration,links:r.links??{},declaredItems:[...(r.declaredItems??[])].sort((a,b)=>a.id.localeCompare(b.id))});
+  let scope:unknown;
+  if(purchase){
+    const parent=ledger.find(r=>r.id===purchase.links?.parentPurchaseId);
+    const target=parent?.declaredItems.find(i=>i.id===purchase.links?.targetItemId);
+    const groupId=purchase.configuration.kind==='gang'?purchase.id:purchase.links?.groupPurchaseId;
+    scope={version:2,own:describe(purchase),
+      parent:parent?{id:parent.id,definitionId:parent.definitionId,configuration:parent.configuration,
+        // Another weapon in the same bundle is not this target's review scope.
+        declaredItems:target?[target]:describe(parent).declaredItems}:undefined,
+      modifications:purchase.links?.targetItemId?ledger.filter(r=>r.id!==purchase.id&&r.links.targetItemId===purchase.links?.targetItemId).map(describe).sort((a,b)=>a.id.localeCompare(b.id)):[],
+      group:groupId?ledger.filter(r=>r.id!==purchase.id&&(r.id===groupId||r.links.groupPurchaseId===groupId)).map(describe).sort((a,b)=>a.id.localeCompare(b.id)):[]};
+  }
+  return JSON.stringify(canonicalReviewValue({paths:p.paths.map(x=>x.variantId),traits:(sheet.traitPurchases??[]).map(x=>x.id).sort(),skills:sheet.purchases.map(x=>x.skillId).sort(),will:sheet.stats.will,context,...purchase?{scope}:{}}));
+}
+
 function diagnostic(code:string,message:string,blocking=true,questionId?:string):ResourceIssue {
   return {code,message,blocking,severity:code.startsWith('review')?'review':'error',...(questionId?{questionId}:{})};
 }
@@ -212,7 +233,7 @@ export function projectResources(sheet:Sheet,progress:LifepathProgress,context:R
     if(d.accounting.resources)resourcesRps+=p.originalPaidRps;
     if(d.accounting.circles===true)circlesKnown+=p.originalPaidRps;
     else if(typeof d.accounting.circles==='object'&&p.originalPaidRps>0)circlesQuestions.push(d.accounting.circles.questionId);
-    const reviews=p.provenance.reviewContext===resourceReviewContext(sheet,progress,context)?p.provenance.reviews:[];
+    const reviews=p.provenance.reviewContext===resourceReviewContext(sheet,progress,context,p)?p.provenance.reviews:[];
     const quote=quoteResource(sheet,progress,{...p,reviews},context,catalog);
     quote.diagnostics.forEach(i=>report(i.code,i.message,p.id,i.questionId,i.blocking?'error':'review'));
     if(p.provenance.origin==='free-creation')report('free-creation','Recorded Free Creation override; paid price is preserved.',p.id);

@@ -26,8 +26,8 @@ export function buyResources(sheet:Sheet,progress:LifepathProgress,requests:read
     const definition=catalog.get(r.definitionId)!;
     if((definition.price.kind==='sum-children'||definition.price.kind==='included')&&cost!==0)return fail('Included entries and composite containers must not carry an extra debit.');
     const funding=quote.funding??[];
-    const items=(r.declaredItems??[]).map(item=>({...item,...r.configuration.kind==='quality'?{quality:r.configuration.quality}:{}}));
-    const purchase:ResourcePurchase={id:r.id,definitionId:r.definitionId,configuration:structuredClone(r.configuration),originalPaidRps:cost,links:{...r.links},declaredItems:structuredClone(items),provenance:{mode,origin:r.override?'free-creation':'catalog',catalogRevision:resourceCatalogRevision,source:[definition.source],quotedCost:quote.cost,reviews:structuredClone(r.reviews??[]),reviewContext:resourceReviewContext(sheet,progress,context),overrides:r.override?[{code:'explicit-resource-override',explanation:r.override.reason}]:[],funding:structuredClone(funding)}};
+    const items=(r.declaredItems??[]).map(item=>({...item,...(r.configuration.kind==='quality'||r.configuration.kind==='armor')?{quality:r.configuration.quality}:{}}));
+    const purchase:ResourcePurchase={id:r.id,definitionId:r.definitionId,configuration:structuredClone(r.configuration),originalPaidRps:cost,links:{...r.links},declaredItems:structuredClone(items),provenance:{mode,origin:r.override?'free-creation':'catalog',catalogRevision:resourceCatalogRevision,source:[definition.source],quotedCost:quote.cost,reviews:structuredClone(r.reviews??[]),overrides:r.override?[{code:'explicit-resource-override',explanation:r.override.reason}]:[],funding:structuredClone(funding)}};
     next={...next,resourcePurchases:[...(next.resourcePurchases??[]),purchase]};
     if(r.configuration.kind==='armor'){
       for(const option of r.configuration.selectedIncludedDefinitionIds){
@@ -38,7 +38,11 @@ export function buyResources(sheet:Sheet,progress:LifepathProgress,requests:read
     }
   }
   const errors=resourceLedgerErrors(next.resourcePurchases??[],catalog);
-  return errors.length?fail(errors.join(' ')):{sheet:next};
+  if(errors.length)return fail(errors.join(' '));
+  // Reviews supplied for this atomic batch cover its final composition. Never
+  // restamp old purchases: new linked additions must make old reviews stale.
+  const added=new Set(queue.map(r=>r.id));
+  return {sheet:{...next,resourcePurchases:next.resourcePurchases!.map(p=>added.has(p.id)?{...p,provenance:{...p.provenance,reviewContext:resourceReviewContext(next,progress,context,p)}}:p)}};
 }
 
 /** Removing any gang component removes its entire group. Parent removal cascades

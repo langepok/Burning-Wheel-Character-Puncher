@@ -191,7 +191,7 @@ describe('changes, overrides and saving',()=>{
     expect(refundResource(loaded,'arms').refundedRps).toBe(24);expect(refundResource(loaded,'gang').refundedRps).toBe(22);
   });
   it('requires fresh contextual reviews after relevant source facts change',()=>{
-    const s=buy(createSheet(),[arms()]);expect(s.resourcePurchases?.[0].provenance.reviewContext).toBe(resourceReviewContext(createSheet(),wealthy));
+    const s=buy(createSheet(),[arms()]);expect(s.resourcePurchases?.[0].provenance.reviewContext).toBe(resourceReviewContext(s,wealthy,{},s.resourcePurchases![0]));
     expect(projectResources(s,peasant).diagnostics.some(d=>d.code==='review-arms-composition'&&d.severity==='error')).toBe(true);
   });
 });

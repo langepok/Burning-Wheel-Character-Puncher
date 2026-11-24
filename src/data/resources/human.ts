@@ -72,18 +72,18 @@ const boltHeads: readonly [string, string][] = [
 ];
 
 export const humanPurchases: readonly ResourceDefinition[] = [
-  { ...base('arms', 'Arms', [202]), configuration: 'arms',
+  { ...base('arms', 'Arms', [202]), configuration: 'arms', declaredItemKinds: ['weapon', 'other'],
     price: { kind: 'quality', baseRps: 5, calculation: 'printed-tiers', costs: { poor: fixed(3), 'run-of-the-mill': fixed(5), superior: fixed(20) } },
     constraints: [{ kind: 'review', questionId: 'arms-composition' }],
     note: 'One idiom-appropriate hand-weapon bundle. Each declared physical weapon has its own identity; no separate charge for included weapons (D-034).' },
   ...missiles.map(([id, name, rps]): ResourceDefinition => ({
-    ...base(id, name, [202]), configuration: 'missile',
+    ...base(id, name, [202]), configuration: 'missile', declaredItemKinds: ['weapon', 'other'],
     price: { kind: 'quality', baseRps: rps, calculation: 'missile-quality',
       costs: { poor: fixed(Math.ceil(rps / 2), 'derived'), 'run-of-the-mill': fixed(rps), superior: fixed(rps * 3, 'derived') } },
     note: 'Includes adequate standard ammunition. Poor: half rounded up; superior: three times normal. Special head types are separate purchases.',
   })),
   ...armors.map(([id, name, rps]): ResourceDefinition => ({
-    ...base(id, name, [202, 203, 479, 480]), configuration: 'armor',
+    ...base(id, name, [202, 203, 479, 480]), configuration: 'armor', declaredItemKinds: ['armor', 'other'],
     price: { kind: 'armor', fullSuitRps: rps, costs: { poor: armorCosts(rps, 'poor'),
       'run-of-the-mill': armorCosts(rps, 'run-of-the-mill'), superior: armorCosts(rps, 'superior') } },
     includedOptions: ['human.resource.shield-in-kit'],
@@ -93,10 +93,10 @@ export const humanPurchases: readonly ResourceDefinition[] = [
     ...base(id, name, [202, page]), price: fixed(rps), note,
     configuration: id === 'skill-toolkit' ? 'skill-kit' : 'plain',
   })),
-  { ...base('shield-in-kit', 'Shield (included in armor kit)', [203, 480]),
+  { ...base('shield-in-kit', 'Shield (included in armor kit)', [203, 480]), declaredItemKinds: ['shield'],
     price: { kind: 'included', parentDefinitionIds: humanArmorIds },
     note: 'Optional selected component of an armor kit, not an automatic grant or a repeatable free standalone shield.' },
-  { ...base('shield-standalone', 'Shield (standalone)', [203, 480]),
+  { ...base('shield-standalone', 'Shield (standalone)', [203, 480]), declaredItemKinds: ['shield'],
     price: unknown('shield-standalone'), note: 'Reference-only purchase option: no printed standalone price.' },
   { ...base('cash', 'Cash', [202, 204]), category: 'cash', price: fixed(6), grants: { cashDice: 1 },
     note: 'Grants one expendable cash die, not a Resources exponent, property, or six cash dice.' },

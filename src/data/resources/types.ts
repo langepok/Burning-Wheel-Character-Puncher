@@ -52,6 +52,9 @@ export interface ResourceDefinition {
   readonly constraints: readonly ResourceConstraint[];
   readonly configuration: 'plain' | 'arms' | 'missile' | 'armor' | 'weapon-modification' | 'ammunition' | 'skill-kit' | 'relationship' | 'companion' | 'social' | 'gang';
   readonly note: string;
+  /** Structural declaration capability, not a weapon/profile classifier.
+   * Omitted: descriptive `other` items only where declarations are supported. */
+  readonly declaredItemKinds?: readonly ('weapon' | 'armor' | 'shield' | 'other')[];
   readonly additions?: { readonly target: 'physical-weapon' | 'missile-purchase'; readonly parentDefinitionIds: readonly ResourceId[];
     readonly weaponKinds?: readonly ('axe' | 'spear' | 'polearm')[];
     readonly ammunitionKind?: 'arrow' | 'bolt' };

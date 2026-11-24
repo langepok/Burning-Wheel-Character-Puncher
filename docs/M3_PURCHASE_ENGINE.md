@@ -188,3 +188,47 @@ this branch as a Draft PR and verify GitHub CI against its exact published HEAD.
 Independent audit is the next gate before M3-A3 or integration. Do not merge or
 begin purchase UI work as part of this checkpoint. The PR description records
 published HEAD, tree and CI evidence to avoid a self-referential commit hash here.
+
+## Final audit refinement — 2026-11-24
+
+Acceptance cases for PR #33:
+
+- Clothes cannot declare a weapon, shield or armor, through quote, Rules/Free
+  commands or import. Free Creation cannot bypass structural identity.
+- Definitions expose optional `declaredItemKinds`; absent capability means only
+  descriptive `other` declarations where the configuration supports them. Arms
+  and missiles permit weapons/other contents, armor permits armor/other contents,
+  and shield definitions permit shields. Names remain free text; this is not a
+  Weapon Constructor, quantity limit or automatic determination of kit contents.
+- A non-weapon cannot carry `weaponKind`. Armor declarations, like quality bundles,
+  cannot contradict the purchased quality; omitted quality is filled at commit.
+  An armor parent cannot declare an included shield directly: selection still
+  produces its separate linked zero-cost record, exactly once.
+- Review context includes the purchase configuration/declarations, its linked
+  parent (only the selected physical item for a targeted addition), same-target
+  modifications, and explicit Gang group members. Existing route/trait/skill/Will
+  and supplied external facts remain dependencies. Ledger/object key ordering
+  alone does not invalidate an assessment.
+- Adding/removing/editing a relevant modification invalidates earlier combination
+  assessments without rewriting their notes or charges. Buying Clothes, changing
+  the other axe's declaration, or modifying that other axe does not. Returning to
+  the identical assessed composition makes its original review applicable again.
+- New records in an atomic batch receive the final batch context; submitted reviews
+  explicitly assess that complete batch. Existing records are never restamped.
+  Callers must present the complete submitted combination for assessment. Draft v1
+  remains readable; legacy unscoped review strings are retained but cannot certify
+  composition and require renewed assessment (currently refund/rebuy).
+
+`tests/character/resource-refinement.test.ts` reproduces the two audit defects;
+its first run had five failures before fixes. It also covers descriptive freedom,
+linked shield/quality consistency, unrelated purchases/targets, ordering, exact
+composition restoration, scoped save round-trip and legacy review diagnostics.
+These are contract/persistence policies, not resolutions of the 14 open RAW
+questions. No new review UI or engine-independent pricing is introduced. The
+accepted M3-A3 plan remains on `docs/m3-a3-resource-ux-plan`; its implementation
+still requires audited engine integration in main.
+
+Local refinement validation: typecheck, all **2166 tests / 81 files**, production
+build and `git diff --check` passed. Eight regression cases were added; the
+existing Vite large-chunk advisory remains. Exact published HEAD and GitHub CI
+result are recorded in PR #33 after publication.
