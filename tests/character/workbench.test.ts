@@ -65,7 +65,7 @@ describe('workbench accounting', () => {
   });
   it('round trips drafts and rejects malformed or unknown data without applying it', () => {
     const draft={version:1 as const,name:'Mara',mode:'rules' as const,history:history('born-peasant','farmer'),sheet:base(),pins:['human.peasant.hunter']};
-    expect(parseDraft(encodeDraft(draft),catalog)).toEqual(draft);
+    expect(parseDraft(encodeDraft(draft),catalog)).toEqual({...draft,version:2,resourcePreparation:[]});
     expect(()=>parseDraft('{"version":99}',catalog)).toThrow();
     expect(()=>parseDraft(encodeDraft({...draft,sheet:{...base(),purchases:[{skillId:'fake',pool:'general',cost:-5,kind:'open',shade:'B'}]}} as never),catalog)).toThrow();
   });

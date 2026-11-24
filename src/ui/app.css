@@ -445,3 +445,11 @@ section[aria-label="Trait burner"] {container-type:inline-size}
 }
 @container (max-width:580px){.candidate-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @container (max-width:450px){.owned-columns,.candidate-tiles{grid-template-columns:minmax(0,1fr)}}
+
+/* Resource workbench: local quotes and a visible paid ledger. */
+.resource-summary{position:sticky;top:0;z-index:2;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;background:#edf3ed;padding:1rem;border:1px solid #cbd7ca;border-radius:8px;margin-bottom:1rem}
+.resource-budget{display:flex;gap:1rem;align-items:baseline;flex-wrap:wrap}.resource-budget strong{font-size:1.7rem;font-variant-numeric:tabular-nums}
+.resource-columns{display:grid;grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:1.5rem;margin-top:1.5rem}.resource-card{border:1px solid #d6d7cd;border-radius:8px;background:#fffef8;padding:1rem;margin-bottom:1rem}.resource-card h4{font-size:1.2rem;margin:0 0 .5rem}.resource-card summary{display:flex;justify-content:space-between;gap:1rem;cursor:pointer}.resource-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin-top:.7rem}.resource-fields label{display:flex;flex-direction:column;gap:.3rem}.resource-fields textarea{min-height:80px;resize:vertical}.resource-actions{display:flex;gap:.6rem;margin-top:1rem}.resource-reason{font-size:.85rem;color:#715b30}.resource-dialog{max-height:88vh;width:min(1100px,94vw)}.resource-catalog-list{max-height:60vh;overflow:auto}.resource-catalog-entry{display:grid;grid-template-columns:1fr 160px;gap:1.5rem;padding:1rem;border-bottom:1px solid #ddd}.resource-catalog-entry h3{margin:0}.resource-catalog-entry button{display:block;margin-top:.6rem;width:100%}.resource-workbench details{margin-bottom:.6rem}.resource-workbench input,.resource-workbench textarea,.resource-workbench select{max-width:100%}
+@media(max-width:1250px){.resource-columns{grid-template-columns:1fr}.resource-fields{grid-template-columns:1fr}}
+
+.resource-fields input,.resource-fields textarea,.resource-fields select{font:inherit;border:1px solid #c8ccbf;border-radius:5px;padding:.55rem;background:#fffef9}.resource-card :focus-visible{outline:2px solid #286d59;outline-offset:3px}

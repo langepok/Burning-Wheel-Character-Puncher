@@ -57,10 +57,11 @@ function describeIssue(issue: LifepathIssue): string {
 
 export function App() {
   const [initial] = useState(() => {
-    try { const raw=localStorage.getItem('bw-workbench-v1'); return {draft:raw?parseDraft(raw,catalog):null,error:''}; }
+    try { const raw=localStorage.getItem('bw-workbench-v1'); return {draft:raw?parseDraft(raw,catalog):null,error:'',raw}; }
     catch {return {draft:null,error:'Saved draft could not be read. Export a new draft before replacing the saved copy.'};}
   });
-  const [draft,setDraft]=useState<Draft>(()=>initial.draft??{version:1,name:'',mode:'rules',history:createBuildHistory(),sheet:createSheet(),pins:[]});
+  const migrationBackup=useRef(initial.raw&&JSON.parse(initial.raw).version===1?initial.raw:null);
+  const [draft,setDraft]=useState<Draft>(()=>initial.draft??{version:2,resourcePreparation:[],name:'',mode:'rules',history:createBuildHistory(),sheet:createSheet(),pins:[]});
   const [recoveryBlocked,setRecoveryBlocked]=useState(Boolean(initial.error));
   const [past,setPast]=useState<Draft[]>([]);
   const [future,setFuture]=useState<Draft[]>([]);
@@ -71,11 +72,14 @@ export function App() {
   const [expanded,setExpanded]=useState(false);
   const fileInput=useRef<HTMLInputElement>(null);
   const {history,mode,sheet,pins}=draft;
-  function commit(next:Draft){setFuture([]);setPast(p=>[...p.slice(-99),draft]);setDraft(next);setNotice('');}
+  const resourceEditTarget=useRef<Element|null>(null);
+  useEffect(()=>{const end=()=>{resourceEditTarget.current=null;};document.addEventListener('focusout',end);return ()=>document.removeEventListener('focusout',end);},[]);
+  function commitResource(next:Draft){const active=document.activeElement;const typing=active instanceof HTMLTextAreaElement||(active instanceof HTMLInputElement&&!['checkbox','radio','button'].includes(active.type));if(typing&&resourceEditTarget.current===active){setDraft(next);return;}commit(next);resourceEditTarget.current=typing?active:null;}
+  function commit(next:Draft){resourceEditTarget.current=null;setFuture([]);setPast(p=>[...p.slice(-99),draft]);setDraft(next);setNotice('');}
   function updateSheet(next:Sheet){if(next!==sheet)commit({...draft,sheet:next});}
   function setMode(next:BuildMode){setDraft({...draft,mode:next});}
   function togglePin(id:string){setDraft(d=>({...d,pins:d.pins.includes(id)?d.pins.filter(p=>p!==id):[...d.pins,id]}));}
-  useEffect(()=>{if(recoveryBlocked)return;try{localStorage.setItem('bw-workbench-v1',encodeDraft(draft));setSaveStatus('Saved on this device');}catch{setSaveStatus('Could not save · export a backup');}},[draft,recoveryBlocked]);
+  useEffect(()=>{if(recoveryBlocked)return;try{if(migrationBackup.current){localStorage.setItem('bw-workbench-v1-before-v2',migrationBackup.current);migrationBackup.current=null;}localStorage.setItem('bw-workbench-v1',encodeDraft(draft));setSaveStatus('Saved on this device');}catch{setRecoveryBlocked(true);setSaveStatus('Could not save · export a backup');}},[draft,recoveryBlocked]);
   function exportDraft(){const url=URL.createObjectURL(new Blob([encodeDraft(draft)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='burning-wheel-character.json';a.click();URL.revokeObjectURL(url);setNotice('Character draft exported.');}
   function restore(snapshot:Draft){return {...snapshot,mode:draft.mode,name:draft.name,pins:draft.pins};}
   function undo(){
@@ -118,7 +122,7 @@ export function App() {
   function apply(command: LifepathCommand) {
     if(command.kind==='undo'){undo();return;}
     const next=command.kind==='reset'?clearRoute(history):applyLifepathCommand(history, command, mode, catalog);
-    if(next!==history)commit({...draft,history:next,sheet:command.kind==='reset'?createSheet():sheet});
+    if(next!==history)commit({...draft,history:next,sheet:command.kind==='reset'?createSheet():sheet,...command.kind==='reset'?{resourcePreparation:[]}:{} });
     setConfirmReset(false);
   }
   function focusPoint(point: { x: number; y: number }) {
@@ -344,7 +348,7 @@ export function App() {
         </aside>
       </div>
 
-      <SheetEditor pathLabel={id=>{
+      <SheetEditor resourceDraft={draft} onResourceDraft={commitResource} pathLabel={id=>{
         const path=catalog.lifepaths.get(id);
         return path ? settingName(path.settingId).replace(/ Setting$/,'')+' — '+path.sourceName : 'Former lifepath';
       }} sheet={sheet} progress={progress} mode={mode} onChange={updateSheet} onError={setNotice} externalIssues={[

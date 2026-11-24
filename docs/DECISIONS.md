@@ -943,3 +943,14 @@ Use the [M3-A3 plan](M3_RESOURCE_UX_PLAN.md) for layout, category editors, API g
 acceptance criteria and the exact migration/Undo contract. Neither this checkpoint
 nor a table-review note resolves any of M3-A1's 14 RAW questions. Inventory, Fight!,
 other stocks, NPC generation and complete equipment constructors remain deferred.
+
+### M3-A3 implementation note — v2 draft transport (2026-11-24)
+
+The accepted version-2 envelope is now being implemented on the M3-A3 branch.
+`resourcePreparation` belongs to Draft, never Sheet. v1 primary state is preserved
+when loading into v2, and export writes v2. Before the first migrated autosave,
+retain the exact original v1 bytes under `bw-workbench-v1-before-v2`; failed writes
+pause autosave. The existing active storage key is retained. These are transport
+and recovery choices, not RAW. The implementation checkpoint explicitly tracks
+unfinished complex preparation/assessment/UI gates; first preview is not final
+acceptance.

@@ -228,3 +228,70 @@ No M3-A3 runtime code has been changed at this kickoff checkpoint.
 
 Kickoff base verification passed locally: typecheck, 2166 tests / 81 files,
 production build and diff check. Existing Vite large-chunk warning only.
+
+## First working slice — 2026-11-24
+
+Implementation is in progress on PR #34 (`work/m3-a3-resource-burner`). This
+checkpoint supersedes the kickoff's statement that no runtime code exists. It is
+**not completion of G1–G5 or all acceptance criteria**.
+
+Implemented:
+- `resource-preparations.ts`: unpaid draft records, bounded transport validation,
+  atomic buy/removal and refund-to-preparation using engine results. Refunded
+  records get fresh IDs; linked IDs are remapped, included children are recreated
+  by the engine, original paid provenance is not turned into a new authorization.
+- Draft reader accepts v1/v2; reader and exporter produce v2. Preparations are
+  outside Sheet. App backs up the original v1 bytes to
+  `bw-workbench-v1-before-v2` before the first migrated autosave. Storage failure
+  pauses writes. Existing saved key stays `bw-workbench-v1`.
+- Resource catalog, search/category filter, simple direct Buy, independent
+  preparations, paid-acquisition rail, engine budget/starting abilities/funding
+  details, manual So Close!, initial quality/armor/social fields and diagnostics.
+- Resource component stays mounted in its own hidden tabpanel so search/owned
+  disclosures survive tabs. It is not nested inside the active Traits panel.
+- App coalesces Resource text edits within one focused input session; changes
+  still autosave. Global Reset also clears preparations; existing undo snapshots
+  contain both paid and unpaid data.
+
+Executed browser case on the authorized Mara test character (five lifepaths,
+42 rps): find Clothes; Prepare leaves 42; enter `Тёплый дорожный плащ`; buy leaves
+41 and shows Paid 1 rp/source; Return restores 42 and the exact description.
+Browser revealed focus loss; follow-up code restores the catalog opener and
+purchase/refund destination, with DOM test assertions. Visual density was reviewed
+at the existing desktop viewport only, not all planned widths.
+
+Managed preview: `sites-preview start /workspace/scratch/a2d695adbef0/burning-wheel`;
+open its returned URL (this run `http://127.0.0.1:4173/`). Retain this first working
+preview for the user's requested review; it is session-local, not production.
+
+Remaining work, in priority order:
+1. Complete G1 defenses/tests: complex refund ID/link cases, collisions, native
+   text history, import/export/reload of partial complex forms, storage recovery.
+   `inputs` currently preserves unfinished values but blocks Buy until reconciled.
+   Requests deliberately persist no funding/reviews/override authorizations yet;
+   authored assessment notes and freshness need their own next adapter step.
+2. Complete category forms: Relationship modifiers, Arms physical declarations
+   and targeted additions, atomic Gang composition, skill picker, reviewed social
+   scopes/property, explicit Free Creation price/reason and budget controls, gray
+   Resources permission controls. Current Gang card explicitly says not connected;
+   companion evidence remains unavailable as planned. No fake confirmation bypass.
+3. Before treating multi-record refunds as finished UX, add cascade preview and
+   confirmation. Engine refund is atomic already; current control directly applies
+   it. Add whole-preparation dry-run totals/after-purchase balances, duplicate/pin,
+   paid narrative editing and grouped owned entries.
+4. Improve catalog density/inspector and empty results; resource source labels
+   currently expose IDs. Tighten accessible announcements and focus after direct
+   buys/Undo, check stale/racing actions and preparation transport limits in UI.
+5. Full acceptance matrix, browser journeys across categories and planned widths,
+   final full regression/typecheck/build and exact-HEAD CI. Keep PR Draft.
+
+The first-slice tests cover v1 migration, incomplete input round-trip, atomic
+simple buy/refund and corruption rejection, exact v1 backup/failure protection,
+and App purchase/refund/Undo/Redo. The previous round-trip test now explicitly
+expects the accepted v2 migration rather than v1 output. Existing Traits regression
+caught hidden Resources being nested in the Traits panel; that was fixed without
+weakening its assertion. No engine/catalog/RAW/automation source was changed.
+
+First-slice validation after focus fix: all **2174 tests / 83 files**, typecheck,
+production build and diff check passed locally. Vite large-chunk advisory remains.
+Exact published head and CI result are reported in PR #34.
