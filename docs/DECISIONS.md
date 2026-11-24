@@ -914,3 +914,60 @@ The exact acceptance cases and compatibility limits are recorded in
 [M3_PURCHASE_ENGINE.md](M3_PURCHASE_ENGINE.md#final-audit-refinement--2026-11-24).
 The accepted M3-A3 UX plan is preserved on its documentation branch; no UI work is
 part of this refinement.
+
+## M3-A3 design checkpoint — preparations, paid acquisitions and portable drafts
+
+**Status:** Selected UX direction for the next implementation pass, 2026-11-24.
+Design only; M3-A2 integration/audit remains a prerequisite. No new RAW or runtime
+behavior is established by this documentation commit.
+
+Use an on-demand resource catalog, independently expandable unpaid preparation
+cards and a separate owned-acquisitions view. Simple fully specified legal items
+can be bought directly. Compare prepared alternatives against the same committed
+sheet without reserving points. Complex Arms/Gang preparations may commit their
+linked records atomically; there is no general cart checkout or alternative price
+engine in React. Paid mechanics remain historical; use supported narrative edits
+or explicit refund/rebuy rather than rewriting charges or provenance.
+
+Preserve authored preparations through autosave/export/import, outside Sheet and
+the paid ledger. The selected implementation design is a version-2 Draft envelope
+with an optional `resourcePreparation` field and explicit lossless v1 migration.
+This is justified by substantial editable social text and named bundle contents;
+session-only state would lose that work, and a separate storage sidecar would
+complicate character identity and recovery. Existing paid data keeps its semantics.
+Migration, recovery and history tests must precede the change. The current v1
+format remains implemented until that later pass; D-030's primary-data/snapshot
+principles and existing identity/mode/pin behavior are preserved.
+
+Use the [M3-A3 plan](M3_RESOURCE_UX_PLAN.md) for layout, category editors, API gaps,
+acceptance criteria and the exact migration/Undo contract. Neither this checkpoint
+nor a table-review note resolves any of M3-A1's 14 RAW questions. Inventory, Fight!,
+other stocks, NPC generation and complete equipment constructors remain deferred.
+
+### M3-A3 implementation note — v2 draft transport (2026-11-24)
+
+The accepted version-2 envelope is now being implemented on the M3-A3 branch.
+`resourcePreparation` belongs to Draft, never Sheet. v1 primary state is preserved
+when loading into v2, and export writes v2. Before the first migrated autosave,
+retain the exact original v1 bytes under `bw-workbench-v1-before-v2`; failed writes
+pause autosave. The existing active storage key is retained. These are transport
+and recovery choices, not RAW. The implementation checkpoint explicitly tracks
+unfinished complex preparation/assessment/UI gates; first preview is not final
+acceptance.
+
+### M3-A3 preparation assessments and composite editor (UX / architecture)
+
+Unpaid preparations retain editable assessment notes and raw explicit override
+price/reason fields separately from engine requests. Certification is tied to the
+current mode, complete prepared composition and each request's engine-provided
+review context. Editing relevant configuration invalidates certification, while
+an unrelated purchase does not. Buy derives transient reviews and runs the same
+atomic engine transaction as the preview. No quote or funding allocation is saved
+as an authorization. Duplicate/returned preparations retain notes but require new
+certification; duplication intentionally requires a new explicit Free exception.
+
+Gang preparations contain the three priced children and their zero-price container.
+Arms declarations identify physical objects; additions target those identities.
+Cascade returns preview the records and original charges selected by the engine
+and require confirmation. Social narrative edits use describeResource and explicitly
+warn that prior assessment is cleared. None of these workflows adds a RAW rule.

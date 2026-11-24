@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>Resource viewport checks</title>
+<style>body{margin:0;background:#ddd;font:14px system-ui}header{position:sticky;top:0;background:white;padding:8px;z-index:2}button{margin-right:8px}iframe{display:block;border:0;height:760px;background:white}output{display:block;font-size:12px}</style>
+<header>Manual development check · CSS viewport <button data-width="1000">1000</button><button data-width="1280">1280</button><button data-width="1440">1440</button><button data-width="650">650 (narrow)</button><button id="measure">Measure visible Resource controls</button><output id="result">Select Resources inside the frame. This uses the same saved test character.</output></header>
+<iframe title="Character Workbench under test" src="/" style="width:1000px"></iframe>
+<script>
+const frame=document.querySelector('iframe'),result=document.querySelector('output');
+for(const button of document.querySelectorAll('[data-width]'))button.onclick=()=>{frame.style.width=button.dataset.width+'px';result.textContent='Requested iframe viewport: '+button.dataset.width+' CSS px';};
+document.querySelector('#measure').onclick=()=>{
+ const doc=frame.contentDocument,win=frame.contentWindow,root=doc.querySelector('.resource-workbench');
+ const visible=el=>el.getClientRects().length&&win.getComputedStyle(el).visibility!=='hidden';
+ if(!root||!visible(root)){result.textContent='Select the Resources tab before measuring.';return;}
+ const bad=[...root.querySelectorAll('button,input,select,textarea,.resource-summary')].filter(visible).filter(el=>{const r=el.getBoundingClientRect();return r.left<0||r.right>doc.documentElement.clientWidth;}).map(el=>el.textContent.trim().slice(0,55)||el.getAttribute('aria-label')||el.tagName);
+ result.textContent=JSON.stringify({viewport:win.innerWidth,contentWidth:doc.documentElement.clientWidth,resourceWidth:Math.round(root.getBoundingClientRect().width),overflowingResourceControls:bad});
+};
+</script></html>

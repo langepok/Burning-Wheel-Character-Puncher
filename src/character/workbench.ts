@@ -1,3 +1,4 @@
+import { parseResourcePreparations, type ResourcePreparation } from './resource-preparations';
 import type { GameCatalog } from '../data/catalog';
 import type { LifepathProgress } from '../rules/lifepaths';
 import { applyLifepathCommand } from './lifepath-history';
@@ -48,13 +49,13 @@ export function refundSkill(sheet:Sheet,id:string):Sheet {
   const index=sheet.purchases.map(p=>p.skillId).lastIndexOf(id);
   return index<0?sheet:{...sheet,purchases:sheet.purchases.filter((_,i)=>i!==index)};
 }
-export interface Draft {version:1;name:string;mode:BuildMode;history:LifepathHistory;sheet:Sheet;pins:string[]}
-export const encodeDraft=(draft:Draft)=>JSON.stringify(draft,null,2);
+export interface Draft {version:1|2;resourcePreparation?:readonly ResourcePreparation[];name:string;mode:BuildMode;history:LifepathHistory;sheet:Sheet;pins:string[]}
+export const encodeDraft=(draft:Draft)=>JSON.stringify({...draft,version:2,resourcePreparation:draft.resourcePreparation??[]},null,2);
 /** Never trust imported diagnostics or values. Rebuild lifepath overrides using the evaluator. */
 export function parseDraft(text:string,catalog:GameCatalog):Draft {
   if(text.length>1_000_000)throw new Error('Draft is too large.');
   const d=JSON.parse(text);const fail=()=>{throw new Error('Invalid or unsupported character draft.');};
-  if(!d||d.version!==1||typeof d.name!=='string'||d.name.length>200||!['rules','free'].includes(d.mode)||!Array.isArray(d.history?.entries)||d.history.entries.length>200||!Array.isArray(d.pins)||d.pins.some((id:unknown)=>typeof id!=='string'||!catalog.lifepaths.has(id)))fail();
+  if(!d||![1,2].includes(d.version)||typeof d.name!=='string'||d.name.length>200||!['rules','free'].includes(d.mode)||!Array.isArray(d.history?.entries)||d.history.entries.length>200||!Array.isArray(d.pins)||d.pins.some((id:unknown)=>typeof id!=='string'||!catalog.lifepaths.has(id)))fail();
   let history:LifepathHistory={entries:[]};
   for(const e of d.history.entries){
     if(e.kind==='gender'){
@@ -88,7 +89,8 @@ export function parseDraft(text:string,catalog:GameCatalog):Draft {
       if(p.cost!==expected)fail();
     }else if(!opened.has(p.skillId)||skill!.training.kind==='training'||p.cost!==1)fail();
   }
-  return {version:1,name:d.name,mode:d.mode,history,sheet:{stats:s.stats,choices:s.choices,candidates:s.candidates,purchases:s.purchases,grayApproved:s.grayApproved,traitCandidates,traitPurchases:traits,...(s.resourcePurchases!==undefined?{resourcePurchases}:{}),...(resourceChoices?{resourceChoices}:{}),...(s.resourceBudgetOverrides!==undefined?{resourceBudgetOverrides}:{})},pins:[...new Set(d.pins)] as string[]};
+  const resourcePreparation=parseResourcePreparations(d.version===2?d.resourcePreparation:undefined);
+  return {version:2,resourcePreparation,name:d.name,mode:d.mode,history,sheet:{stats:s.stats,choices:s.choices,candidates:s.candidates,purchases:s.purchases,grayApproved:s.grayApproved,traitCandidates,traitPurchases:traits,...(s.resourcePurchases!==undefined?{resourcePurchases}:{}),...(resourceChoices?{resourceChoices}:{}),...(s.resourceBudgetOverrides!==undefined?{resourceBudgetOverrides}:{})},pins:[...new Set(d.pins)] as string[]};
 }
 
 /** Remove a route step without undoing identity or purchases. */

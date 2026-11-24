@@ -445,3 +445,44 @@ section[aria-label="Trait burner"] {container-type:inline-size}
 }
 @container (max-width:580px){.candidate-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @container (max-width:450px){.owned-columns,.candidate-tiles{grid-template-columns:minmax(0,1fr)}}
+
+/* Resource workbench: local quotes and a visible paid ledger. */
+.resource-summary{position:sticky;top:0;z-index:2;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;background:#edf3ed;padding:1rem;border:1px solid #cbd7ca;border-radius:8px;margin-bottom:1rem}
+.resource-budget{display:flex;gap:1rem;align-items:baseline;flex-wrap:wrap}.resource-budget strong{font-size:1.7rem;font-variant-numeric:tabular-nums}
+.resource-columns{display:grid;grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:1.5rem;margin-top:1.5rem}.resource-card{border:1px solid #d6d7cd;border-radius:8px;background:#fffef8;padding:1rem;margin-bottom:1rem}.resource-card h4{font-size:1.2rem;margin:0 0 .5rem}.resource-card summary{display:flex;justify-content:space-between;gap:1rem;cursor:pointer}.resource-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin-top:.7rem}.resource-fields label{display:flex;flex-direction:column;gap:.3rem}.resource-fields textarea{min-height:80px;resize:vertical}.resource-actions{display:flex;gap:.6rem;margin-top:1rem}.resource-reason{font-size:.85rem;color:#715b30}.resource-dialog{max-height:88vh;width:min(1100px,94vw)}.resource-catalog-list{max-height:60vh;overflow:auto}.resource-catalog-entry{display:grid;grid-template-columns:1fr 160px;gap:1.5rem;padding:1rem;border-bottom:1px solid #ddd}.resource-catalog-entry h3{margin:0}.resource-catalog-entry button{display:block;margin-top:.6rem;width:100%}.resource-workbench details{margin-bottom:.6rem}.resource-workbench input,.resource-workbench textarea,.resource-workbench select{max-width:100%}
+@media(max-width:1250px){.resource-columns{grid-template-columns:1fr}.resource-fields{grid-template-columns:1fr}}
+
+.resource-fields input,.resource-fields textarea,.resource-fields select{font:inherit;border:1px solid #c8ccbf;border-radius:5px;padding:.55rem;background:#fffef9}.resource-card :focus-visible{outline:2px solid #286d59;outline-offset:3px}
+
+/* Resource preparations keep each component and its quote together. */
+.resource-part { border-top: 1px solid var(--line, #d8d0bd); padding: .8rem 0; }
+.resource-part h4 { margin: 0 0 .35rem; }
+.resource-object { border-left: 3px solid #788575; padding: .5rem .75rem; margin: .75rem 0; }
+.resource-object label, .resource-part > label { display: grid; gap: .3rem; margin: .5rem 0; }
+.resource-quote { padding: .7rem; background: #edf0e6; border-radius: .4rem; margin: .75rem 0; }
+.resource-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.resource-card input, .resource-card textarea, .resource-card select { max-width: 100%; min-width: 0; }
+.resource-card p, .resource-card small { overflow-wrap: anywhere; }
+.resource-card textarea { min-height: 4rem; }
+
+/* Keep Resources usable when zoom narrows the viewport below the desktop shell.
+   Other Workbench panels deliberately retain their existing desktop dimensions. */
+@media (max-width: 1000px) {
+  .resource-workbench { width: calc(100vw - 76px); max-width: 100%; min-width: 0; }
+  .resource-workbench .section-top { flex-wrap: wrap; }
+  .resource-summary { gap: .65rem 1rem; }
+  .resource-card summary { flex-wrap: wrap; }
+  .resource-dialog .catalog-filters { flex-wrap: wrap; }
+  .resource-dialog .catalog-filters input { min-width: 0; flex-basis: 100%; }
+  .resource-dialog .resource-catalog-entry { grid-template-columns: minmax(0, 1fr) 130px; gap: .75rem; }
+}
+@media (max-width: 700px) {
+  .resource-dialog .section-top { flex-wrap: wrap; }
+  .resource-dialog .resource-catalog-entry { grid-template-columns: minmax(0, 1fr); }
+  .resource-summary { position: static; }
+  .resource-actions button { max-width: 100%; white-space: normal; }
+}
+/* Give the catalog list the remaining dialog height instead of nesting two scrollbars. */
+.resource-dialog[open] { display: flex; flex-direction: column; overflow: hidden; }
+.resource-dialog > .section-top, .resource-dialog > .catalog-filters { flex-shrink: 0; }
+.resource-dialog > .resource-catalog-list { min-height: 0; max-height: none; overflow: auto; }
