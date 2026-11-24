@@ -360,3 +360,41 @@ remain open. No Inventory/Fight/NPC generator or other-stock expansion was added
 Resume from this section and the current PR #34 head; do not repeat base research.
 The working managed preview remains http://127.0.0.1:4173/ for this session. Exact
 published HEAD and CI evidence belong in the PR body (avoiding self-reference here).
+
+## Responsive follow-up — 2026-11-25 (Europe/Moscow)
+
+Reproduced and fixed a real 200% browser zoom problem: the desktop shell's minimum
+width stretched Resources beyond the visible viewport. Resources now caps its own
+width below 1000 CSS px, wraps the heading/summary, and stops pinning the summary
+below 700 px so it cannot consume the short viewport. Catalog filters/actions
+reflow, and its list uses the remaining dialog height with a single scrollbar.
+No rules, React commands, saves, other panels or automation changed.
+
+Manual regression fixture: `tools/resource-viewport.html`, served by Vite at
+`/tools/resource-viewport.html` (not a production entry). It embeds the actual app,
+sets exact iframe CSS widths, and reports rendered control bounds. Select Resources
+before measuring. It uses the current device save; do not overwrite real characters.
+
+| Check | Observed result |
+| --- | --- |
+| 1000 CSS px | Resource width 924; single column; no resource controls beyond viewport; budget, prices/actions and catalog visible |
+| 1280 CSS px | Resource width 1175 at 100% display; preparations and owned rail alongside; zero overflowing controls |
+| 1440 CSS px | Resource width 1335 before outer display zoom; zero overflowing controls; catalog and both columns reviewed |
+| 650 CSS px | Resource width 574; catalog one-column actions, fixed search/close and one scrollable list; zero overflowing controls |
+| Native browser zoom 200% | Reproduced clipping before fix on the main page; after fix budget wraps and preparation price/actions fit; catalog search, close and Prepare visible and list scrolls |
+
+The 1440 iframe was displayed using 90% outer browser zoom to fit the physical
+1363 px desktop; its layout viewport remained 1440 CSS px (the fixture reported
+1440, with 1423 px content after scrollbar). This is distinct from the real 200%
+main-page zoom check, which was performed separately. Browser DevTools was blocked;
+no policy was changed. Native window resizing had no effect, so it is not evidence.
+The main preview was restored to Resources at 100%. Test character unchanged.
+
+Existing overall shell/map horizontal scrolling below its desktop minimum remains;
+this is a scoped Resource reflow fix, not a whole-app mobile redesign. Screen-reader
+and native text-undo checks remain separate outstanding G5 work.
+
+Validation: 2185 tests / 85 files, typecheck, production build passed. CSS behavior
+was tested with actual rendering rather than a jsdom assertion that merely repeats
+CSS declarations. Existing Vite chunk-size advisory remains. Exact published head
+and CI are recorded in PR #34.

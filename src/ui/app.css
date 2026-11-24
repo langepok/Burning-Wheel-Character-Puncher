@@ -464,3 +464,25 @@ section[aria-label="Trait burner"] {container-type:inline-size}
 .resource-card input, .resource-card textarea, .resource-card select { max-width: 100%; min-width: 0; }
 .resource-card p, .resource-card small { overflow-wrap: anywhere; }
 .resource-card textarea { min-height: 4rem; }
+
+/* Keep Resources usable when zoom narrows the viewport below the desktop shell.
+   Other Workbench panels deliberately retain their existing desktop dimensions. */
+@media (max-width: 1000px) {
+  .resource-workbench { width: calc(100vw - 76px); max-width: 100%; min-width: 0; }
+  .resource-workbench .section-top { flex-wrap: wrap; }
+  .resource-summary { gap: .65rem 1rem; }
+  .resource-card summary { flex-wrap: wrap; }
+  .resource-dialog .catalog-filters { flex-wrap: wrap; }
+  .resource-dialog .catalog-filters input { min-width: 0; flex-basis: 100%; }
+  .resource-dialog .resource-catalog-entry { grid-template-columns: minmax(0, 1fr) 130px; gap: .75rem; }
+}
+@media (max-width: 700px) {
+  .resource-dialog .section-top { flex-wrap: wrap; }
+  .resource-dialog .resource-catalog-entry { grid-template-columns: minmax(0, 1fr); }
+  .resource-summary { position: static; }
+  .resource-actions button { max-width: 100%; white-space: normal; }
+}
+/* Give the catalog list the remaining dialog height instead of nesting two scrollbars. */
+.resource-dialog[open] { display: flex; flex-direction: column; overflow: hidden; }
+.resource-dialog > .section-top, .resource-dialog > .catalog-filters { flex-shrink: 0; }
+.resource-dialog > .resource-catalog-list { min-height: 0; max-height: none; overflow: auto; }
