@@ -37,11 +37,15 @@ to satisfy this gate. The design can be completed while the gate is closed.
   plus its actual request/quote/projection/command/parser code. Engine-specific
   statements below describe that head and must pass G0.
 
-The stable application was started in an isolated preview. Live browser inspection
-could not be completed: local Chromium was unavailable and the cloud browser
-could not access the local server. Thus layout observations here come from source
-and recorded UX iterations, **not screenshots or a usability test**. Visual and
-keyboard checks of the running application remain explicit implementation gates.
+**Live follow-up completed, 2026-11-24:** the stable application was inspected in
+the cloud browser through the supported managed preview, at a 1363 × 936 CSS-pixel
+viewport. Screenshots and targeted interactions covered Skills, Traits, their
+catalogs, the Lifepath Map and the Resources placeholder, using an authorized test
+character. The [checkpoint](M3_RESOURCE_UX_CHECKPOINT.md#live-visual-follow-up)
+records the exercised cases and a reproducible preview procedure. This closes the
+earlier access gap; it is not a formal usability study, a full accessibility or
+responsive audit, or validation of the unimplemented Resource Burner. Its visual
+and keyboard acceptance checks remain explicit implementation gates.
 
 ### Existing strengths to carry forward
 
@@ -54,6 +58,20 @@ keyboard checks of the running application remain explicit implementation gates.
 | Traits catalog: quick add without changing selection | Building a shortlist does not restart discovery | Prepare several entries in one catalog visit; keep search and scroll |
 | Map: actual route versus possible connections, retained context | Exploration and committed history are different | Preview overlays never change actual budget; keep selection and focus on return |
 | Workbench: whole-draft Undo/Redo and explicit import | Repairs should be reversible and portable | Purchase/composite/refund commands produce one coherent draft edit |
+
+The live pass supports this direction: compact Skill cards put the exponent,
+controls and paid points together; two Trait cards stayed expanded across tab
+changes; catalog quick-add preserved the inspected trait without spending TP.
+Map inspection and expanded-map return preserved the selected path and kept
+exploration separate from the recorded route.
+
+Two details should be improved deliberately for Resources. The existing Traits
+catalog resets search on close/reopen; the retention required in §3 is therefore
+a new Resource UX requirement, not an existing behavior to assume. The inspected
+Skill catalog did not show the active point budget inside its dialog; Resources
+must keep its actual budget and local quote visible while the catalog is open.
+Focus restoration remains an acceptance requirement, not a defect established by
+this targeted inspection.
 
 ## 2. Selected concept: a purchasing workbench
 

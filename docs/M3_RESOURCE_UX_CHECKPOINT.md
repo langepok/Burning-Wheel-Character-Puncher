@@ -104,18 +104,61 @@ Do not invent around these gaps:
 7. Outlaw permits spending but changes access; missing origins/other restrictions
    do not disappear when the trait is refunded.
 
-## Visual inspection limitation
+## Live visual follow-up
 
-A temporary preview was started from stable-main documentation worktree on port
-4217. Local Playwright could not find a usable Chromium executable. Cloud browser
-connection to the local preview failed; error-page observation was subsequently
-blocked by browser policy. No workaround was attempted after that block.
+**Completed 2026-11-24 (Europe/Moscow).** The earlier access gap is closed. A direct
+exec-launched Vite preview was not reachable from the cloud browser. The supported
+managed preview command made the stable-main documentation worktree accessible;
+this did not require a late user approval or a browser-policy bypass. No site was
+published and no application source, dependency manifest or preview configuration
+was changed.
 
-**No live visual inspection was completed.** The plan uses source and recorded UX
-iterations; it does not claim screenshots, usability validation or a working new
-UI. The temporary server was stopped and the temporary node_modules symlink
-removed. Existing checkouts/previews were not repurposed. Use a functioning preview
-at implementation G2/G5 for actual density, keyboard and responsive validation.
+Inspected the running Workbench through screenshots and UI interactions at
+**1363 × 936 CSS pixels**, with the explicitly disposable test character **Mara of
+the Mill**: five lifepaths, age 32, Rules mode. Its route is Born Peasant → Farmer →
+Miller → Lead to Villager (+1 year) → Village Tough → Corrupt Sergeant.
+
+| Exercised case | Observed result | Consequence for the Resource plan |
+| --- | --- | --- |
+| Skills layout and Farming details | Three compact cards across; prominent exponent beside ± controls, paid pool/source and expanded purchase history nearby | Keep configuration, quote and action together; disclose the ledger locally |
+| Farming advance and keyboard Undo | B3 → B4; Ordinary points left 17 → 16 and spent 6 → 7. Ctrl+Z outside text restored B3, 17 left and 6 spent | Use existing draft history for coherent purchase/refund transitions |
+| Skill catalog search | Searching Sword found the owned entry, its source and disabled Added state; active point budget was not shown inside the dialog | Resource catalog must retain an actual budget summary alongside its local quote |
+| Independent Trait disclosures | Hoarding and Lord’s Favorite were open together and remained open after Resources → Traits navigation | Lift disclosure state above conditional tab content; do not use an exclusive accordion |
+| Required Trait purchase | Buying Hoarding from Farmer cost 1 TP: 6 → 5 left, 0 → 1 spent, requirements 0/4 → 1/4; Owned showed Farmer source and Refund 1 TP | Distinguish a requirement/candidate from a paid acquisition and preserve visible provenance |
+| Repeated catalog quick-add | Added A Little Crazy and Adorable while A Bit Deaf remained inspected. Catalog stayed open; TP stayed at 5 left / 1 spent | Quick Prepare should not spend points, steal selection or interrupt discovery |
+| Catalog reopening | Search text Adorable reset to empty on reopening Traits catalog | Retaining Resource search/filter/selection/scroll across close/reopen is an explicit improvement, not inherited behavior |
+| Lifepath exploration and return | Inspected Miller without changing the five-path route; expanded map retained Miller and its disabled Add reason; Escape returned with Miller still selected. Selecting Corrupt Sergeant in history opened its inspector and brought that node into view | Preserve navigation context and show reasons without turning inspection into a purchase |
+| Map visual hierarchy | Route, dashed taken Lead, inspected path outline, current node, history ages and pinned paths remained distinguishable | Keep committed state distinct from tentative choices; give direct navigation back to their context |
+| Resources boundary | Existing tab displayed 42 earned rps and category placeholders, not a working purchase UI or the Starting Resources attribute | This inspection validates reference interactions only; new Resource behavior still needs implementation tests |
+
+The test character was intentionally modified: Hoarding was purchased and two
+optional candidates were added. Farming's temporary advance was undone. The map
+checks did not change lifepaths, age or stats. This was not an import/export or
+full reload-recovery test, and no new claim of save round-trip coverage is made.
+
+The concept and existing decisions remain unchanged. Only the evidence and the
+distinction between inherited behavior and required improvements were clarified.
+Focus restoration was not established as a current defect. Full keyboard-only,
+screen-reader, zoom and multi-width checks, and all Resource UI acceptance cases,
+remain G2/G5 work; a desktop inspection is not a formal usability study.
+
+### Reproduce preview access without repeating discovery
+
+Use the installed managed preview workflow in this environment:
+
+```sh
+sites-preview status
+sites-preview start /workspace/scratch/a2d695adbef0/burning-wheel-ux-plan
+```
+
+Open the **exact URL returned by the command** in the cloud browser. For this
+inspection it was `http://127.0.0.1:4173/`; do not assume that port in a new session.
+Use the actual checkout path if the workspace changes. The preview command owns
+the server; do not start a second Vite process or change network/security settings.
+After the inspection, stop the owned preview with `sites-preview stop` and remove
+only temporary local dependency links created for that run. An environment restart
+can stop the preview; check status and start it again using the same supported
+command. No broad UX research needs to be repeated.
 
 ## Deliverables and validation
 
@@ -131,6 +174,10 @@ DECISIONS content, and exactly three documentation files changed against stable
 main. No typecheck/runtime suite/build is represented as newly executed: no
 runtime source, dependency or test changed. Full checks and exact-HEAD GitHub CI
 are mandatory for the subsequent implementation, not substituted by this review.
+
+The visual follow-up changes only this checkpoint and the plan. It preserves all
+26 acceptance criteria and the recorded design decision; its validation consists
+of the targeted live checks above plus documentation consistency checks.
 
 Research was saved in incremental local commits before final publication. The
 published branch's HEAD is the durable delivery identifier (reported outside this
